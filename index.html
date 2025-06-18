@@ -758,7 +758,7 @@
                 </div>
                 
                 <div class="warning-message">
-                    <strong>🎯 使用建議：</strong><br>
+                    <strong>🎯 使用建議：：</strong><br>
                     • 建議建立專用的 GitHub 帳戶供工時系統使用<br>
                     • 或使用公司統一的 GitHub Token<br>
                     • Token 具有 GitHub 權限，請妥善保管，如果洩露請立即撤銷並重新生成
@@ -790,7 +790,7 @@
             <h3>🐙 GitHub 連接狀態</h3>
             <p id="github-status-text">尚未連接到 GitHub repository</p>
             <div id="last-sync" class="last-sync" style="display: none;">
-                <strong>最後同步：</strong><span id="sync-time">尚未同步</span>
+                <strong>最後同步：：</strong><span id="sync-time">尚未同步</span>
             </div>
             <button id="github-sync-btn" class="github-btn" onclick="syncFromGitHub()" style="display: none;">
                 <span class="spinner" style="display: none;"></span>
@@ -875,7 +875,7 @@
                 <h4>🔍 篩選選項</h4>
                 <div style="display: flex; gap: 20px; align-items: center; flex-wrap: wrap;">
                     <div>
-                        <label for="farm-filter"><strong>農場：</strong></label>
+                        <label for="farm-filter"><strong>農場：：</strong></label>
                         <select id="farm-filter" onchange="updateAllTables()" style="padding: 8px 12px; margin-left: 8px; border-radius: 5px; border: 1px solid #ccc;">
                             <option value="">所有農場</option>
                         </select>
@@ -892,9 +892,7 @@
                             <option value="">所有狀態</option>
                             <option value="active">進行中</option>
                             <option value="overtime">需加班費</option>
-                            <option value="complete">已完成</option>
-                            <option value="pending">未開始</option>
-                        </select>
+                            </select>
                     </div>
                     <button class="action-btn" onclick="clearFilters()" style="background: #6c757d; color: white; padding: 8px 18px; border-radius: 5px; box-shadow: none;">清除篩選</button>
                 </div>
@@ -1049,12 +1047,12 @@
                     <p>在您的 GitHub 帳戶中找不到名為 <strong>${REPO_NAME}</strong> 的 repository。</p>
                     
                     <div class="warning-message">
-                        <strong>目前設定：</strong><br>
+                        <strong>目前設定：：</strong><br>
                         用戶：${REPO_OWNER}<br>
                         Repository：${REPO_NAME}
                     </div>
                     
-                    <p>請選擇以下其中一個選項：</p>
+                    <p>請選擇以下其中一個選項：：</p>
                     
                     <div class="confirm-buttons">
                         <button class="btn-confirm" id="createRepoBtn" onclick="createRepository()">
@@ -1538,13 +1536,13 @@
                 const defaultCycleEndDate = new Date(defaultCycleStartDate);
                 defaultCycleEndDate.setDate(defaultCycleEndDate.getDate() + (WEEKS_PER_CYCLE * 7) - 1);
                 return {
-                    currentCycle: 1,
-                    weekInCycle: 1,
+                    currentCycle: 0, // Set to 0 or 1, depending on desired display for pending/invalid start
+                    weekInCycle: 0, // Set to 0 or 1
                     cycleStartDate: defaultCycleStartDate,
                     cycleEndDate: defaultCycleEndDate,
                     daysInCycle: 0,
                     totalWeeksFromStart: 0,
-                    status: 'pending',
+                    status: 'pending', // Internal status for filtering, not displayed directly
                     progressPercentage: 0,
                     cycleHours: 0
                 };
@@ -1590,13 +1588,13 @@
                     }
                 }
 
-                // Determine cycle status
+                // Determine cycle status (internal for filtering, not directly for display status text)
                 let status = 'active';
-                if (currentDate < cycleStartDate) { // If current date is before the cycle starts
+                if (currentDate < cycleStartDate) { 
                     status = 'pending';
                 } else if (cycleHours > REGULAR_HOURS_THRESHOLD) {
                     status = 'overtime';
-                } else if (currentDate > cycleEndDate) { // If current date is after cycle ends
+                } else if (currentDate > cycleEndDate) { 
                     status = 'complete';
                 }
                 
@@ -1607,7 +1605,7 @@
                     cycleEndDate,
                     daysInCycle: Math.min(Math.max(daysInCycle, 0), totalDaysInCyclePeriod),
                     totalWeeksFromStart,
-                    status,
+                    status, // Internal status
                     progressPercentage,
                     cycleHours // Add current cycle hours
                 };
@@ -1618,8 +1616,8 @@
                 const defaultCycleEndDate = new Date(defaultCycleStartDate);
                 defaultCycleEndDate.setDate(defaultCycleEndDate.getDate() + (WEEKS_PER_CYCLE * 7) - 1);
                 return {
-                    currentCycle: 1,
-                    weekInCycle: 1,
+                    currentCycle: 0, // Fallback to 0 for invalid calculation
+                    weekInCycle: 0, // Fallback to 0
                     cycleStartDate: defaultCycleStartDate,
                     cycleEndDate: defaultCycleEndDate,
                     daysInCycle: 0,
@@ -1674,7 +1672,6 @@
             
             // Try YYYY-MM-DD
             let date = new Date(dateString);
-            // Basic check if it's a valid date and matches YYYY-MM-DD format (to prevent issues with single numbers or malformed strings)
             if (!isNaN(date.getTime()) && date.toISOString().slice(0,10) === dateString) {
                 return date;
             }
@@ -2140,8 +2137,7 @@
                     const cycleInfo = calculateEmployeeCycle(employee, new Date()); 
                     if (statusFilter === 'overtime' && cycleInfo.status !== 'overtime') return false; // Filter by calculated status
                     if (statusFilter === 'active' && cycleInfo.status !== 'active') return false;
-                    if (statusFilter === 'complete' && cycleInfo.status !== 'complete') return false;
-                    if (statusFilter === 'pending' && cycleInfo.status !== 'pending') return false;
+                    // Removed filtering for 'complete' and 'pending' statuses
                 }
                 
                 return true;
@@ -2220,9 +2216,7 @@
                             <th>農場</th>
                             <th>職級</th>
                             <th>開始日期</th>
-                            <th>當前週期</th>
-                            <th>週期進度</th>
-                            <th>週期狀態</th>
+                            <th>當前週期</th>      <th>週期內週數</th>    <th>週期進度</th>
                             <th>歷史總工時</th>
                             <th>週期工時</th>
                             <th>剩餘額度</th>
@@ -2233,9 +2227,8 @@
             `;
             
             let activeCycles = 0;
-            let completeCycles = 0;
-            let overtimeCycles = 0;
-            let pendingCycles = 0; 
+            let overtimeCycles = 0; 
+            // Removed completeCycles and pendingCycles for display summary cards
             
             filteredEmployees
                 .sort((a, b) => a.payrollId.localeCompare(b.payrollId))
@@ -2243,36 +2236,22 @@
                     const fullName = `${employee.firstName} ${employee.lastName}`.trim();
                     const cycleInfo = calculateEmployeeCycle(employee, new Date());
                     
-                    // Count cycle status
+                    // Count cycle status (only Active & Overtime for display summary)
                     if (cycleInfo.status === 'overtime') {
                         overtimeCycles++;
-                    } else if (cycleInfo.status === 'complete') {
-                        completeCycles++;
-                    } else if (cycleInfo.status === 'pending') {
-                        pendingCycles++;
-                    } else {
+                    } else if (cycleInfo.status === 'active') { // Only count active for summary
                         activeCycles++;
                     }
+                    // Do not explicitly count 'complete' or 'pending' for these summary cards as per request
                     
-                    // Status display text and class
-                    let statusClass = 'cycle-active';
-                    let statusText = '進行中';
-                    
-                    if (cycleInfo.status === 'overtime') {
-                        statusClass = 'cycle-overtime';
-                        statusText = '需加班費';
-                    } else if (cycleInfo.status === 'complete') {
-                        statusClass = 'cycle-complete';
-                        statusText = '已完成';
-                    } else if (cycleInfo.status === 'pending') {
-                        statusClass = 'cycle-pending';
-                        statusText = '未開始';
-                    }
-                    
+                    // Display currentCycle and weekInCycle separately
+                    const displayCurrentCycle = cycleInfo.currentCycle === 0 ? '-' : cycleInfo.currentCycle;
+                    const displayWeekInCycle = cycleInfo.weekInCycle === 0 ? '-' : `${cycleInfo.weekInCycle}/${WEEKS_PER_CYCLE}`;
+
                     // Remaining hours within the current cycle
                     const remainingCycleHours = Math.max(0, REGULAR_HOURS_THRESHOLD - cycleInfo.cycleHours);
                     const remainingText = cycleInfo.cycleHours > REGULAR_HOURS_THRESHOLD ? 
-                        `超出 ${cycleInfo.cycleHours - REGULAR_HOURS_THRESHOLD}h` : 
+                        `超出 ${cycleInfo.cycleHours}h` : // Show actual cycle hours when exceeding
                         `剩餘 ${remainingCycleHours}h`;
                     
                     // Progress bar color based on cycle status (overtime specifically)
@@ -2285,17 +2264,14 @@
                             <td>${employee.farm || '-'}</td>
                             <td>${employee.level || '-'}</td>
                             <td>${employee.startDate || '-'}</td>
-                            <td>第 ${cycleInfo.currentCycle} 週期<br><small>第 ${cycleInfo.weekInCycle}/${WEEKS_PER_CYCLE} 週</small></td>
-                            <td>
+                            <td>${displayCurrentCycle}</td> <td>${displayWeekInCycle}</td>   <td>
                                 <div class="cycle-progress">
                                     <div class="cycle-progress-fill ${progressClass}" style="width: ${cycleInfo.progressPercentage}%"></div>
                                 </div>
                                 <small>${cycleInfo.progressPercentage.toFixed(1)}% 完成</small>
                             </td>
-                            <td><span class="cycle-status ${statusClass}">${statusText}</span></td>
                             <td><strong>${employee.totalHours}h</strong></td>
-                            <td><strong>${cycleInfo.cycleHours}h</strong></td>
-                            <td>${remainingText}</td>
+                            <td><strong>${cycleInfo.cycleHours > 0 ? cycleInfo.cycleHours : '0'}h</strong></td> <td>${remainingText}</td>
                             <td>${cycleInfo.cycleEndDate.toLocaleDateString('zh-TW')}</td>
                         </tr>
                     `;
@@ -2304,7 +2280,7 @@
             tableHTML += '</tbody></table>';
             container.innerHTML = tableHTML;
             
-            // Update summary cards
+            // Update summary cards (only Active and Overtime)
             const totalFiltered = filteredEmployees.length;
             const summaryHTML = `
                 <div class="summary-card">
@@ -2318,14 +2294,6 @@
                 <div class="summary-card">
                     <h3>${overtimeCycles}</h3>
                     <p>需加班費週期</p>
-                </div>
-                <div class="summary-card">
-                    <h3>${completeCycles}</h3>
-                    <p>已完成週期</p>
-                </div>
-                <div class="summary-card">
-                    <h3>${pendingCycles}</h3>
-                    <p>未開始週期</p>
                 </div>
             `;
             document.getElementById('overview-summary-cards').innerHTML = summaryHTML;
@@ -2342,23 +2310,27 @@
             
             try {
                 const filteredEmployees = getFilteredEmployees();
-                let csvContent = '員工編號,姓名,農場,職級,開始日期,總週數,當前週期,週期內週數,週期狀態,歷史總工時,週期工時,剩餘額度,週期開始日,週期結束日,進度百分比\n';
+                // Updated CSV header for new column structure
+                let csvContent = '員工編號,姓名,農場,職級,開始日期,當前週期,週期內週數,週期進度(%),歷史總工時,週期工時,剩餘額度,週期開始日,週期結束日\n';
                 
                 filteredEmployees.forEach(employee => {
                     const fullName = `${employee.firstName} ${employee.lastName}`.trim();
                     const cycleInfo = calculateEmployeeCycle(employee, new Date());
                     
-                    let statusText = '進行中';
-                    if (cycleInfo.status === 'overtime') statusText = '需加班費';
-                    else if (cycleInfo.status === 'complete') statusText = '已完成';
-                    else if (cycleInfo.status === 'pending') statusText = '未開始';
-                    
+                    // For export, provide internal status if needed, or simplify as requested
+                    // The request asked not to 'display' status, but in export, full info might be useful.
+                    // Following "no '已完成' or '未開始'" for display, simplify status text to active/overtime or empty.
+                    let statusForExport = ''; 
+                    if (cycleInfo.status === 'overtime') statusForExport = '需加班費';
+                    else if (cycleInfo.status === 'active') statusForExport = '進行中';
+                    // Do not export '已完成' or '未開始' directly in this column.
+
                     const remainingCycleHours = Math.max(0, REGULAR_HOURS_THRESHOLD - cycleInfo.cycleHours);
                     const remainingText = cycleInfo.cycleHours > REGULAR_HOURS_THRESHOLD ? 
-                        `超出${cycleInfo.cycleHours - REGULAR_HOURS_THRESHOLD}小時` : 
+                        `超出${cycleInfo.cycleHours}小時` : 
                         `剩餘${remainingCycleHours}小時`;
                     
-                    csvContent += `${employee.payrollId},"${fullName}",${employee.farm || ''},${employee.level || ''},${employee.startDate || ''},${cycleInfo.totalWeeksFromStart},${cycleInfo.currentCycle},${cycleInfo.weekInCycle},${statusText},${employee.totalHours},${cycleInfo.cycleHours},"${remainingText}",${cycleInfo.cycleStartDate.toLocaleDateString('zh-TW')},${cycleInfo.cycleEndDate.toLocaleDateString('zh-TW')},${cycleInfo.progressPercentage.toFixed(1)}%\n`;
+                    csvContent += `${employee.payrollId},"${fullName}",${employee.farm || ''},${employee.level || ''},${employee.startDate || ''},${cycleInfo.currentCycle},${cycleInfo.weekInCycle},${cycleInfo.progressPercentage.toFixed(1)},${employee.totalHours},${cycleInfo.cycleHours},"${remainingText}",${cycleInfo.cycleStartDate.toLocaleDateString('zh-TW')},${cycleInfo.cycleEndDate.toLocaleDateString('zh-TW')}\n`;
                 });
                 
                 downloadCSV(csvContent, `員工總覽報告_${new Date().toISOString().split('T')[0]}.csv`);
@@ -2383,7 +2355,7 @@
             container.innerHTML = `
                 <h3>📊 上傳摘要</h3>
                 <div class="summary-item">
-                    <span>總記錄數：</span>
+                    <span>總記錄數：：</span>
                     <span class="highlight">${summary.totalRecords}</span>
                 </div>
                 <div class="summary-item">
@@ -2452,8 +2424,7 @@
 
             const headerLine = lines[0];
             // === Delimiter detection logic ===
-            // Prioritize comma if multiple commas found, else try tab.
-            // This makes it robust for both comma-separated and tab-separated.
+            // Prioritize tab if more tabs than commas, or if only tabs exist.
             const commaCount = (headerLine.match(/,/g) || []).length;
             const tabCount = (headerLine.match(/\t/g) || []).length;
             let delimiter = ','; // Default to comma
@@ -2485,9 +2456,8 @@
         }
 
         // Helper function to parse a single CSV line based on detected delimiter
+        // This version assumes fields are not quoted with commas inside.
         function parseCSVLine(line, delimiter) {
-            // For simple tab/comma delimited, direct split is enough.
-            // If quotes around fields are expected, this would need more complex logic.
             const values = line.split(delimiter); 
             return values.map(val => val.trim()); 
         }
@@ -2551,8 +2521,7 @@
                             <td>${employee.farm || '-'}</td>
                             <td>${employee.level || '-'}</td>
                             <td><strong>${employee.totalHours}h</strong></td>
-                            <td><strong>${employee.payrollData.cycleHours}h</strong></td>
-                            <td>${employee.payrollData.regularHours}h</td>
+                            <td><strong>${employee.payrollData.cycleHours > 0 ? employee.payrollData.cycleHours : '0'}h</strong></td> <td>${employee.payrollData.regularHours}h</td>
                             <td class="${overtimeClass}">${employee.payrollData.overtimeHours}h</td>
                             <td>${employee.hourlyRate.toFixed(2)}</td>
                             <td class="money ${overtimeClass}"><strong>$${employee.payrollData.overtimePay.toFixed(2)}</strong></td>
