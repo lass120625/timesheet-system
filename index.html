@@ -28,6 +28,62 @@
             font-size: 28px;
         }
         
+        .token-setup {
+            background: #f8f9fa;
+            border: 2px solid #28a745;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .token-setup h3 {
+            color: #28a745;
+            margin: 0 0 15px 0;
+        }
+        
+        .token-input-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .token-input {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 14px;
+        }
+        
+        .token-input:focus {
+            border-color: #28a745;
+            outline: none;
+        }
+        
+        .save-token-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .save-token-btn:hover {
+            background: #218838;
+        }
+        
+        .token-instructions {
+            background: #e7f3ff;
+            border: 1px solid #b3d9ff;
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+        
         .github-section {
             background: #f6f8fa;
             border: 2px solid #0366d6;
@@ -484,6 +540,12 @@
             color: #0066cc;
             border: 1px solid #b3d9ff;
         }
+        
+        .token-saved {
+            background: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
     </style>
 </head>
 <body>
@@ -491,6 +553,37 @@
         <h1>🐙 GitHub 版工時管理系統</h1>
         <div style="text-align: center; margin-bottom: 20px;">
             <small>📊 GitHub 資料庫 | 🔄 即時同步 | 👥 團隊協作</small>
+        </div>
+        
+        <!-- GitHub Token 設定區域 -->
+        <div id="token-setup" class="token-setup">
+            <h3>🔑 GitHub API Token 設定</h3>
+            <p>設定一次即可永久使用，不需要每次重新連接</p>
+            
+            <div class="token-input-group">
+                <input 
+                    type="password" 
+                    id="github-token-input" 
+                    class="token-input" 
+                    placeholder="請輸入您的 GitHub Personal Access Token"
+                    value=""
+                >
+                <button class="save-token-btn" onclick="saveGitHubToken()">
+                    💾 儲存並連接
+                </button>
+            </div>
+            
+            <div class="token-instructions">
+                <h4>📋 如何取得 GitHub Token：</h4>
+                <ol>
+                    <li>登入 GitHub → Settings → Developer settings → Personal access tokens</li>
+                    <li>點擊 "Generate new token (classic)"</li>
+                    <li>設定權限：至少勾選 <code>repo</code> 權限</li>
+                    <li>複製生成的 token 並貼上到上方輸入框</li>
+                    <li>點擊「儲存並連接」即可完成設定</li>
+                </ol>
+                <p><strong>注意：</strong> Token 會安全地儲存在您的瀏覽器中，只有您可以存取</p>
+            </div>
         </div>
         
         <!-- GitHub 資料庫概念說明 -->
@@ -521,9 +614,6 @@
             <div id="last-sync" class="last-sync" style="display: none;">
                 <strong>最後同步：</strong><span id="sync-time">尚未同步</span>
             </div>
-            <button id="github-connect-btn" class="github-btn" onclick="connectToGitHub()">
-                🔗 連接 GitHub
-            </button>
             <button id="github-sync-btn" class="github-btn" onclick="syncFromGitHub()" style="display: none;">
                 🔄 從 GitHub 載入最新資料
             </button>
@@ -639,7 +729,7 @@
         let timesheetData = [];
         let pendingData = null;
         let isGitHubConnected = false;
-        let githubToken = 'YOUR_GITHUB_TOKEN_HERE'; // 在這裡填入你的 GitHub Token
+        let githubToken = '';
         const REPO_OWNER = 'lass120625';
         const REPO_NAME = 'timesheet-system';
         const DATA_FILE_NAME = 'timesheet_data.json';
@@ -653,11 +743,49 @@
         
         // 載入設定
         function loadSettings() {
-            // GitHub Token 直接在代碼中設定，不需要用戶輸入
-            if (githubToken && githubToken !== 'YOUR_GITHUB_TOKEN_HERE') {
-                // 自動連接 GitHub
+            // 從 localStorage 載入已儲存的 token
+            const savedToken = localStorage.getItem('github_token');
+            if (savedToken) {
+                githubToken = savedToken;
+                document.getElementById('github-token-input').value = savedToken;
+                hideTokenSetup();
                 connectToGitHub();
             }
+        }
+        
+        // 儲存 GitHub Token
+        function saveGitHubToken() {
+            const tokenInput = document.getElementById('github-token-input');
+            const token = tokenInput.value.trim();
+            
+            if (!token) {
+                showMessage('請輸入 GitHub Token', 'error');
+                return;
+            }
+            
+            // 驗證 token 格式（GitHub Personal Access Token 通常以 ghp_ 開頭）
+            if (!token.startsWith('ghp_') && !token.startsWith('github_pat_')) {
+                showMessage('Token 格式可能不正確，請確認是否為正確的 GitHub Personal Access Token', 'warning');
+            }
+            
+            githubToken = token;
+            localStorage.setItem('github_token', token);
+            
+            showMessage('✅ GitHub Token 已儲存！正在連接...', 'success');
+            hideTokenSetup();
+            connectToGitHub();
+        }
+        
+        // 隱藏 Token 設定區域
+        function hideTokenSetup() {
+            const tokenSetup = document.getElementById('token-setup');
+            tokenSetup.style.display = 'none';
+        }
+        
+        // 顯示 Token 設定區域
+        function showTokenSetup() {
+            const tokenSetup = document.getElementById('token-setup');
+            tokenSetup.style.display = 'block';
         }
         
         // 載入本地資料
@@ -693,13 +821,11 @@
             }
         }
         
-        // 移除不需要的函數
-        // saveGitHubToken 函數已移除，因為 Token 直接在代碼中設定
-        
         // 連接到 GitHub
         function connectToGitHub() {
-            if (!githubToken || githubToken === 'YOUR_GITHUB_TOKEN_HERE') {
-                showMessage('❌ 系統設定未完成，請聯絡管理員', 'error');
+            if (!githubToken) {
+                showMessage('❌ 請先設定 GitHub Token', 'error');
+                showTokenSetup();
                 return;
             }
             
@@ -718,6 +844,10 @@
                     updateGitHubStatus('connected', '✅ 已連接到 GitHub repository');
                     showMessage('✅ GitHub 連接成功！正在載入資料...');
                     syncFromGitHub();
+                } else if (response.status === 401) {
+                    throw new Error('Token 無效或已過期，請檢查 GitHub Token');
+                } else if (response.status === 404) {
+                    throw new Error('找不到指定的 repository，請檢查設定');
                 } else {
                     throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                 }
@@ -726,6 +856,11 @@
                 console.error('GitHub 連接失敗:', error);
                 showMessage(`❌ GitHub 連接失敗: ${error.message}`, 'error');
                 updateGitHubStatus('disconnected', 'GitHub 連接失敗');
+                
+                // 如果是認證錯誤，顯示 token 設定區域
+                if (error.message.includes('Token') || error.message.includes('401')) {
+                    showTokenSetup();
+                }
             });
         }
         
@@ -733,7 +868,6 @@
         function updateGitHubStatus(status, message) {
             const statusDiv = document.getElementById('github-status');
             const statusText = document.getElementById('github-status-text');
-            const connectBtn = document.getElementById('github-connect-btn');
             const syncBtn = document.getElementById('github-sync-btn');
             const downloadBtn = document.getElementById('github-download-btn');
             const disconnectBtn = document.getElementById('github-disconnect-btn');
@@ -743,20 +877,17 @@
             
             if (status === 'connected') {
                 statusDiv.className = 'github-section github-connected';
-                connectBtn.style.display = 'none';
                 syncBtn.style.display = 'inline-block';
                 downloadBtn.style.display = 'inline-block';
                 disconnectBtn.style.display = 'inline-block';
                 lastSyncDiv.style.display = 'block';
             } else if (status === 'loading') {
                 statusDiv.className = 'github-section github-loading';
-                connectBtn.style.display = 'none';
                 syncBtn.style.display = 'none';
                 downloadBtn.style.display = 'none';
                 disconnectBtn.style.display = 'none';
             } else {
                 statusDiv.className = 'github-section github-disconnected';
-                connectBtn.style.display = 'inline-block';
                 syncBtn.style.display = 'none';
                 downloadBtn.style.display = 'none';
                 disconnectBtn.style.display = 'none';
@@ -766,9 +897,15 @@
         
         // 中斷 GitHub 連接
         function disconnectGitHub() {
-            isGitHubConnected = false;
-            updateGitHubStatus('disconnected', '尚未連接到 GitHub repository');
-            showMessage('🔌 已中斷 GitHub 連接');
+            if (confirm('確定要中斷 GitHub 連接嗎？您可以隨時重新連接。')) {
+                isGitHubConnected = false;
+                githubToken = '';
+                localStorage.removeItem('github_token');
+                document.getElementById('github-token-input').value = '';
+                updateGitHubStatus('disconnected', '尚未連接到 GitHub repository');
+                showTokenSetup();
+                showMessage('🔌 已中斷 GitHub 連接');
+            }
         }
         
         // 從 GitHub 同步資料
@@ -1743,93 +1880,6 @@
         function updateAllTables() {
             updateOverviewTable();
             updatePayrollTable();
-        }
-        
-        // 更新員工表格
-        function updateEmployeesTable() {
-            const container = document.getElementById('employees-table-container');
-            
-            if (Object.keys(employees).length === 0) {
-                container.innerHTML = '<p>尚未載入員工資料，請先上傳工時表</p>';
-                return;
-            }
-            
-            let tableHTML = `
-                <table class="employee-table">
-                    <thead>
-                        <tr>
-                            <th>員工編號</th>
-                            <th>姓名</th>
-                            <th>職級</th>
-                            <th>開始日期</th>
-                            <th>當前週期</th>
-                            <th>時薪</th>
-                            <th>週1</th>
-                            <th>週2</th>
-                            <th>週3</th>
-                            <th>週4</th>
-                            <th>週5</th>
-                            <th>週6</th>
-                            <th>週7</th>
-                            <th>週8</th>
-                            <th>總時數</th>
-                            <th>狀態</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-            `;
-            
-            Object.values(employees).forEach(employee => {
-                const fullName = `${employee.firstName} ${employee.lastName}`.trim();
-                const isOvertime = employee.totalHours > 304;
-                const statusClass = isOvertime ? 'status-overtime' : 'status-normal';
-                const statusText = isOvertime ? '需加班費' : '正常';
-                const cycleInfo = calculateEmployeeCycle(employee);
-                
-                tableHTML += `
-                    <tr>
-                        <td><strong>${employee.payrollId}</strong></td>
-                        <td>${fullName}</td>
-                        <td>${employee.level}</td>
-                        <td>${employee.startDate}</td>
-                        <td>第${cycleInfo.currentCycle}週期<br><small>第${cycleInfo.weekInCycle}/8週</small></td>
-                        <td>${employee.hourlyRate.toFixed(2)}</td>
-                        ${employee.weeklyHours.map(hours => `<td>${hours || '-'}</td>`).join('')}
-                        <td><strong>${employee.totalHours}</strong></td>
-                        <td class="${statusClass}">${statusText}</td>
-                    </tr>
-                `;
-            });
-            
-            tableHTML += '</tbody></table>';
-            container.innerHTML = tableHTML;
-            
-            // 更新員工摘要
-            const totalEmployees = Object.keys(employees).length;
-            const overtimeEmployees = Object.values(employees).filter(emp => emp.totalHours > 304).length;
-            const normalEmployees = totalEmployees - overtimeEmployees;
-            const totalHours = Object.values(employees).reduce((sum, emp) => sum + emp.totalHours, 0);
-            const avgHours = totalEmployees > 0 ? (totalHours / totalEmployees).toFixed(1) : 0;
-            
-            const summaryHTML = `
-                <div class="summary-card">
-                    <h3>${totalEmployees}</h3>
-                    <p>總員工數</p>
-                </div>
-                <div class="summary-card">
-                    <h3>${overtimeEmployees}</h3>
-                    <p>需要加班費</p>
-                </div>
-                <div class="summary-card">
-                    <h3>${normalEmployees}</h3>
-                    <p>正常工時</p>
-                </div>
-                <div class="summary-card">
-                    <h3>${avgHours}</h3>
-                    <p>平均工時</p>
-                </div>
-            `;
-            document.getElementById('employee-summary-cards').innerHTML = summaryHTML;
         }
         
         // 更新薪資表格
