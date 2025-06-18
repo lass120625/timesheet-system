@@ -18,12 +18,13 @@
         "21/04/2025": 16,
         "14/04/2025": 24
       },
-      "totalHours": 0,
+      "totalHours": 222,
       "payrollData": {
-        "regularHours": 0,
+        "regularHours": null,
         "overtimeHours": 0,
-        "regularPay": 0,
-        "overtimePay": 0
+        "regularPay": null,
+        "overtimePay": 0,
+        "cycleHours": null
       }
     },
     "EQ-0122": {
@@ -44,12 +45,13 @@
         "21/04/2025": 16,
         "14/04/2025": 24
       },
-      "totalHours": 0,
+      "totalHours": 192,
       "payrollData": {
         "regularHours": 0,
         "overtimeHours": 0,
         "regularPay": 0,
-        "overtimePay": 0
+        "overtimePay": 0,
+        "cycleHours": 0
       }
     },
     "EQ-0003": {
@@ -67,12 +69,13 @@
         "02/06/2025": 25,
         "09/06/2025": 19
       },
-      "totalHours": 0,
+      "totalHours": 123,
       "payrollData": {
-        "regularHours": 0,
+        "regularHours": null,
         "overtimeHours": 0,
-        "regularPay": 0,
-        "overtimePay": 0
+        "regularPay": null,
+        "overtimePay": 0,
+        "cycleHours": null
       }
     }
   },
@@ -246,7 +249,7 @@
       "uploadDate": "2025-06-18T09:00:14.551Z"
     }
   ],
-  "lastUpdated": "2025-06-18T09:00:14.553Z",
-  "version": "1.1",
+  "lastUpdated": "2025-06-18T09:21:54.262Z",
+  "version": "1.2",
   "systemName": "GitHub 版工時管理系統"
 }
