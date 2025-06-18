@@ -1610,55 +1610,69 @@
             return result;
         }
         
-        // 檢查資料衝突（使用工作週日期作為唯一識別）
+        // 檢查資料衝突（優化版本 - 使用快速查找）
         function checkForConflicts(newData) {
             const conflicts = [];
             
+            // 建立現有資料的快速查找表
+            const existingData = new Set();
+            timesheetData.forEach(item => {
+                existingData.add(`${item.payrollId}-${item.workWeekDate}`);
+            });
+            
+            // 快速檢查衝突
             newData.forEach(row => {
                 const payrollId = row['Payroll ID']?.trim();
                 const workWeekDate = row['Work Week']?.trim();
-                const startDate = row['Start Date']?.trim();
-                const weekNum = parseWeekNumber(workWeekDate, startDate);
+                const key = `${payrollId}-${workWeekDate}`;
                 
-                const existing = timesheetData.find(existing => 
-                    existing.payrollId === payrollId && 
-                    (existing.weekNumber === weekNum || existing.workWeekDate === workWeekDate)
-                );
-                
-                if (existing) {
-                    conflicts.push({
-                        payrollId: payrollId,
-                        weekNumber: weekNum,
-                        workWeekDate: workWeekDate,
-                        existingHours: existing.hours,
-                        newHours: parseFloat(row['Hours']),
-                        employeeName: `${row['First Name']} ${row['Last Name']}`
-                    });
+                if (existingData.has(key)) {
+                    // 找到衝突，取得詳細資訊
+                    const existing = timesheetData.find(item => 
+                        item.payrollId === payrollId && item.workWeekDate === workWeekDate
+                    );
+                    
+                    if (existing) {
+                        conflicts.push({
+                            payrollId: payrollId,
+                            workWeekDate: workWeekDate,
+                            existingHours: existing.hours,
+                            newHours: parseFloat(row['Hours']),
+                            employeeName: `${row['First Name']} ${row['Last Name']}`
+                        });
+                    }
                 }
             });
             
             return conflicts;
         }
         
-        // 顯示衝突對話框
+        // 顯示衝突對話框（簡化版本）
         function showConflictDialog(newData, conflicts) {
             const dialog = document.createElement('div');
             dialog.className = 'confirm-dialog';
             
+            const conflictCount = conflicts.length;
+            const sampleConflicts = conflicts.slice(0, 5); // 只顯示前5個衝突
+            
             let conflictsList = '';
-            conflicts.forEach(conflict => {
+            sampleConflicts.forEach(conflict => {
                 conflictsList += `
                     <div class="validation-warning">
-                        <strong>${conflict.employeeName} (${conflict.payrollId})</strong> - 第${conflict.weekNumber}週
-                        <br>現有工時: ${conflict.existingHours} → 新工時: ${conflict.newHours}
+                        <strong>${conflict.employeeName}</strong> - ${conflict.workWeekDate}
+                        <br>現有: ${conflict.existingHours}h → 新: ${conflict.newHours}h
                     </div>
                 `;
             });
             
+            if (conflictCount > 5) {
+                conflictsList += `<div class="validation-warning">...還有 ${conflictCount - 5} 個衝突</div>`;
+            }
+            
             dialog.innerHTML = `
                 <div class="confirm-content">
-                    <h3>⚠️ 發現資料衝突</h3>
-                    <p>以下員工的工時資料已存在於系統中，是否要覆蓋？</p>
+                    <h3>⚠️ 發現 ${conflictCount} 個資料衝突</h3>
+                    <p>以下工時資料已存在，是否要覆蓋？</p>
                     ${conflictsList}
                     <div class="confirm-buttons">
                         <button class="btn-confirm" onclick="confirmOverwrite(true)">覆蓋並更新</button>
@@ -1687,7 +1701,7 @@
             pendingData = null;
         }
         
-        // 處理工時表資料（優化版本 - 減少複雜計算）
+        // 處理工時表資料（重複上傳優化版本）
         async function processTimesheetData(data, overwrite = false) {
             updateProgress(80, '整合資料中...');
             
@@ -1699,93 +1713,133 @@
                 updatedRecords: 0
             };
             
-            // 處理每筆記錄
-            data.forEach(row => {
-                const payrollId = row['Payroll ID']?.trim();
-                const firstName = row['First Name']?.trim();
-                const lastName = row['Last Name']?.trim();
-                const startDate = row['Start Date']?.trim();
-                const workWeekDate = row['Work Week']?.trim();
-                const hours = parseFloat(row['Hours']);
-                const level = row['Level']?.trim();
-                const rate = parseRate(row['Rate']);
-                const farm = row['Farm']?.trim();
-                
-                uploadSummary.employees.add(payrollId);
-                
-                // 更新或建立員工基本資料
-                if (!employees[payrollId]) {
-                    employees[payrollId] = {
-                        payrollId: payrollId,
-                        firstName: firstName,
-                        lastName: lastName,
-                        startDate: startDate || '2024-01-01',
-                        level: level || '',
-                        farm: farm || '',
-                        hourlyRate: rate || 25.0,
-                        workWeeks: {}, // 儲存所有工作週的工時
-                        totalHours: 0,
-                        payrollData: {
-                            regularHours: 0,
-                            overtimeHours: 0,
-                            regularPay: 0,
-                            overtimePay: 0
-                        }
-                    };
-                } else {
-                    // 更新員工資訊
-                    if (startDate) employees[payrollId].startDate = startDate;
-                    if (level) employees[payrollId].level = level;
-                    if (farm) employees[payrollId].farm = farm;
-                    if (rate > 0) employees[payrollId].hourlyRate = rate;
-                }
-                
-                // 計算週數（只在需要時計算）
-                const weekNumber = parseWeekNumber(workWeekDate, employees[payrollId].startDate);
-                uploadSummary.weeks.add(`第${weekNumber}週`);
-                
-                // 更新工時資料
-                const existingIndex = timesheetData.findIndex(item => 
-                    item.payrollId === payrollId && item.workWeekDate === workWeekDate
-                );
-                
-                if (existingIndex >= 0) {
-                    if (overwrite) {
-                        timesheetData[existingIndex].hours = hours;
-                        uploadSummary.updatedRecords++;
-                    }
-                } else {
-                    timesheetData.push({
-                        payrollId: payrollId,
-                        firstName: firstName,
-                        lastName: lastName,
-                        workWeek: `Week ${weekNumber}`,
-                        workWeekDate: workWeekDate,
-                        weekNumber: weekNumber,
-                        hours: hours,
-                        uploadDate: new Date().toISOString()
-                    });
-                    uploadSummary.newRecords++;
-                }
-                
-                // 記錄工作週工時
-                employees[payrollId].workWeeks[workWeekDate] = hours;
+            // 建立快速查找索引，避免重複搜尋
+            const timesheetIndex = {};
+            timesheetData.forEach((item, index) => {
+                const key = `${item.payrollId}-${item.workWeekDate}`;
+                timesheetIndex[key] = index;
             });
             
-            // 重新計算所有員工的當前週期工時
-            Object.values(employees).forEach(employee => {
-                // 簡化：直接計算所有工時的總和
-                // 在實際使用中，週期計算會在顯示時進行
+            // 批次處理記錄，避免阻塞 UI
+            const batchSize = 5; // 每次處理 5 筆記錄
+            
+            for (let i = 0; i < data.length; i += batchSize) {
+                const batch = data.slice(i, i + batchSize);
+                
+                // 處理這批記錄
+                batch.forEach(row => {
+                    const payrollId = row['Payroll ID']?.trim();
+                    const firstName = row['First Name']?.trim();
+                    const lastName = row['Last Name']?.trim();
+                    const startDate = row['Start Date']?.trim();
+                    const workWeekDate = row['Work Week']?.trim();
+                    const hours = parseFloat(row['Hours']) || 0;
+                    const level = row['Level']?.trim();
+                    const rate = parseRate(row['Rate']);
+                    const farm = row['Farm']?.trim();
+                    
+                    uploadSummary.employees.add(payrollId);
+                    
+                    // 更新或建立員工基本資料（簡化版）
+                    if (!employees[payrollId]) {
+                        employees[payrollId] = {
+                            payrollId: payrollId,
+                            firstName: firstName,
+                            lastName: lastName,
+                            startDate: startDate || '2024-01-01',
+                            level: level || '',
+                            farm: farm || '',
+                            hourlyRate: rate || 25.0,
+                            workWeeks: {},
+                            totalHours: 0,
+                            payrollData: {
+                                regularHours: 0,
+                                overtimeHours: 0,
+                                regularPay: 0,
+                                overtimePay: 0
+                            }
+                        };
+                    } else {
+                        // 快速更新基本資訊
+                        if (startDate) employees[payrollId].startDate = startDate;
+                        if (level) employees[payrollId].level = level;
+                        if (farm) employees[payrollId].farm = farm;
+                        if (rate > 0) employees[payrollId].hourlyRate = rate;
+                    }
+                    
+                    // 使用索引快速檢查是否已存在
+                    const indexKey = `${payrollId}-${workWeekDate}`;
+                    const existingIndex = timesheetIndex[indexKey];
+                    
+                    if (existingIndex !== undefined) {
+                        if (overwrite) {
+                            timesheetData[existingIndex].hours = hours;
+                            uploadSummary.updatedRecords++;
+                        }
+                    } else {
+                        // 新增記錄
+                        const newRecord = {
+                            payrollId: payrollId,
+                            firstName: firstName,
+                            lastName: lastName,
+                            workWeek: workWeekDate,
+                            workWeekDate: workWeekDate,
+                            weekNumber: 1, // 暫時設為 1，稍後批次計算
+                            hours: hours,
+                            uploadDate: new Date().toISOString()
+                        };
+                        
+                        const newIndex = timesheetData.length;
+                        timesheetData.push(newRecord);
+                        timesheetIndex[indexKey] = newIndex;
+                        uploadSummary.newRecords++;
+                    }
+                    
+                    // 直接更新工作週工時
+                    employees[payrollId].workWeeks[workWeekDate] = hours;
+                });
+                
+                // 讓 UI 有機會更新，避免卡住
+                if (i % (batchSize * 2) === 0) {
+                    const progress = 80 + ((i / data.length) * 15); // 80-95%
+                    updateProgress(progress, `處理中... ${i + batch.length}/${data.length}`);
+                    await new Promise(resolve => setTimeout(resolve, 1)); // 讓出控制權
+                }
+            }
+            
+            updateProgress(95, '計算工時總計...');
+            
+            // 批次計算所有員工的總工時（簡化版）
+            const employeeIds = Object.keys(employees);
+            for (let i = 0; i < employeeIds.length; i++) {
+                const employee = employees[employeeIds[i]];
+                
+                // 簡單計算：所有工時的總和
                 employee.totalHours = Object.values(employee.workWeeks).reduce((sum, hours) => sum + (hours || 0), 0);
-                calculatePayroll(employee);
-            });
+                
+                // 快速計算薪資
+                if (employee.totalHours > 304) {
+                    employee.payrollData.regularHours = 304;
+                    employee.payrollData.overtimeHours = employee.totalHours - 304;
+                    employee.payrollData.overtimePay = employee.payrollData.overtimeHours * employee.hourlyRate;
+                } else {
+                    employee.payrollData.regularHours = employee.totalHours;
+                    employee.payrollData.overtimeHours = 0;
+                    employee.payrollData.overtimePay = 0;
+                }
+                
+                // 每處理 10 個員工就讓出控制權
+                if (i % 10 === 0) {
+                    await new Promise(resolve => setTimeout(resolve, 1));
+                }
+            }
             
             // 儲存到本地
             saveLocalData();
             
             try {
                 if (isGitHubConnected) {
-                    updateProgress(95, '推送到 GitHub...');
+                    updateProgress(98, '推送到 GitHub...');
                     await uploadToGitHub();
                     updateProgress(100, 'GitHub 更新完成');
                 } else {
@@ -1799,13 +1853,12 @@
                 updateAllTables();
                 
                 // 顯示成功訊息
-                const githubStatus = isGitHubConnected ? '<br>🐙 已推送到 GitHub repository' : '<br>💾 已保存到本地（建議連接 GitHub 以便團隊協作）';
+                const githubStatus = isGitHubConnected ? '<br>🐙 已推送到 GitHub repository' : '<br>💾 已保存到本地';
                 
                 showMessage(`
                     ✅ 上傳成功！<br>
                     📊 處理 ${uploadSummary.totalRecords} 筆記錄<br>
                     👥 涉及 ${uploadSummary.employees.size} 位員工<br>
-                    📅 涵蓋 ${Array.from(uploadSummary.weeks).join(', ')}<br>
                     ➕ 新增 ${uploadSummary.newRecords} 筆，更新 ${uploadSummary.updatedRecords} 筆
                     ${githubStatus}
                 `);
@@ -1814,7 +1867,6 @@
                 updateProgress(80, '推送失敗');
                 showMessage(`❌ 推送到 GitHub 失敗: ${error.message}<br>💾 資料已保存到本地`, 'warning');
                 
-                // 即使 GitHub 失敗，也要顯示摘要和更新表格
                 showUploadSummary(uploadSummary);
                 updateAllTables();
             }
