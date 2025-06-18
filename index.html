@@ -1884,19 +1884,18 @@
                 
                 if (payrollId && workWeekDate) {
                     const key = `${payrollId}-${workWeekDate}`;
-                    const existingHours = existingDataMap.get(key);
-                    
-                    if (existingHours !== undefined) { 
-                        const newHours = parseFloat(row['Hours']) || 0;
-                        if (existingHours !== newHours) { 
-                            conflicts.push({
-                                payrollId: payrollId,
-                                workWeekDate: workWeekDate,
-                                existingHours: existingHours,
-                                newHours: newHours,
-                                employeeName: `${row['First Name']} ${row['Last Name']}`.trim()
-                            });
-                        }
+                    const existingHours = parseFloat(existingDataMap.get(key)); // Ensure parsed as float
+                    const newHours = parseFloat(row['Hours']) || 0; // Ensure parsed as float
+
+                    // Only conflict if exists AND hours differ
+                    if (!isNaN(existingHours) && existingHours !== newHours) { 
+                        conflicts.push({
+                            payrollId: payrollId,
+                            workWeekDate: workWeekDate,
+                            existingHours: existingHours,
+                            newHours: newHours,
+                            employeeName: `${row['First Name']} ${row['Last Name']}`.trim()
+                        });
                     }
                 }
             });
@@ -1977,7 +1976,7 @@
                 const lastName = row['Last Name']?.trim();
                 const startDateStr = row['Start Date']?.trim();
                 const workWeekDate = row['Work Week']?.trim();
-                const hours = parseFloat(row['Hours']) || 0; // Ensure hours are 0 if NaN
+                const hours = parseFloat(row['Hours']) || 0; 
                 const level = row['Level']?.trim();
                 const rate = parseRate(row['Rate']);
                 const farm = row['Farm']?.trim();
@@ -2080,31 +2079,32 @@
                 // This accumulates overtime pay from ALL 8-week cycles since the employee's start date up to today.
                 employee.accumulatedOvertimePay = 0; // Reset before recalculating for a clean sum
                 
-                const employeeStartMonday = getMonday(parseDate(employee.startDate));
-                const currentReferenceMonday = getMonday(new Date()); 
-                
-                // Determine the total number of 8-week cycles that have occurred up to the current date.
-                // This correctly accounts for cycles that are partially complete or fully past.
-                const totalWeeksSinceStart = Math.floor((currentReferenceMonday.getTime() - employeeStartMonday.getTime()) / (7 * 24 * 60 * 60 * 1000)) + 1;
-                const totalCyclesToConsider = Math.max(1, Math.ceil(totalWeeksSinceStart / WEEKS_PER_CYCLE)); 
+                const employeeStartMonday = parseDate(employee.startDate) ? getMonday(parseDate(employee.startDate)) : null;
 
-                for (let c = 0; c < totalCyclesToConsider; c++) { 
-                    const cycleStartDate = new Date(employeeStartMonday);
-                    cycleStartDate.setDate(cycleStartDate.getDate() + (c * WEEKS_PER_CYCLE * 7));
-
-                    const cycleEndDate = new Date(cycleStartDate);
-                    cycleEndDate.setDate(cycleEndDate.getDate() + (WEEKS_PER_CYCLE * 7) - 1);
-
-                    let thisCycleHours = 0;
-                    for (const wwDateStr in employee.workWeeks) {
-                        const wwDate = parseDate(wwDateStr);
-                        if (wwDate && wwDate >= cycleStartDate && wwDate <= cycleEndDate) {
-                            thisCycleHours += employee.workWeeks[wwDateStr];
-                        }
-                    }
+                if (employeeStartMonday) {
+                    const currentReferenceMonday = getMonday(new Date()); 
                     
-                    if (thisCycleHours > REGULAR_HOURS_THRESHOLD) {
-                        employee.accumulatedOvertimePay += (thisCycleHours - REGULAR_HOURS_THRESHOLD) * employee.hourlyRate;
+                    const totalWeeksSinceStart = Math.floor((currentReferenceMonday.getTime() - employeeStartMonday.getTime()) / (7 * 24 * 60 * 60 * 1000)) + 1;
+                    const totalCyclesToConsider = Math.max(1, Math.ceil(totalWeeksSinceStart / WEEKS_PER_CYCLE)); 
+
+                    for (let c = 0; c < totalCyclesToConsider; c++) { 
+                        const cycleStartDate = new Date(employeeStartMonday);
+                        cycleStartDate.setDate(cycleStartDate.getDate() + (c * WEEKS_PER_CYCLE * 7));
+
+                        const cycleEndDate = new Date(cycleStartDate);
+                        cycleEndDate.setDate(cycleEndDate.getDate() + (WEEKS_PER_CYCLE * 7) - 1);
+
+                        let thisCycleHours = 0;
+                        for (const wwDateStr in employee.workWeeks) {
+                            const wwDate = parseDate(wwDateStr);
+                            if (wwDate && wwDate >= cycleStartDate && wwDate <= cycleEndDate) {
+                                thisCycleHours += employee.workWeeks[wwDateStr];
+                            }
+                        }
+                        
+                        if (thisCycleHours > REGULAR_HOURS_THRESHOLD) {
+                            employee.accumulatedOvertimePay += (thisCycleHours - REGULAR_HOURS_THRESHOLD) * employee.hourlyRate;
+                        }
                     }
                 }
                 // --- End Calculate Accumulated Overtime Pay ---
@@ -2254,9 +2254,11 @@
                             <th>農場</th>
                             <th>職級</th>
                             <th>開始日期</th>
-                            <th>當前週期</th>      <th>週期內週數</th>    <th>歷史總工時</th>
+                            <th>當前週期</th>      
+                            <th>週期內週數</th>    
+                            <th>歷史總工時</th>
                             <th>週期工時</th>
-                            <th>距加班門檻</th> </tr>
+                            <th>距OT門檻</th> </tr>
                     </thead>
                     <tbody>
             `;
@@ -2281,11 +2283,8 @@
                     const displayCurrentCycle = Number(cycleInfo.currentCycle) || 0; 
                     const displayWeekInCycle = Number(cycleInfo.weekInCycle) || 0;
 
-                    // Remaining hours within the current cycle
-                    const remainingCycleHours = Math.max(0, REGULAR_HOURS_THRESHOLD - (Number(cycleInfo.cycleHours) || 0));
-                    const remainingText = (Number(cycleInfo.cycleHours) || 0) > REGULAR_HOURS_THRESHOLD ? 
-                        `超出 ${Number(cycleInfo.cycleHours) || 0}` : 
-                        `${remainingCycleHours}`; // Removed '剩餘', now just number
+                    // Remaining hours to/over threshold (304 - current cycle hours)
+                    const otThresholdDifference = REGULAR_HOURS_THRESHOLD - (Number(cycleInfo.cycleHours) || 0); 
                     
                     tableHTML += `
                         <tr>
@@ -2293,10 +2292,11 @@
                             <td>${fullName}</td>
                             <td>${employee.farm || '-'}</td>
                             <td>${employee.level || '-'}</td>
-                            <td>${(parseDate(employee.startDate) || new Date()).toLocaleDateString('en-AU')}</td> <td>${displayCurrentCycle}</td>   <td>${displayWeekInCycle}</td>    <td><strong>${Number(employee.totalHours) || 0}</strong></td> 
+                            <td>${(parseDate(employee.startDate) || new Date()).toLocaleDateString('en-AU')}</td> <td>${displayCurrentCycle}</td>   
+                            <td>${displayWeekInCycle}</td>    
+                            <td><strong>${Number(employee.totalHours) || 0}</strong></td> 
                             <td><strong>${Number(cycleInfo.cycleHours) || 0}</strong></td>  
-                            <td>${remainingText}</td>
-                        </tr>
+                            <td>${otThresholdDifference}</td> </tr>
                     `;
                 });
             
@@ -2334,18 +2334,15 @@
             try {
                 const filteredEmployees = getFilteredEmployees();
                 // Updated CSV header for new column structure
-                let csvContent = '員工編號,姓名,農場,職級,開始日期,當前週期,週期內週數,歷史總工時,週期工時,距加班門檻\n'; // Removed 週期進度(%),週期開始日,週期結束日
+                let csvContent = '員工編號,姓名,農場,職級,開始日期,當前週期,週期內週數,歷史總工時,週期工時,距OT門檻\n'; 
                 
                 filteredEmployees.forEach(employee => {
                     const fullName = `${employee.firstName} ${employee.lastName}`.trim();
                     const cycleInfo = calculateEmployeeCycle(employee, new Date());
                     
-                    const remainingCycleHours = Math.max(0, REGULAR_HOURS_THRESHOLD - (Number(cycleInfo.cycleHours) || 0));
-                    const remainingText = (Number(cycleInfo.cycleHours) || 0) > REGULAR_HOURS_THRESHOLD ? 
-                        `超出${(Number(cycleInfo.cycleHours) || 0)}` : 
-                        `${remainingCycleHours}`; // No '剩餘' in export too
+                    const otThresholdDifference = REGULAR_HOURS_THRESHOLD - (Number(cycleInfo.cycleHours) || 0); 
                     
-                    csvContent += `${employee.payrollId},"${fullName}",${employee.farm || ''},${employee.level || ''},${(parseDate(employee.startDate) || new Date()).toLocaleDateString('en-AU')},${Number(cycleInfo.currentCycle) || 0},${Number(cycleInfo.weekInCycle) || 0},${Number(employee.totalHours) || 0},${Number(cycleInfo.cycleHours) || 0},"${remainingText}"\n`; 
+                    csvContent += `${employee.payrollId},"${fullName}",${employee.farm || ''},${employee.level || ''},${(parseDate(employee.startDate) || new Date()).toLocaleDateString('en-AU')},${Number(cycleInfo.currentCycle) || 0},${Number(cycleInfo.weekInCycle) || 0},${Number(employee.totalHours) || 0},${Number(cycleInfo.cycleHours) || 0},${otThresholdDifference}\n`; 
                 });
                 
                 downloadCSV(csvContent, `員工總覽報告_${new Date().toLocaleDateString('en-AU').replace(/\//g, '-')}.csv`); 
@@ -2504,7 +2501,6 @@
                             <th>職級</th>
                             <th>歷史總工時</th>
                             <th>週期工時</th>
-                            <th>正常工時</th>
                             <th>時薪</th>
                             <th>加班費</th>
                             <th>累加加班費</th> </tr>
@@ -2538,7 +2534,6 @@
                             <td>${employee.level || '-'}</td>
                             <td><strong>${Number(employee.totalHours) || 0}</strong></td> 
                             <td><strong>${Number(employee.payrollData.cycleHours) || 0}</strong></td> 
-                            <td>${Number(employee.payrollData.regularHours) || 0}</td> 
                             <td>$${(Number(employee.hourlyRate) || 0).toFixed(2)}</td> <td class="money ${overtimeClass}"><strong>$${(Number(employee.payrollData.overtimePay) || 0).toFixed(2)}</strong></td>
                             <td class="money"><strong>$${(Number(employee.accumulatedOvertimePay) || 0).toFixed(2)}</strong></td> </tr>
                     `;
@@ -2546,11 +2541,8 @@
             
             tableHTML += `
                 <tr style="background: #f0f0f0; font-weight: bold;">
-                    <td colspan="5" style="text-align: right;">總計</td>
-                    <td>${Number(totalCycleHoursAllEmployees) || 0}</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td class="money status-overtime">$${(Number(totalOvertimePayCurrentCycle) || 0).toFixed(2)}</td>
+                    <td colspan="4" style="text-align: right;">總計</td> <td>${Number(totalCycleHoursAllEmployees) || 0}</td>
+                    <td>-</td> <td class="money status-overtime">$${(Number(totalOvertimePayCurrentCycle) || 0).toFixed(2)}</td>
                     <td class="money">$${(Number(totalAccumulatedOvertimePayAllEmployees) || 0).toFixed(2)}</td> </tr>
             `;
             
@@ -2598,12 +2590,12 @@
             try {
                 const filteredEmployees = getFilteredEmployees(); 
                 // Updated CSV header for new column structure
-                let csvContent = '員工編號,姓名,農場,職級,歷史總工時,週期工時,正常工時,時薪,加班費,累加加班費\n'; // Removed 加班工時
+                let csvContent = '員工編號,姓名,農場,職級,歷史總工時,週期工時,時薪,加班費,累加加班費\n'; // Removed 正常工時, 加班工時
                 
                 filteredEmployees.forEach(employee => {
                     const fullName = `${employee.firstName} ${employee.lastName}`.trim();
                     
-                    csvContent += `${employee.payrollId},"${fullName}",${employee.farm || ''},${employee.level || ''},${(Number(employee.totalHours) || 0)},${(Number(employee.payrollData.cycleHours) || 0)},${(Number(employee.payrollData.regularHours) || 0)},${(Number(employee.hourlyRate) || 0)},${(Number(employee.payrollData.overtimePay) || 0).toFixed(2)},${(Number(employee.accumulatedOvertimePay) || 0).toFixed(2)}\n`;
+                    csvContent += `${employee.payrollId},"${fullName}",${employee.farm || ''},${employee.level || ''},${(Number(employee.totalHours) || 0)},${(Number(employee.payrollData.cycleHours) || 0)},${(Number(employee.hourlyRate) || 0)},${(Number(employee.payrollData.overtimePay) || 0).toFixed(2)},${(Number(employee.accumulatedOvertimePay) || 0).toFixed(2)}\n`;
                 });
                 
                 downloadCSV(csvContent, `加班費報表_${new Date().toLocaleDateString('en-AU').replace(/\//g, '-')}.csv`); 
