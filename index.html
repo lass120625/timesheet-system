@@ -372,9 +372,9 @@
         /* Progress Bar */
         .progress-bar {
             width: 100%;
-            height: 20px;
+            height: 8px; /* Make it thinner */
             background: #e9ecef; /* Lighter background */
-            border-radius: 10px;
+            border-radius: 4px; /* Smaller radius */
             overflow: hidden;
             margin: 20px 0;
             box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
@@ -391,6 +391,7 @@
             text-align: center;
             font-weight: 500;
             color: #555;
+            margin-top: 5px; /* Add some space */
         }
 
         /* Summary Cards */
@@ -636,24 +637,26 @@
 
         .cycle-progress {
             width: 100%;
-            height: 8px;
-            background: #e9ecef;
-            border-radius: 4px;
-            margin: 8px 0;
+            height: 8px; /* Make it thinner */
+            background: #e9ecef; /* Lighter background */
+            border-radius: 4px; /* Smaller radius */
             overflow: hidden;
+            margin: 8px 0; /* Adjusted margin */
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
         }
 
         .cycle-progress-fill {
             height: 100%;
-            background: linear-gradient(45deg, #28a745, #20c997);
-            transition: width 0.3s;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            width: 0%;
+            transition: width 0.3s ease-out; /* Smoother transition */
         }
 
         .cycle-progress-overtime {
             background: linear-gradient(45deg, #dc3545, #fd7e14);
         }
 
-        .cycle-status {
+        .cycle-status { /* No longer used for display in table */
             display: inline-block;
             padding: 4px 12px;
             border-radius: 15px;
@@ -1195,7 +1198,7 @@
             updateGitHubStatus('loading', '正在連接 GitHub...');
             
             try {
-                const userResponse = await fetch('https://api.github.com/user', {
+                const userResponse = await fetch(`https://api.github.com/user`, {
                     headers: {
                         'Authorization': `token ${githubToken}`,
                         'Accept': 'application/vnd.github.v3+json',
@@ -1242,18 +1245,18 @@
                 let errorMessage = error.message;
                 let suggestions = '';
                 
-                if (error.message.includes('Token 認證失敗')) {
+                if (errorMessage.includes('Token 認證失敗')) {
                     suggestions = '<br><br>🔧 請檢查 Token 是否正確複製';
-                } else if (error.message.includes('權限不足')) {
+                } else if (errorMessage.includes('權限不足')) {
                     suggestions = '<br><br>🔧 請檢查 Token 權限是否包含 "repo"';
-                } else if (error.message.includes('Repository')) {
+                } else if (errorMessage.includes('Repository')) {
                     suggestions = '<br><br>🔧 請確認 Repository 名稱正確，或點擊自動建立';
                 }
                 
                 showMessage(`❌ GitHub 連接失敗: ${errorMessage}${suggestions}`, 'error');
                 updateGitHubStatus('disconnected', `GitHub 連接失敗: ${errorMessage}`);
                 
-                if (error.message.includes('Token') || error.message.includes('認證') || error.message.includes('權限')) {
+                if (errorMessage.includes('Token') || errorMessage.includes('認證') || errorMessage.includes('權限')) {
                     setTimeout(() => {
                         showTokenSetup();
                     }, 1000);
@@ -1335,12 +1338,11 @@
         
         // Synchronize data from GitHub
         async function syncFromGitHub() {
-            if (!isGitHubConnected && !githubToken) { // If not connected and no token, try public access
-                // updateGitHubStatus('loading', '嘗試從 GitHub 載入公開資料...'); // This line is not needed before the next fetch.
-            } else if (!isGitHubConnected && githubToken) { // Connected but token expired/invalid, try with token
-                // updateGitHubStatus('loading', '正在從 GitHub 載入最新資料...'); // This is already part of connectToGitHub logic.
+            if (!isGitHubConnected) { // Check if already connected, if so, no need to re-authenticate or re-fetch.
+                 // This condition is important: if user clicks sync button and it's already connected,
+                 // it will just re-fetch without showing token setup or trying public access.
             }
-            
+
             setButtonLoading('github-sync-btn', true, '載入中...');
             
             try {
@@ -1419,7 +1421,7 @@
                     employees: employees,
                     timesheetData: timesheetData,
                     lastUpdated: new Date().toISOString(),
-                    version: '1.3', // Increment version
+                    version: '1.3', 
                     systemName: 'GitHub 版工時管理系統'
                 };
                 
@@ -1444,7 +1446,7 @@
                 }
                 
                 const updateData = {
-                    message: `更新工時資料 - ${new Date().toLocaleDateString('en-AU')} ${new Date().toLocaleTimeString('en-AU')}`, // Australian date and time
+                    message: `更新工時資料 - ${new Date().toLocaleDateString('en-AU')} ${new Date().toLocaleTimeString('en-AU')}`, 
                     content: encodedContent
                 };
                 
@@ -1511,7 +1513,7 @@
                 const blob = new Blob([content], { type: 'application/json' });
                 const link = document.createElement('a');
                 link.href = URL.createObjectURL(blob);
-                link.download = `工時系統完整資料_${new Date().toLocaleDateString('en-AU').replace(/\//g, '-')}.json`; // Australian date format
+                link.download = `工時系統完整資料_${new Date().toLocaleDateString('en-AU').replace(/\//g, '-')}.json`; 
                 document.body.appendChild(link); 
                 link.click();
                 document.body.removeChild(link); 
@@ -1529,7 +1531,7 @@
         function updateSyncTime() {
             const syncTimeElement = document.getElementById('sync-time');
             if (syncTimeElement) {
-                syncTimeElement.textContent = new Date().toLocaleDateString('en-AU') + ' ' + new Date().toLocaleTimeString('en-AU'); // Australian date and time format
+                syncTimeElement.textContent = new Date().toLocaleDateString('en-AU') + ' ' + new Date().toLocaleTimeString('en-AU'); 
             }
         }
         
@@ -1547,7 +1549,6 @@
          * - cycleHours: Sum of hours *only* within the current 8-week cycle.
          */
         function calculateEmployeeCycle(employee, referenceDate = new Date()) {
-            // Ensure employee.startDate is valid
             const parsedStartDate = parseDate(employee.startDate);
             if (!parsedStartDate || isNaN(parsedStartDate.getTime())) {
                 const defaultCycleStartDate = getMonday(new Date(referenceDate.getFullYear(), referenceDate.getMonth(), referenceDate.getDate()));
@@ -2076,94 +2077,34 @@
                 calculatePayroll(employee); 
 
                 // --- Calculate Accumulated Overtime Pay for this employee across all past cycles ---
-                employee.accumulatedOvertimePay = 0; // Reset before recalculating
-                const employeeWorkWeeksSorted = Object.keys(employee.workWeeks).sort((a, b) => parseDate(a).getTime() - parseDate(b).getTime());
-                
-                // Group work weeks into 8-week cycles from employee's start date
-                let currentCycleWeeks = [];
-                let currentCycleStartDate = null;
+                // This accumulates overtime pay from ALL 8-week cycles since the employee's start date up to today.
+                employee.accumulatedOvertimePay = 0; // Reset before recalculating for a clean sum
                 
                 const employeeStartMonday = getMonday(parseDate(employee.startDate));
+                const currentReferenceMonday = getMonday(new Date()); 
                 
-                for (let i = 0; i < employeeWorkWeeksSorted.length; i++) {
-                    const workWeekDateStr = employeeWorkWeeksSorted[i];
-                    const workWeekDate = parseDate(workWeekDateStr);
-                    const weekHours = employee.workWeeks[workWeekDateStr];
-                    
-                    if (!currentCycleStartDate) {
-                        // Determine the start date of the 8-week cycle this workWeekDate belongs to,
-                        // based on the employee's fixed startMonday.
-                        const weeksSinceEmployeeStart = Math.floor((getMonday(workWeekDate).getTime() - employeeStartMonday.getTime()) / (7 * 24 * 60 * 60 * 1000));
-                        const cycleNum = Math.floor(weeksSinceEmployeeStart / WEEKS_PER_CYCLE);
-                        currentCycleStartDate = new Date(employeeStartMonday);
-                        currentCycleStartDate.setDate(currentCycleStartDate.getDate() + (cycleNum * WEEKS_PER_CYCLE * 7));
-                        currentCycleWeeks = []; // Reset for new cycle
+                // Determine the total number of 8-week cycles that have occurred up to the current date.
+                // This correctly accounts for cycles that are partially complete or fully past.
+                const totalWeeksSinceStart = Math.floor((currentReferenceMonday.getTime() - employeeStartMonday.getTime()) / (7 * 24 * 60 * 60 * 1000)) + 1;
+                const totalCyclesToConsider = Math.max(1, Math.ceil(totalWeeksSinceStart / WEEKS_PER_CYCLE)); 
+
+                for (let c = 0; c < totalCyclesToConsider; c++) { 
+                    const cycleStartDate = new Date(employeeStartMonday);
+                    cycleStartDate.setDate(cycleStartDate.getDate() + (c * WEEKS_PER_CYCLE * 7));
+
+                    const cycleEndDate = new Date(cycleStartDate);
+                    cycleEndDate.setDate(cycleEndDate.getDate() + (WEEKS_PER_CYCLE * 7) - 1);
+
+                    let thisCycleHours = 0;
+                    for (const wwDateStr in employee.workWeeks) {
+                        const wwDate = parseDate(wwDateStr);
+                        if (wwDate && wwDate >= cycleStartDate && wwDate <= cycleEndDate) {
+                            thisCycleHours += employee.workWeeks[wwDateStr];
+                        }
                     }
                     
-                    // Check if this work week falls into the current cycle block
-                    // If it goes beyond the current 8-week block, process the current block and start a new one
-                    const nextCycleStartDate = new Date(currentCycleStartDate);
-                    nextCycleStartDate.setDate(nextCycleStartDate.getDate() + (WEEKS_PER_CYCLE * 7));
-
-                    if (workWeekDate.getTime() >= nextCycleStartDate.getTime()) {
-                        // This workWeekDate belongs to a new cycle, so process the accumulated one
-                        const cycleTotalHours = currentCycleWeeks.reduce((sum, item) => sum + item.hours, 0);
-                        if (cycleTotalHours > REGULAR_HOURS_THRESHOLD) {
-                            employee.accumulatedOvertimePay += (cycleTotalHours - REGULAR_HOURS_THRESHOLD) * employee.hourlyRate;
-                        }
-                        
-                        // Start a new cycle block from this week's cycle
-                        const weeksSinceEmployeeStart = Math.floor((getMonday(workWeekDate).getTime() - employeeStartMonday.getTime()) / (7 * 24 * 60 * 60 * 1000));
-                        const newCycleNum = Math.floor(weeksSinceEmployeeStart / WEEKS_PER_CYCLE);
-                        currentCycleStartDate = new Date(employeeStartMonday);
-                        currentCycleStartDate.setDate(currentCycleStartDate.getDate() + (newCycleNum * WEEKS_PER_CYCLE * 7));
-                        currentCycleWeeks = [];
-                    }
-
-                    currentCycleWeeks.push({ date: workWeekDate, hours: weekHours });
-                }
-                
-                // Process any remaining hours in the last cycle block (which is the current cycle)
-                if (currentCycleWeeks.length > 0) {
-                    const cycleTotalHours = currentCycleWeeks.reduce((sum, item) => sum + item.hours, 0);
-                    // Only add if it's not the *current* cycle being displayed (as payrollData.overtimePay already handles current)
-                    // No, this accumulation must include *all* cycles, including the current one.
-                    // The 'payrollData.overtimePay' is for the *displayed* current cycle, this is for historical.
-                    // To avoid double counting current cycle's overtime, ensure payrollData.overtimePay isn't added to accumulated
-                    // if it's already accounted for.
-                    // Simpler: Just sum all *past* completed cycles, and the current cycle's overtime is separately visible.
-                    // The user's request "每個人的累加加班費" means a *total accumulated sum*.
-                    // So, the final displayed '累加加班費' for an employee should be the sum of all overtime calculated from
-                    // *all* their 8-week cycles that have occurred up to the *current date*, including the current one.
-                    
-                    // Re-think this: The easiest way to get 'accumulated overtime pay' is to iterate through the past cycles
-                    // directly.
-                    employee.accumulatedOvertimePay = 0; // Reset for a clean calc
-                    if(employee.totalWeeksFromStart === undefined) { // Recalc totalWeeksFromStart if not already set (from calculateEmployeeCycle)
-                        const currentRefDate = new Date();
-                        currentRefDate.setHours(0,0,0,0);
-                        const empStartMon = getMonday(parseDate(employee.startDate));
-                        employee.totalWeeksFromStart = Math.floor((getMonday(currentRefDate).getTime() - empStartMon.getTime()) / (7 * 24 * 60 * 60 * 1000)) + 1;
-                    }
-
-                    for (let c = 1; c <= Math.ceil(employee.totalWeeksFromStart / WEEKS_PER_CYCLE); c++) {
-                        const cycleIndex = c - 1;
-                        const cycleStartDate = new Date(employeeStartMonday);
-                        cycleStartDate.setDate(cycleStartDate.getDate() + (cycleIndex * WEEKS_PER_CYCLE * 7));
-                        const cycleEndDate = new Date(cycleStartDate);
-                        cycleEndDate.setDate(cycleEndDate.getDate() + (WEEKS_PER_CYCLE * 7) - 1);
-
-                        let thisCycleHours = 0;
-                        for (const wwDateStr in employee.workWeeks) {
-                            const wwDate = parseDate(wwDateStr);
-                            if (wwDate && wwDate >= cycleStartDate && wwDate <= cycleEndDate) {
-                                thisCycleHours += employee.workWeeks[wwDateStr];
-                            }
-                        }
-
-                        if (thisCycleHours > REGULAR_HOURS_THRESHOLD) {
-                            employee.accumulatedOvertimePay += (thisCycleHours - REGULAR_HOURS_THRESHOLD) * employee.hourlyRate;
-                        }
+                    if (thisCycleHours > REGULAR_HOURS_THRESHOLD) {
+                        employee.accumulatedOvertimePay += (thisCycleHours - REGULAR_HOURS_THRESHOLD) * employee.hourlyRate;
                     }
                 }
                 // --- End Calculate Accumulated Overtime Pay ---
@@ -2199,7 +2140,7 @@
          * Now uses employee.payrollData.cycleHours for overtime calculation.
          */
         function calculatePayroll(employee) {
-            const hourlyRate = Number(employee.hourlyRate) || 0; // Ensure hourlyRate is a number or 0
+            const hourlyRate = Number(employee.hourlyRate) || 0; 
             
             // Get current cycle info to get cycleHours
             const cycleInfo = calculateEmployeeCycle(employee, new Date());
@@ -2315,8 +2256,7 @@
                             <th>開始日期</th>
                             <th>當前週期</th>      <th>週期內週數</th>    <th>歷史總工時</th>
                             <th>週期工時</th>
-                            <th>剩餘額度</th>
-                        </tr>
+                            <th>距加班門檻</th> </tr>
                     </thead>
                     <tbody>
             `;
@@ -2345,7 +2285,7 @@
                     const remainingCycleHours = Math.max(0, REGULAR_HOURS_THRESHOLD - (Number(cycleInfo.cycleHours) || 0));
                     const remainingText = (Number(cycleInfo.cycleHours) || 0) > REGULAR_HOURS_THRESHOLD ? 
                         `超出 ${Number(cycleInfo.cycleHours) || 0}` : 
-                        `剩餘 ${remainingCycleHours}`; 
+                        `${remainingCycleHours}`; // Removed '剩餘', now just number
                     
                     tableHTML += `
                         <tr>
@@ -2394,7 +2334,7 @@
             try {
                 const filteredEmployees = getFilteredEmployees();
                 // Updated CSV header for new column structure
-                let csvContent = '員工編號,姓名,農場,職級,開始日期,當前週期,週期內週數,歷史總工時,週期工時,剩餘額度\n'; // Removed 週期進度(%),週期開始日,週期結束日
+                let csvContent = '員工編號,姓名,農場,職級,開始日期,當前週期,週期內週數,歷史總工時,週期工時,距加班門檻\n'; // Removed 週期進度(%),週期開始日,週期結束日
                 
                 filteredEmployees.forEach(employee => {
                     const fullName = `${employee.firstName} ${employee.lastName}`.trim();
@@ -2403,9 +2343,9 @@
                     const remainingCycleHours = Math.max(0, REGULAR_HOURS_THRESHOLD - (Number(cycleInfo.cycleHours) || 0));
                     const remainingText = (Number(cycleInfo.cycleHours) || 0) > REGULAR_HOURS_THRESHOLD ? 
                         `超出${(Number(cycleInfo.cycleHours) || 0)}` : 
-                        `剩餘${remainingCycleHours}`;
+                        `${remainingCycleHours}`; // No '剩餘' in export too
                     
-                    csvContent += `${employee.payrollId},"${fullName}",${employee.farm || ''},${employee.level || ''},${(parseDate(employee.startDate) || new Date()).toLocaleDateString('en-AU')},${Number(cycleInfo.currentCycle) || 0},${Number(cycleInfo.weekInCycle) || 0},${Number(employee.totalHours) || 0},${Number(cycleInfo.cycleHours) || 0},"${remainingText}"\n`; // Removed cycleInfo.progressPercentage.toFixed(1), cycleInfo.cycleStartDate, cycleInfo.cycleEndDate
+                    csvContent += `${employee.payrollId},"${fullName}",${employee.farm || ''},${employee.level || ''},${(parseDate(employee.startDate) || new Date()).toLocaleDateString('en-AU')},${Number(cycleInfo.currentCycle) || 0},${Number(cycleInfo.weekInCycle) || 0},${Number(employee.totalHours) || 0},${Number(cycleInfo.cycleHours) || 0},"${remainingText}"\n`; 
                 });
                 
                 downloadCSV(csvContent, `員工總覽報告_${new Date().toLocaleDateString('en-AU').replace(/\//g, '-')}.csv`); 
@@ -2414,7 +2354,7 @@
                 showMessage(`❌ 匯出失敗: ${error.message}`, 'error');
                 console.error("Export Overview failed:", error);
             } finally {
-                    setButtonLoading('exportOverview', false, '📥 匯出員工總覽報告 (CSV)');
+                setButtonLoading('exportOverview', false, '📥 匯出員工總覽報告 (CSV)');
             }
         }
         
@@ -2599,7 +2539,7 @@
                             <td><strong>${Number(employee.totalHours) || 0}</strong></td> 
                             <td><strong>${Number(employee.payrollData.cycleHours) || 0}</strong></td> 
                             <td>${Number(employee.payrollData.regularHours) || 0}</td> 
-                            <td>$${Number(employee.hourlyRate).toFixed(2) || '0.00'}</td> <td class="money ${overtimeClass}"><strong>$${(Number(employee.payrollData.overtimePay) || 0).toFixed(2)}</strong></td>
+                            <td>$${(Number(employee.hourlyRate) || 0).toFixed(2)}</td> <td class="money ${overtimeClass}"><strong>$${(Number(employee.payrollData.overtimePay) || 0).toFixed(2)}</strong></td>
                             <td class="money"><strong>$${(Number(employee.accumulatedOvertimePay) || 0).toFixed(2)}</strong></td> </tr>
                     `;
                 });
@@ -2663,7 +2603,7 @@
                 filteredEmployees.forEach(employee => {
                     const fullName = `${employee.firstName} ${employee.lastName}`.trim();
                     
-                    csvContent += `${employee.payrollId},"${fullName}",${employee.farm || ''},${employee.level || ''},${(Number(employee.totalHours) || 0)},${(Number(employee.payrollData.cycleHours) || 0)},${(Number(employee.payrollData.regularHours) || 0)},${(Number(employee.hourlyRate) || 0)},${(Number(employee.payrollData.overtimePay) || 0).toFixed(2)},${(Number(employee.accumulatedOvertimePay) || 0).toFixed(2)}\n`; // Removed加班工時
+                    csvContent += `${employee.payrollId},"${fullName}",${employee.farm || ''},${employee.level || ''},${(Number(employee.totalHours) || 0)},${(Number(employee.payrollData.cycleHours) || 0)},${(Number(employee.payrollData.regularHours) || 0)},${(Number(employee.hourlyRate) || 0)},${(Number(employee.payrollData.overtimePay) || 0).toFixed(2)},${(Number(employee.accumulatedOvertimePay) || 0).toFixed(2)}\n`;
                 });
                 
                 downloadCSV(csvContent, `加班費報表_${new Date().toLocaleDateString('en-AU').replace(/\//g, '-')}.csv`); 
