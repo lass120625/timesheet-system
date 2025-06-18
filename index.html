@@ -659,23 +659,28 @@
                 <h4>📊 工時表格式說明</h4>
                 <div class="format-example">
                     Payroll ID, First Name, Last Name, Start Date, Work Week, Hours, Level, Rate, Farm
-                    <br>EQ-0001, John, Doe, 2024-01-15, 2024-01-15, 45, Senior, 25.50, Farm A
-                    <br>EQ-0001, John, Doe, 2024-01-15, 2024-01-22, 38, Senior, 25.50, Farm A
-                    <br>EQ-0002, Jane, Smith, 2024-02-01, 2024-02-05, 42, Junior, 20.00, Farm B
+                    <br>EQ-0001, John, Doe, 6/05/2025, 12/05/2025, 45, Senior, 25.50, Farm A
+                    <br>EQ-0001, John, Doe, 6/05/2025, 19/05/2025, 38, Senior, 25.50, Farm A
+                    <br>EQ-0002, Jane, Smith, 10/04/2025, 15/04/2025, 42, Junior, 20.00, Farm B
                 </div>
                 <p><strong>重要格式說明：</strong></p>
                 <ul>
-                    <li>📅 <strong>Start Date</strong>：員工在該農場工作的第一天（只需在第一次上傳時提供，後續會自動保留）</li>
-                    <li>📅 <strong>Work Week</strong>：工作週的週一日期（例如：2024-01-15 表示 2024年1月15日那一週）</li>
-                    <li>🔢 <strong>週數計算</strong>：系統會自動根據 Start Date 和 Work Week 計算正確的週數</li>
-                    <li>🏭 <strong>Farm/Level/Rate 更新</strong>：如果員工轉換農場或調整薪資，新資料會覆蓋舊資料</li>
+                    <li>📅 <strong>Start Date</strong>：員工實際開始工作的日期（例如：6/05/2025 表示5月6日週二開始）</li>
+                    <li>📅 <strong>Work Week</strong>：該工作週的週一日期（例如：12/05/2025 表示5月12日週一那一週）</li>
+                    <li>🔢 <strong>8週週期計算</strong>：
+                        <br>• 員工6/05/2025（週二）開始工作
+                        <br>• 第1週期從該週週一5/05/2025開始計算  
+                        <br>• 第1週：5/05-11/05，第2週：12/05-18/05，...第8週：23/06-29/06
+                        <br>• 第9週（1/07/2025）開始新週期，重新計算304小時
+                    </li>
+                    <li>🏭 <strong>資料更新</strong>：Farm/Level/Rate 異動會自動更新</li>
                 </ul>
                 <p><strong>上傳後自動處理：</strong></p>
                 <ul>
                     <li>✅ 驗證 EQ-0001 格式的員工編號</li>
-                    <li>✅ 自動計算正確的工作週數</li>
+                    <li>✅ 自動計算正確的8週週期工時</li>
                     <li>✅ 支援農場和職級異動</li>
-                    <li>✅ 整合新舊資料，檢測重複工作週</li>
+                    <li>✅ 檢測重複工作週並提供覆蓋選項</li>
                     <li>✅ 自動推送到 GitHub repository</li>
                     <li>✅ 所有團隊成員即時看到最新資料</li>
                 </ul>
@@ -1341,7 +1346,7 @@
             }
         }
         
-        // 計算員工週期資訊
+        // 計算員工週期資訊（正確的8週週期）
         function calculateEmployeeCycle(employee, referenceDate = new Date()) {
             if (!employee.startDate) {
                 return {
@@ -1350,77 +1355,91 @@
                     cycleStartDate: new Date(),
                     cycleEndDate: new Date(),
                     daysInCycle: 0,
-                    weeksFromStart: 0,
-                    status: 'pending'
-                };
-            }
-            
-            // 確保日期格式正確處理
-            const startDate = new Date(employee.startDate);
-            const currentDate = new Date(referenceDate);
-            
-            // 調整時區，確保計算準確
-            startDate.setHours(0, 0, 0, 0);
-            currentDate.setHours(0, 0, 0, 0);
-            
-            // 計算總天數和週數
-            const totalDays = Math.floor((currentDate - startDate) / (1000 * 60 * 60 * 24));
-            const totalWeeks = Math.floor(totalDays / 7);
-            
-            // 避免負數情況
-            if (totalDays < 0) {
-                return {
-                    currentCycle: 1,
-                    weekInCycle: 1,
-                    cycleStartDate: startDate,
-                    cycleEndDate: new Date(startDate.getTime() + 56 * 24 * 60 * 60 * 1000),
-                    daysInCycle: 0,
-                    weeksFromStart: 0,
+                    totalWeeksFromStart: 0,
                     status: 'pending',
                     progressPercentage: 0
                 };
             }
             
-            // 計算當前週期（從1開始）
-            const currentCycle = Math.floor(totalWeeks / 8) + 1;
-            
-            // 計算在當前週期中的週數（1-8）
-            const weekInCycle = (totalWeeks % 8) + 1;
-            
-            // 計算當前週期的開始和結束日期
-            const cycleNumber = currentCycle - 1; // 週期編號從0開始計算日期
-            const cycleStartDate = new Date(startDate);
-            cycleStartDate.setDate(cycleStartDate.getDate() + (cycleNumber * 56)); // 56天 = 8週
-            
-            const cycleEndDate = new Date(cycleStartDate);
-            cycleEndDate.setDate(cycleEndDate.getDate() + 55); // 55天後（第56天是週期最後一天）
-            
-            // 計算在當前週期中的天數
-            const daysInCycle = Math.max(0, Math.floor((currentDate - cycleStartDate) / (1000 * 60 * 60 * 24)) + 1);
-            
-            // 判斷週期狀態
-            let status = 'active';
-            if (weekInCycle > 8) {
-                status = 'complete';
-            } else if (employee.totalHours > 304) {
-                status = 'overtime';
-            } else if (daysInCycle <= 0) {
-                status = 'pending';
+            try {
+                // 解析開始日期
+                const startDate = new Date(employee.startDate);
+                const currentDate = new Date(referenceDate);
+                
+                // 調整時區，確保計算準確
+                startDate.setHours(0, 0, 0, 0);
+                currentDate.setHours(0, 0, 0, 0);
+                
+                // 將開始日期調整到該週的週一
+                const startWeekMonday = new Date(startDate);
+                const dayOfWeek = startDate.getDay(); // 0=週日, 1=週一, ..., 6=週六
+                const daysToMonday = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
+                startWeekMonday.setDate(startDate.getDate() + daysToMonday);
+                
+                // 將當前日期調整到所在週的週一
+                const currentWeekMonday = new Date(currentDate);
+                const currentDayOfWeek = currentDate.getDay();
+                const currentDaysToMonday = currentDayOfWeek === 0 ? -6 : 1 - currentDayOfWeek;
+                currentWeekMonday.setDate(currentDate.getDate() + currentDaysToMonday);
+                
+                // 計算總週數（從開始週一到當前週一）
+                const totalWeeksFromStart = Math.floor((currentWeekMonday - startWeekMonday) / (7 * 24 * 60 * 60 * 1000)) + 1;
+                
+                // 計算當前是第幾個週期（從1開始）
+                const currentCycle = Math.floor((totalWeeksFromStart - 1) / 8) + 1;
+                
+                // 計算在當前週期中是第幾週（1-8）
+                const weekInCycle = ((totalWeeksFromStart - 1) % 8) + 1;
+                
+                // 計算當前週期的開始和結束日期
+                const cycleStartWeek = (currentCycle - 1) * 8 + 1;
+                const cycleStartDate = new Date(startWeekMonday);
+                cycleStartDate.setDate(cycleStartDate.getDate() + (cycleStartWeek - 1) * 7);
+                
+                const cycleEndDate = new Date(cycleStartDate);
+                cycleEndDate.setDate(cycleEndDate.getDate() + 55); // 8週 = 56天，最後一天是第55天後
+                
+                // 計算在當前週期中的天數
+                const daysInCycle = Math.max(0, Math.floor((currentDate - cycleStartDate) / (1000 * 60 * 60 * 24)) + 1);
+                
+                // 判斷週期狀態
+                let status = 'active';
+                if (weekInCycle > 8) {
+                    status = 'complete';
+                } else if (employee.totalHours > 304) {
+                    status = 'overtime';
+                } else if (daysInCycle <= 0) {
+                    status = 'pending';
+                }
+                
+                // 計算進度百分比（基於8週=56天）
+                const progressPercentage = Math.min((daysInCycle / 56) * 100, 100);
+                
+                console.log(`週期資訊 - ${employee.payrollId}: 第${currentCycle}週期, 第${weekInCycle}/8週, 總第${totalWeeksFromStart}週`);
+                
+                return {
+                    currentCycle,
+                    weekInCycle: Math.min(Math.max(weekInCycle, 1), 8),
+                    cycleStartDate,
+                    cycleEndDate,
+                    daysInCycle: Math.min(Math.max(daysInCycle, 0), 56),
+                    totalWeeksFromStart,
+                    status,
+                    progressPercentage
+                };
+            } catch (error) {
+                console.error('週期計算錯誤:', error);
+                return {
+                    currentCycle: 1,
+                    weekInCycle: 1,
+                    cycleStartDate: new Date(),
+                    cycleEndDate: new Date(),
+                    daysInCycle: 0,
+                    totalWeeksFromStart: 0,
+                    status: 'pending',
+                    progressPercentage: 0
+                };
             }
-            
-            // 計算進度百分比
-            const progressPercentage = Math.min((daysInCycle / 56) * 100, 100);
-            
-            return {
-                currentCycle,
-                weekInCycle: Math.min(Math.max(weekInCycle, 1), 8), // 確保在1-8範圍內
-                cycleStartDate,
-                cycleEndDate,
-                daysInCycle: Math.min(Math.max(daysInCycle, 0), 56),
-                weeksFromStart: totalWeeks,
-                status,
-                progressPercentage
-            };
         }
         
         // Tab 切換
@@ -1459,7 +1478,7 @@
             return pattern.test(payrollId.trim());
         }
         
-        // 解析週數（從工作週的日期計算實際週數）
+        // 解析週數（正確的週期計算）
         function parseWeekNumber(workWeekDateString, startDateString) {
             if (!workWeekDateString || !startDateString) return 1;
             
@@ -1474,14 +1493,21 @@
                     return 1;
                 }
                 
-                // 計算從開始日期到工作週的天數差
-                const daysDiff = Math.floor((workWeekDate - startDate) / (1000 * 60 * 60 * 24));
+                // 將開始日期調整到該週的週一
+                const startWeekMonday = new Date(startDate);
+                const dayOfWeek = startDate.getDay(); // 0=週日, 1=週一, ..., 6=週六
+                const daysToMonday = dayOfWeek === 0 ? -6 : 1 - dayOfWeek; // 計算到週一的天數差
+                startWeekMonday.setDate(startDate.getDate() + daysToMonday);
                 
-                // 計算週數（從第1週開始）
-                const weekNumber = Math.floor(daysDiff / 7) + 1;
+                // 計算從開始週一到工作週一的週數差
+                const weeksDiff = Math.floor((workWeekDate - startWeekMonday) / (7 * 24 * 60 * 60 * 1000));
                 
-                // 確保週數在合理範圍內
-                return Math.max(1, Math.min(weekNumber, 52));
+                // 計算在8週週期中的週數（1-8）
+                const weekInCycle = (weeksDiff % 8) + 1;
+                
+                console.log(`週期計算 - 開始日期: ${startDateString}, 工作週: ${workWeekDateString}, 週數: ${weekInCycle}`);
+                
+                return Math.max(1, Math.min(weekInCycle, 8));
                 
             } catch (error) {
                 console.error('週數計算錯誤:', error);
@@ -1709,7 +1735,7 @@
             pendingData = null;
         }
         
-        // 處理工時表資料
+        // 處理工時表資料（正確的週期工時計算）
         async function processTimesheetData(data, overwrite = false) {
             updateProgress(80, '整合資料中...');
             
@@ -1732,10 +1758,8 @@
                 const level = row['Level']?.trim();
                 const rate = parseRate(row['Rate']);
                 const farm = row['Farm']?.trim();
-                const weekNumber = parseWeekNumber(workWeekDate, startDate);
                 
                 uploadSummary.employees.add(payrollId);
-                uploadSummary.weeks.add(`第${weekNumber}週 (${workWeekDate})`);
                 
                 // 更新或建立員工基本資料
                 if (!employees[payrollId]) {
@@ -1748,7 +1772,7 @@
                         farm: farm || '',
                         hourlyRate: rate || 25.0,
                         overtimeRate: (rate || 25.0) * 1.5,
-                        weeklyHours: Array(52).fill(0), // 擴展到52週
+                        workWeeks: {}, // 儲存所有工作週的工時，用日期作為鍵
                         totalHours: 0,
                         payrollData: {
                             regularHours: 0,
@@ -1769,16 +1793,18 @@
                     }
                 }
                 
+                // 計算正確的週數
+                const weekNumber = parseWeekNumber(workWeekDate, employees[payrollId].startDate);
+                uploadSummary.weeks.add(`第${weekNumber}週 (${workWeekDate})`);
+                
                 // 更新工時資料
                 const existingIndex = timesheetData.findIndex(item => 
-                    item.payrollId === payrollId && 
-                    (item.weekNumber === weekNumber || item.workWeekDate === workWeekDate)
+                    item.payrollId === payrollId && item.workWeekDate === workWeekDate
                 );
                 
                 if (existingIndex >= 0) {
                     if (overwrite) {
                         timesheetData[existingIndex].hours = hours;
-                        timesheetData[existingIndex].workWeekDate = workWeekDate;
                         timesheetData[existingIndex].weekNumber = weekNumber;
                         uploadSummary.updatedRecords++;
                     }
@@ -1796,26 +1822,35 @@
                     uploadSummary.newRecords++;
                 }
                 
-                // 更新員工週時數（限制在前52週內）
-                if (weekNumber >= 1 && weekNumber <= 52) {
-                    employees[payrollId].weeklyHours[weekNumber - 1] = hours;
-                }
+                // 記錄該員工的工作週工時
+                employees[payrollId].workWeeks[workWeekDate] = {
+                    weekNumber: weekNumber,
+                    hours: hours
+                };
             });
             
-            // 重新計算每個員工的總工時（使用當前週期的前8週）
+            // 重新計算每個員工的當前週期總工時
             Object.values(employees).forEach(employee => {
                 const cycleInfo = calculateEmployeeCycle(employee);
-                const cycleStartWeek = Math.max(1, (cycleInfo.currentCycle - 1) * 8 + 1);
-                const cycleEndWeek = Math.min(52, cycleStartWeek + 7);
                 
-                // 計算當前週期的總工時
+                // 計算當前週期的工時總和（第1-8週）
                 let currentCycleTotalHours = 0;
-                for (let week = cycleStartWeek; week <= cycleEndWeek; week++) {
-                    currentCycleTotalHours += employee.weeklyHours[week - 1] || 0;
-                }
+                
+                // 遍歷所有工作週，只計算當前週期內的工時
+                Object.entries(employee.workWeeks).forEach(([workWeekDate, weekData]) => {
+                    const weekInCurrentCycle = parseWeekNumber(workWeekDate, employee.startDate);
+                    
+                    // 檢查這一週是否屬於當前週期
+                    const weekStartDate = new Date(workWeekDate);
+                    if (weekStartDate >= cycleInfo.cycleStartDate && weekStartDate <= cycleInfo.cycleEndDate) {
+                        currentCycleTotalHours += weekData.hours;
+                    }
+                });
                 
                 employee.totalHours = currentCycleTotalHours;
                 calculatePayroll(employee);
+                
+                console.log(`${employee.payrollId} 當前週期工時: ${currentCycleTotalHours}h`);
             });
             
             // 儲存到本地
@@ -1858,7 +1893,7 @@
             }
         }
         
-        // 計算薪資（修改為只計算加班費）
+        // 計算薪資（只計算加班費，移除總薪資）
         function calculatePayroll(employee) {
             const totalHours = employee.totalHours;
             const hourlyRate = employee.hourlyRate;
@@ -1875,7 +1910,7 @@
                 employee.payrollData.overtimePay = 0;
             }
             
-            employee.payrollData.totalPay = employee.payrollData.regularPay + employee.payrollData.overtimePay;
+            // 不計算總薪資，只有加班費
         }
         
         // 取得篩選後的員工列表
@@ -1950,7 +1985,7 @@
             updateAllTables();
         }
         
-        // 更新員工總覽（整合週期分析）
+        // 更新員工總覽（正確的週期顯示）
         function updateOverviewTable() {
             const container = document.getElementById('overview-table-container');
             
@@ -1974,9 +2009,9 @@
                             <th>當前週期</th>
                             <th>週期進度</th>
                             <th>週期狀態</th>
-                            <th>週期工時</th>
+                            <th>當前週期工時</th>
                             <th>剩餘額度</th>
-                            <th>預計結束</th>
+                            <th>週期結束日</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -2024,13 +2059,23 @@
                     const progressPercentage = cycleInfo.progressPercentage;
                     const progressClass = employee.totalHours > 304 ? 'cycle-progress-overtime' : '';
                     
+                    // 計算實際開始工作的週數
+                    const actualStartDate = new Date(employee.startDate);
+                    const cycleStartMonday = new Date(cycleInfo.cycleStartDate);
+                    const daysDiffFromCycleStart = Math.floor((actualStartDate - cycleStartMonday) / (1000 * 60 * 60 * 24));
+                    const startWeekInCycle = Math.floor(daysDiffFromCycleStart / 7) + 1;
+                    
+                    // 週期結束日期（週日）
+                    const cycleEndSunday = new Date(cycleInfo.cycleEndDate);
+                    cycleEndSunday.setDate(cycleEndSunday.getDate() + 1); // 調整到週日
+                    
                     tableHTML += `
                         <tr>
                             <td><strong>${employee.payrollId}</strong></td>
                             <td>${fullName}</td>
                             <td>${employee.farm || '-'}</td>
                             <td>${employee.level}</td>
-                            <td>${employee.startDate}</td>
+                            <td>${employee.startDate}<br><small>第${startWeekInCycle}週開始</small></td>
                             <td>第 ${cycleInfo.currentCycle} 週期<br><small>第 ${cycleInfo.weekInCycle}/8 週</small></td>
                             <td>
                                 <div class="cycle-progress">
@@ -2041,7 +2086,7 @@
                             <td><span class="cycle-status ${statusClass}">${statusText}</span></td>
                             <td><strong>${employee.totalHours}h</strong></td>
                             <td>${remainingText}</td>
-                            <td>${cycleInfo.cycleEndDate.toLocaleDateString('zh-TW')}</td>
+                            <td>${cycleEndSunday.toLocaleDateString('zh-TW')}</td>
                         </tr>
                     `;
                 });
@@ -2222,7 +2267,7 @@
             updatePayrollTable();
         }
         
-        // 更新薪資表格
+        // 更新薪資表格（移除總薪資欄位）
         function updatePayrollTable() {
             const container = document.getElementById('payroll-table-container');
             
@@ -2237,82 +2282,85 @@
                         <tr>
                             <th>員工編號</th>
                             <th>姓名</th>
+                            <th>農場</th>
                             <th>職級</th>
+                            <th>總工時</th>
                             <th>正常工時</th>
                             <th>加班工時</th>
-                            <th>正常薪資</th>
+                            <th>時薪</th>
                             <th>加班費</th>
-                            <th>總薪資</th>
                         </tr>
                     </thead>
                     <tbody>
             `;
             
-            let totalRegularPay = 0;
             let totalOvertimePay = 0;
-            let totalPay = 0;
+            let totalOvertimeHours = 0;
             
             Object.values(employees)
-                .sort((a, b) => b.payrollData.totalPay - a.payrollData.totalPay)
+                .sort((a, b) => b.payrollData.overtimePay - a.payrollData.overtimePay)
                 .forEach(employee => {
                     const fullName = `${employee.firstName} ${employee.lastName}`.trim();
                     
-                    totalRegularPay += employee.payrollData.regularPay;
                     totalOvertimePay += employee.payrollData.overtimePay;
-                    totalPay += employee.payrollData.totalPay;
+                    totalOvertimeHours += employee.payrollData.overtimeHours;
+                    
+                    const overtimeClass = employee.payrollData.overtimeHours > 0 ? 'status-overtime' : '';
                     
                     tableHTML += `
                         <tr>
                             <td><strong>${employee.payrollId}</strong></td>
                             <td>${fullName}</td>
+                            <td>${employee.farm || '-'}</td>
                             <td>${employee.level}</td>
-                            <td>${employee.payrollData.regularHours}</td>
-                            <td>${employee.payrollData.overtimeHours}</td>
-                            <td class="money">${employee.payrollData.regularPay.toFixed(2)}</td>
-                            <td class="money">${employee.payrollData.overtimePay.toFixed(2)}</td>
-                            <td class="money"><strong>${employee.payrollData.totalPay.toFixed(2)}</strong></td>
+                            <td><strong>${employee.totalHours}h</strong></td>
+                            <td>${employee.payrollData.regularHours}h</td>
+                            <td class="${overtimeClass}">${employee.payrollData.overtimeHours}h</td>
+                            <td>${employee.hourlyRate.toFixed(2)}</td>
+                            <td class="money ${overtimeClass}"><strong>${employee.payrollData.overtimePay.toFixed(2)}</strong></td>
                         </tr>
                     `;
                 });
             
             tableHTML += `
                 <tr style="background: #f0f0f0; font-weight: bold;">
-                    <td colspan="5">總計</td>
-                    <td class="money">${totalRegularPay.toFixed(2)}</td>
-                    <td class="money">${totalOvertimePay.toFixed(2)}</td>
-                    <td class="money">${totalPay.toFixed(2)}</td>
+                    <td colspan="6">總計</td>
+                    <td class="status-overtime">${totalOvertimeHours}h</td>
+                    <td>-</td>
+                    <td class="money status-overtime">${totalOvertimePay.toFixed(2)}</td>
                 </tr>
             `;
             
             tableHTML += '</tbody></table>';
             container.innerHTML = tableHTML;
             
-            // 更新薪資摘要
+            // 更新薪資摘要（只顯示加班費相關）
             const totalEmployees = Object.keys(employees).length;
-            const overtimeEmployees = Object.values(employees).filter(emp => emp.totalHours > 304).length;
+            const overtimeEmployees = Object.values(employees).filter(emp => emp.payrollData.overtimeHours > 0).length;
+            const avgOvertimePay = overtimeEmployees > 0 ? (totalOvertimePay / overtimeEmployees) : 0;
             
             const summaryHTML = `
                 <div class="summary-card">
-                    <h3>${totalPay.toFixed(0)}</h3>
-                    <p>總薪資支出</p>
+                    <h3>${totalOvertimePay.toFixed(0)}</h3>
+                    <p>總加班費支出</p>
                 </div>
                 <div class="summary-card">
-                    <h3>${totalOvertimePay.toFixed(0)}</h3>
-                    <p>加班費支出</p>
+                    <h3>${totalOvertimeHours}</h3>
+                    <p>總加班工時</p>
                 </div>
                 <div class="summary-card">
                     <h3>${overtimeEmployees}</h3>
-                    <p>加班員工數</p>
+                    <p>需加班費員工</p>
                 </div>
                 <div class="summary-card">
-                    <h3>${totalEmployees > 0 ? (totalPay / totalEmployees).toFixed(0) : 0}</h3>
-                    <p>平均薪資</p>
+                    <h3>${avgOvertimePay.toFixed(0)}</h3>
+                    <p>平均加班費</p>
                 </div>
             `;
             document.getElementById('payroll-summary-cards').innerHTML = summaryHTML;
         }
         
-        // 匯出薪資報表（只包含加班費）
+        // 匯出薪資報表（加班費報表）
         function exportPayroll() {
             if (Object.keys(employees).length === 0) {
                 showMessage('沒有資料可以匯出', 'error');
@@ -2320,12 +2368,12 @@
             }
             
             const filteredEmployees = getFilteredEmployees();
-            let csvContent = 'Payroll ID,姓名,農場,職級,總工時,加班工時,時薪,加班費\n';
+            let csvContent = 'Payroll ID,姓名,農場,職級,總工時,正常工時,加班工時,時薪,加班費\n';
             
             filteredEmployees.forEach(employee => {
                 const fullName = `${employee.firstName} ${employee.lastName}`.trim();
                 
-                csvContent += `${employee.payrollId},"${fullName}",${employee.farm || ''},${employee.level},${employee.totalHours},${employee.payrollData.overtimeHours},${employee.hourlyRate},${employee.payrollData.overtimePay.toFixed(2)}\n`;
+                csvContent += `${employee.payrollId},"${fullName}",${employee.farm || ''},${employee.level},${employee.totalHours},${employee.payrollData.regularHours},${employee.payrollData.overtimeHours},${employee.hourlyRate},${employee.payrollData.overtimePay.toFixed(2)}\n`;
             });
             
             downloadCSV(csvContent, `加班費報表_${new Date().toISOString().split('T')[0]}.csv`);
