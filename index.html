@@ -557,76 +557,54 @@
         
         <!-- GitHub Token 設定區域 -->
         <div id="token-setup" class="token-setup">
-            <h3>🔑 系統設定</h3>
-            <p><strong>選擇設定方式：</strong></p>
+            <h3>🔑 GitHub Token 輸入</h3>
+            <p><strong>每次使用都需要輸入 GitHub Token</strong></p>
             
-            <!-- 方式選擇 -->
-            <div style="margin-bottom: 20px;">
-                <label style="display: block; margin-bottom: 10px;">
-                    <input type="radio" name="setup-mode" value="admin" onchange="switchSetupMode('admin')" checked>
-                    <strong>管理員模式：</strong> 我來設定 Token，其他人直接使用
-                </label>
-                <label style="display: block;">
-                    <input type="radio" name="setup-mode" value="individual" onchange="switchSetupMode('individual')">
-                    <strong>個人模式：</strong> 每個人使用自己的 GitHub Token
-                </label>
+            <div class="token-input-group">
+                <input 
+                    type="password" 
+                    id="github-token-input" 
+                    class="token-input" 
+                    placeholder="請輸入您的 GitHub Personal Access Token"
+                    value=""
+                >
+                <button class="save-token-btn" onclick="saveGitHubToken()">
+                    🔗 連接 GitHub
+                </button>
             </div>
             
-            <!-- 管理員設定模式 -->
-            <div id="admin-setup" class="setup-mode">
+            <div class="token-instructions">
+                <h4>📋 如何使用：</h4>
+                <ol>
+                    <li><strong>輸入 Token：</strong>將您的 GitHub Token 貼到上方輸入框</li>
+                    <li><strong>點擊連接：</strong>系統會測試連接並載入資料</li>
+                    <li><strong>開始使用：</strong>上傳工時表、查看報表等</li>
+                    <li><strong>關閉瀏覽器：</strong>Token 不會被保存，確保安全</li>
+                </ol>
+                
+                <h4>🔐 如何取得 GitHub Token：</h4>
+                <ol>
+                    <li>登入 GitHub → Settings → Developer settings → Personal access tokens</li>
+                    <li>點擊 "Generate new token (classic)"</li>
+                    <li>設定權限：勾選 <code>repo</code> 權限</li>
+                    <li>複製生成的 token（格式：ghp_xxxxxxxxxxxxxx）</li>
+                </ol>
+                
                 <div class="success-message">
-                    <h4>👨‍💼 管理員設定步驟：</h4>
-                    <ol>
-                        <li><strong>在代碼中設定 Token：</strong><br>
-                            找到代碼第 350 行左右：<code>let githubToken = '';</code><br>
-                            改為：<code>let githubToken = 'Key';</code>
-                        </li>
-                        <li><strong>修改設定：</strong><br>
-                            將 <code>ALLOW_CUSTOM_TOKEN = True </code> 改為 <code>false</code>
-                        </li>
-                        <li><strong>分享檔案：</strong><br>
-                            所有員工打開修改後的檔案就能直接使用，無需設定
-                        </li>
-                    </ol>
+                    <strong>✅ 安全優勢：</strong><br>
+                    • Token 不會儲存在電腦中<br>
+                    • 每次使用都需要重新輸入<br>
+                    • 適合共用電腦環境<br>
+                    • 關閉瀏覽器後 Token 自動清除
                 </div>
                 
                 <div class="warning-message">
-                    <strong>🎯 一勞永逸的解決方案：</strong><br>
-                    設定一次後，任何人在任何電腦上都能直接使用，不需要重複設定 Token。
+                    <strong>🎯 使用建議：</strong><br>
+                    • 建議建立專用的 GitHub 帳戶供工時系統使用<br>
+                    • 或使用公司統一的 GitHub Token<br>
+                    • Token 具有 GitHub 權限，請妥善保管<br>
+                    • 如果 Token 洩露，請立即撤銷並重新生成
                 </div>
-            </div>
-            
-            <!-- 個人設定模式 -->
-            <div id="individual-setup" class="setup-mode" style="display: none;">
-                <div class="token-input-group">
-                    <input 
-                        type="password" 
-                        id="github-token-input" 
-                        class="token-input" 
-                        placeholder="請輸入您的 GitHub Personal Access Token"
-                        value=""
-                    >
-                    <button class="save-token-btn" onclick="saveGitHubToken()">
-                        💾 儲存並連接
-                    </button>
-                </div>
-                
-                <div class="token-instructions">
-                    <h4>📋 如何取得 GitHub Token：</h4>
-                    <ol>
-                        <li>GitHub → Settings → Developer settings → Personal access tokens</li>
-                        <li>點擊 "Generate new token (classic)"</li>
-                        <li>設定權限：勾選 <code>repo</code> 權限</li>
-                        <li>複製 Token 並貼到上方輸入框</li>
-                    </ol>
-                </div>
-            </div>
-            
-            <div class="error-message">
-                <strong>🔒 安全提醒：</strong><br>
-                • GitHub Token 具有帳戶權限，請妥善保管<br>
-                • 建議建立專用的 GitHub 帳戶供工時系統使用<br>
-                • 如果 Token 洩露，請立即撤銷並重新生成
             </div>
         </div>
         
@@ -783,23 +761,22 @@
         let isGitHubConnected = false;
         
         // ================================
-        // 🔑 GitHub 設定區域 - 管理員設定
+        // 🔑 GitHub 設定區域 - 每次輸入模式
         // ================================
-        // 管理員請將您的 Token 填入下方，其他人就不需要再設定
-        let githubToken = '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; // 您的 GitHub Token
+        let githubToken = ''; // 每次使用都需要輸入
         
         const REPO_OWNER = 'lass120625';  // 您的 GitHub 用戶名
         const REPO_NAME = 'timesheet-system';  // Repository 名稱
         const DATA_FILE_NAME = 'timesheet_data.json';
         
-        // 管理員模式：員工不需要設定 Token
-        const ALLOW_CUSTOM_TOKEN = false;
+        // 每次輸入模式：用戶需要自己輸入 Token
+        const ALLOW_CUSTOM_TOKEN = true;
         
         // 初始化
         document.addEventListener('DOMContentLoaded', function() {
             loadSettings();
             loadLocalData();
-            updateProgress(0, '系統就緒');
+            updateProgress(0, '請先連接 GitHub 以開始使用');
         });
         
         // 切換設定模式
@@ -1018,80 +995,135 @@
             }
         }
         
-        // 連接到 GitHub
+        // 連接到 GitHub（增強版診斷）
         function connectToGitHub() {
+            console.log('開始 GitHub 連接測試...');
+            
             if (!githubToken) {
-                showMessage('❌ 請先設定 GitHub Token', 'error');
+                console.error('Token 未設定');
+                showMessage('❌ GitHub Token 未設定', 'error');
                 showTokenSetup();
                 return;
             }
             
-            updateGitHubStatus('loading', '正在連接 GitHub...');
+            console.log('Token 檢查通過，開始連接...');
+            updateGitHubStatus('loading', '正在測試 GitHub 連接...');
             
-            // 先測試 GitHub API 基本連線
+            // 測試 1: 基本 API 連接
+            console.log('測試 1: GitHub API 基本連接');
+            
             fetch('https://api.github.com/user', {
                 headers: {
                     'Authorization': `token ${githubToken}`,
-                    'Accept': 'application/vnd.github.v3+json'
+                    'Accept': 'application/vnd.github.v3+json',
+                    'User-Agent': 'Timesheet-System/1.0'
                 }
             })
             .then(response => {
+                console.log('API 回應狀態:', response.status);
+                console.log('API 回應標頭:', Object.fromEntries(response.headers.entries()));
+                
                 if (!response.ok) {
-                    if (response.status === 401) {
-                        throw new Error('Token 無效或已過期');
-                    } else {
-                        throw new Error(`GitHub API 認證失敗: HTTP ${response.status}`);
-                    }
+                    return response.json().then(errorData => {
+                        console.error('API 錯誤詳情:', errorData);
+                        if (response.status === 401) {
+                            throw new Error(`Token 認證失敗: ${errorData.message || '請檢查 Token 是否正確'}`);
+                        } else if (response.status === 403) {
+                            throw new Error(`權限不足: ${errorData.message || '請檢查 Token 權限設定'}`);
+                        } else {
+                            throw new Error(`API 錯誤 ${response.status}: ${errorData.message || response.statusText}`);
+                        }
+                    });
                 }
                 return response.json();
             })
             .then(user => {
+                console.log('✅ 用戶認證成功:', user.login);
                 showMessage(`✅ GitHub 認證成功！用戶：${user.login}`, 'success');
                 
-                // 接下來測試 Repository 存取
+                // 測試 2: Repository 存取
+                console.log('測試 2: Repository 存取測試');
+                console.log(`檢查 Repository: ${REPO_OWNER}/${REPO_NAME}`);
+                
                 return fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}`, {
                     headers: {
                         'Authorization': `token ${githubToken}`,
-                        'Accept': 'application/vnd.github.v3+json'
+                        'Accept': 'application/vnd.github.v3+json',
+                        'User-Agent': 'Timesheet-System/1.0'
                     }
                 });
             })
             .then(response => {
+                console.log('Repository 檢查狀態:', response.status);
+                
                 if (response.status === 404) {
-                    // Repository 不存在，詢問是否要建立
+                    console.log('❌ Repository 不存在');
                     showCreateRepositoryDialog();
-                    return;
+                    return null;
                 } else if (!response.ok) {
-                    throw new Error(`無法存取 Repository: HTTP ${response.status}`);
+                    return response.json().then(errorData => {
+                        console.error('Repository 存取錯誤:', errorData);
+                        throw new Error(`無法存取 Repository: ${errorData.message || `HTTP ${response.status}`}`);
+                    });
                 }
                 
                 return response.json();
             })
             .then(repo => {
                 if (repo) {
+                    console.log('✅ Repository 存取成功:', repo.full_name);
                     isGitHubConnected = true;
-                    updateGitHubStatus('connected', `✅ 已連接到 GitHub repository: ${repo.full_name}`);
-                    showMessage('✅ GitHub 連接成功！正在載入資料...');
+                    updateGitHubStatus('connected', `✅ 已連接到 Repository: ${repo.full_name}`);
+                    showMessage('✅ GitHub 連接完全成功！正在載入資料...');
                     syncFromGitHub();
                 }
             })
             .catch(error => {
-                console.error('GitHub 連接失敗:', error);
+                console.error('❌ GitHub 連接過程發生錯誤:', error);
+                console.error('錯誤堆疊:', error.stack);
+                
                 let errorMessage = error.message;
                 let suggestions = '';
                 
-                if (error.message.includes('Token 無效')) {
-                    suggestions = '<br><br>📝 解決方法：<br>1. 檢查 Token 是否正確<br>2. 確認 Token 未過期<br>3. 重新生成新的 Token';
+                if (error.message.includes('Token 認證失敗')) {
+                    suggestions = `
+                        <br><br>🔧 <strong>解決方法：</strong>
+                        <br>1. 檢查 Token 是否正確複製（目前長度：${githubToken.length}）
+                        <br>2. 確認 Token 格式：${githubToken.startsWith('ghp_') ? '✅ 正確' : '❌ 格式不正確'}
+                        <br>3. 到 GitHub 檢查 Token 是否仍然有效
+                        <br>4. 重新生成新的 Token
+                    `;
+                } else if (error.message.includes('權限不足')) {
+                    suggestions = `
+                        <br><br>🔧 <strong>解決方法：</strong>
+                        <br>1. 檢查 Token 權限是否包含 'repo'
+                        <br>2. 確認您對 Repository 有存取權限
+                        <br>3. 重新生成 Token 並確保勾選正確權限
+                    `;
                 } else if (error.message.includes('Repository')) {
-                    suggestions = '<br><br>📝 解決方法：<br>1. 確認 Repository 名稱正確<br>2. 檢查 Token 是否有 repo 權限<br>3. 建立新的 Repository';
+                    suggestions = `
+                        <br><br>🔧 <strong>解決方法：</strong>
+                        <br>1. 確認 Repository 名稱：${REPO_OWNER}/${REPO_NAME}
+                        <br>2. 檢查用戶名稱是否正確
+                        <br>3. 考慮建立新的 Repository
+                    `;
+                } else {
+                    suggestions = `
+                        <br><br>🔧 <strong>建議檢查：</strong>
+                        <br>1. 網路連接是否正常
+                        <br>2. 防火牆是否阻擋 GitHub API
+                        <br>3. 瀏覽器開發者工具的 Network 標籤查看詳細錯誤
+                    `;
                 }
                 
-                showMessage(`❌ GitHub 連接失敗: ${errorMessage}${suggestions}`, 'error');
-                updateGitHubStatus('disconnected', 'GitHub 連接失敗');
+                showMessage(`❌ GitHub 連接失敗<br><strong>錯誤：</strong>${errorMessage}${suggestions}`, 'error');
+                updateGitHubStatus('disconnected', `GitHub 連接失敗: ${errorMessage}`);
                 
-                // 如果是認證錯誤，顯示 token 設定區域
-                if (error.message.includes('Token') || error.message.includes('401')) {
-                    showTokenSetup();
+                // 根據錯誤類型決定是否顯示設定區域
+                if (error.message.includes('Token') || error.message.includes('認證') || error.message.includes('權限')) {
+                    setTimeout(() => {
+                        showTokenSetup();
+                    }, 1000);
                 }
             });
         }
