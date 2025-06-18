@@ -916,7 +916,7 @@
             </button>
         </div>
         
-        <div id="payroll-tab" class="tab-content">
+        <div id="payroll-tab" class="tab-content"> 
             <h2>💰 薪資計算結果</h2>
             <div class="summary-cards" id="payroll-summary-cards"></div>
             <div id="payroll-table-container"></div>
@@ -1679,7 +1679,7 @@
         function parseDate(dateString) {
             if (!dateString) return null;
             
-            // Try ISO YYYY-MM-DD
+            // Try ISOือบ-MM-DD
             let date = new Date(dateString);
             if (!isNaN(date.getTime()) && date.toISOString().slice(0,10) === dateString) {
                 return date;
@@ -2541,7 +2541,7 @@
             
             tableHTML += `
                 <tr style="background: #f0f0f0; font-weight: bold;">
-                    <td colspan="5" style="text-align: right;">總計</td> <td>-</td> <td class="money status-overtime">$${(Number(totalOvertimePayCurrentCycle) || 0).toFixed(2)}</td>
+                    <td colspan="5" style="text-align: right;">總計</td> <td>${Number(totalCycleHoursAllEmployees) || 0}</td> <td>-</td> <td class="money status-overtime">$${(Number(totalOvertimePayCurrentCycle) || 0).toFixed(2)}</td>
                     <td class="money">$${(Number(totalAccumulatedOvertimePayAllEmployees) || 0).toFixed(2)}</td> </tr>
             `;
             
