@@ -557,8 +557,8 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.05);
         }
 
-        .upload-summary h3 {
-            margin: 0 0 15px 0;
+        .summary-card h3 {
+            margin: 0 0 10px 0;
             color: #495057;
             font-size: 20px;
             border-bottom: 1px solid #eee;
@@ -746,7 +746,7 @@
                     <li><strong>安全性提醒：：</strong>Token 不會被儲存，關閉瀏覽器後自動清除，確保安全。</li>
                 </ol>
                 
-                <h4>🔐 如何取得 GitHub Token：</h4>
+                <h4>🔐 如何取得 GitHub Token：：</h4>
                 <ol>
                     <li>登入 GitHub → Settings → Developer settings → Personal access tokens</li>
                     <li>點擊 "Generate new token (classic)" 或 "Generate new token"</li>
@@ -755,7 +755,7 @@
                 </ol>
                 
                 <div class="success-message">
-                    <strong>✅ 安全優勢：</strong><br>
+                    <strong>✅ 安全優勢：：</strong><br>
                     • Token 不會被**持久化**儲存在電腦中<br>
                     • 每次使用都需要重新輸入，適合共用電腦環境<br>
                     • 關閉瀏覽器後 Token 從記憶體中自動清除
@@ -877,7 +877,7 @@
             <div class="tab" onclick="switchTab('payroll')">💰 薪資計算</div>
         </div>
         
-        <div id="overview-tab" class="tab-content active">
+        <div id="overview-tab" class="tab-content"> 
             <h2>👥 員工總覽與週期分析</h2>
             
             <div class="format-info">
@@ -1338,7 +1338,7 @@
         
         // Synchronize data from GitHub
         async function syncFromGitHub() {
-            if (!isGitHubConnected) { // Check if already connected, if so, no need to re-authenticate or re-fetch.
+            if (!isGitHubConnected) { 
                  // This condition is important: if user clicks sync button and it's already connected,
                  // it will just re-fetch without showing token setup or trying public access.
             }
@@ -1679,7 +1679,7 @@
         function parseDate(dateString) {
             if (!dateString) return null;
             
-            // Try YYYY-MM-DD
+            // Try ISO YYYY-MM-DD
             let date = new Date(dateString);
             if (!isNaN(date.getTime()) && date.toISOString().slice(0,10) === dateString) {
                 return date;
@@ -2541,8 +2541,7 @@
             
             tableHTML += `
                 <tr style="background: #f0f0f0; font-weight: bold;">
-                    <td colspan="4" style="text-align: right;">總計</td> <td>${Number(totalCycleHoursAllEmployees) || 0}</td>
-                    <td>-</td> <td class="money status-overtime">$${(Number(totalOvertimePayCurrentCycle) || 0).toFixed(2)}</td>
+                    <td colspan="5" style="text-align: right;">總計</td> <td>-</td> <td class="money status-overtime">$${(Number(totalOvertimePayCurrentCycle) || 0).toFixed(2)}</td>
                     <td class="money">$${(Number(totalAccumulatedOvertimePayAllEmployees) || 0).toFixed(2)}</td> </tr>
             `;
             
