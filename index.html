@@ -716,7 +716,6 @@
             <small>📊 GitHub 資料庫 | 🔄 即時同步 | 👥 團隊協作</small>
         </div>
         
-        <!-- GitHub Token 設定區域 -->
         <div id="token-setup" class="token-setup">
             <h3>🔑 GitHub Token 輸入</h3>
             <p><strong>為了您的安全，Token 不會被儲存，每次使用都需要重新輸入。</strong></p>
@@ -737,7 +736,7 @@
             <div class="token-instructions">
                 <h4>📋 如何使用：</h4>
                 <ol>
-                    <li><strong>輸入 Token：</strong>將您的 GitHub Token 貼到上方輸入框</li>
+                    <li><strong>輸入 Token：：</strong>將您的 GitHub Token 貼到上方輸入框</li>
                     <li><strong>點擊連接：：</strong>系統會測試連接並載入資料</li>
                     <li><strong>開始使用：：</strong>上傳工時表、查看報表等</li>
                     <li><strong>安全性提醒：：</strong>Token 不會被儲存，關閉瀏覽器後自動清除，確保安全。</li>
@@ -767,7 +766,6 @@
             </div>
         </div>
         
-        <!-- GitHub 資料庫概念說明 -->
         <div class="central-db-info">
             <h3>💡 GitHub 資料庫概念</h3>
             <div class="workflow-step">
@@ -788,7 +786,6 @@
             </div>
         </div>
         
-        <!-- GitHub 連接狀態 -->
         <div id="github-status" class="github-section github-disconnected">
             <h3>🐙 GitHub 連接狀態</h3>
             <p id="github-status-text">尚未連接到 GitHub repository</p>
@@ -808,7 +805,6 @@
                 🔌 中斷連接
             </button>
             
-            <!-- 新增清除資料按鈕 -->
             <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee;">
                 <button id="resetAllData" class="github-btn-danger action-btn" onclick="resetAllData()">
                     <span class="spinner" style="display: none;"></span>
@@ -826,7 +822,6 @@
             <div class="tab" onclick="switchTab('payroll')">💰 薪資計算</div>
         </div>
         
-        <!-- 上傳區域 -->
         <div id="upload-tab" class="tab-content active">
             <div class="format-info">
                 <h4>📊 工時表格式說明</h4>
@@ -838,8 +833,8 @@
                 </div>
                 <p><strong>重要格式說明：</strong></p>
                 <ul>
-                    <li>📅 <strong>Start Date</strong>：員工在該農場工作的第一天（只需在第一次上傳時提供，後續會自動保留），格式為 `YYYY-MM-DD`。</li>
-                    <li>📅 <strong>Work Week</strong>：工作週的週一日期（例如：2024-01-15 表示 2024年1月15日那一週），格式為 `YYYY-MM-DD`。</li>
+                    <li>📅 <strong>Start Date</strong>：員工在該農場工作的第一天（只需在第一次上傳時提供，後續會自動保留），格式為 `YYYY-MM-DD` 或 `DD/MM/YYYY`。</li>
+                    <li>📅 <strong>Work Week</strong>：工作週的週一日期（例如：2024-01-15 表示 2024年1月15日那一週），格式為 `YYYY-MM-DD` 或 `DD/MM/YYYY`。</li>
                     <li>🔢 <strong>週數計算</strong>：系統會自動根據 Start Date 和 Work Week 計算正確的週數</li>
                     <li>🏭 <strong>Farm/Level/Rate 更新</strong>：如果員工轉換農場或調整薪資，新資料會覆蓋舊資料</li>
                 </ul>
@@ -873,11 +868,9 @@
             <div id="validation-results" class="validation-results"></div>
         </div>
         
-        <!-- 員工總覽（整合週期分析） -->
         <div id="overview-tab" class="tab-content">
             <h2>👥 員工總覽與週期分析</h2>
             
-            <!-- 篩選器 -->
             <div class="format-info">
                 <h4>🔍 篩選選項</h4>
                 <div style="display: flex; gap: 20px; align-items: center; flex-wrap: wrap;">
@@ -888,13 +881,13 @@
                         </select>
                     </div>
                     <div>
-                        <label for="level-filter"><strong>職級：</strong></label>
+                        <label for="level-filter"><strong>職級：：</strong></label>
                         <select id="level-filter" onchange="updateAllTables()" style="padding: 8px 12px; margin-left: 8px; border-radius: 5px; border: 1px solid #ccc;">
                             <option value="">所有職級</option>
                         </select>
                     </div>
                     <div>
-                        <label for="status-filter"><strong>週期狀態：</strong></label>
+                        <label for="status-filter"><strong>週期狀態：：</strong></label>
                         <select id="status-filter" onchange="updateAllTables()" style="padding: 8px 12px; margin-left: 8px; border-radius: 5px; border: 1px solid #ccc;">
                             <option value="">所有狀態</option>
                             <option value="active">進行中</option>
@@ -916,7 +909,6 @@
             </button>
         </div>
         
-        <!-- 薪資計算 -->
         <div id="payroll-tab" class="tab-content">
             <h2>💰 薪資計算結果</h2>
             <div class="summary-cards" id="payroll-summary-cards"></div>
@@ -1193,8 +1185,7 @@
         // Connect to GitHub API
         async function connectToGitHub() {
             if (!githubToken) {
-                showMessage('❌ 請先設定 GitHub Token', 'error');
-                showTokenSetup();
+                showMessage('❌ 請先連接 GitHub', 'error');
                 return;
             }
             
@@ -1740,7 +1731,7 @@
                 updateProgress(20, '正在讀取工時表...');
                 
                 const data = await readFile(file);
-                const parsed = parseCSV(data);
+                const parsed = parseCSV(data); // Call the new parseCSV
                 
                 updateProgress(40, '驗證資料格式...');
                 
@@ -1831,7 +1822,7 @@
                 if (!workWeek) {
                     result.errors.push(`第${index + 2}行: Work Week 為空。`);
                 } else if (isNaN(parseDate(workWeek)?.getTime())) {
-                    result.errors.push(`第${index + 2}行: Work Week 日期格式錯誤 (${workWeek})，請使用 YYYY-MM-DD 格式。`);
+                    result.errors.push(`第${index + 2}行: Work Week 日期格式錯誤 (${workWeek})，請使用YYYY-MM-DD 或 DD/MM/YYYY 格式。`);
                 }
 
                 if (row['Start Date'] && isNaN(parseDate(row['Start Date'])?.getTime())) {
@@ -1937,6 +1928,7 @@
                 <div class="confirm-content">
                     <h3>⚠️ 發現 ${conflictCount} 個資料衝突</h3>
                     <p>以下工時資料已存在且工時數值不同，是否要用新上傳的資料覆蓋？</p>
+                    <p style="font-size: 14px; color: #666;">(僅顯示前 5 筆衝突)</p>
                     ${conflictsList}
                     <div class="confirm-buttons">
                         <button class="btn-confirm" onclick="confirmOverwrite(true)">覆蓋並更新</button>
@@ -1996,7 +1988,7 @@
                 uploadSummary.employees.add(payrollId);
                 uploadSummary.weeks.add(workWeekDate); 
                 
-                let employeeStartDate = '2024-01-01'; 
+                let employeeStartDate = '2024-01-01'; // Default value if not provided or invalid
                 if (startDateStr) {
                     const parsedStartDate = parseDate(startDateStr);
                     if (parsedStartDate && !isNaN(parsedStartDate.getTime())) {
@@ -2024,7 +2016,7 @@
                          const newParsedStartDate = parseDate(startDateStr);
                          if(newParsedStartDate && !isNaN(newParsedStartDate.getTime())) {
                             const currentStartDate = parseDate(employees[payrollId].startDate);
-                            if (!currentStartDate || newParsedStartDate.getTime() < currentStartDate.getTime()) {
+                            if (!currentStartDate || newParsedStartDate.getTime() < currentStartDate.getTime() || employees[payrollId].startDate === '2024-01-01') {
                                 employees[payrollId].startDate = newParsedStartDate.toISOString().slice(0, 10);
                             }
                          }
@@ -2395,27 +2387,27 @@
                     <span class="highlight">${summary.totalRecords}</span>
                 </div>
                 <div class="summary-item">
-                    <span>員工數量：</span>
+                    <span>員工數量：：</span>
                     <span class="highlight">${summary.employees.size}</span>
                 </div>
                 <div class="summary-item">
-                    <span>涵蓋週數：</span>
+                    <span>涵蓋週數：：</span>
                     <span>${weeksDisplay}</span>
                 </div>
                 <div class="summary-item">
-                    <span>新增記錄：</span>
+                    <span>新增記錄：：</span>
                     <span class="highlight">${summary.newRecords}</span>
                 </div>
                 <div class="summary-item">
-                    <span>更新記錄：</span>
+                    <span>更新記錄：：</span>
                     <span class="highlight">${summary.updatedRecords}</span>
                 </div>
                 <div class="summary-item">
-                    <span>上傳時間：</span>
+                    <span>上傳時間：：</span>
                     <span>${new Date().toLocaleString('zh-TW')}</span>
                 </div>
                 <div class="summary-item">
-                    <span>同步狀態：</span>
+                    <span>同步狀態：：</span>
                     <span class="highlight">${isGitHubConnected ? '已同步到 GitHub' : '未連接 GitHub (僅本地記憶體)'}</span>
                 </div>
             `;
@@ -2452,16 +2444,28 @@
             });
         }
         
+        // === MODIFIED parseCSV and parseCSVLine to handle TAB delimiters ===
         // Parse CSV text into an array of objects
         function parseCSV(csvText) {
             const lines = csvText.trim().split(/\r?\n/); 
             if (lines.length === 0) return [];
 
             const headerLine = lines[0];
-            const headers = parseCSVLine(headerLine);
+            // === Delimiter detection logic ===
+            // Prioritize comma if multiple commas found, else try tab.
+            // This makes it robust for both comma-separated and tab-separated.
+            const commaCount = (headerLine.match(/,/g) || []).length;
+            const tabCount = (headerLine.match(/\t/g) || []).length;
+            let delimiter = ','; // Default to comma
+            if (tabCount > commaCount && tabCount > 0) { // If tabs are more prevalent and exist
+                delimiter = '\t';
+            }
+            // === End Delimiter detection logic ===
+
+            const headers = parseCSVLine(headerLine, delimiter); 
             
             return lines.slice(1)
-                .map(line => parseCSVLine(line))
+                .map(line => parseCSVLine(line, delimiter)) 
                 .filter(values => values.some(val => val.trim() !== '')) // Filter out truly empty lines
                 .map(values => {
                     const row = {};
@@ -2480,30 +2484,14 @@
                 });
         }
 
-        // Helper function to parse a single CSV line, handling quoted commas and escaped quotes
-        function parseCSVLine(line) {
-            const values = [];
-            let current = '';
-            let inQuotes = false;
-            for (let i = 0; i < line.length; i++) {
-                const char = line[i];
-                if (char === '"') {
-                    if (inQuotes && i + 1 < line.length && line[i+1] === '"') {
-                        current += '"'; // Handle escaped quote "" -> "
-                        i++; 
-                    } else {
-                        inQuotes = !inQuotes;
-                    }
-                } else if (char === ',' && !inQuotes) {
-                    values.push(current.trim());
-                    current = '';
-                } else {
-                    current += char;
-                }
-            }
-            values.push(current.trim()); 
-            return values;
+        // Helper function to parse a single CSV line based on detected delimiter
+        function parseCSVLine(line, delimiter) {
+            // For simple tab/comma delimited, direct split is enough.
+            // If quotes around fields are expected, this would need more complex logic.
+            const values = line.split(delimiter); 
+            return values.map(val => val.trim()); 
         }
+        // === END MODIFIED parseCSV and parseCSVLine ===
         
         // Update all displayed tables (overview and payroll)
         function updateAllTables() {
