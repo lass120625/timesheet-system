@@ -9,66 +9,11 @@
       "hourlyRate": 30.13,
       "overtimeRate": 45.195,
       "weeklyHours": [
-        0,
+        24,
         38,
         0,
         0,
         38,
-        0,
-        0,
-        0
-      ],
-      "totalHours": 76,
-      "payrollData": {
-        "regularHours": 76,
-        "overtimeHours": 0,
-        "regularPay": 2289.88,
-        "overtimePay": 0,
-        "totalPay": 2289.88
-      }
-    },
-    "EQ-0122": {
-      "payrollId": "EQ-0122",
-      "firstName": "Wally",
-      "lastName": "Chang",
-      "startDate": "03/03/2025",
-      "level": "Level3",
-      "hourlyRate": 30.95,
-      "overtimeRate": 46.425,
-      "weeklyHours": [
-        0,
-        25,
-        0,
-        0,
-        30,
-        0,
-        0,
-        0
-      ],
-      "totalHours": 55,
-      "payrollData": {
-        "regularHours": 55,
-        "overtimeHours": 0,
-        "regularPay": 1702.25,
-        "overtimePay": 0,
-        "totalPay": 1702.25
-      }
-    },
-    "EQ-0003": {
-      "payrollId": "EQ-0003",
-      "firstName": "Joyce",
-      "lastName": "Chieh",
-      "startDate": "6/05/2025",
-      "level": "Level3",
-      "farm": "Bundaberg",
-      "hourlyRate": 30.95,
-      "overtimeRate": 46.425,
-      "weeklyHours": [
-        0,
-        0,
-        0,
-        0,
-        0,
         0,
         0,
         0
@@ -80,6 +25,63 @@
         "regularPay": 0,
         "overtimePay": 0,
         "totalPay": 0
+      },
+      "farm": "Caboolture"
+    },
+    "EQ-0122": {
+      "payrollId": "EQ-0122",
+      "firstName": "Wally",
+      "lastName": "Chang",
+      "startDate": "03/03/2025",
+      "level": "Level3",
+      "hourlyRate": 30.95,
+      "overtimeRate": 46.425,
+      "weeklyHours": [
+        24,
+        25,
+        0,
+        0,
+        30,
+        0,
+        0,
+        0
+      ],
+      "totalHours": 0,
+      "payrollData": {
+        "regularHours": 0,
+        "overtimeHours": 0,
+        "regularPay": 0,
+        "overtimePay": 0,
+        "totalPay": 0
+      },
+      "farm": "Tasmania"
+    },
+    "EQ-0003": {
+      "payrollId": "EQ-0003",
+      "firstName": "Joyce",
+      "lastName": "Chieh",
+      "startDate": "6/05/2025",
+      "level": "Level3",
+      "farm": "Bundaberg",
+      "hourlyRate": 30.95,
+      "overtimeRate": 46.425,
+      "weeklyHours": [
+        19,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "totalHours": 19,
+      "payrollData": {
+        "regularHours": 19,
+        "overtimeHours": 0,
+        "regularPay": 588.05,
+        "overtimePay": 0,
+        "totalPay": 588.05
       }
     }
   },
@@ -362,9 +364,39 @@
       "weekNumber": 22,
       "hours": 19,
       "uploadDate": "2025-06-18T06:15:09.384Z"
+    },
+    {
+      "payrollId": "EQ-0002",
+      "firstName": "Nash",
+      "lastName": "Chen",
+      "workWeek": "Week 1",
+      "workWeekDate": "02/06/2025",
+      "weekNumber": 1,
+      "hours": 38,
+      "uploadDate": "2025-06-18T07:27:29.995Z"
+    },
+    {
+      "payrollId": "EQ-0122",
+      "firstName": "Wally",
+      "lastName": "Chang",
+      "workWeek": "Week 1",
+      "workWeekDate": "02/06/2025",
+      "weekNumber": 1,
+      "hours": 25,
+      "uploadDate": "2025-06-18T07:27:29.995Z"
+    },
+    {
+      "payrollId": "EQ-0003",
+      "firstName": "Joyce",
+      "lastName": "Chieh",
+      "workWeek": "Week 1",
+      "workWeekDate": "12/05/2025",
+      "weekNumber": 1,
+      "hours": 21,
+      "uploadDate": "2025-06-18T07:27:29.995Z"
     }
   ],
-  "lastUpdated": "2025-06-18T06:15:09.384Z",
+  "lastUpdated": "2025-06-18T07:27:29.995Z",
   "version": "1.0",
   "systemName": "GitHub 版工時管理系統"
 }
