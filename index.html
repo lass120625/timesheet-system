@@ -995,23 +995,17 @@
             }
         }
         
-        // 連接到 GitHub（增強版診斷）
+        // 連接到 GitHub（簡化版本 - 移除除錯輸出）
         function connectToGitHub() {
-            console.log('開始 GitHub 連接測試...');
-            
             if (!githubToken) {
-                console.error('Token 未設定');
-                showMessage('❌ GitHub Token 未設定', 'error');
+                showMessage('❌ 請先設定 GitHub Token', 'error');
                 showTokenSetup();
                 return;
             }
             
-            console.log('Token 檢查通過，開始連接...');
-            updateGitHubStatus('loading', '正在測試 GitHub 連接...');
+            updateGitHubStatus('loading', '正在連接 GitHub...');
             
-            // 測試 1: 基本 API 連接
-            console.log('測試 1: GitHub API 基本連接');
-            
+            // 測試 GitHub API 連接
             fetch('https://api.github.com/user', {
                 headers: {
                     'Authorization': `token ${githubToken}`,
@@ -1020,31 +1014,21 @@
                 }
             })
             .then(response => {
-                console.log('API 回應狀態:', response.status);
-                console.log('API 回應標頭:', Object.fromEntries(response.headers.entries()));
-                
                 if (!response.ok) {
-                    return response.json().then(errorData => {
-                        console.error('API 錯誤詳情:', errorData);
-                        if (response.status === 401) {
-                            throw new Error(`Token 認證失敗: ${errorData.message || '請檢查 Token 是否正確'}`);
-                        } else if (response.status === 403) {
-                            throw new Error(`權限不足: ${errorData.message || '請檢查 Token 權限設定'}`);
-                        } else {
-                            throw new Error(`API 錯誤 ${response.status}: ${errorData.message || response.statusText}`);
-                        }
-                    });
+                    if (response.status === 401) {
+                        throw new Error('Token 認證失敗，請檢查 Token 是否正確');
+                    } else if (response.status === 403) {
+                        throw new Error('權限不足，請檢查 Token 權限設定');
+                    } else {
+                        throw new Error(`API 錯誤 ${response.status}`);
+                    }
                 }
                 return response.json();
             })
             .then(user => {
-                console.log('✅ 用戶認證成功:', user.login);
                 showMessage(`✅ GitHub 認證成功！用戶：${user.login}`, 'success');
                 
-                // 測試 2: Repository 存取
-                console.log('測試 2: Repository 存取測試');
-                console.log(`檢查 Repository: ${REPO_OWNER}/${REPO_NAME}`);
-                
+                // 測試 Repository 存取
                 return fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}`, {
                     headers: {
                         'Authorization': `token ${githubToken}`,
@@ -1054,24 +1038,17 @@
                 });
             })
             .then(response => {
-                console.log('Repository 檢查狀態:', response.status);
-                
                 if (response.status === 404) {
-                    console.log('❌ Repository 不存在');
                     showCreateRepositoryDialog();
                     return null;
                 } else if (!response.ok) {
-                    return response.json().then(errorData => {
-                        console.error('Repository 存取錯誤:', errorData);
-                        throw new Error(`無法存取 Repository: ${errorData.message || `HTTP ${response.status}`}`);
-                    });
+                    throw new Error(`無法存取 Repository: HTTP ${response.status}`);
                 }
                 
                 return response.json();
             })
             .then(repo => {
                 if (repo) {
-                    console.log('✅ Repository 存取成功:', repo.full_name);
                     isGitHubConnected = true;
                     updateGitHubStatus('connected', `✅ 已連接到 Repository: ${repo.full_name}`);
                     showMessage('✅ GitHub 連接完全成功！正在載入資料...');
@@ -1079,44 +1056,18 @@
                 }
             })
             .catch(error => {
-                console.error('❌ GitHub 連接過程發生錯誤:', error);
-                console.error('錯誤堆疊:', error.stack);
-                
                 let errorMessage = error.message;
                 let suggestions = '';
                 
                 if (error.message.includes('Token 認證失敗')) {
-                    suggestions = `
-                        <br><br>🔧 <strong>解決方法：</strong>
-                        <br>1. 檢查 Token 是否正確複製（目前長度：${githubToken.length}）
-                        <br>2. 確認 Token 格式：${githubToken.startsWith('ghp_') ? '✅ 正確' : '❌ 格式不正確'}
-                        <br>3. 到 GitHub 檢查 Token 是否仍然有效
-                        <br>4. 重新生成新的 Token
-                    `;
+                    suggestions = '<br><br>🔧 請檢查 Token 是否正確複製';
                 } else if (error.message.includes('權限不足')) {
-                    suggestions = `
-                        <br><br>🔧 <strong>解決方法：</strong>
-                        <br>1. 檢查 Token 權限是否包含 'repo'
-                        <br>2. 確認您對 Repository 有存取權限
-                        <br>3. 重新生成 Token 並確保勾選正確權限
-                    `;
+                    suggestions = '<br><br>🔧 請檢查 Token 權限是否包含 "repo"';
                 } else if (error.message.includes('Repository')) {
-                    suggestions = `
-                        <br><br>🔧 <strong>解決方法：</strong>
-                        <br>1. 確認 Repository 名稱：${REPO_OWNER}/${REPO_NAME}
-                        <br>2. 檢查用戶名稱是否正確
-                        <br>3. 考慮建立新的 Repository
-                    `;
-                } else {
-                    suggestions = `
-                        <br><br>🔧 <strong>建議檢查：</strong>
-                        <br>1. 網路連接是否正常
-                        <br>2. 防火牆是否阻擋 GitHub API
-                        <br>3. 瀏覽器開發者工具的 Network 標籤查看詳細錯誤
-                    `;
+                    suggestions = '<br><br>🔧 請確認 Repository 名稱正確';
                 }
                 
-                showMessage(`❌ GitHub 連接失敗<br><strong>錯誤：</strong>${errorMessage}${suggestions}`, 'error');
+                showMessage(`❌ GitHub 連接失敗: ${errorMessage}${suggestions}`, 'error');
                 updateGitHubStatus('disconnected', `GitHub 連接失敗: ${errorMessage}`);
                 
                 // 根據錯誤類型決定是否顯示設定區域
