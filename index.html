@@ -5,29 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GitHub 版工時管理系統</title>
     <style>
+        /* General Styles */
         body {
             font-family: 'Microsoft YaHei', sans-serif;
             max-width: 1400px;
             margin: 0 auto;
             padding: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            /* Softer gradient for a more 'exquisite' feel */
+            background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
             min-height: 100vh;
+            color: #333;
         }
-        
+
         .container {
             background: white;
             border-radius: 15px;
             padding: 30px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            /* Lighter, more subtle shadow */
+            box-shadow: 0 15px 30px rgba(0,0,0,0.08);
         }
-        
+
         h1 {
             color: #333;
             text-align: center;
             margin-bottom: 30px;
-            font-size: 28px;
+            font-size: 32px; /* Slightly larger */
+            font-weight: 600;
         }
-        
+
+        /* Token Setup */
         .token-setup {
             background: #f8f9fa;
             border: 2px solid #28a745;
@@ -35,19 +41,21 @@
             padding: 20px;
             margin-bottom: 30px;
         }
-        
+
         .token-setup h3 {
             color: #28a745;
             margin: 0 0 15px 0;
+            font-size: 22px;
         }
-        
+
         .token-input-group {
             display: flex;
             gap: 10px;
             align-items: center;
             margin-bottom: 15px;
+            flex-wrap: wrap; /* Allow wrapping on small screens */
         }
-        
+
         .token-input {
             flex: 1;
             padding: 12px;
@@ -55,35 +63,83 @@
             border-radius: 8px;
             font-family: monospace;
             font-size: 14px;
+            min-width: 200px; /* Ensure input is not too small */
         }
-        
+
         .token-input:focus {
-            border-color: #28a745;
+            border-color: #667eea; /* Focus color for inputs */
             outline: none;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.25);
         }
-        
+
         .save-token-btn {
-            background: #28a745;
+            background: #667eea; /* Use main theme color */
             color: white;
             border: none;
             padding: 12px 20px;
             border-radius: 8px;
             cursor: pointer;
             font-weight: bold;
+            transition: background 0.2s ease, transform 0.2s ease;
         }
-        
+
         .save-token-btn:hover {
-            background: #218838;
+            background: #506ee5; /* Darker shade on hover */
+            transform: translateY(-2px);
         }
-        
+
+        .save-token-btn:active {
+            transform: translateY(0);
+        }
+
         .token-instructions {
             background: #e7f3ff;
             border: 1px solid #b3d9ff;
             border-radius: 5px;
             padding: 15px;
             margin-top: 15px;
+            font-size: 14px;
+        }
+
+        /* Message Styles */
+        .success-message {
+            background: #e6ffe6;
+            color: #006600;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            border-left: 5px solid #006600;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+
+        .error-message {
+            background: #ffe6e6;
+            color: #cc0000;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            border-left: 5px solid #cc0000;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+
+        .warning-message {
+            background: #fff3cd;
+            color: #856404;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            border-left: 5px solid #ffc107;
+            opacity: 1;
+            transition: opacity 0.5s ease;
         }
         
+        .message-fadeout {
+            opacity: 0;
+        }
+
+        /* GitHub Section */
         .github-section {
             background: #f6f8fa;
             border: 2px solid #0366d6;
@@ -92,22 +148,22 @@
             margin-bottom: 30px;
             text-align: center;
         }
-        
+
         .github-connected {
             background: #d4edda;
             border-color: #28a745;
         }
-        
+
         .github-disconnected {
             background: #f8d7da;
             border-color: #dc3545;
         }
-        
+
         .github-loading {
             background: #fff3cd;
             border-color: #ffc107;
         }
-        
+
         .central-db-info {
             background: #e7f3ff;
             border: 2px solid #b3d9ff;
@@ -115,12 +171,13 @@
             padding: 20px;
             margin-bottom: 30px;
         }
-        
+
         .central-db-info h3 {
             color: #0066cc;
             margin: 0 0 15px 0;
+            font-size: 22px;
         }
-        
+
         .workflow-step {
             display: flex;
             align-items: center;
@@ -128,8 +185,9 @@
             padding: 10px;
             background: #f8f9fa;
             border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Subtle shadow for steps */
         }
-        
+
         .step-number {
             background: #667eea;
             color: white;
@@ -141,8 +199,10 @@
             justify-content: center;
             margin-right: 15px;
             font-weight: bold;
+            flex-shrink: 0; /* Prevent shrinking */
         }
-        
+
+        /* Upload Section */
         .upload-section {
             border: 2px dashed #667eea;
             border-radius: 10px;
@@ -152,23 +212,23 @@
             background: #f8f9ff;
             transition: all 0.3s ease;
         }
-        
+
         .upload-section:hover {
             border-color: #764ba2;
             background: #f0f2ff;
         }
-        
+
         .upload-section.dragover {
             border-color: #764ba2;
             background: #e8ebff;
-            transform: scale(1.02);
+            transform: scale(1.01); /* Slightly less aggressive scale */
         }
-        
+
         .file-input {
             display: none;
         }
-        
-        .upload-btn, .github-btn {
+
+        .upload-btn, .github-btn, .action-btn { /* Unified button styles */
             background: linear-gradient(45deg, #667eea, #764ba2);
             color: white;
             border: none;
@@ -176,29 +236,49 @@
             border-radius: 25px;
             cursor: pointer;
             font-size: 16px;
-            margin: 10px;
-            transition: transform 0.2s;
+            margin: 10px 5px; /* Adjust margin for multiple buttons */
+            transition: transform 0.2s, background 0.3s, box-shadow 0.2s;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Add shadow */
+            display: inline-flex; /* For spinner alignment */
+            align-items: center;
+            justify-content: center;
+            gap: 8px; /* Space for spinner */
         }
         
         .github-btn {
             background: linear-gradient(45deg, #0366d6, #0256cc);
         }
-        
+
         .github-btn-warning {
             background: linear-gradient(45deg, #ffc107, #e0a800);
             color: #333;
         }
         
-        .upload-btn:hover, .github-btn:hover {
-            transform: translateY(-2px);
+        .github-btn-danger { /* For clear data button */
+            background: linear-gradient(45deg, #dc3545, #c82333);
+            color: white;
         }
-        
-        .upload-btn:disabled {
+        .github-btn-danger:hover {
+            background: linear-gradient(45deg, #c82333, #bd2130);
+        }
+
+
+        .upload-btn:hover, .github-btn:hover, .action-btn:hover {
+            transform: translateY(-3px); /* More pronounced lift */
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15); /* Stronger shadow on hover */
+        }
+        .upload-btn:active, .github-btn:active, .action-btn:active {
+             transform: translateY(0);
+             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .upload-btn:disabled, .github-btn:disabled, .action-btn:disabled {
             background: #ccc;
             cursor: not-allowed;
             transform: none;
+            box-shadow: none;
         }
-        
+
         .file-info {
             margin-top: 15px;
             padding: 10px;
@@ -206,14 +286,17 @@
             border-radius: 5px;
             display: none;
         }
-        
+
+        /* Tabs */
         .tabs {
             display: flex;
             margin-bottom: 20px;
             border-bottom: 2px solid #eee;
             flex-wrap: wrap;
+            justify-content: center; /* Center tabs */
+            gap: 10px; /* Gap between tabs */
         }
-        
+
         .tab {
             padding: 15px 20px;
             cursor: pointer;
@@ -221,130 +304,134 @@
             transition: all 0.3s;
             min-width: 120px;
             text-align: center;
+            font-weight: 500;
+            color: #555;
         }
-        
+
         .tab.active {
             border-bottom-color: #667eea;
             color: #667eea;
             font-weight: bold;
+            background: #f0f2ff; /* Light background for active tab */
         }
-        
+        .tab:hover:not(.active) {
+            background: #f8faff;
+            color: #667eea;
+        }
+
         .tab-content {
             display: none;
+            padding-top: 10px; /* Give some space below tabs */
         }
-        
+
         .tab-content.active {
             display: block;
         }
-        
+
+        /* Tables */
         .employee-table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
-            font-size: 13px;
+            font-size: 14px; /* Slightly larger font */
         }
-        
+
         .employee-table th,
         .employee-table td {
             border: 1px solid #ddd;
-            padding: 8px;
+            padding: 10px 8px; /* More padding */
             text-align: left;
         }
-        
+
         .employee-table th {
             background: #667eea;
             color: white;
-            font-size: 12px;
+            font-size: 13px;
+            text-transform: uppercase; /* Uppercase headers */
+            letter-spacing: 0.5px;
         }
-        
+
         .employee-table tr:nth-child(even) {
             background: #f9f9f9;
         }
-        
+        .employee-table tr:hover {
+            background: #f0f2ff; /* Hover effect for table rows */
+        }
+
         .status-normal {
             color: #228B22;
             font-weight: bold;
         }
-        
+
         .status-overtime {
             color: #ff4444;
             font-weight: bold;
         }
-        
+
+        /* Progress Bar */
         .progress-bar {
             width: 100%;
             height: 20px;
-            background: #f0f0f0;
+            background: #e9ecef; /* Lighter background */
             border-radius: 10px;
             overflow: hidden;
             margin: 20px 0;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
         }
-        
+
         .progress-fill {
             height: 100%;
             background: linear-gradient(45deg, #667eea, #764ba2);
             width: 0%;
-            transition: width 0.3s;
+            transition: width 0.3s ease-out; /* Smoother transition */
         }
         
+        #progress-text {
+            text-align: center;
+            font-weight: 500;
+            color: #555;
+        }
+
+        /* Summary Cards */
         .summary-cards {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 15px;
             margin: 20px 0;
         }
-        
+
         .summary-card {
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
             padding: 20px;
             border-radius: 10px;
             text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1); /* Add shadow */
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
-        
+        .summary-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
         .summary-card h3 {
             margin: 0 0 10px 0;
-            font-size: 20px;
+            font-size: 24px; /* Larger font for key numbers */
+            font-weight: 700;
         }
-        
+
         .summary-card p {
             margin: 0;
-            font-size: 12px;
+            font-size: 14px;
             opacity: 0.9;
         }
-        
-        .error-message {
-            background: #ffe6e6;
-            color: #cc0000;
-            padding: 15px;
-            border-radius: 5px;
-            margin: 10px 0;
-            border-left: 5px solid #cc0000;
-        }
-        
-        .success-message {
-            background: #e6ffe6;
-            color: #006600;
-            padding: 15px;
-            border-radius: 5px;
-            margin: 10px 0;
-            border-left: 5px solid #006600;
-        }
-        
-        .warning-message {
-            background: #fff3cd;
-            color: #856404;
-            padding: 15px;
-            border-radius: 5px;
-            margin: 10px 0;
-            border-left: 5px solid #ffc107;
-        }
-        
+
+        /* Other utility styles */
         .money {
             color: #28a745;
             font-weight: bold;
         }
-        
+
         .format-info {
             background: #e7f3ff;
             border: 1px solid #b3d9ff;
@@ -353,133 +440,191 @@
             margin: 15px 0;
             font-size: 14px;
         }
-        
+
         .format-info h4 {
             margin: 0 0 10px 0;
             color: #0066cc;
+            font-size: 18px;
         }
-        
+
         .format-example {
             background: #f8f9fa;
             padding: 10px;
             border-radius: 5px;
             font-family: monospace;
             margin: 5px 0;
+            white-space: pre-wrap; /* Preserve line breaks */
+            word-break: break-all;
+            line-height: 1.5;
         }
-        
+        .format-info ul {
+            padding-left: 20px;
+            margin-top: 10px;
+        }
+        .format-info li {
+            margin-bottom: 5px;
+        }
+
+        /* Confirmation Dialog */
         .confirm-dialog {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.6); /* Slightly darker overlay */
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
         }
-        
+        .confirm-dialog.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
         .confirm-content {
             background: white;
             padding: 30px;
             border-radius: 15px;
             max-width: 600px;
-            max-height: 80%;
+            max-height: 90%; /* Allow more height */
             overflow-y: auto;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.25); /* Stronger shadow */
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+        .confirm-dialog.active .confirm-content {
+            transform: scale(1);
         }
         
+        .confirm-content h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            text-align: center;
+            color: #333;
+        }
+        .confirm-content p {
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 16px;
+        }
+
         .confirm-buttons {
             display: flex;
             gap: 15px;
             justify-content: center;
             margin-top: 20px;
         }
-        
+
+        .btn-confirm, .btn-cancel {
+            border: none;
+            padding: 12px 25px; /* More generous padding */
+            border-radius: 8px; /* Softer corners */
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s, transform 0.2s;
+        }
         .btn-confirm {
             background: #28a745;
             color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
         }
-        
+        .btn-confirm:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
         .btn-cancel {
             background: #dc3545;
             color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
         }
-        
+        .btn-cancel:hover {
+            background: #c82333;
+            transform: translateY(-2px);
+        }
+
+        /* Upload Summary */
         .upload-summary {
             background: #f8f9fa;
             border: 1px solid #dee2e6;
             border-radius: 8px;
             padding: 20px;
             margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
         }
-        
+
         .upload-summary h3 {
             margin: 0 0 15px 0;
             color: #495057;
+            font-size: 20px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
         }
-        
+
         .summary-item {
             display: flex;
             justify-content: space-between;
             padding: 8px 0;
             border-bottom: 1px solid #eee;
+            font-size: 15px;
         }
-        
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+
         .highlight {
             background: #fff3cd;
             padding: 2px 6px;
             border-radius: 3px;
+            font-weight: bold;
         }
         
+        /* Validation Results */
         .validation-results {
             margin: 20px 0;
         }
-        
+
         .validation-item {
-            padding: 10px;
-            margin: 5px 0;
+            padding: 12px; /* More padding */
+            margin: 8px 0; /* More margin */
             border-radius: 5px;
-            border-left: 4px solid;
+            border-left: 5px solid; /* Thicker border */
+            font-size: 15px;
         }
-        
+
         .validation-success {
             background: #d4edda;
             border-left-color: #28a745;
             color: #155724;
         }
-        
+
         .validation-warning {
             background: #fff3cd;
             border-left-color: #ffc107;
             color: #856404;
         }
-        
+
         .validation-error {
             background: #f8d7da;
             border-left-color: #dc3545;
             color: #721c24;
         }
-        
+
+        /* Last Sync Info */
         .last-sync {
             background: #f8f9fa;
             border: 1px solid #dee2e6;
             border-radius: 5px;
             padding: 10px;
-            margin: 10px 0;
+            margin: 10px auto; /* Center it */
             font-size: 14px;
             color: #6c757d;
+            display: inline-block; /* Adjust display for centering */
         }
         
+        /* Cycle Info Card */
         .cycle-info-card {
             background: #f8f9fa;
             border: 1px solid #dee2e6;
@@ -487,7 +632,7 @@
             padding: 15px;
             margin: 10px 0;
         }
-        
+
         .cycle-progress {
             width: 100%;
             height: 8px;
@@ -496,17 +641,17 @@
             margin: 8px 0;
             overflow: hidden;
         }
-        
+
         .cycle-progress-fill {
             height: 100%;
             background: linear-gradient(45deg, #28a745, #20c997);
             transition: width 0.3s;
         }
-        
+
         .cycle-progress-overtime {
             background: linear-gradient(45deg, #dc3545, #fd7e14);
         }
-        
+
         .cycle-status {
             display: inline-block;
             padding: 4px 12px;
@@ -516,35 +661,51 @@
             text-align: center;
             min-width: 80px;
         }
-        
+
         .cycle-active {
             background: #d4edda;
             color: #155724;
             border: 1px solid #c3e6cb;
         }
-        
+
         .cycle-complete {
             background: #fff3cd;
             color: #856404;
             border: 1px solid #ffeaa7;
         }
-        
+
         .cycle-overtime {
             background: #f8d7da;
             color: #721c24;
             border: 1px solid #f5c6cb;
         }
-        
+
         .cycle-pending {
             background: #e7f3ff;
             color: #0066cc;
             border: 1px solid #b3d9ff;
         }
         
-        .token-saved {
-            background: #d4edda;
-            border-color: #c3e6cb;
-            color: #155724;
+        /* Loading spinner */
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid #fff;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 5px;
+        }
+        .spinner-dark {
+            border: 3px solid rgba(0, 0, 0, 0.2);
+            border-top: 3px solid #333;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
@@ -555,20 +716,19 @@
             <small>📊 GitHub 資料庫 | 🔄 即時同步 | 👥 團隊協作</small>
         </div>
         
-        <!-- GitHub Token 設定區域 -->
         <div id="token-setup" class="token-setup">
             <h3>🔑 GitHub Token 輸入</h3>
-            <p><strong>每次使用都需要輸入 GitHub Token</strong></p>
+            <p><strong>為了您的安全，Token 不會被儲存，每次使用都需要重新輸入。</strong></p>
             
             <div class="token-input-group">
                 <input 
                     type="password" 
                     id="github-token-input" 
                     class="token-input" 
-                    placeholder="請輸入您的 GitHub Personal Access Token"
-                    value=""
+                    placeholder="請輸入您的 GitHub Personal Access Token (ghp_ 或 github_pat_ 開頭)"
+                    title="請輸入您的 GitHub Personal Access Token"
                 >
-                <button class="save-token-btn" onclick="saveGitHubToken()">
+                <button id="save-token-btn" class="save-token-btn" onclick="saveGitHubToken()">
                     🔗 連接 GitHub
                 </button>
             </div>
@@ -579,36 +739,33 @@
                     <li><strong>輸入 Token：</strong>將您的 GitHub Token 貼到上方輸入框</li>
                     <li><strong>點擊連接：</strong>系統會測試連接並載入資料</li>
                     <li><strong>開始使用：</strong>上傳工時表、查看報表等</li>
-                    <li><strong>關閉瀏覽器：</strong>Token 不會被保存，確保安全</li>
+                    <li><strong>安全性提醒：</strong>Token 不會被儲存，關閉瀏覽器後自動清除，確保安全。</li>
                 </ol>
                 
                 <h4>🔐 如何取得 GitHub Token：</h4>
                 <ol>
                     <li>登入 GitHub → Settings → Developer settings → Personal access tokens</li>
-                    <li>點擊 "Generate new token (classic)"</li>
-                    <li>設定權限：勾選 <code>repo</code> 權限</li>
-                    <li>複製生成的 token（格式：ghp_xxxxxxxxxxxxxx）</li>
+                    <li>點擊 "Generate new token (classic)" 或 "Generate new token"</li>
+                    <li>設定權限：勾選 <code>repo</code> 權限 (必要)</li>
+                    <li>複製生成的 token（格式：ghp_xxxxxxxxxxxxxx 或 github_pat_xxxxxxxxxxxxxx）</li>
                 </ol>
                 
                 <div class="success-message">
                     <strong>✅ 安全優勢：</strong><br>
-                    • Token 不會儲存在電腦中<br>
-                    • 每次使用都需要重新輸入<br>
-                    • 適合共用電腦環境<br>
-                    • 關閉瀏覽器後 Token 自動清除
+                    • Token 不會被**持久化**儲存在電腦中<br>
+                    • 每次使用都需要重新輸入，適合共用電腦環境<br>
+                    • 關閉瀏覽器後 Token 從記憶體中自動清除
                 </div>
                 
                 <div class="warning-message">
                     <strong>🎯 使用建議：</strong><br>
                     • 建議建立專用的 GitHub 帳戶供工時系統使用<br>
                     • 或使用公司統一的 GitHub Token<br>
-                    • Token 具有 GitHub 權限，請妥善保管<br>
-                    • 如果 Token 洩露，請立即撤銷並重新生成
+                    • Token 具有 GitHub 權限，請妥善保管，如果洩露請立即撤銷並重新生成
                 </div>
             </div>
         </div>
         
-        <!-- GitHub 資料庫概念說明 -->
         <div class="central-db-info">
             <h3>💡 GitHub 資料庫概念</h3>
             <div class="workflow-step">
@@ -629,7 +786,6 @@
             </div>
         </div>
         
-        <!-- GitHub 連接狀態 -->
         <div id="github-status" class="github-section github-disconnected">
             <h3>🐙 GitHub 連接狀態</h3>
             <p id="github-status-text">尚未連接到 GitHub repository</p>
@@ -637,18 +793,21 @@
                 <strong>最後同步：</strong><span id="sync-time">尚未同步</span>
             </div>
             <button id="github-sync-btn" class="github-btn" onclick="syncFromGitHub()" style="display: none;">
+                <span class="spinner" style="display: none;"></span>
                 🔄 從 GitHub 載入最新資料
             </button>
             <button id="github-download-btn" class="github-btn" onclick="downloadFromGitHub()" style="display: none;">
+                <span class="spinner" style="display: none;"></span>
                 📥 下載完整資料檔
             </button>
             <button id="github-disconnect-btn" class="github-btn-warning" onclick="disconnectGitHub()" style="display: none;">
+                <span class="spinner spinner-dark" style="display: none;"></span>
                 🔌 中斷連接
             </button>
             
-            <!-- 新增清除資料按鈕 -->
             <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee;">
-                <button class="github-btn-warning" onclick="resetAllData()" style="background: #dc3545;">
+                <button id="resetAllData" class="github-btn-danger action-btn" onclick="resetAllData()">
+                    <span class="spinner" style="display: none;"></span>
                     🗑️ 清除所有資料
                 </button>
                 <p style="font-size: 12px; color: #666; margin: 5px 0 0 0;">
@@ -663,7 +822,6 @@
             <div class="tab" onclick="switchTab('payroll')">💰 薪資計算</div>
         </div>
         
-        <!-- 上傳區域 -->
         <div id="upload-tab" class="tab-content active">
             <div class="format-info">
                 <h4>📊 工時表格式說明</h4>
@@ -675,8 +833,8 @@
                 </div>
                 <p><strong>重要格式說明：</strong></p>
                 <ul>
-                    <li>📅 <strong>Start Date</strong>：員工在該農場工作的第一天（只需在第一次上傳時提供，後續會自動保留）</li>
-                    <li>📅 <strong>Work Week</strong>：工作週的週一日期（例如：2024-01-15 表示 2024年1月15日那一週）</li>
+                    <li>📅 <strong>Start Date</strong>：員工在該農場工作的第一天（只需在第一次上傳時提供，後續會自動保留），格式為 `YYYY-MM-DD`。</li>
+                    <li>📅 <strong>Work Week</strong>：工作週的週一日期（例如：2024-01-15 表示 2024年1月15日那一週），格式為 `YYYY-MM-DD`。</li>
                     <li>🔢 <strong>週數計算</strong>：系統會自動根據 Start Date 和 Work Week 計算正確的週數</li>
                     <li>🏭 <strong>Farm/Level/Rate 更新</strong>：如果員工轉換農場或調整薪資，新資料會覆蓋舊資料</li>
                 </ul>
@@ -694,7 +852,8 @@
             <div class="upload-section" id="timesheet-upload">
                 <h3>📋 上傳工時表 (CSV)</h3>
                 <p>上傳後將自動整合並推送到 GitHub repository</p>
-                <button class="upload-btn" onclick="document.getElementById('timesheet-file').click()">
+                <button id="upload-file-btn" class="upload-btn" onclick="document.getElementById('timesheet-file').click()">
+                    <span class="spinner" style="display: none;"></span>
                     選擇工時表文件
                 </button>
                 <input type="file" id="timesheet-file" class="file-input" accept=".csv" onchange="handleTimesheetFile(event)">
@@ -709,53 +868,53 @@
             <div id="validation-results" class="validation-results"></div>
         </div>
         
-        <!-- 員工總覽（整合週期分析） -->
         <div id="overview-tab" class="tab-content">
             <h2>👥 員工總覽與週期分析</h2>
             
-            <!-- 篩選器 -->
             <div class="format-info">
                 <h4>🔍 篩選選項</h4>
                 <div style="display: flex; gap: 20px; align-items: center; flex-wrap: wrap;">
                     <div>
-                        <label><strong>農場：</strong></label>
-                        <select id="farm-filter" onchange="updateAllTables()" style="padding: 5px 10px; margin-left: 8px;">
+                        <label for="farm-filter"><strong>農場：</strong></label>
+                        <select id="farm-filter" onchange="updateAllTables()" style="padding: 8px 12px; margin-left: 8px; border-radius: 5px; border: 1px solid #ccc;">
                             <option value="">所有農場</option>
                         </select>
                     </div>
                     <div>
-                        <label><strong>職級：</strong></label>
-                        <select id="level-filter" onchange="updateAllTables()" style="padding: 5px 10px; margin-left: 8px;">
+                        <label for="level-filter"><strong>職級：</strong></label>
+                        <select id="level-filter" onchange="updateAllTables()" style="padding: 8px 12px; margin-left: 8px; border-radius: 5px; border: 1px solid #ccc;">
                             <option value="">所有職級</option>
                         </select>
                     </div>
                     <div>
-                        <label><strong>週期狀態：</strong></label>
-                        <select id="status-filter" onchange="updateAllTables()" style="padding: 5px 10px; margin-left: 8px;">
+                        <label for="status-filter"><strong>週期狀態：</strong></label>
+                        <select id="status-filter" onchange="updateAllTables()" style="padding: 8px 12px; margin-left: 8px; border-radius: 5px; border: 1px solid #ccc;">
                             <option value="">所有狀態</option>
                             <option value="active">進行中</option>
                             <option value="overtime">需加班費</option>
                             <option value="complete">已完成</option>
+                            <option value="pending">未開始</option>
                         </select>
                     </div>
-                    <button onclick="clearFilters()" style="padding: 5px 15px; background: #6c757d; color: white; border: none; border-radius: 3px;">清除篩選</button>
+                    <button class="action-btn" onclick="clearFilters()" style="background: #6c757d; color: white; padding: 8px 18px; border-radius: 5px; box-shadow: none;">清除篩選</button>
                 </div>
             </div>
             
             <div class="summary-cards" id="overview-summary-cards"></div>
             <div id="overview-table-container"></div>
             
-            <button class="upload-btn" onclick="exportOverview()" style="margin-top: 20px;">
+            <button id="exportOverview" class="upload-btn action-btn" onclick="exportOverview()" style="margin-top: 20px;">
+                <span class="spinner" style="display: none;"></span>
                 📥 匯出員工總覽報告 (CSV)
             </button>
         </div>
         
-        <!-- 薪資計算 -->
         <div id="payroll-tab" class="tab-content">
             <h2>💰 薪資計算結果</h2>
             <div class="summary-cards" id="payroll-summary-cards"></div>
             <div id="payroll-table-container"></div>
-            <button class="upload-btn" onclick="exportPayroll()" style="margin-top: 20px;">
+            <button id="exportPayroll" class="upload-btn action-btn" onclick="exportPayroll()" style="margin-top: 20px;">
+                <span class="spinner" style="display: none;"></span>
                 📥 匯出薪資報表 (CSV)
             </button>
         </div>
@@ -771,22 +930,23 @@
         let isGitHubConnected = false;
         
         // ================================
-        // 🔑 GitHub 設定區域 - 每次輸入模式
+        // 🔑 GitHub 設定區域 - 每次輸入模式 (已移除 localStorage 儲存)
         // ================================
-        let githubToken = ''; // 每次使用都需要輸入
+        let githubToken = ''; // 每次使用都需要輸入，不再持久化儲存
         
         const REPO_OWNER = 'lass120625';  // 您的 GitHub 用戶名
         const REPO_NAME = 'timesheet-system';  // Repository 名稱
         const DATA_FILE_NAME = 'timesheet_data.json';
         
-        // 每次輸入模式：用戶需要自己輸入 Token
-        const ALLOW_CUSTOM_TOKEN = true;
+        // 常數定義
+        const REGULAR_HOURS_THRESHOLD = 304; // 8週週期正常工時上限 (8週 * 38小時/週)
+        const WEEKS_PER_CYCLE = 8; // 每週期的週數
         
         // 初始化
         document.addEventListener('DOMContentLoaded', function() {
-            // 清除所有舊資料
-            clearAllData();
-            loadSettings();
+            // 清除所有舊資料，確保每次開啟都從零開始（符合不儲存 Token 的邏輯）
+            // clearAllData(); // 初始頁面載入時不需要清除，因為資料將從 GitHub 載入或等待上傳
+            loadSettings(); // 執行連接邏輯
             updateProgress(0, '請先連接 GitHub 以開始使用');
         });
         
@@ -795,11 +955,11 @@
             employees = {};
             timesheetData = [];
             
-            // 清除 localStorage
+            // 清除 localStorage (如果之前有存過，確保清空)
             try {
                 localStorage.removeItem('timesheet_employees');
                 localStorage.removeItem('timesheet_data');
-                localStorage.removeItem('github_token');
+                localStorage.removeItem('github_token'); // 確保移除舊的 token
                 console.log('✅ 已清除所有本地資料');
             } catch (error) {
                 console.log('清除資料時發生錯誤:', error);
@@ -807,64 +967,87 @@
         }
         
         // 手動清除資料按鈕功能
-        function resetAllData() {
+        async function resetAllData() {
             if (confirm('⚠️ 確定要清除所有資料嗎？\n\n這將會刪除：\n• 所有員工資料\n• 所有工時記錄\n• 本地儲存的資料\n\n此操作無法復原！')) {
+                // 顯示載入狀態
+                setButtonLoading('resetAllData', true, '清除中...');
+
                 clearAllData();
                 updateAllTables();
                 showMessage('🗑️ 所有資料已清除！可以重新開始上傳。', 'warning');
+                
+                // 嘗試清空 GitHub 上的檔案
+                if (isGitHubConnected && githubToken) {
+                    try {
+                        showMessage('嘗試從 GitHub 刪除資料檔案...', 'warning');
+                        await deleteGitHubFile(DATA_FILE_NAME);
+                        showMessage('✅ GitHub 資料檔案已刪除。', 'success');
+                    } catch (error) {
+                        showMessage(`❌ 從 GitHub 刪除檔案失敗: ${error.message}<br>請手動前往 GitHub repository 刪除檔案。`, 'error');
+                        console.error('從 GitHub 刪除檔案失敗:', error);
+                    }
+                }
                 
                 // 重新載入頁面以確保完全重置
                 setTimeout(() => {
                     location.reload();
                 }, 2000);
+
+                setButtonLoading('resetAllData', false, '清除所有資料'); // 重置載入狀態
             }
         }
         
-        // 切換設定模式
-        function switchSetupMode(mode) {
-            const adminSetup = document.getElementById('admin-setup');
-            const individualSetup = document.getElementById('individual-setup');
-            
-            if (mode === 'admin') {
-                adminSetup.style.display = 'block';
-                individualSetup.style.display = 'none';
-            } else {
-                adminSetup.style.display = 'none';
-                individualSetup.style.display = 'block';
+        // 刪除 GitHub 檔案
+        async function deleteGitHubFile(filePath) {
+            const getFileResponse = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${filePath}`, {
+                headers: {
+                    'Authorization': `token ${githubToken}`,
+                    'Accept': 'application/vnd.github.v3+json'
+                }
+            });
+
+            if (getFileResponse.status === 404) {
+                // File does not exist, nothing to delete
+                return;
+            }
+
+            if (!getFileResponse.ok) {
+                throw new Error(`Failed to get file SHA: HTTP ${getFileResponse.status}`);
+            }
+
+            const fileData = await getFileResponse.json();
+            const sha = fileData.sha;
+
+            const deleteResponse = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${filePath}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `token ${githubToken}`,
+                    'Accept': 'application/vnd.github.v3+json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    message: `Delete ${filePath} for timesheet system reset - ${new Date().toLocaleString('zh-TW')}`,
+                    sha: sha
+                })
+            });
+
+            if (!deleteResponse.ok) {
+                const errorData = await deleteResponse.json();
+                throw new Error(`Failed to delete file: ${errorData.message || deleteResponse.statusText}`);
             }
         }
-        
-        // 載入設定
+
+        // 載入設定（不從 localStorage 載入 Token）
         function loadSettings() {
-            // 檢查是否有預設的 GitHub Token（在代碼中設定）
-            if (githubToken && githubToken !== '') {
-                // 有預設 Token，隱藏設定區域並自動連接
-                hideTokenSetup();
-                connectToGitHub();
-                return;
-            }
-            
-            // 沒有預設 Token，檢查是否允許用戶輸入
-            if (!ALLOW_CUSTOM_TOKEN) {
-                // 不允許用戶輸入，顯示管理員設定提示
-                showAdminSetupMessage();
-                return;
-            }
-            
-            // 允許用戶輸入，從 localStorage 載入已儲存的 token
-            const savedToken = localStorage.getItem('github_token');
-            if (savedToken) {
-                githubToken = savedToken;
-                document.getElementById('github-token-input').value = savedToken;
-                hideTokenSetup();
-                connectToGitHub();
-            }
+            // 由於不儲存 Token，這裡只負責顯示 Token 輸入介面
+            showTokenSetup();
+            updateGitHubStatus('disconnected', '尚未連接到 GitHub repository');
         }
         
         // 顯示建立 Repository 對話框
         function showCreateRepositoryDialog() {
             const dialog = document.createElement('div');
-            dialog.className = 'confirm-dialog';
+            dialog.className = 'confirm-dialog active'; // Add active class to show it
             
             dialog.innerHTML = `
                 <div class="confirm-content">
@@ -884,7 +1067,7 @@
                             🆕 自動建立 Repository
                         </button>
                         <button class="btn-cancel" onclick="showRepositorySettings()">
-                            ⚙️ 修改設定
+                            ⚙️ 修改設定 (需手動修改代碼)
                         </button>
                         <button class="btn-cancel" onclick="closeCreateDialog()">
                             ❌ 取消
@@ -900,7 +1083,8 @@
         async function createRepository() {
             try {
                 showMessage('🔨 正在建立 Repository...', 'warning');
-                
+                setButtonLoading('createRepository', true, '建立中...'); // Example: assuming a button ID or direct manipulation
+
                 const response = await fetch('https://api.github.com/user/repos', {
                     method: 'POST',
                     headers: {
@@ -911,8 +1095,8 @@
                     body: JSON.stringify({
                         name: REPO_NAME,
                         description: 'GitHub 版工時管理系統 - 自動建立',
-                        private: false,
-                        auto_init: true
+                        private: false, // For public access, change to true for private
+                        auto_init: true // Creates README.md
                     })
                 });
                 
@@ -937,6 +1121,8 @@
             } catch (error) {
                 showMessage(`❌ 建立 Repository 失敗: ${error.message}`, 'error');
                 console.error('建立 Repository 失敗:', error);
+            } finally {
+                setButtonLoading('createRepository', false, '自動建立 Repository'); // This assumes the button has this ID
             }
         }
         
@@ -947,25 +1133,27 @@
             const currentOwner = REPO_OWNER;
             const currentName = REPO_NAME;
             
-            const newOwner = prompt(`請輸入 GitHub 用戶名稱（目前：${currentOwner}）：`, currentOwner);
-            if (newOwner && newOwner !== currentOwner) {
-                const newName = prompt(`請輸入 Repository 名稱（目前：${currentName}）：`, currentName);
-                if (newName) {
-                    showMessage(`⚙️ 請在代碼中修改設定：<br>REPO_OWNER = '${newOwner}'<br>REPO_NAME = '${newName}'<br>然後重新載入頁面`, 'warning');
-                }
-            }
+            // This is just a prompt, actual change requires code modification as indicated
+            alert(`
+                請手動修改代碼中的 REPO_OWNER 和 REPO_NAME 常數，並重新載入頁面。
+
+                目前設定：
+                REPO_OWNER = '${currentOwner}'
+                REPO_NAME = '${currentName}'
+            `);
         }
         
         // 關閉建立對話框
         function closeCreateDialog() {
             const dialog = document.querySelector('.confirm-dialog');
             if (dialog) {
-                dialog.remove();
+                dialog.classList.remove('active');
+                setTimeout(() => dialog.remove(), 300); // Allow fade-out animation
             }
         }
         
-        // 儲存 GitHub Token
-        function saveGitHubToken() {
+        // 儲存 GitHub Token (不再儲存到 localStorage)
+        async function saveGitHubToken() {
             const tokenInput = document.getElementById('github-token-input');
             const token = tokenInput.value.trim();
             
@@ -974,21 +1162,22 @@
                 return;
             }
             
-            // 驗證 token 格式（GitHub Personal Access Token 通常以 ghp_ 開頭）
+            // 驗證 token 格式（GitHub Personal Access Token 通常以 ghp_ 或 github_pat_ 開頭）
             if (!token.startsWith('ghp_') && !token.startsWith('github_pat_')) {
                 showMessage('Token 格式可能不正確，請確認是否為正確的 GitHub Personal Access Token', 'warning');
+                // return; // Allow user to proceed with potentially malformed token, but warn them
             }
             
             githubToken = token;
             
-            // 只有在允許自訂 Token 時才儲存到 localStorage
-            if (ALLOW_CUSTOM_TOKEN) {
-                localStorage.setItem('github_token', token);
-            }
+            // 顯示載入狀態
+            setButtonLoading('save-token-btn', true, '連接中...');
             
-            showMessage('✅ GitHub Token 已儲存！正在連接...', 'success');
-            hideTokenSetup();
-            connectToGitHub();
+            try {
+                await connectToGitHub();
+            } finally {
+                setButtonLoading('save-token-btn', false, '連接 GitHub');
+            }
         }
         
         // 隱藏 Token 設定區域
@@ -1003,41 +1192,25 @@
             tokenSetup.style.display = 'block';
         }
         
-        // 載入本地資料
+        // 載入本地資料 (僅供記憶體使用，不從 localStorage 讀取)
         function loadLocalData() {
-            try {
-                const savedEmployees = localStorage.getItem('timesheet_employees');
-                const savedTimesheet = localStorage.getItem('timesheet_data');
-                
-                if (savedEmployees) {
-                    employees = JSON.parse(savedEmployees);
-                }
-                
-                if (savedTimesheet) {
-                    timesheetData = JSON.parse(savedTimesheet);
-                }
-                
-                if (Object.keys(employees).length > 0) {
-                    updateAllTables();
-                    showMessage('📂 已載入本地資料');
-                }
-            } catch (error) {
-                console.error('載入本地資料失敗:', error);
+            // 目前邏輯中，本地資料只在 GitHub 同步成功後才填充
+            // 此函數的存在主要用於未來擴展或本地測試
+            // 實際上，數據主要來自 GitHub
+            if (Object.keys(employees).length > 0) {
+                updateAllTables();
+                // showMessage('📂 已載入本地記憶體資料'); // 避免頻繁提示
             }
         }
         
-        // 儲存本地資料
+        // 儲存本地資料 (僅限記憶體，不使用 localStorage)
         function saveLocalData() {
-            try {
-                localStorage.setItem('timesheet_employees', JSON.stringify(employees));
-                localStorage.setItem('timesheet_data', JSON.stringify(timesheetData));
-            } catch (error) {
-                console.error('儲存本地資料失敗:', error);
-            }
+            // 在此應用中，數據只在記憶體中維護，並在每次上傳時推送到 GitHub
+            // 此函數可為未來可能實現的離線模式做準備，但目前不實際儲存到 localStorage
         }
         
-        // 連接到 GitHub（簡化版本 - 移除除錯輸出）
-        function connectToGitHub() {
+        // 連接到 GitHub
+        async function connectToGitHub() {
             if (!githubToken) {
                 showMessage('❌ 請先設定 GitHub Token', 'error');
                 showTokenSetup();
@@ -1046,57 +1219,53 @@
             
             updateGitHubStatus('loading', '正在連接 GitHub...');
             
-            // 測試 GitHub API 連接
-            fetch('https://api.github.com/user', {
-                headers: {
-                    'Authorization': `token ${githubToken}`,
-                    'Accept': 'application/vnd.github.v3+json',
-                    'User-Agent': 'Timesheet-System/1.0'
-                }
-            })
-            .then(response => {
-                if (!response.ok) {
-                    if (response.status === 401) {
-                        throw new Error('Token 認證失敗，請檢查 Token 是否正確');
-                    } else if (response.status === 403) {
-                        throw new Error('權限不足，請檢查 Token 權限設定');
-                    } else {
-                        throw new Error(`API 錯誤 ${response.status}`);
-                    }
-                }
-                return response.json();
-            })
-            .then(user => {
-                showMessage(`✅ GitHub 認證成功！用戶：${user.login}`, 'success');
-                
-                // 測試 Repository 存取
-                return fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}`, {
+            try {
+                // 測試 GitHub API 連接
+                const userResponse = await fetch('https://api.github.com/user', {
                     headers: {
                         'Authorization': `token ${githubToken}`,
                         'Accept': 'application/vnd.github.v3+json',
                         'User-Agent': 'Timesheet-System/1.0'
                     }
                 });
-            })
-            .then(response => {
-                if (response.status === 404) {
+                
+                if (!userResponse.ok) {
+                    if (userResponse.status === 401) {
+                        throw new Error('Token 認證失敗，請檢查 Token 是否正確');
+                    } else if (userResponse.status === 403) {
+                        throw new Error('權限不足，請檢查 Token 權限設定（需勾選 repo 權限）');
+                    } else {
+                        throw new Error(`API 錯誤: ${userResponse.status} - ${userResponse.statusText}`);
+                    }
+                }
+                const user = await userResponse.json();
+                showMessage(`✅ GitHub 認證成功！用戶：${user.login}`, 'success');
+                
+                // 測試 Repository 存取
+                const repoResponse = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}`, {
+                    headers: {
+                        'Authorization': `token ${githubToken}`,
+                        'Accept': 'application/vnd.github.v3+json',
+                        'User-Agent': 'Timesheet-System/1.0'
+                    }
+                });
+                
+                if (repoResponse.status === 404) {
                     showCreateRepositoryDialog();
-                    return null;
-                } else if (!response.ok) {
-                    throw new Error(`無法存取 Repository: HTTP ${response.status}`);
+                    isGitHubConnected = false; // Not connected yet, needs repo creation
+                    updateGitHubStatus('disconnected', `Repository '${REPO_NAME}' 不存在`);
+                    return; // Stop here, wait for user action on dialog
+                } else if (!repoResponse.ok) {
+                    throw new Error(`無法存取 Repository: ${repoResponse.status} - ${repoResponse.statusText}`);
                 }
                 
-                return response.json();
-            })
-            .then(repo => {
-                if (repo) {
-                    isGitHubConnected = true;
-                    updateGitHubStatus('connected', `✅ 已連接到 Repository: ${repo.full_name}`);
-                    showMessage('✅ GitHub 連接完全成功！正在載入資料...');
-                    syncFromGitHub();
-                }
-            })
-            .catch(error => {
+                const repo = await repoResponse.json();
+                isGitHubConnected = true;
+                updateGitHubStatus('connected', `✅ 已連接到 Repository: ${repo.full_name}`);
+                showMessage('✅ GitHub 連接完全成功！正在載入資料...');
+                syncFromGitHub();
+                
+            } catch (error) {
                 let errorMessage = error.message;
                 let suggestions = '';
                 
@@ -1105,7 +1274,7 @@
                 } else if (error.message.includes('權限不足')) {
                     suggestions = '<br><br>🔧 請檢查 Token 權限是否包含 "repo"';
                 } else if (error.message.includes('Repository')) {
-                    suggestions = '<br><br>🔧 請確認 Repository 名稱正確';
+                    suggestions = '<br><br>🔧 請確認 Repository 名稱正確，或點擊自動建立';
                 }
                 
                 showMessage(`❌ GitHub 連接失敗: ${errorMessage}${suggestions}`, 'error');
@@ -1117,7 +1286,7 @@
                         showTokenSetup();
                     }, 1000);
                 }
-            });
+            }
         }
         
         // 更新 GitHub 連接狀態
@@ -1128,39 +1297,80 @@
             const downloadBtn = document.getElementById('github-download-btn');
             const disconnectBtn = document.getElementById('github-disconnect-btn');
             const lastSyncDiv = document.getElementById('last-sync');
-            
+            const resetButton = document.getElementById('resetAllData'); // Select the reset button by ID
+
             statusText.textContent = message;
             
             if (status === 'connected') {
                 statusDiv.className = 'github-section github-connected';
-                syncBtn.style.display = 'inline-block';
-                downloadBtn.style.display = 'inline-block';
-                disconnectBtn.style.display = 'inline-block';
+                syncBtn.style.display = 'inline-flex'; // Use flex for spinner
+                downloadBtn.style.display = 'inline-flex';
+                disconnectBtn.style.display = 'inline-flex';
                 lastSyncDiv.style.display = 'block';
+                resetButton.style.display = 'inline-flex'; // Show reset button
             } else if (status === 'loading') {
                 statusDiv.className = 'github-section github-loading';
                 syncBtn.style.display = 'none';
                 downloadBtn.style.display = 'none';
                 disconnectBtn.style.display = 'none';
+                resetButton.style.display = 'none'; // Hide reset button during loading
             } else {
                 statusDiv.className = 'github-section github-disconnected';
                 syncBtn.style.display = 'none';
                 downloadBtn.style.display = 'none';
                 disconnectBtn.style.display = 'none';
                 lastSyncDiv.style.display = 'none';
+                resetButton.style.display = 'inline-flex'; // Show reset button when disconnected
             }
         }
         
         // 中斷 GitHub 連接
         function disconnectGitHub() {
-            if (confirm('確定要中斷 GitHub 連接嗎？您可以隨時重新連接。')) {
+            if (confirm('確定要中斷 GitHub 連接嗎？您可以隨時重新連接。這將會清除您本次輸入的 GitHub Token。')) {
                 isGitHubConnected = false;
-                githubToken = '';
-                localStorage.removeItem('github_token');
-                document.getElementById('github-token-input').value = '';
+                githubToken = ''; // 清除記憶體中的 Token
+                document.getElementById('github-token-input').value = ''; // 清空輸入框
                 updateGitHubStatus('disconnected', '尚未連接到 GitHub repository');
                 showTokenSetup();
                 showMessage('🔌 已中斷 GitHub 連接');
+            }
+        }
+
+        // 設置按鈕載入狀態
+        function setButtonLoading(buttonId, isLoading, loadingText = '處理中...') {
+            const button = document.getElementById(buttonId);
+            if (!button) { // Fallback for buttons without specific ID passed in parameter
+                 const buttons = document.querySelectorAll(`button.action-btn, button.upload-btn, button.github-btn, button.save-token-btn`);
+                 for(let i = 0; i < buttons.length; i++) {
+                     if (buttons[i].textContent.includes(buttonId)) { // Simple text match if ID not available
+                         button = buttons[i];
+                         break;
+                     }
+                 }
+                 if (!button) return; // If still no button found
+            }
+            
+            const spinner = button.querySelector('.spinner');
+            const originalText = button.dataset.originalText || button.textContent.trim(); // Use .trim() for consistency
+
+            if (isLoading) {
+                button.dataset.originalText = originalText; // Store original text
+                button.disabled = true;
+                // Remove existing text before adding spinner and new text
+                button.innerHTML = '';
+                if (spinner) {
+                    button.appendChild(spinner);
+                    spinner.style.display = 'inline-block';
+                } else { // Create spinner if not found (e.g., for dynamically identified buttons)
+                    const newSpinner = document.createElement('span');
+                    newSpinner.className = `spinner ${buttonId.includes('warning') || buttonId.includes('danger') ? 'spinner-dark' : ''}`;
+                    button.prepend(newSpinner);
+                }
+                button.append(loadingText); // Append new text after spinner
+            } else {
+                button.disabled = false;
+                button.innerHTML = originalText;
+                if (spinner) spinner.style.display = 'none';
             }
         }
         
@@ -1170,6 +1380,8 @@
                 showMessage('❌ 請先連接 GitHub', 'error');
                 return;
             }
+            
+            setButtonLoading('github-sync-btn', true, '載入中...');
             
             try {
                 showMessage('🔄 正在從 GitHub 載入最新資料...');
@@ -1184,6 +1396,10 @@
                 if (response.status === 404) {
                     showMessage('📝 GitHub 中尚無資料檔案，將在首次上傳時建立', 'warning');
                     updateSyncTime();
+                    // Clear local data if no file found on GitHub to avoid stale data
+                    employees = {};
+                    timesheetData = [];
+                    updateAllTables();
                     return;
                 }
                 
@@ -1199,8 +1415,8 @@
                 employees = data.employees || {};
                 timesheetData = data.timesheetData || [];
                 
-                // 儲存到本地
-                saveLocalData();
+                // 儲存到本地記憶體 (非 localStorage)
+                saveLocalData(); 
                 
                 updateAllTables();
                 updateSyncTime();
@@ -1213,6 +1429,8 @@
             } catch (error) {
                 console.error('從 GitHub 同步失敗:', error);
                 showMessage(`❌ 從 GitHub 載入失敗: ${error.message}`, 'error');
+            } finally {
+                setButtonLoading('github-sync-btn', false, '🔄 從 GitHub 載入最新資料');
             }
         }
         
@@ -1228,7 +1446,7 @@
                     employees: employees,
                     timesheetData: timesheetData,
                     lastUpdated: new Date().toISOString(),
-                    version: '1.0',
+                    version: '1.1', // Increment version
                     systemName: 'GitHub 版工時管理系統'
                 };
                 
@@ -1250,7 +1468,7 @@
                         sha = fileData.sha;
                     }
                 } catch (error) {
-                    console.log('檔案不存在，將建立新檔案');
+                    console.log('檔案不存在或無法取得 SHA，將建立新檔案:', error.message);
                 }
                 
                 // 更新或建立檔案
@@ -1275,7 +1493,7 @@
                 
                 if (!response.ok) {
                     const errorData = await response.json();
-                    throw new Error(`GitHub API 錯誤: ${errorData.message}`);
+                    throw new Error(`GitHub API 錯誤: ${errorData.message || response.statusText}`);
                 }
                 
                 const result = await response.json();
@@ -1297,6 +1515,8 @@
                 return;
             }
             
+            setButtonLoading('github-download-btn', true, '下載中...');
+
             try {
                 const response = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${DATA_FILE_NAME}`, {
                     headers: {
@@ -1305,6 +1525,11 @@
                     }
                 });
                 
+                if (response.status === 404) {
+                     showMessage('⚠️ GitHub 中尚無資料檔案可供下載。', 'warning');
+                     return;
+                }
+
                 if (!response.ok) {
                     throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                 }
@@ -1316,12 +1541,16 @@
                 const link = document.createElement('a');
                 link.href = URL.createObjectURL(blob);
                 link.download = `工時系統完整資料_${new Date().toISOString().split('T')[0]}.json`;
+                document.body.appendChild(link); // Append to body for Firefox
                 link.click();
+                document.body.removeChild(link); // Clean up
                 
                 showMessage('✅ 完整資料檔已下載！');
                 
             } catch (error) {
                 showMessage(`❌ 下載失敗: ${error.message}`, 'error');
+            } finally {
+                setButtonLoading('github-download-btn', false, '📥 下載完整資料檔');
             }
         }
         
@@ -1333,14 +1562,15 @@
             }
         }
         
-        // 計算員工週期資訊（優化版本）
+        // 計算員工週期資訊
         function calculateEmployeeCycle(employee, referenceDate = new Date()) {
-            if (!employee.startDate) {
+            // Ensure employee.startDate is a valid date string
+            if (!employee.startDate || isNaN(new Date(employee.startDate).getTime())) {
                 return {
                     currentCycle: 1,
                     weekInCycle: 1,
-                    cycleStartDate: new Date(),
-                    cycleEndDate: new Date(),
+                    cycleStartDate: new Date(referenceDate.getFullYear(), referenceDate.getMonth(), referenceDate.getDate()),
+                    cycleEndDate: new Date(referenceDate.getFullYear(), referenceDate.getMonth(), referenceDate.getDate() + (WEEKS_PER_CYCLE * 7) -1), // Default end date
                     daysInCycle: 0,
                     totalWeeksFromStart: 0,
                     status: 'pending',
@@ -1350,7 +1580,18 @@
             
             try {
                 const startDate = parseDate(employee.startDate);
-                if (!startDate) return this.getDefaultCycle();
+                if (!startDate || isNaN(startDate.getTime())) { // Fallback if parseDate fails for some reason
+                    return {
+                        currentCycle: 1,
+                        weekInCycle: 1,
+                        cycleStartDate: new Date(referenceDate.getFullYear(), referenceDate.getMonth(), referenceDate.getDate()),
+                        cycleEndDate: new Date(referenceDate.getFullYear(), referenceDate.getMonth(), referenceDate.getDate() + (WEEKS_PER_CYCLE * 7) -1),
+                        daysInCycle: 0,
+                        totalWeeksFromStart: 0,
+                        status: 'pending',
+                        progressPercentage: 0
+                    };
+                }
                 
                 const currentDate = new Date(referenceDate);
                 currentDate.setHours(0, 0, 0, 0);
@@ -1363,47 +1604,49 @@
                 const totalWeeksFromStart = Math.floor((currentMonday - startMonday) / (7 * 24 * 60 * 60 * 1000)) + 1;
                 
                 // 計算週期
-                const currentCycle = Math.floor((totalWeeksFromStart - 1) / 8) + 1;
-                const weekInCycle = ((totalWeeksFromStart - 1) % 8) + 1;
+                const currentCycle = Math.floor((totalWeeksFromStart - 1) / WEEKS_PER_CYCLE) + 1;
+                const weekInCycle = ((totalWeeksFromStart - 1) % WEEKS_PER_CYCLE) + 1;
                 
                 // 計算週期日期
-                const cycleStartWeek = (currentCycle - 1) * 8 + 1;
+                const cycleStartWeekIndex = (currentCycle - 1) * WEEKS_PER_CYCLE;
                 const cycleStartDate = new Date(startMonday);
-                cycleStartDate.setDate(cycleStartDate.getDate() + (cycleStartWeek - 1) * 7);
+                cycleStartDate.setDate(cycleStartDate.getDate() + (cycleStartWeekIndex * 7));
                 
                 const cycleEndDate = new Date(cycleStartDate);
-                cycleEndDate.setDate(cycleEndDate.getDate() + 55);
+                cycleEndDate.setDate(cycleEndDate.getDate() + (WEEKS_PER_CYCLE * 7) - 1); // 8 weeks = 56 days, end on 56th day
                 
                 // 計算進度
                 const daysInCycle = Math.max(0, Math.floor((currentDate - cycleStartDate) / (1000 * 60 * 60 * 24)) + 1);
-                const progressPercentage = Math.min((daysInCycle / 56) * 100, 100);
+                const totalDaysInCyclePeriod = WEEKS_PER_CYCLE * 7;
+                const progressPercentage = Math.min((daysInCycle / totalDaysInCyclePeriod) * 100, 100);
                 
                 // 判斷狀態
                 let status = 'active';
-                if (employee.totalHours > 304) {
+                if (employee.totalHours > REGULAR_HOURS_THRESHOLD) {
                     status = 'overtime';
-                } else if (weekInCycle > 8) {
+                } else if (daysInCycle >= totalDaysInCyclePeriod && employee.totalHours > 0) { // Cycle period finished AND has some hours
                     status = 'complete';
-                } else if (daysInCycle <= 0) {
+                } else if (daysInCycle <= 0 || employee.totalHours === 0) { // Start date in future or no hours logged yet
                     status = 'pending';
                 }
                 
                 return {
                     currentCycle,
-                    weekInCycle: Math.min(Math.max(weekInCycle, 1), 8),
+                    weekInCycle: Math.min(Math.max(weekInCycle, 1), WEEKS_PER_CYCLE), // Cap week in cycle to max WEEKS_PER_CYCLE
                     cycleStartDate,
                     cycleEndDate,
-                    daysInCycle: Math.min(Math.max(daysInCycle, 0), 56),
+                    daysInCycle: Math.min(Math.max(daysInCycle, 0), totalDaysInCyclePeriod),
                     totalWeeksFromStart,
                     status,
                     progressPercentage
                 };
             } catch (error) {
-                return {
+                console.error("Error calculating employee cycle:", employee, error);
+                return { // Fallback to a default, safe state
                     currentCycle: 1,
                     weekInCycle: 1,
-                    cycleStartDate: new Date(),
-                    cycleEndDate: new Date(),
+                    cycleStartDate: new Date(referenceDate.getFullYear(), referenceDate.getMonth(), referenceDate.getDate()),
+                    cycleEndDate: new Date(referenceDate.getFullYear(), referenceDate.getMonth(), referenceDate.getDate() + (WEEKS_PER_CYCLE * 7) -1),
                     daysInCycle: 0,
                     totalWeeksFromStart: 0,
                     status: 'pending',
@@ -1417,12 +1660,12 @@
             document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
             
-            document.querySelector(`[onclick="switchTab('${tabName}')"]`).classList.add('active');
+            document.querySelector(`.tab[onclick="switchTab('${tabName}')"]`).classList.add('active');
             document.getElementById(`${tabName}-tab`).classList.add('active');
         }
         
         // 顯示訊息
-        function showMessage(message, type = 'success') {
+        function showMessage(message, type = 'success', duration = 8000) { // Add duration parameter
             const messagesDiv = document.getElementById('messages');
             const messageDiv = document.createElement('div');
             messageDiv.className = type === 'error' ? 'error-message' : 
@@ -1430,9 +1673,11 @@
             messageDiv.innerHTML = message;
             messagesDiv.appendChild(messageDiv);
             
+            // Auto-remove message after duration
             setTimeout(() => {
-                messageDiv.remove();
-            }, 8000);
+                messageDiv.classList.add('message-fadeout'); // Add fade-out class
+                messageDiv.addEventListener('transitionend', () => messageDiv.remove()); // Remove after transition
+            }, duration);
         }
         
         // 更新進度
@@ -1444,81 +1689,99 @@
         // 驗證 Payroll ID 格式
         function validatePayrollID(payrollId) {
             if (!payrollId) return false;
-            const pattern = /^[A-Z]{2,3}-\d{3,4}$/;
+            // Updated pattern to be more flexible but still ensure 2-3 letters and 3-4 digits
+            const pattern = /^[A-Za-z]{2,3}-\d{3,4}$/; 
             return pattern.test(payrollId.trim());
         }
         
-        // 解析週數（優化版本 - 移除除錯訊息）
+        // 解析週數 (已在 calculateEmployeeCycle 處理，此函數可能不再需要直接調用)
+        // 留著以防萬一或未來獨立使用
         function parseWeekNumber(workWeekDateString, startDateString) {
             if (!workWeekDateString || !startDateString) return 1;
             
             try {
-                // 快速解析日期
                 const workWeekDate = parseDate(workWeekDateString);
                 const startDate = parseDate(startDateString);
                 
                 if (!workWeekDate || !startDate) return 1;
                 
-                // 找到開始日期所在週的週一
                 const startMonday = getMonday(startDate);
-                
-                // 找到工作週所在週的週一
                 const workWeekMonday = getMonday(workWeekDate);
                 
-                // 計算週數差
                 const weeksDiff = Math.round((workWeekMonday - startMonday) / (7 * 24 * 60 * 60 * 1000));
                 
-                // 計算在8週週期中的週數（1-8）
-                const weekInCycle = ((weeksDiff % 8) + 8) % 8 + 1;
+                const weekInCycle = ((weeksDiff % WEEKS_PER_CYCLE) + WEEKS_PER_CYCLE) % WEEKS_PER_CYCLE + 1;
                 
-                return Math.max(1, Math.min(weekInCycle, 8));
+                return Math.max(1, Math.min(weekInCycle, WEEKS_PER_CYCLE));
                 
             } catch (error) {
+                console.error("Error parsing week number:", error);
                 return 1;
             }
         }
         
-        // 快速日期解析函數
+        // 快速日期解析函數 (更強健)
         function parseDate(dateString) {
             if (!dateString) return null;
             
-            try {
-                // 處理 dd/mm/yyyy 格式
-                if (dateString.includes('/')) {
-                    const parts = dateString.split('/');
-                    if (parts.length === 3) {
-                        return new Date(parseInt(parts[2]), parseInt(parts[1]) - 1, parseInt(parts[0]));
-                    }
-                }
-                
-                // 其他格式
-                return new Date(dateString);
-            } catch (error) {
-                return null;
+            // Try YYYY-MM-DD
+            let date = new Date(dateString);
+            if (!isNaN(date.getTime()) && date.toISOString().slice(0,10) === dateString) {
+                return date;
             }
+
+            // Try DD/MM/YYYY
+            const partsSlash = dateString.split('/');
+            if (partsSlash.length === 3) {
+                date = new Date(parseInt(partsSlash[2]), parseInt(partsSlash[1]) - 1, parseInt(partsSlash[0]));
+                if (!isNaN(date.getTime())) return date;
+            }
+            
+            // Try MM/DD/YYYY (common in some locales)
+            const partsSlashMDY = dateString.split('/');
+            if (partsSlashMDY.length === 3) {
+                date = new Date(parseInt(partsSlashMDY[2]), parseInt(partsSlashMDY[0]) - 1, parseInt(partsSlashMDY[1]));
+                if (!isNaN(date.getTime())) return date;
+            }
+
+            // If all fails, return null
+            return null;
         }
         
         // 快速取得週一的函數
         function getMonday(date) {
             const result = new Date(date);
-            const dayOfWeek = result.getDay();
+            const dayOfWeek = result.getDay(); // Sunday - 0, Monday - 1, ..., Saturday - 6
+            // Calculate days to subtract to get to Monday. If Sunday (0), subtract 6. Else subtract dayOfWeek - 1.
             const daysToMonday = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
             result.setDate(result.getDate() + daysToMonday);
-            result.setHours(0, 0, 0, 0);
+            result.setHours(0, 0, 0, 0); // Set to start of the day
             return result;
         }
         
         // 解析工資率
         function parseRate(rateString) {
             if (!rateString) return 0;
-            return parseFloat(rateString.toString().replace(/[^0-9.]/g, '')) || 0;
+            // Remove any non-numeric characters except the decimal point
+            const cleanedString = rateString.toString().replace(/[^0-9.]/g, '');
+            return parseFloat(cleanedString) || 0;
         }
         
         // 處理工時表文件
         async function handleTimesheetFile(event) {
             const file = event.target.files[0];
-            if (!file) return;
+            if (!file) {
+                document.getElementById('timesheet-file-info').style.display = 'none'; // Hide file info if no file selected
+                updateProgress(0, '等待上傳文件...');
+                return;
+            }
             
+            // Reset validation results and file info
+            document.getElementById('validation-results').innerHTML = '';
+            document.getElementById('timesheet-file-info').style.display = 'none';
+
+            setButtonLoading('upload-file-btn', true, '讀取中...');
+
             try {
                 updateProgress(20, '正在讀取工時表...');
                 
@@ -1532,6 +1795,7 @@
                 if (validationResult.errors.length > 0) {
                     showValidationResults(validationResult);
                     updateProgress(0, '資料驗證失敗');
+                    showMessage('❌ 工時表驗證失敗，請檢查格式並重試。', 'error');
                     return;
                 }
                 
@@ -1542,12 +1806,16 @@
                 if (conflicts.length > 0) {
                     showConflictDialog(parsed, conflicts);
                 } else {
-                    processTimesheetData(parsed);
+                    await processTimesheetData(parsed);
                 }
                 
             } catch (error) {
                 showMessage('讀取工時表時發生錯誤: ' + error.message, 'error');
                 updateProgress(0, '載入失敗');
+                console.error('File handling error:', error);
+            } finally {
+                setButtonLoading('upload-file-btn', false, '選擇工時表文件');
+                document.getElementById('timesheet-file').value = ''; // Clear the file input
             }
         }
         
@@ -1560,16 +1828,16 @@
             };
             
             if (data.length === 0) {
-                result.errors.push('文件為空或格式不正確');
+                result.errors.push('文件為空或格式不正確，請確保 CSV 包含數據行。');
                 return result;
             }
             
             const requiredFields = ['Payroll ID', 'First Name', 'Last Name', 'Work Week', 'Hours'];
-            const headers = Object.keys(data[0]);
+            const headers = Object.keys(data[0] || {}); // Ensure data[0] exists
             
             for (const field of requiredFields) {
                 if (!headers.includes(field)) {
-                    result.errors.push(`缺少必要欄位: ${field}`);
+                    result.errors.push(`缺少必要欄位: ${field}。請檢查 CSV 標題行。`);
                 }
             }
             
@@ -1588,8 +1856,8 @@
                 const workWeek = row['Work Week']?.trim();
                 const hours = parseFloat(row['Hours']);
                 
-                // 如果整行都是空的，跳過但不報錯
-                if (!payrollId && !firstName && !lastName && !workWeek && isNaN(hours)) {
+                // 如果整行都是空的，跳過但不報錯 (更嚴謹的空行判斷)
+                if (!payrollId && !firstName && !lastName && !workWeek && (isNaN(hours) || hours === 0) && !row['Start Date'] && !row['Level'] && !row['Rate'] && !row['Farm']) {
                     skippedEmptyRecords++;
                     return;
                 }
@@ -1597,27 +1865,31 @@
                 validRecords++;
                 
                 if (!validatePayrollID(payrollId)) {
-                    result.errors.push(`第${index + 2}行: Payroll ID 格式錯誤 (${payrollId})，應為 EQ-0001 格式`);
-                }
-                
-                if (!payrollId) {
-                    result.errors.push(`第${index + 2}行: Payroll ID 為空`);
+                    result.errors.push(`第${index + 2}行: Payroll ID 格式錯誤 (${payrollId || '空'})，應為 EQ-0001 格式。`);
+                } else if (!payrollId) { // This condition is now redundant if validatePayrollID is robust
+                    result.errors.push(`第${index + 2}行: Payroll ID 為空。`);
                 }
                 
                 if (!firstName || !lastName) {
-                    result.errors.push(`第${index + 2}行: 姓名資料不完整`);
+                    result.warnings.push(`第${index + 2}行: 員工 ${payrollId || ''} 的姓名資料不完整。`);
                 }
                 
                 if (!workWeek) {
-                    result.errors.push(`第${index + 2}行: Work Week 為空`);
+                    result.errors.push(`第${index + 2}行: Work Week 為空。`);
+                } else if (isNaN(parseDate(workWeek)?.getTime())) {
+                    result.errors.push(`第${index + 2}行: Work Week 日期格式錯誤 (${workWeek})，請使用YYYY-MM-DD 格式。`);
+                }
+
+                if (!row['Start Date'] || isNaN(parseDate(row['Start Date'])?.getTime())) {
+                    result.warnings.push(`第${index + 2}行: Start Date 日期格式錯誤或為空 (${row['Start Date'] || '空'})，將使用預設日期。`);
                 }
                 
                 if (isNaN(hours) || hours < 0) {
-                    result.errors.push(`第${index + 2}行: 工時資料無效 (${row['Hours']})`);
+                    result.errors.push(`第${index + 2}行: 工時資料無效 (${row['Hours'] || '空'})，必須是正數。`);
                 }
                 
                 if (hours > 168) {
-                    result.warnings.push(`第${index + 2}行: 工時超過一週168小時 (${hours})`);
+                    result.warnings.push(`第${index + 2}行: 員工 ${payrollId || ''} 在 ${workWeek || ''} 的工時超過一週168小時 (${hours}h)，請確認。`);
                 }
                 
                 if (payrollId && validatePayrollID(payrollId)) {
@@ -1632,19 +1904,22 @@
                         };
                     } else {
                         const existing = employeeConsistency[payrollId];
+                        // Warn if names are inconsistent
                         if (existing.firstName !== firstName || existing.lastName !== lastName) {
-                            result.errors.push(`第${index + 2}行: 員工 ${payrollId} 的姓名與先前記錄不一致`);
+                            result.warnings.push(`第${index + 2}行: 員工 ${payrollId} 的姓名 (${firstName} ${lastName}) 與先前記錄 (${existing.firstName} ${existing.lastName}) 不一致，將以最新記錄為準。`);
                         }
+                        // Warn if start date, level, rate, farm are inconsistent but only if payrollId is the same
+                        // For simplicity, we just take the latest from the CSV rows if they differ, as per requirement
                     }
                 }
             });
             
             if (result.errors.length === 0) {
-                result.success.push(`成功驗證 ${validRecords} 筆工時記錄`);
-                result.success.push(`涉及 ${Object.keys(employeeConsistency).length} 位員工`);
+                result.success.push(`✅ 成功驗證 ${validRecords} 筆工時記錄`);
+                result.success.push(`👥 涉及 ${Object.keys(employeeConsistency).length} 位員工`);
                 
                 if (skippedEmptyRecords > 0) {
-                    result.warnings.push(`已自動跳過 ${skippedEmptyRecords} 行空白記錄`);
+                    result.warnings.push(`⚠️ 已自動跳過 ${skippedEmptyRecords} 行空白記錄。`);
                 }
             }
             
@@ -1656,31 +1931,31 @@
             const conflicts = [];
             
             // 建立現有資料的快速查找表
-            const existingData = new Set();
+            const existingDataMap = new Map();
             timesheetData.forEach(item => {
-                existingData.add(`${item.payrollId}-${item.workWeekDate}`);
+                existingDataMap.set(`${item.payrollId}-${item.workWeekDate}`, item.hours);
             });
             
             // 快速檢查衝突
             newData.forEach(row => {
                 const payrollId = row['Payroll ID']?.trim();
                 const workWeekDate = row['Work Week']?.trim();
-                const key = `${payrollId}-${workWeekDate}`;
                 
-                if (existingData.has(key)) {
-                    // 找到衝突，取得詳細資訊
-                    const existing = timesheetData.find(item => 
-                        item.payrollId === payrollId && item.workWeekDate === workWeekDate
-                    );
+                if (payrollId && workWeekDate) { // Only check if critical fields exist
+                    const key = `${payrollId}-${workWeekDate}`;
+                    const existingHours = existingDataMap.get(key);
                     
-                    if (existing) {
-                        conflicts.push({
-                            payrollId: payrollId,
-                            workWeekDate: workWeekDate,
-                            existingHours: existing.hours,
-                            newHours: parseFloat(row['Hours']),
-                            employeeName: `${row['First Name']} ${row['Last Name']}`
-                        });
+                    if (existingHours !== undefined) { // Found a record for this payrollId and workWeekDate
+                        const newHours = parseFloat(row['Hours']) || 0;
+                        if (existingHours !== newHours) { // Conflict only if hours differ
+                            conflicts.push({
+                                payrollId: payrollId,
+                                workWeekDate: workWeekDate,
+                                existingHours: existingHours,
+                                newHours: newHours,
+                                employeeName: `${row['First Name']} ${row['Last Name']}`.trim()
+                            });
+                        }
                     }
                 }
             });
@@ -1688,10 +1963,10 @@
             return conflicts;
         }
         
-        // 顯示衝突對話框（簡化版本）
+        // 顯示衝突對話框
         function showConflictDialog(newData, conflicts) {
             const dialog = document.createElement('div');
-            dialog.className = 'confirm-dialog';
+            dialog.className = 'confirm-dialog active'; // Add active class
             
             const conflictCount = conflicts.length;
             const sampleConflicts = conflicts.slice(0, 5); // 只顯示前5個衝突
@@ -1699,21 +1974,21 @@
             let conflictsList = '';
             sampleConflicts.forEach(conflict => {
                 conflictsList += `
-                    <div class="validation-warning">
-                        <strong>${conflict.employeeName}</strong> - ${conflict.workWeekDate}
-                        <br>現有: ${conflict.existingHours}h → 新: ${conflict.newHours}h
+                    <div class="validation-warning" style="margin-bottom: 5px;">
+                        <strong>${conflict.employeeName}</strong> (${conflict.payrollId}) - ${conflict.workWeekDate}
+                        <br>現有工時: <span class="highlight">${conflict.existingHours}h</span> → 新工時: <span class="highlight">${conflict.newHours}h</span>
                     </div>
                 `;
             });
             
             if (conflictCount > 5) {
-                conflictsList += `<div class="validation-warning">...還有 ${conflictCount - 5} 個衝突</div>`;
+                conflictsList += `<div class="validation-warning" style="margin-top: 10px;">...還有 ${conflictCount - 5} 個衝突未顯示</div>`;
             }
             
             dialog.innerHTML = `
                 <div class="confirm-content">
                     <h3>⚠️ 發現 ${conflictCount} 個資料衝突</h3>
-                    <p>以下工時資料已存在，是否要覆蓋？</p>
+                    <p>以下工時資料已存在且工時數值不同，是否要用新上傳的資料覆蓋？</p>
                     ${conflictsList}
                     <div class="confirm-buttons">
                         <button class="btn-confirm" onclick="confirmOverwrite(true)">覆蓋並更新</button>
@@ -1723,26 +1998,24 @@
             `;
             
             document.body.appendChild(dialog);
-            pendingData = newData;
+            pendingData = newData; // Store data for later processing
         }
         
         // 確認覆蓋
-        function confirmOverwrite(confirmed) {
-            const dialog = document.querySelector('.confirm-dialog');
-            if (dialog) {
-                dialog.remove();
-            }
+        async function confirmOverwrite(confirmed) {
+            closeCreateDialog(); // Use the general dialog closing function
             
             if (confirmed && pendingData) {
-                processTimesheetData(pendingData, true);
+                await processTimesheetData(pendingData, true); // Pass true for overwrite
             } else {
                 updateProgress(0, '上傳已取消');
+                showMessage('ℹ️ 資料上傳已取消。', 'info');
             }
             
-            pendingData = null;
+            pendingData = null; // Clear pending data
         }
         
-        // 處理工時表資料（極簡版本 - 避免卡住）
+        // 處理工時表資料 (修正 `summary.weeks` 和 `calculatePayroll` 調用)
         async function processTimesheetData(data, overwrite = false) {
             updateProgress(10, '開始處理資料...');
             
@@ -1750,7 +2023,8 @@
                 totalRecords: data.length,
                 employees: new Set(),
                 newRecords: 0,
-                updatedRecords: 0
+                updatedRecords: 0,
+                weeks: new Set() // <-- FIX: Initialize weeks as a Set
             };
             
             updateProgress(20, '檢查重複資料...');
@@ -1760,53 +2034,88 @@
             
             updateProgress(30, '處理新資料...');
             
-            // 逐筆處理，每處理一筆就更新進度
+            // 逐筆處理
             for (let i = 0; i < data.length; i++) {
                 const row = data[i];
                 const payrollId = row['Payroll ID']?.trim();
                 const firstName = row['First Name']?.trim();
                 const lastName = row['Last Name']?.trim();
-                const startDate = row['Start Date']?.trim();
+                const startDateStr = row['Start Date']?.trim();
                 const workWeekDate = row['Work Week']?.trim();
                 const hours = parseFloat(row['Hours']) || 0;
                 const level = row['Level']?.trim();
                 const rate = parseRate(row['Rate']);
                 const farm = row['Farm']?.trim();
+
+                // Skip processing if no valid Payroll ID or Work Week
+                if (!validatePayrollID(payrollId) || !workWeekDate || isNaN(parseDate(workWeekDate)?.getTime())) {
+                    // This data row will be ignored from processing, but validation should catch it before this point.
+                    // For robustness, ensure basic data validity.
+                    continue; 
+                }
                 
                 uploadSummary.employees.add(payrollId);
+                uploadSummary.weeks.add(workWeekDate); // <-- FIX: Add work week to the set
                 
-                // 建立或更新員工資料
+                // Establish a consistent startDate for the employee
+                let employeeStartDate = '2024-01-01'; // Default if not provided
+                if (startDateStr) {
+                    const parsedStartDate = parseDate(startDateStr);
+                    if (parsedStartDate && !isNaN(parsedStartDate.getTime())) {
+                        employeeStartDate = parsedStartDate.toISOString().slice(0, 10);
+                    }
+                }
+
+                // Create or update employee data
                 if (!employees[payrollId]) {
                     employees[payrollId] = {
                         payrollId,
                         firstName,
                         lastName,
-                        startDate: startDate || '2024-01-01',
+                        startDate: employeeStartDate, // Use the determined start date
                         level: level || '',
                         farm: farm || '',
-                        hourlyRate: rate || 25.0,
-                        workWeeks: {},
+                        hourlyRate: rate,
+                        workWeeks: {}, // Stores workWeekDate -> hours
                         totalHours: 0,
-                        payrollData: { overtimeHours: 0, overtimePay: 0 }
+                        payrollData: { regularHours: 0, overtimeHours: 0, regularPay: 0, overtimePay: 0 }
                     };
+                } else {
+                    // Update employee details with the latest from CSV if provided and valid
+                    // Ensure name consistency (already warned in validation)
+                    employees[payrollId].firstName = firstName;
+                    employees[payrollId].lastName = lastName;
+                    if (startDateStr) { // Only update if a valid startDate is provided in the CSV
+                         const newParsedStartDate = parseDate(startDateStr);
+                         if(newParsedStartDate && !isNaN(newParsedStartDate.getTime())) {
+                            // Only update start date if the new one is earlier or significantly different (logic depends on business rules)
+                            // For simplicity, let's say the first valid one or the one with content overrides default.
+                            // Or, if new one is earlier, keep new one.
+                            const currentStartDate = parseDate(employees[payrollId].startDate);
+                            if (!currentStartDate || newParsedStartDate.getTime() < currentStartDate.getTime()) {
+                                employees[payrollId].startDate = newParsedStartDate.toISOString().slice(0, 10);
+                            }
+                         }
+                    }
+                    if (farm) employees[payrollId].farm = farm;
+                    if (level) employees[payrollId].level = level;
+                    if (rate) employees[payrollId].hourlyRate = rate;
                 }
                 
-                // 更新工作週工時
-                employees[payrollId].workWeeks[workWeekDate] = hours;
-                
-                // 檢查是否重複
-                const key = `${payrollId}-${workWeekDate}`;
-                if (existingKeys.has(key)) {
-                    if (overwrite) {
-                        const index = timesheetData.findIndex(item => 
-                            item.payrollId === payrollId && item.workWeekDate === workWeekDate
-                        );
-                        if (index >= 0) {
-                            timesheetData[index].hours = hours;
-                            uploadSummary.updatedRecords++;
-                        }
+                // Update work week hours
+                const currentRecordIndex = timesheetData.findIndex(item => 
+                    item.payrollId === payrollId && item.workWeekDate === workWeekDate
+                );
+
+                if (currentRecordIndex !== -1) {
+                    // Record exists
+                    if (overwrite || timesheetData[currentRecordIndex].hours !== hours) {
+                        timesheetData[currentRecordIndex].hours = hours;
+                        timesheetData[currentRecordIndex].uploadDate = new Date().toISOString();
+                        uploadSummary.updatedRecords++;
                     }
                 } else {
+                    // New record
                     timesheetData.push({
                         payrollId,
                         firstName,
@@ -1816,10 +2125,9 @@
                         uploadDate: new Date().toISOString()
                     });
                     uploadSummary.newRecords++;
-                    existingKeys.add(key);
                 }
                 
-                // 更新進度
+                // Update progress
                 const progress = 30 + ((i + 1) / data.length) * 50; // 30-80%
                 updateProgress(progress, `處理中... ${i + 1}/${data.length}`);
                 
@@ -1831,18 +2139,25 @@
             
             updateProgress(85, '計算工時總計...');
             
-            // 計算每個員工的總工時
+            // 計算每個員工的總工時和薪資
             Object.values(employees).forEach(employee => {
-                employee.totalHours = Object.values(employee.workWeeks).reduce((sum, hours) => sum + hours, 0);
+                employee.totalHours = Object.entries(employee.workWeeks)
+                                       .filter(([weekDate, hours]) => {
+                                           // Only sum up hours from valid work weeks in timesheetData
+                                           // This ensures consistency even if workWeeks map has old entries
+                                           return timesheetData.some(item => item.payrollId === employee.payrollId && item.workWeekDate === weekDate);
+                                       })
+                                       .reduce((sum, [, hours]) => sum + hours, 0);
                 
-                // 簡單的加班費計算
-                if (employee.totalHours > 304) {
-                    employee.payrollData.overtimeHours = employee.totalHours - 304;
-                    employee.payrollData.overtimePay = employee.payrollData.overtimeHours * employee.hourlyRate;
-                } else {
-                    employee.payrollData.overtimeHours = 0;
-                    employee.payrollData.overtimePay = 0;
-                }
+                // Re-calculate workWeeks based on filtered timesheetData
+                employee.workWeeks = timesheetData
+                                        .filter(item => item.payrollId === employee.payrollId)
+                                        .reduce((acc, item) => {
+                                            acc[item.workWeekDate] = item.hours;
+                                            return acc;
+                                        }, {});
+
+                calculatePayroll(employee); // <-- FIX: Ensure this is called to update payrollData
             });
             
             updateProgress(90, '儲存資料...');
@@ -1855,6 +2170,7 @@
                 }
             } catch (error) {
                 console.error('GitHub 上傳失敗:', error);
+                showMessage(`❌ 自動同步到 GitHub 失敗: ${error.message}<br>數據已儲存在本地，請嘗試手動同步。`, 'error', 15000); // Longer error message for critical sync failure
             }
             
             updateProgress(100, '完成！');
@@ -1871,24 +2187,24 @@
             `);
         }
         
-        // 計算薪資（只計算加班費，移除總薪資）
+        // 計算薪資
         function calculatePayroll(employee) {
             const totalHours = employee.totalHours;
-            const hourlyRate = employee.hourlyRate;
+            const hourlyRate = employee.hourlyRate || 0; // Default to 0 if not set
             
-            if (totalHours > 304) {
-                employee.payrollData.regularHours = 304;
-                employee.payrollData.overtimeHours = totalHours - 304;
-                employee.payrollData.regularPay = 304 * hourlyRate;
-                employee.payrollData.overtimePay = employee.payrollData.overtimeHours * hourlyRate; // 加班費 = 加班工時 * 時薪
+            if (totalHours > REGULAR_HOURS_THRESHOLD) {
+                employee.payrollData.regularHours = REGULAR_HOURS_THRESHOLD;
+                employee.payrollData.overtimeHours = totalHours - REGULAR_HOURS_THRESHOLD;
+                employee.payrollData.regularPay = REGULAR_HOURS_THRESHOLD * hourlyRate;
+                // Assuming overtime pay is calculated at regular rate as per original code.
+                // If overtime rate is different, this needs modification.
+                employee.payrollData.overtimePay = employee.payrollData.overtimeHours * hourlyRate; 
             } else {
                 employee.payrollData.regularHours = totalHours;
                 employee.payrollData.overtimeHours = 0;
                 employee.payrollData.regularPay = totalHours * hourlyRate;
                 employee.payrollData.overtimePay = 0;
             }
-            
-            // 不計算總薪資，只有加班費
         }
         
         // 取得篩選後的員工列表
@@ -1898,18 +2214,19 @@
             const statusFilter = document.getElementById('status-filter')?.value || '';
             
             return Object.values(employees).filter(employee => {
-                // 農場篩選
+                // Farm filter
                 if (farmFilter && employee.farm !== farmFilter) return false;
                 
-                // 職級篩選
+                // Level filter
                 if (levelFilter && employee.level !== levelFilter) return false;
                 
-                // 狀態篩選
+                // Status filter
                 if (statusFilter) {
-                    const cycleInfo = calculateEmployeeCycle(employee);
-                    if (statusFilter === 'overtime' && employee.totalHours <= 304) return false;
-                    if (statusFilter === 'active' && (employee.totalHours > 304 || cycleInfo.status !== 'active')) return false;
+                    const cycleInfo = calculateEmployeeCycle(employee, new Date()); // Pass current date
+                    if (statusFilter === 'overtime' && employee.totalHours <= REGULAR_HOURS_THRESHOLD) return false;
+                    if (statusFilter === 'active' && (employee.totalHours > REGULAR_HOURS_THRESHOLD || cycleInfo.status !== 'active')) return false;
                     if (statusFilter === 'complete' && cycleInfo.status !== 'complete') return false;
+                    if (statusFilter === 'pending' && cycleInfo.status !== 'pending') return false; // Added pending filter
                 }
                 
                 return true;
@@ -1963,18 +2280,25 @@
             updateAllTables();
         }
         
-        // 更新員工總覽（整合週期分析）
+        // 更新員工總覽
         function updateOverviewTable() {
             const container = document.getElementById('overview-table-container');
             
             if (Object.keys(employees).length === 0) {
-                container.innerHTML = '<p>尚未載入員工資料，請先上傳工時表</p>';
+                container.innerHTML = '<p style="text-align: center; color: #777; margin-top: 30px;">尚未載入員工資料，請先上傳工時表或從 GitHub 同步。</p>';
+                document.getElementById('overview-summary-cards').innerHTML = ''; // Clear summary cards
                 return;
             }
             
             updateFilterOptions();
             const filteredEmployees = getFilteredEmployees();
             
+            if (filteredEmployees.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #777; margin-top: 30px;">沒有符合篩選條件的員工資料。</p>';
+                document.getElementById('overview-summary-cards').innerHTML = ''; // Clear summary cards
+                return;
+            }
+
             let tableHTML = `
                 <table class="employee-table">
                     <thead>
@@ -1987,7 +2311,7 @@
                             <th>當前週期</th>
                             <th>週期進度</th>
                             <th>週期狀態</th>
-                            <th>週期工時</th>
+                            <th>總工時</th>
                             <th>剩餘額度</th>
                             <th>預計結束</th>
                         </tr>
@@ -1999,19 +2323,23 @@
             let activeCycles = 0;
             let completeCycles = 0;
             let overtimeCycles = 0;
+            let pendingCycles = 0; // Count for pending cycles
             
             filteredEmployees
                 .sort((a, b) => a.payrollId.localeCompare(b.payrollId))
                 .forEach(employee => {
                     const fullName = `${employee.firstName} ${employee.lastName}`.trim();
-                    const cycleInfo = calculateEmployeeCycle(employee);
+                    const cycleInfo = calculateEmployeeCycle(employee, new Date());
                     
                     // 統計週期狀態
-                    if (employee.totalHours > 304) {
+                    if (employee.totalHours > REGULAR_HOURS_THRESHOLD) {
                         overtimeCycles++;
                     } else if (cycleInfo.status === 'complete') {
                         completeCycles++;
-                    } else {
+                    } else if (cycleInfo.status === 'pending') {
+                        pendingCycles++;
+                    }
+                    else {
                         activeCycles++;
                     }
                     
@@ -2019,32 +2347,35 @@
                     let statusClass = 'cycle-active';
                     let statusText = '進行中';
                     
-                    if (employee.totalHours > 304) {
+                    if (employee.totalHours > REGULAR_HOURS_THRESHOLD) {
                         statusClass = 'cycle-overtime';
                         statusText = '需加班費';
                     } else if (cycleInfo.status === 'complete') {
                         statusClass = 'cycle-complete';
                         statusText = '已完成';
+                    } else if (cycleInfo.status === 'pending') {
+                        statusClass = 'cycle-pending';
+                        statusText = '未開始';
                     }
                     
                     // 剩餘工時額度
-                    const remainingHours = Math.max(0, 304 - employee.totalHours);
-                    const remainingText = employee.totalHours > 304 ? 
-                        `超出 ${employee.totalHours - 304}h` : 
+                    const remainingHours = Math.max(0, REGULAR_HOURS_THRESHOLD - employee.totalHours);
+                    const remainingText = employee.totalHours > REGULAR_HOURS_THRESHOLD ? 
+                        `超出 ${employee.totalHours - REGULAR_HOURS_THRESHOLD}h` : 
                         `剩餘 ${remainingHours}h`;
                     
                     // 週期進度條
                     const progressPercentage = cycleInfo.progressPercentage;
-                    const progressClass = employee.totalHours > 304 ? 'cycle-progress-overtime' : '';
+                    const progressClass = employee.totalHours > REGULAR_HOURS_THRESHOLD ? 'cycle-progress-overtime' : '';
                     
                     tableHTML += `
                         <tr>
                             <td><strong>${employee.payrollId}</strong></td>
                             <td>${fullName}</td>
                             <td>${employee.farm || '-'}</td>
-                            <td>${employee.level}</td>
-                            <td>${employee.startDate}</td>
-                            <td>第 ${cycleInfo.currentCycle} 週期<br><small>第 ${cycleInfo.weekInCycle}/8 週</small></td>
+                            <td>${employee.level || '-'}</td>
+                            <td>${employee.startDate || '-'}</td>
+                            <td>第 ${cycleInfo.currentCycle} 週期<br><small>第 ${cycleInfo.weekInCycle}/${WEEKS_PER_CYCLE} 週</small></td>
                             <td>
                                 <div class="cycle-progress">
                                     <div class="cycle-progress-fill ${progressClass}" style="width: ${progressPercentage}%"></div>
@@ -2075,44 +2406,58 @@
                 </div>
                 <div class="summary-card">
                     <h3>${overtimeCycles}</h3>
-                    <p>需加班費</p>
+                    <p>需加班費週期</p>
                 </div>
                 <div class="summary-card">
                     <h3>${completeCycles}</h3>
                     <p>已完成週期</p>
+                </div>
+                <div class="summary-card">
+                    <h3>${pendingCycles}</h3>
+                    <p>未開始週期</p>
                 </div>
             `;
             document.getElementById('overview-summary-cards').innerHTML = summaryHTML;
         }
         
         // 匯出員工總覽報告
-        function exportOverview() {
+        async function exportOverview() {
             if (Object.keys(employees).length === 0) {
                 showMessage('沒有資料可以匯出', 'error');
                 return;
             }
             
-            const filteredEmployees = getFilteredEmployees();
-            let csvContent = 'Payroll ID,姓名,農場,職級,開始日期,當前週期,週期內週數,週期狀態,週期工時,剩餘額度,週期開始日,週期結束日,進度百分比\n';
+            setButtonLoading('exportOverview', true, '匯出中...'); // Assuming an ID for the button
             
-            filteredEmployees.forEach(employee => {
-                const fullName = `${employee.firstName} ${employee.lastName}`.trim();
-                const cycleInfo = calculateEmployeeCycle(employee);
+            try {
+                const filteredEmployees = getFilteredEmployees();
+                let csvContent = '員工編號,姓名,農場,職級,開始日期,當前週期,週期內週數,週期狀態,總工時,剩餘額度,週期開始日,週期結束日,進度百分比\n';
                 
-                let statusText = '進行中';
-                if (employee.totalHours > 304) statusText = '需加班費';
-                else if (cycleInfo.status === 'complete') statusText = '已完成';
+                filteredEmployees.forEach(employee => {
+                    const fullName = `${employee.firstName} ${employee.lastName}`.trim();
+                    const cycleInfo = calculateEmployeeCycle(employee, new Date());
+                    
+                    let statusText = '進行中';
+                    if (employee.totalHours > REGULAR_HOURS_THRESHOLD) statusText = '需加班費';
+                    else if (cycleInfo.status === 'complete') statusText = '已完成';
+                    else if (cycleInfo.status === 'pending') statusText = '未開始';
+                    
+                    const remainingHours = Math.max(0, REGULAR_HOURS_THRESHOLD - employee.totalHours);
+                    const remainingText = employee.totalHours > REGULAR_HOURS_THRESHOLD ? 
+                        `超出${employee.totalHours - REGULAR_HOURS_THRESHOLD}小時` : 
+                        `剩餘${remainingHours}小時`;
+                    
+                    csvContent += `${employee.payrollId},"${fullName}",${employee.farm || ''},${employee.level || ''},${employee.startDate || ''},${cycleInfo.currentCycle},${cycleInfo.weekInCycle},${statusText},${employee.totalHours},"${remainingText}",${cycleInfo.cycleStartDate.toLocaleDateString('zh-TW')},${cycleInfo.cycleEndDate.toLocaleDateString('zh-TW')},${cycleInfo.progressPercentage.toFixed(1)}%\n`;
+                });
                 
-                const remainingHours = Math.max(0, 304 - employee.totalHours);
-                const remainingText = employee.totalHours > 304 ? 
-                    `超出${employee.totalHours - 304}小時` : 
-                    `剩餘${remainingHours}小時`;
-                
-                csvContent += `${employee.payrollId},"${fullName}",${employee.farm || ''},${employee.level},${employee.startDate},${cycleInfo.currentCycle},${cycleInfo.weekInCycle},${statusText},${employee.totalHours},${remainingText},${cycleInfo.cycleStartDate.toLocaleDateString('zh-TW')},${cycleInfo.cycleEndDate.toLocaleDateString('zh-TW')},${cycleInfo.progressPercentage.toFixed(1)}%\n`;
-            });
-            
-            downloadCSV(csvContent, `員工總覽報告_${new Date().toISOString().split('T')[0]}.csv`);
-            showMessage('✅ 員工總覽報告已匯出');
+                downloadCSV(csvContent, `員工總覽報告_${new Date().toISOString().split('T')[0]}.csv`);
+                showMessage('✅ 員工總覽報告已匯出');
+            } catch (error) {
+                showMessage(`❌ 匯出失敗: ${error.message}`, 'error');
+                console.error("Export Overview failed:", error);
+            } finally {
+                setButtonLoading('exportOverview', false, '📥 匯出員工總覽報告 (CSV)');
+            }
         }
         
         // 顯示上傳摘要
@@ -2121,6 +2466,10 @@
             container.style.display = 'block';
             container.className = 'upload-summary';
             
+            // Format weeks for display
+            const sortedWeeks = Array.from(summary.weeks).sort();
+            const weeksDisplay = sortedWeeks.length > 0 ? sortedWeeks.join(', ') : '無';
+
             container.innerHTML = `
                 <h3>📊 上傳摘要</h3>
                 <div class="summary-item">
@@ -2133,7 +2482,7 @@
                 </div>
                 <div class="summary-item">
                     <span>涵蓋週數：</span>
-                    <span>${Array.from(summary.weeks).join(', ')}</span>
+                    <span>${weeksDisplay}</span>
                 </div>
                 <div class="summary-item">
                     <span>新增記錄：</span>
@@ -2149,7 +2498,7 @@
                 </div>
                 <div class="summary-item">
                     <span>同步狀態：</span>
-                    <span class="highlight">${isGitHubConnected ? '已同步到 GitHub' : '僅本地儲存'}</span>
+                    <span class="highlight">${isGitHubConnected ? '已同步到 GitHub' : '未連接 GitHub (僅本地記憶體)'}</span>
                 </div>
             `;
         }
@@ -2185,48 +2534,63 @@
             });
         }
         
-        // 解析CSV
+        // 解析CSV (加強了對引號內逗號和空行的處理)
         function parseCSV(csvText) {
-            const lines = csvText.trim().split('\n');
-            const headers = lines[0].split(',').map(h => h.trim().replace(/"/g, ''));
+            const lines = csvText.trim().split(/\r?\n/); // Handle both \n and \r\n line endings
+            if (lines.length === 0) return [];
+
+            // Robust header parsing
+            const headerLine = lines[0];
+            const headers = parseCSVLine(headerLine);
             
             return lines.slice(1)
-                .filter(line => {
-                    // 過濾掉空行或只有逗號的行
-                    const trimmedLine = line.trim();
-                    return trimmedLine && !trimmedLine.match(/^,*$/);
+                .map(line => parseCSVLine(line))
+                .filter(values => {
+                    // Filter out truly empty lines where all values are empty
+                    return values.some(val => val.trim() !== '');
                 })
-                .map(line => {
-                    const values = [];
-                    let current = '';
-                    let inQuotes = false;
-                    
-                    for (let i = 0; i < line.length; i++) {
-                        const char = line[i];
-                        if (char === '"') {
-                            inQuotes = !inQuotes;
-                        } else if (char === ',' && !inQuotes) {
-                            values.push(current.trim());
-                            current = '';
-                        } else {
-                            current += char;
-                        }
-                    }
-                    values.push(current.trim());
-                    
+                .map(values => {
                     const row = {};
                     headers.forEach((header, index) => {
-                        row[header] = values[index] || '';
+                        row[header] = values[index] !== undefined ? values[index] : '';
                     });
                     return row;
                 })
                 .filter(row => {
-                    // 進一步過濾：確保至少有 Payroll ID 或其他關鍵資料
+                    // Final filter: ensure at least some key data exists
                     const payrollId = row['Payroll ID']?.trim();
                     const firstName = row['First Name']?.trim();
                     const lastName = row['Last Name']?.trim();
-                    return payrollId || firstName || lastName;
+                    const workWeek = row['Work Week']?.trim();
+                    const hours = parseFloat(row['Hours']);
+                    return payrollId || firstName || lastName || workWeek || !isNaN(hours);
                 });
+        }
+
+        // Helper function to parse a single CSV line, handling quoted commas
+        function parseCSVLine(line) {
+            const values = [];
+            let current = '';
+            let inQuotes = false;
+            for (let i = 0; i < line.length; i++) {
+                const char = line[i];
+                if (char === '"') {
+                    if (inQuotes && i + 1 < line.length && line[i+1] === '"') {
+                        // Handle escaped quote "" -> "
+                        current += '"';
+                        i++; // Skip the next quote
+                    } else {
+                        inQuotes = !inQuotes;
+                    }
+                } else if (char === ',' && !inQuotes) {
+                    values.push(current.trim());
+                    current = '';
+                } else {
+                    current += char;
+                }
+            }
+            values.push(current.trim()); // Add the last value
+            return values;
         }
         
         // 更新所有表格
@@ -2240,7 +2604,8 @@
             const container = document.getElementById('payroll-table-container');
             
             if (Object.keys(employees).length === 0) {
-                container.innerHTML = '<p>尚未載入員工資料，請先上傳工時表</p>';
+                container.innerHTML = '<p style="text-align: center; color: #777; margin-top: 30px;">尚未載入員工資料，請先上傳工時表或從 GitHub 同步。</p>';
+                document.getElementById('payroll-summary-cards').innerHTML = ''; // Clear summary cards
                 return;
             }
             
@@ -2280,22 +2645,23 @@
                             <td><strong>${employee.payrollId}</strong></td>
                             <td>${fullName}</td>
                             <td>${employee.farm || '-'}</td>
-                            <td>${employee.level}</td>
+                            <td>${employee.level || '-'}</td>
                             <td><strong>${employee.totalHours}h</strong></td>
                             <td>${employee.payrollData.regularHours}h</td>
                             <td class="${overtimeClass}">${employee.payrollData.overtimeHours}h</td>
                             <td>${employee.hourlyRate.toFixed(2)}</td>
-                            <td class="money ${overtimeClass}"><strong>${employee.payrollData.overtimePay.toFixed(2)}</strong></td>
+                            <td class="money ${overtimeClass}"><strong>$${employee.payrollData.overtimePay.toFixed(2)}</strong></td>
                         </tr>
                     `;
                 });
             
             tableHTML += `
                 <tr style="background: #f0f0f0; font-weight: bold;">
-                    <td colspan="6">總計</td>
+                    <td colspan="5" style="text-align: right;">總計</td>
+                    <td>-</td>
                     <td class="status-overtime">${totalOvertimeHours}h</td>
                     <td>-</td>
-                    <td class="money status-overtime">${totalOvertimePay.toFixed(2)}</td>
+                    <td class="money status-overtime">$${totalOvertimePay.toFixed(2)}</td>
                 </tr>
             `;
             
@@ -2309,43 +2675,52 @@
             
             const summaryHTML = `
                 <div class="summary-card">
-                    <h3>${totalOvertimePay.toFixed(0)}</h3>
+                    <h3>$${totalOvertimePay.toFixed(0)}</h3>
                     <p>總加班費支出</p>
                 </div>
                 <div class="summary-card">
-                    <h3>${totalOvertimeHours}</h3>
+                    <h3>${totalOvertimeHours}h</h3>
                     <p>總加班工時</p>
                 </div>
                 <div class="summary-card">
-                    <h3>${overtimeEmployees}</h3>
+                    <h3>${overtimeEmployees} / ${totalEmployees}</h3>
                     <p>需加班費員工</p>
                 </div>
                 <div class="summary-card">
-                    <h3>${avgOvertimePay.toFixed(0)}</h3>
-                    <p>平均加班費</p>
+                    <h3>$${avgOvertimePay.toFixed(0)}</h3>
+                    <p>平均加班費 (按人)</p>
                 </div>
             `;
             document.getElementById('payroll-summary-cards').innerHTML = summaryHTML;
         }
         
         // 匯出薪資報表（加班費報表）
-        function exportPayroll() {
+        async function exportPayroll() {
             if (Object.keys(employees).length === 0) {
                 showMessage('沒有資料可以匯出', 'error');
                 return;
             }
             
-            const filteredEmployees = getFilteredEmployees();
-            let csvContent = 'Payroll ID,姓名,農場,職級,總工時,正常工時,加班工時,時薪,加班費\n';
+            setButtonLoading('exportPayroll', true, '匯出中...');
             
-            filteredEmployees.forEach(employee => {
-                const fullName = `${employee.firstName} ${employee.lastName}`.trim();
+            try {
+                const filteredEmployees = getFilteredEmployees();
+                let csvContent = '員工編號,姓名,農場,職級,總工時,正常工時,加班工時,時薪,加班費\n';
                 
-                csvContent += `${employee.payrollId},"${fullName}",${employee.farm || ''},${employee.level},${employee.totalHours},${employee.payrollData.regularHours},${employee.payrollData.overtimeHours},${employee.hourlyRate},${employee.payrollData.overtimePay.toFixed(2)}\n`;
-            });
-            
-            downloadCSV(csvContent, `加班費報表_${new Date().toISOString().split('T')[0]}.csv`);
-            showMessage('✅ 加班費報表已匯出');
+                filteredEmployees.forEach(employee => {
+                    const fullName = `${employee.firstName} ${employee.lastName}`.trim();
+                    
+                    csvContent += `${employee.payrollId},"${fullName}",${employee.farm || ''},${employee.level || ''},${employee.totalHours},${employee.payrollData.regularHours},${employee.payrollData.overtimeHours},${employee.hourlyRate},${employee.payrollData.overtimePay.toFixed(2)}\n`;
+                });
+                
+                downloadCSV(csvContent, `加班費報表_${new Date().toISOString().split('T')[0]}.csv`);
+                showMessage('✅ 加班費報表已匯出');
+            } catch (error) {
+                showMessage(`❌ 匯出失敗: ${error.message}`, 'error');
+                console.error("Export Payroll failed:", error);
+            } finally {
+                setButtonLoading('exportPayroll', false, '📥 匯出薪資報表 (CSV)');
+            }
         }
         
         // 下載CSV文件
@@ -2354,7 +2729,9 @@
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
             link.download = filename;
+            document.body.appendChild(link); // Append to body for Firefox compatibility
             link.click();
+            document.body.removeChild(link); // Clean up
         }
         
         // 拖拽功能
