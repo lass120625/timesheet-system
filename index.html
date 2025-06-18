@@ -537,10 +537,8 @@
         
         <div class="tabs">
             <div class="tab active" onclick="switchTab('upload')">📁 資料上傳</div>
-            <div class="tab" onclick="switchTab('employees')">👥 員工總覽</div>
-            <div class="tab" onclick="switchTab('cycles')">🔄 週期分析</div>
+            <div class="tab" onclick="switchTab('overview')">👥 員工總覽</div>
             <div class="tab" onclick="switchTab('payroll')">💰 薪資計算</div>
-            <div class="tab" onclick="switchTab('setup')">⚙️ 設定說明</div>
         </div>
         
         <!-- 上傳區域 -->
@@ -548,14 +546,15 @@
             <div class="format-info">
                 <h4>📊 工時表格式說明</h4>
                 <div class="format-example">
-                    Payroll ID, First Name, Last Name, Start Date, Work Week, Hours, Level, Rate
-                    <br>EQ-0001, John, Doe, 2024-01-15, Week 1, 45, Senior, 25.50
-                    <br>EQ-0001, John, Doe, 2024-01-15, Week 2, 38, Senior, 25.50
-                    <br>EQ-0002, Jane, Smith, 2024-02-01, Week 1, 42, Junior, 20.00
+                    Payroll ID, First Name, Last Name, Start Date, Work Week, Hours, Level, Rate, Farm
+                    <br>EQ-0001, John, Doe, 2024-01-15, Week 1, 45, Senior, 25.50, Farm A
+                    <br>EQ-0001, John, Doe, 2024-01-15, Week 2, 38, Senior, 25.50, Farm A
+                    <br>EQ-0002, Jane, Smith, 2024-02-01, Week 1, 42, Junior, 20.00, Farm B
                 </div>
                 <p><strong>上傳後自動處理：</strong></p>
                 <ul>
                     <li>✅ 驗證 EQ-0001 格式的員工編號</li>
+                    <li>✅ 支援農場和職級分類篩選</li>
                     <li>✅ 整合新舊資料，檢測重複週數</li>
                     <li>✅ 自動推送到 GitHub repository</li>
                     <li>✅ 所有團隊成員即時看到最新資料</li>
@@ -580,33 +579,45 @@
             <div id="validation-results" class="validation-results"></div>
         </div>
         
-        <!-- 週期分析 -->
-        <div id="cycles-tab" class="tab-content">
-            <h2>🔄 員工週期分析</h2>
+        <!-- 員工總覽（整合週期分析） -->
+        <div id="overview-tab" class="tab-content">
+            <h2>👥 員工總覽與週期分析</h2>
             
+            <!-- 篩選器 -->
             <div class="format-info">
-                <h4>📅 週期計算說明</h4>
-                <ul>
-                    <li><strong>週期起始：</strong>以員工開始日期（Start Date）為基準</li>
-                    <li><strong>週期長度：</strong>每8週為一個完整週期</li>
-                    <li><strong>加班門檻：</strong>每週期超過304小時觸發加班費</li>
-                    <li><strong>週期重置：</strong>第9週自動開始新週期</li>
-                </ul>
+                <h4>🔍 篩選選項</h4>
+                <div style="display: flex; gap: 20px; align-items: center; flex-wrap: wrap;">
+                    <div>
+                        <label><strong>農場：</strong></label>
+                        <select id="farm-filter" onchange="updateAllTables()" style="padding: 5px 10px; margin-left: 8px;">
+                            <option value="">所有農場</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label><strong>職級：</strong></label>
+                        <select id="level-filter" onchange="updateAllTables()" style="padding: 5px 10px; margin-left: 8px;">
+                            <option value="">所有職級</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label><strong>週期狀態：</strong></label>
+                        <select id="status-filter" onchange="updateAllTables()" style="padding: 5px 10px; margin-left: 8px;">
+                            <option value="">所有狀態</option>
+                            <option value="active">進行中</option>
+                            <option value="overtime">需加班費</option>
+                            <option value="complete">已完成</option>
+                        </select>
+                    </div>
+                    <button onclick="clearFilters()" style="padding: 5px 15px; background: #6c757d; color: white; border: none; border-radius: 3px;">清除篩選</button>
+                </div>
             </div>
             
-            <div class="summary-cards" id="cycle-summary-cards"></div>
-            <div id="cycles-table-container"></div>
+            <div class="summary-cards" id="overview-summary-cards"></div>
+            <div id="overview-table-container"></div>
             
-            <button class="upload-btn" onclick="exportCycleAnalysis()" style="margin-top: 20px;">
-                📥 匯出週期分析報告 (CSV)
+            <button class="upload-btn" onclick="exportOverview()" style="margin-top: 20px;">
+                📥 匯出員工總覽報告 (CSV)
             </button>
-        </div>
-
-        <!-- 員工資料顯示 -->
-        <div id="employees-tab" class="tab-content">
-            <h2>👥 員工資料總覽</h2>
-            <div class="summary-cards" id="employee-summary-cards"></div>
-            <div id="employees-table-container"></div>
         </div>
         
         <!-- 薪資計算 -->
@@ -619,70 +630,6 @@
             </button>
         </div>
         
-        <!-- 設定說明 -->
-        <div id="setup-tab" class="tab-content">
-            <h2>⚙️ 設定說明</h2>
-            
-            <div class="format-info">
-                <h4>🐙 GitHub Token 設定指南</h4>
-                
-                <div style="margin: 20px 0;">
-                    <h5><strong>步驟一：生成 GitHub Personal Access Token</strong></h5>
-                    <ol>
-                        <li>前往 <a href="https://github.com/settings/tokens" target="_blank">GitHub Settings → Developer settings → Personal access tokens → Tokens (classic)</a></li>
-                        <li>點擊 <strong>"Generate new token"</strong> → <strong>"Generate new token (classic)"</strong></li>
-                        <li>填寫：
-                            <ul>
-                                <li><strong>Note</strong>: 工時管理系統</li>
-                                <li><strong>Expiration</strong>: No expiration（或選擇一年）</li>
-                                <li><strong>Scopes</strong>: 勾選 <code>repo</code>（Full control of private repositories）</li>
-                            </ul>
-                        </li>
-                        <li>點擊 <strong>"Generate token"</strong></li>
-                        <li>複製生成的 token（只會顯示一次！）</li>
-                    </ol>
-                </div>
-                
-                <div style="margin: 20px 0;">
-                    <h5><strong>步驟二：在系統中設定 Token</strong></h5>
-                    <div style="margin-top: 15px;">
-                        <label><strong>GitHub Personal Access Token：</strong></label><br>
-                        <input type="password" id="github-token-input" placeholder="請貼上你的 GitHub Token" style="width: 100%; padding: 8px; margin-top: 5px; font-family: monospace;">
-                        <button onclick="saveGitHubToken()" style="margin-top: 10px; padding: 8px 15px; background: #0366d6; color: white; border: none; border-radius: 5px;">儲存設定</button>
-                    </div>
-                </div>
-                
-                <div style="margin: 20px 0;">
-                    <h5><strong>步驟三：Repository 資訊</strong></h5>
-                    <p>系統會自動使用你當前的 repository：</p>
-                    <div class="format-example">
-                        Repository: lass120625/timesheet-system
-                        <br>資料檔案: timesheet_data.json
-                    </div>
-                </div>
-            </div>
-            
-            <div class="format-info">
-                <h4>💡 系統架構說明</h4>
-                <p><strong>GitHub 資料庫概念：</strong></p>
-                <ul>
-                    <li><strong>主檔案：</strong>GitHub repository 中的 "timesheet_data.json"</li>
-                    <li><strong>上傳流程：</strong>CSV → 解析 → 整合 → 推送到 GitHub</li>
-                    <li><strong>同步機制：</strong>所有人共用同一個 repository</li>
-                    <li><strong>版本控制：</strong>完整的 Git 歷史記錄</li>
-                </ul>
-                
-                <p><strong>團隊使用方式：</strong></p>
-                <ol>
-                    <li>主管設定好 GitHub Token 並分享網址給團隊</li>
-                    <li>任何人都可以上傳工時 CSV</li>
-                    <li>系統自動整合所有資料到 GitHub</li>
-                    <li>其他人重新整理頁面就能看到最新資料</li>
-                    <li>在 GitHub 上可以查看完整的更新歷史</li>
-                </ol>
-            </div>
-        </div>
-        
         <div id="messages"></div>
     </div>
 
@@ -692,7 +639,7 @@
         let timesheetData = [];
         let pendingData = null;
         let isGitHubConnected = false;
-        let githubToken = '';
+        let githubToken = 'YOUR_GITHUB_TOKEN_HERE'; // 在這裡填入你的 GitHub Token
         const REPO_OWNER = 'lass120625';
         const REPO_NAME = 'timesheet-system';
         const DATA_FILE_NAME = 'timesheet_data.json';
@@ -706,10 +653,10 @@
         
         // 載入設定
         function loadSettings() {
-            const savedToken = localStorage.getItem('github_token');
-            if (savedToken) {
-                githubToken = savedToken;
-                document.getElementById('github-token-input').value = '••••••••••••••••';
+            // GitHub Token 直接在代碼中設定，不需要用戶輸入
+            if (githubToken && githubToken !== 'YOUR_GITHUB_TOKEN_HERE') {
+                // 自動連接 GitHub
+                connectToGitHub();
             }
         }
         
@@ -746,26 +693,13 @@
             }
         }
         
-        // 儲存 GitHub Token
-        function saveGitHubToken() {
-            const input = document.getElementById('github-token-input');
-            const token = input.value.trim();
-            
-            if (token && token !== '••••••••••••••••') {
-                githubToken = token;
-                localStorage.setItem('github_token', token);
-                input.value = '••••••••••••••••';
-                showMessage('✅ GitHub Token 已儲存！現在可以連接 GitHub');
-            } else {
-                showMessage('❌ 請輸入有效的 GitHub Token', 'error');
-            }
-        }
+        // 移除不需要的函數
+        // saveGitHubToken 函數已移除，因為 Token 直接在代碼中設定
         
         // 連接到 GitHub
         function connectToGitHub() {
-            if (!githubToken) {
-                showMessage('❌ 請先在設定頁面輸入 GitHub Token', 'error');
-                switchTab('setup');
+            if (!githubToken || githubToken === 'YOUR_GITHUB_TOKEN_HERE') {
+                showMessage('❌ 系統設定未完成，請聯絡管理員', 'error');
                 return;
             }
             
@@ -1020,24 +954,45 @@
                 };
             }
             
+            // 確保日期格式正確處理
             const startDate = new Date(employee.startDate);
             const currentDate = new Date(referenceDate);
+            
+            // 調整時區，確保計算準確
+            startDate.setHours(0, 0, 0, 0);
+            currentDate.setHours(0, 0, 0, 0);
             
             // 計算總天數和週數
             const totalDays = Math.floor((currentDate - startDate) / (1000 * 60 * 60 * 24));
             const totalWeeks = Math.floor(totalDays / 7);
             
-            // 計算當前週期
+            // 避免負數情況
+            if (totalDays < 0) {
+                return {
+                    currentCycle: 1,
+                    weekInCycle: 1,
+                    cycleStartDate: startDate,
+                    cycleEndDate: new Date(startDate.getTime() + 56 * 24 * 60 * 60 * 1000),
+                    daysInCycle: 0,
+                    weeksFromStart: 0,
+                    status: 'pending',
+                    progressPercentage: 0
+                };
+            }
+            
+            // 計算當前週期（從1開始）
             const currentCycle = Math.floor(totalWeeks / 8) + 1;
+            
+            // 計算在當前週期中的週數（1-8）
             const weekInCycle = (totalWeeks % 8) + 1;
             
             // 計算當前週期的開始和結束日期
-            const cycleNumber = currentCycle - 1;
+            const cycleNumber = currentCycle - 1; // 週期編號從0開始計算日期
             const cycleStartDate = new Date(startDate);
-            cycleStartDate.setDate(cycleStartDate.getDate() + (cycleNumber * 8 * 7));
+            cycleStartDate.setDate(cycleStartDate.getDate() + (cycleNumber * 56)); // 56天 = 8週
             
             const cycleEndDate = new Date(cycleStartDate);
-            cycleEndDate.setDate(cycleEndDate.getDate() + (8 * 7) - 1);
+            cycleEndDate.setDate(cycleEndDate.getDate() + 55); // 55天後（第56天是週期最後一天）
             
             // 計算在當前週期中的天數
             const daysInCycle = Math.max(0, Math.floor((currentDate - cycleStartDate) / (1000 * 60 * 60 * 24)) + 1);
@@ -1048,19 +1003,22 @@
                 status = 'complete';
             } else if (employee.totalHours > 304) {
                 status = 'overtime';
-            } else if (daysInCycle < 0) {
+            } else if (daysInCycle <= 0) {
                 status = 'pending';
             }
             
+            // 計算進度百分比
+            const progressPercentage = Math.min((daysInCycle / 56) * 100, 100);
+            
             return {
                 currentCycle,
-                weekInCycle: Math.min(weekInCycle, 8),
+                weekInCycle: Math.min(Math.max(weekInCycle, 1), 8), // 確保在1-8範圍內
                 cycleStartDate,
                 cycleEndDate,
-                daysInCycle: Math.min(daysInCycle, 56), // 最多56天(8週)
+                daysInCycle: Math.min(Math.max(daysInCycle, 0), 56),
                 weeksFromStart: totalWeeks,
                 status,
-                progressPercentage: Math.min((daysInCycle / 56) * 100, 100)
+                progressPercentage
             };
         }
         
@@ -1216,7 +1174,8 @@
                             lastName: lastName,
                             startDate: row['Start Date'],
                             level: row['Level'],
-                            rate: row['Rate']
+                            rate: row['Rate'],
+                            farm: row['Farm']
                         };
                     } else {
                         const existing = employeeConsistency[payrollId];
@@ -1331,6 +1290,7 @@
                 const hours = parseFloat(row['Hours']);
                 const level = row['Level']?.trim();
                 const rate = parseRate(row['Rate']);
+                const farm = row['Farm']?.trim();
                 const weekNumber = parseWeekNumber(workWeek);
                 
                 uploadSummary.employees.add(payrollId);
@@ -1344,6 +1304,7 @@
                         lastName: lastName,
                         startDate: startDate || '2024-01-01',
                         level: level || '',
+                        farm: farm || '',
                         hourlyRate: rate || 25.0,
                         overtimeRate: (rate || 25.0) * 1.5,
                         weeklyHours: Array(8).fill(0),
@@ -1433,39 +1394,109 @@
             }
         }
         
-        // 計算薪資
+        // 計算薪資（修改為只計算加班費）
         function calculatePayroll(employee) {
             const totalHours = employee.totalHours;
             const hourlyRate = employee.hourlyRate;
-            const overtimeRate = employee.overtimeRate;
             
             if (totalHours > 304) {
                 employee.payrollData.regularHours = 304;
                 employee.payrollData.overtimeHours = totalHours - 304;
+                employee.payrollData.regularPay = 304 * hourlyRate;
+                employee.payrollData.overtimePay = employee.payrollData.overtimeHours * hourlyRate; // 加班費 = 加班工時 * 時薪
             } else {
                 employee.payrollData.regularHours = totalHours;
                 employee.payrollData.overtimeHours = 0;
+                employee.payrollData.regularPay = totalHours * hourlyRate;
+                employee.payrollData.overtimePay = 0;
             }
             
-            employee.payrollData.regularPay = employee.payrollData.regularHours * hourlyRate;
-            employee.payrollData.overtimePay = employee.payrollData.overtimeHours * overtimeRate;
             employee.payrollData.totalPay = employee.payrollData.regularPay + employee.payrollData.overtimePay;
         }
         
-        // 更新週期分析
-        function updateCycleAnalysis() {
-            const container = document.getElementById('cycles-table-container');
+        // 取得篩選後的員工列表
+        function getFilteredEmployees() {
+            const farmFilter = document.getElementById('farm-filter')?.value || '';
+            const levelFilter = document.getElementById('level-filter')?.value || '';
+            const statusFilter = document.getElementById('status-filter')?.value || '';
+            
+            return Object.values(employees).filter(employee => {
+                // 農場篩選
+                if (farmFilter && employee.farm !== farmFilter) return false;
+                
+                // 職級篩選
+                if (levelFilter && employee.level !== levelFilter) return false;
+                
+                // 狀態篩選
+                if (statusFilter) {
+                    const cycleInfo = calculateEmployeeCycle(employee);
+                    if (statusFilter === 'overtime' && employee.totalHours <= 304) return false;
+                    if (statusFilter === 'active' && (employee.totalHours > 304 || cycleInfo.status !== 'active')) return false;
+                    if (statusFilter === 'complete' && cycleInfo.status !== 'complete') return false;
+                }
+                
+                return true;
+            });
+        }
+        
+        // 更新篩選器選項
+        function updateFilterOptions() {
+            const farmFilter = document.getElementById('farm-filter');
+            const levelFilter = document.getElementById('level-filter');
+            
+            if (!farmFilter || !levelFilter) return;
+            
+            // 收集所有農場和職級
+            const farms = new Set();
+            const levels = new Set();
+            
+            Object.values(employees).forEach(employee => {
+                if (employee.farm) farms.add(employee.farm);
+                if (employee.level) levels.add(employee.level);
+            });
+            
+            // 更新農場篩選器
+            const currentFarm = farmFilter.value;
+            farmFilter.innerHTML = '<option value="">所有農場</option>';
+            [...farms].sort().forEach(farm => {
+                const option = document.createElement('option');
+                option.value = farm;
+                option.textContent = farm;
+                if (farm === currentFarm) option.selected = true;
+                farmFilter.appendChild(option);
+            });
+            
+            // 更新職級篩選器
+            const currentLevel = levelFilter.value;
+            levelFilter.innerHTML = '<option value="">所有職級</option>';
+            [...levels].sort().forEach(level => {
+                const option = document.createElement('option');
+                option.value = level;
+                option.textContent = level;
+                if (level === currentLevel) option.selected = true;
+                levelFilter.appendChild(option);
+            });
+        }
+        
+        // 清除篩選
+        function clearFilters() {
+            document.getElementById('farm-filter').value = '';
+            document.getElementById('level-filter').value = '';
+            document.getElementById('status-filter').value = '';
+            updateAllTables();
+        }
+        
+        // 更新員工總覽（整合週期分析）
+        function updateOverviewTable() {
+            const container = document.getElementById('overview-table-container');
             
             if (Object.keys(employees).length === 0) {
                 container.innerHTML = '<p>尚未載入員工資料，請先上傳工時表</p>';
                 return;
             }
             
-            // 計算週期統計
-            let activeCycles = 0;
-            let completeCycles = 0;
-            let overtimeCycles = 0;
-            let totalCycles = 0;
+            updateFilterOptions();
+            const filteredEmployees = getFilteredEmployees();
             
             let tableHTML = `
                 <table class="employee-table">
@@ -1473,6 +1504,8 @@
                         <tr>
                             <th>員工編號</th>
                             <th>姓名</th>
+                            <th>農場</th>
+                            <th>職級</th>
                             <th>開始日期</th>
                             <th>當前週期</th>
                             <th>週期進度</th>
@@ -1485,34 +1518,36 @@
                     <tbody>
             `;
             
-            Object.values(employees)
+            // 計算統計
+            let activeCycles = 0;
+            let completeCycles = 0;
+            let overtimeCycles = 0;
+            
+            filteredEmployees
                 .sort((a, b) => a.payrollId.localeCompare(b.payrollId))
                 .forEach(employee => {
                     const fullName = `${employee.firstName} ${employee.lastName}`.trim();
                     const cycleInfo = calculateEmployeeCycle(employee);
                     
-                    totalCycles++;
-                    
                     // 統計週期狀態
-                    switch(cycleInfo.status) {
-                        case 'active': activeCycles++; break;
-                        case 'complete': completeCycles++; break;
-                        case 'overtime': overtimeCycles++; break;
+                    if (employee.totalHours > 304) {
+                        overtimeCycles++;
+                    } else if (cycleInfo.status === 'complete') {
+                        completeCycles++;
+                    } else {
+                        activeCycles++;
                     }
                     
                     // 狀態顯示
                     let statusClass = 'cycle-active';
                     let statusText = '進行中';
                     
-                    if (cycleInfo.status === 'complete') {
-                        statusClass = 'cycle-complete';
-                        statusText = '已完成';
-                    } else if (cycleInfo.status === 'overtime') {
+                    if (employee.totalHours > 304) {
                         statusClass = 'cycle-overtime';
                         statusText = '需加班費';
-                    } else if (cycleInfo.status === 'pending') {
-                        statusClass = 'cycle-pending';
-                        statusText = '尚未開始';
+                    } else if (cycleInfo.status === 'complete') {
+                        statusClass = 'cycle-complete';
+                        statusText = '已完成';
                     }
                     
                     // 剩餘工時額度
@@ -1529,6 +1564,8 @@
                         <tr>
                             <td><strong>${employee.payrollId}</strong></td>
                             <td>${fullName}</td>
+                            <td>${employee.farm || '-'}</td>
+                            <td>${employee.level}</td>
                             <td>${employee.startDate}</td>
                             <td>第 ${cycleInfo.currentCycle} 週期<br><small>第 ${cycleInfo.weekInCycle}/8 週</small></td>
                             <td>
@@ -1548,11 +1585,12 @@
             tableHTML += '</tbody></table>';
             container.innerHTML = tableHTML;
             
-            // 更新週期摘要卡片
+            // 更新摘要卡片
+            const totalFiltered = filteredEmployees.length;
             const summaryHTML = `
                 <div class="summary-card">
-                    <h3>${totalCycles}</h3>
-                    <p>總週期數</p>
+                    <h3>${totalFiltered}</h3>
+                    <p>篩選後員工數</p>
                 </div>
                 <div class="summary-card">
                     <h3>${activeCycles}</h3>
@@ -1560,44 +1598,44 @@
                 </div>
                 <div class="summary-card">
                     <h3>${overtimeCycles}</h3>
-                    <p>超時週期</p>
+                    <p>需加班費</p>
                 </div>
                 <div class="summary-card">
                     <h3>${completeCycles}</h3>
                     <p>已完成週期</p>
                 </div>
             `;
-            document.getElementById('cycle-summary-cards').innerHTML = summaryHTML;
+            document.getElementById('overview-summary-cards').innerHTML = summaryHTML;
         }
         
-        // 匯出週期分析報告
-        function exportCycleAnalysis() {
+        // 匯出員工總覽報告
+        function exportOverview() {
             if (Object.keys(employees).length === 0) {
                 showMessage('沒有資料可以匯出', 'error');
                 return;
             }
             
-            let csvContent = 'Payroll ID,姓名,開始日期,當前週期,週期內週數,週期狀態,週期工時,剩餘額度,週期開始日,週期結束日,進度百分比\n';
+            const filteredEmployees = getFilteredEmployees();
+            let csvContent = 'Payroll ID,姓名,農場,職級,開始日期,當前週期,週期內週數,週期狀態,週期工時,剩餘額度,週期開始日,週期結束日,進度百分比\n';
             
-            Object.values(employees).forEach(employee => {
+            filteredEmployees.forEach(employee => {
                 const fullName = `${employee.firstName} ${employee.lastName}`.trim();
                 const cycleInfo = calculateEmployeeCycle(employee);
                 
                 let statusText = '進行中';
-                if (cycleInfo.status === 'complete') statusText = '已完成';
-                else if (cycleInfo.status === 'overtime') statusText = '需加班費';
-                else if (cycleInfo.status === 'pending') statusText = '尚未開始';
+                if (employee.totalHours > 304) statusText = '需加班費';
+                else if (cycleInfo.status === 'complete') statusText = '已完成';
                 
                 const remainingHours = Math.max(0, 304 - employee.totalHours);
                 const remainingText = employee.totalHours > 304 ? 
                     `超出${employee.totalHours - 304}小時` : 
                     `剩餘${remainingHours}小時`;
                 
-                csvContent += `${employee.payrollId},"${fullName}",${employee.startDate},${cycleInfo.currentCycle},${cycleInfo.weekInCycle},${statusText},${employee.totalHours},${remainingText},${cycleInfo.cycleStartDate.toLocaleDateString('zh-TW')},${cycleInfo.cycleEndDate.toLocaleDateString('zh-TW')},${cycleInfo.progressPercentage.toFixed(1)}%\n`;
+                csvContent += `${employee.payrollId},"${fullName}",${employee.farm || ''},${employee.level},${employee.startDate},${cycleInfo.currentCycle},${cycleInfo.weekInCycle},${statusText},${employee.totalHours},${remainingText},${cycleInfo.cycleStartDate.toLocaleDateString('zh-TW')},${cycleInfo.cycleEndDate.toLocaleDateString('zh-TW')},${cycleInfo.progressPercentage.toFixed(1)}%\n`;
             });
             
-            downloadCSV(csvContent, `週期分析報告_${new Date().toISOString().split('T')[0]}.csv`);
-            showMessage('✅ 週期分析報告已匯出');
+            downloadCSV(csvContent, `員工總覽報告_${new Date().toISOString().split('T')[0]}.csv`);
+            showMessage('✅ 員工總覽報告已匯出');
         }
         
         // 顯示上傳摘要
@@ -1703,8 +1741,7 @@
         
         // 更新所有表格
         function updateAllTables() {
-            updateEmployeesTable();
-            updateCycleAnalysis();
+            updateOverviewTable();
             updatePayrollTable();
         }
         
@@ -1885,23 +1922,24 @@
             document.getElementById('payroll-summary-cards').innerHTML = summaryHTML;
         }
         
-        // 匯出薪資報表
+        // 匯出薪資報表（只包含加班費）
         function exportPayroll() {
             if (Object.keys(employees).length === 0) {
                 showMessage('沒有資料可以匯出', 'error');
                 return;
             }
             
-            let csvContent = 'Payroll ID,姓名,職級,正常工時,加班工時,時薪,加班費率,正常薪資,加班費,總薪資\n';
+            const filteredEmployees = getFilteredEmployees();
+            let csvContent = 'Payroll ID,姓名,農場,職級,總工時,加班工時,時薪,加班費\n';
             
-            Object.values(employees).forEach(employee => {
+            filteredEmployees.forEach(employee => {
                 const fullName = `${employee.firstName} ${employee.lastName}`.trim();
                 
-                csvContent += `${employee.payrollId},"${fullName}",${employee.level},${employee.payrollData.regularHours},${employee.payrollData.overtimeHours},${employee.hourlyRate},${employee.overtimeRate},${employee.payrollData.regularPay.toFixed(2)},${employee.payrollData.overtimePay.toFixed(2)},${employee.payrollData.totalPay.toFixed(2)}\n`;
+                csvContent += `${employee.payrollId},"${fullName}",${employee.farm || ''},${employee.level},${employee.totalHours},${employee.payrollData.overtimeHours},${employee.hourlyRate},${employee.payrollData.overtimePay.toFixed(2)}\n`;
             });
             
-            downloadCSV(csvContent, `薪資報表_${new Date().toISOString().split('T')[0]}.csv`);
-            showMessage('✅ 薪資報表已匯出');
+            downloadCSV(csvContent, `加班費報表_${new Date().toISOString().split('T')[0]}.csv`);
+            showMessage('✅ 加班費報表已匯出');
         }
         
         // 下載CSV文件
