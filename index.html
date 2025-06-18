@@ -557,54 +557,76 @@
         
         <!-- GitHub Token 設定區域 -->
         <div id="token-setup" class="token-setup">
-            <h3>🔑 GitHub API Token 設定</h3>
-            <p><strong>管理員專用：</strong>設定一次後所有員工都能使用</p>
+            <h3>🔑 系統設定</h3>
+            <p><strong>選擇設定方式：</strong></p>
             
-            <div class="token-input-group">
-                <input 
-                    type="password" 
-                    id="github-token-input" 
-                    class="token-input" 
-                    placeholder="請輸入 GitHub Personal Access Token"
-                    value=""
-                >
-                <button class="save-token-btn" onclick="saveGitHubToken()">
-                    💾 設定為系統預設 Token
-                </button>
+            <!-- 方式選擇 -->
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; margin-bottom: 10px;">
+                    <input type="radio" name="setup-mode" value="admin" onchange="switchSetupMode('admin')" checked>
+                    <strong>管理員模式：</strong> 我來設定 Token，其他人直接使用
+                </label>
+                <label style="display: block;">
+                    <input type="radio" name="setup-mode" value="individual" onchange="switchSetupMode('individual')">
+                    <strong>個人模式：</strong> 每個人使用自己的 GitHub Token
+                </label>
             </div>
             
-            <div class="token-instructions">
-                <h4>📋 管理員設定步驟：</h4>
-                <ol>
-                    <li>將您的 GitHub Token 複製並貼到上方輸入框中</li>
-                    <li>點擊「設定為系統預設 Token」</li>
-                    <li>系統會自動連接並測試</li>
-                    <li>設定完成後，將此 HTML 檔案分享給員工使用</li>
-                </ol>
-                
-                <div class="warning-message" style="margin-top: 15px;">
-                    <strong>🔐 如何取得 GitHub Token：</strong><br>
-                    1. GitHub → Settings → Developer settings → Personal access tokens<br>
-                    2. 點擊 "Generate new token (classic)"<br>
-                    3. 設定權限：勾選 <code>repo</code> 權限<br>
-                    4. 複製生成的 token（格式如：ghp_xxxxxxxxxxxxxx）
+            <!-- 管理員設定模式 -->
+            <div id="admin-setup" class="setup-mode">
+                <div class="success-message">
+                    <h4>👨‍💼 管理員設定步驟：</h4>
+                    <ol>
+                        <li><strong>在代碼中設定 Token：</strong><br>
+                            找到代碼第 350 行左右：<code>let githubToken = '';</code><br>
+                            改為：<code>let githubToken = 'ghp_your_token_here';</code>
+                        </li>
+                        <li><strong>修改設定：</strong><br>
+                            將 <code>ALLOW_CUSTOM_TOKEN = true</code> 改為 <code>false</code>
+                        </li>
+                        <li><strong>分享檔案：</strong><br>
+                            所有員工打開修改後的檔案就能直接使用，無需設定
+                        </li>
+                    </ol>
                 </div>
                 
-                <div class="success-message" style="margin-top: 15px;">
-                    <strong>✅ 安全優勢：</strong><br>
-                    • Token 不會寫在代碼中，更加安全<br>
-                    • 管理員可隨時更換 Token<br>
-                    • 員工只需開啟檔案即可使用，無需知道 Token<br>
-                    • 系統會將 Token 安全儲存在管理員的瀏覽器中
+                <div class="warning-message">
+                    <strong>🎯 一勞永逸的解決方案：</strong><br>
+                    設定一次後，任何人在任何電腦上都能直接使用，不需要重複設定 Token。
+                </div>
+            </div>
+            
+            <!-- 個人設定模式 -->
+            <div id="individual-setup" class="setup-mode" style="display: none;">
+                <div class="token-input-group">
+                    <input 
+                        type="password" 
+                        id="github-token-input" 
+                        class="token-input" 
+                        placeholder="請輸入您的 GitHub Personal Access Token"
+                        value=""
+                    >
+                    <button class="save-token-btn" onclick="saveGitHubToken()">
+                        💾 儲存並連接
+                    </button>
                 </div>
                 
-                <div class="error-message" style="margin-top: 15px;">
-                    <strong>🔒 重要安全提醒：</strong><br>
-                    • Token 具有您的 GitHub 帳戶權限，請妥善保管<br>
-                    • 建議為工時系統建立專用的 GitHub 帳戶<br>
-                    • 如果 Token 洩露，請立即到 GitHub 撤銷並重新生成<br>
-                    • 不要將 Token 直接寫在代碼或分享給他人
+                <div class="token-instructions">
+                    <h4>📋 如何取得 GitHub Token：</h4>
+                    <ol>
+                        <li>GitHub → Settings → Developer settings → Personal access tokens</li>
+                        <li>點擊 "Generate new token (classic)"</li>
+                        <li>設定權限：勾選 <code>repo</code> 權限</li>
+                        <li>複製 Token 並貼到上方輸入框</li>
+                    </ol>
                 </div>
+            </div>
+            
+            <div class="error-message">
+                <strong>🔒 安全提醒：</strong><br>
+                • GitHub Token 具有帳戶權限，請妥善保管<br>
+                • 建議建立專用的 GitHub 帳戶供工時系統使用<br>
+                • 如果 Token 洩露，請立即撤銷並重新生成
             </div>
         </div>
         
@@ -753,14 +775,16 @@
         let isGitHubConnected = false;
         
         // ================================
-        // 🔑 GitHub 設定區域 - 安全設定
+        // 🔑 GitHub 設定區域 - 管理員設定
         // ================================
-        let githubToken = ''; // Token 將由管理員在頁面中設定，更加安全
+        // 管理員請將您的 Token 填入下方，其他人就不需要再設定
+        let githubToken = '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'; // 您的 GitHub Token
+        
         const REPO_OWNER = 'lass120625';  // 您的 GitHub 用戶名
         const REPO_NAME = 'timesheet-system';  // Repository 名稱
         const DATA_FILE_NAME = 'timesheet_data.json';
         
-        // 管理員模式：設定為 false 表示只有管理員能設定 Token
+        // 管理員模式：員工不需要設定 Token
         const ALLOW_CUSTOM_TOKEN = false;
         
         // 初始化
@@ -770,10 +794,24 @@
             updateProgress(0, '系統就緒');
         });
         
+        // 切換設定模式
+        function switchSetupMode(mode) {
+            const adminSetup = document.getElementById('admin-setup');
+            const individualSetup = document.getElementById('individual-setup');
+            
+            if (mode === 'admin') {
+                adminSetup.style.display = 'block';
+                individualSetup.style.display = 'none';
+            } else {
+                adminSetup.style.display = 'none';
+                individualSetup.style.display = 'block';
+            }
+        }
+        
         // 載入設定
         function loadSettings() {
-            // 檢查是否有預設的 GitHub Token
-            if (githubToken && githubToken !== 'YOUR_GITHUB_TOKEN_HERE') {
+            // 檢查是否有預設的 GitHub Token（在代碼中設定）
+            if (githubToken && githubToken !== '') {
                 // 有預設 Token，隱藏設定區域並自動連接
                 hideTokenSetup();
                 connectToGitHub();
@@ -1277,11 +1315,43 @@
             return pattern.test(payrollId.trim());
         }
         
-        // 解析週數
-        function parseWeekNumber(weekString) {
-            if (!weekString) return 1;
-            const match = weekString.toString().match(/(\d+)/);
-            return match ? parseInt(match[1]) : 1;
+        // 解析週數（支援多種格式）
+        function parseWeekNumber(workWeekString) {
+            if (!workWeekString) return 1;
+            
+            const weekStr = workWeekString.toString().trim();
+            
+            // 如果是 "Week 1", "Week 2" 格式
+            const weekMatch = weekStr.match(/week\s*(\d+)/i);
+            if (weekMatch) {
+                return parseInt(weekMatch[1]);
+            }
+            
+            // 如果是純數字
+            const numberMatch = weekStr.match(/^(\d+)$/);
+            if (numberMatch) {
+                return parseInt(numberMatch[1]);
+            }
+            
+            // 如果是日期格式，我們需要根據員工開始日期計算週數
+            // 先暫時使用日期的天數作為識別符，後續會在處理資料時修正
+            if (weekStr.match(/\d{1,2}\/\d{1,2}\/\d{4}/) || weekStr.match(/\d{4}-\d{1,2}-\d{1,2}/)) {
+                // 將日期轉換為週數的邏輯
+                try {
+                    const parts = weekStr.split('/');
+                    if (parts.length === 3) {
+                        const day = parseInt(parts[0]);
+                        const month = parseInt(parts[1]);
+                        // 簡單的週數計算：根據日期產生週數
+                        return ((month - 1) * 4) + Math.ceil(day / 7);
+                    }
+                } catch (error) {
+                    console.warn('日期解析失敗:', weekStr);
+                }
+            }
+            
+            // 預設返回 1
+            return 1;
         }
         
         // 解析工資率
@@ -1354,6 +1424,8 @@
             }
             
             const employeeConsistency = {};
+            let validRecords = 0;
+            let skippedEmptyRecords = 0;
             
             data.forEach((row, index) => {
                 const payrollId = row['Payroll ID']?.trim();
@@ -1361,6 +1433,14 @@
                 const lastName = row['Last Name']?.trim();
                 const workWeek = row['Work Week']?.trim();
                 const hours = parseFloat(row['Hours']);
+                
+                // 如果整行都是空的，跳過但不報錯
+                if (!payrollId && !firstName && !lastName && !workWeek && isNaN(hours)) {
+                    skippedEmptyRecords++;
+                    return;
+                }
+                
+                validRecords++;
                 
                 if (!validatePayrollID(payrollId)) {
                     result.errors.push(`第${index + 2}行: Payroll ID 格式錯誤 (${payrollId})，應為 EQ-0001 格式`);
@@ -1406,8 +1486,12 @@
             });
             
             if (result.errors.length === 0) {
-                result.success.push(`成功驗證 ${data.length} 筆工時記錄`);
+                result.success.push(`成功驗證 ${validRecords} 筆工時記錄`);
                 result.success.push(`涉及 ${Object.keys(employeeConsistency).length} 位員工`);
+                
+                if (skippedEmptyRecords > 0) {
+                    result.warnings.push(`已自動跳過 ${skippedEmptyRecords} 行空白記錄`);
+                }
             }
             
             return result;
@@ -1932,30 +2016,43 @@
             const lines = csvText.trim().split('\n');
             const headers = lines[0].split(',').map(h => h.trim().replace(/"/g, ''));
             
-            return lines.slice(1).map(line => {
-                const values = [];
-                let current = '';
-                let inQuotes = false;
-                
-                for (let i = 0; i < line.length; i++) {
-                    const char = line[i];
-                    if (char === '"') {
-                        inQuotes = !inQuotes;
-                    } else if (char === ',' && !inQuotes) {
-                        values.push(current.trim());
-                        current = '';
-                    } else {
-                        current += char;
+            return lines.slice(1)
+                .filter(line => {
+                    // 過濾掉空行或只有逗號的行
+                    const trimmedLine = line.trim();
+                    return trimmedLine && !trimmedLine.match(/^,*$/);
+                })
+                .map(line => {
+                    const values = [];
+                    let current = '';
+                    let inQuotes = false;
+                    
+                    for (let i = 0; i < line.length; i++) {
+                        const char = line[i];
+                        if (char === '"') {
+                            inQuotes = !inQuotes;
+                        } else if (char === ',' && !inQuotes) {
+                            values.push(current.trim());
+                            current = '';
+                        } else {
+                            current += char;
+                        }
                     }
-                }
-                values.push(current.trim());
-                
-                const row = {};
-                headers.forEach((header, index) => {
-                    row[header] = values[index] || '';
+                    values.push(current.trim());
+                    
+                    const row = {};
+                    headers.forEach((header, index) => {
+                        row[header] = values[index] || '';
+                    });
+                    return row;
+                })
+                .filter(row => {
+                    // 進一步過濾：確保至少有 Payroll ID 或其他關鍵資料
+                    const payrollId = row['Payroll ID']?.trim();
+                    const firstName = row['First Name']?.trim();
+                    const lastName = row['Last Name']?.trim();
+                    return payrollId || firstName || lastName;
                 });
-                return row;
-            });
         }
         
         // 更新所有表格
