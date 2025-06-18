@@ -558,31 +558,53 @@
         <!-- GitHub Token 設定區域 -->
         <div id="token-setup" class="token-setup">
             <h3>🔑 GitHub API Token 設定</h3>
-            <p>設定一次即可永久使用，不需要每次重新連接</p>
+            <p><strong>管理員專用：</strong>設定一次後所有員工都能使用</p>
             
             <div class="token-input-group">
                 <input 
                     type="password" 
                     id="github-token-input" 
                     class="token-input" 
-                    placeholder="請輸入您的 GitHub Personal Access Token"
+                    placeholder="請輸入 GitHub Personal Access Token"
                     value=""
                 >
                 <button class="save-token-btn" onclick="saveGitHubToken()">
-                    💾 儲存並連接
+                    💾 設定為系統預設 Token
                 </button>
             </div>
             
             <div class="token-instructions">
-                <h4>📋 如何取得 GitHub Token：</h4>
+                <h4>📋 管理員設定步驟：</h4>
                 <ol>
-                    <li>登入 GitHub → Settings → Developer settings → Personal access tokens</li>
-                    <li>點擊 "Generate new token (classic)"</li>
-                    <li>設定權限：至少勾選 <code>repo</code> 權限</li>
-                    <li>複製生成的 token 並貼上到上方輸入框</li>
-                    <li>點擊「儲存並連接」即可完成設定</li>
+                    <li>將您的 GitHub Token 複製並貼到上方輸入框中</li>
+                    <li>點擊「設定為系統預設 Token」</li>
+                    <li>系統會自動連接並測試</li>
+                    <li>設定完成後，將此 HTML 檔案分享給員工使用</li>
                 </ol>
-                <p><strong>注意：</strong> Token 會安全地儲存在您的瀏覽器中，只有您可以存取</p>
+                
+                <div class="warning-message" style="margin-top: 15px;">
+                    <strong>🔐 如何取得 GitHub Token：</strong><br>
+                    1. GitHub → Settings → Developer settings → Personal access tokens<br>
+                    2. 點擊 "Generate new token (classic)"<br>
+                    3. 設定權限：勾選 <code>repo</code> 權限<br>
+                    4. 複製生成的 token（格式如：ghp_xxxxxxxxxxxxxx）
+                </div>
+                
+                <div class="success-message" style="margin-top: 15px;">
+                    <strong>✅ 安全優勢：</strong><br>
+                    • Token 不會寫在代碼中，更加安全<br>
+                    • 管理員可隨時更換 Token<br>
+                    • 員工只需開啟檔案即可使用，無需知道 Token<br>
+                    • 系統會將 Token 安全儲存在管理員的瀏覽器中
+                </div>
+                
+                <div class="error-message" style="margin-top: 15px;">
+                    <strong>🔒 重要安全提醒：</strong><br>
+                    • Token 具有您的 GitHub 帳戶權限，請妥善保管<br>
+                    • 建議為工時系統建立專用的 GitHub 帳戶<br>
+                    • 如果 Token 洩露，請立即到 GitHub 撤銷並重新生成<br>
+                    • 不要將 Token 直接寫在代碼或分享給他人
+                </div>
             </div>
         </div>
         
@@ -729,10 +751,17 @@
         let timesheetData = [];
         let pendingData = null;
         let isGitHubConnected = false;
-        let githubToken = '';
-        const REPO_OWNER = 'lass120625';
-        const REPO_NAME = 'timesheet-system';
+        
+        // ================================
+        // 🔑 GitHub 設定區域 - 安全設定
+        // ================================
+        let githubToken = ''; // Token 將由管理員在頁面中設定，更加安全
+        const REPO_OWNER = 'lass120625';  // 您的 GitHub 用戶名
+        const REPO_NAME = 'timesheet-system';  // Repository 名稱
         const DATA_FILE_NAME = 'timesheet_data.json';
+        
+        // 管理員模式：設定為 false 表示只有管理員能設定 Token
+        const ALLOW_CUSTOM_TOKEN = false;
         
         // 初始化
         document.addEventListener('DOMContentLoaded', function() {
@@ -743,13 +772,62 @@
         
         // 載入設定
         function loadSettings() {
-            // 從 localStorage 載入已儲存的 token
+            // 檢查是否有預設的 GitHub Token
+            if (githubToken && githubToken !== 'YOUR_GITHUB_TOKEN_HERE') {
+                // 有預設 Token，隱藏設定區域並自動連接
+                hideTokenSetup();
+                connectToGitHub();
+                return;
+            }
+            
+            // 沒有預設 Token，檢查是否允許用戶輸入
+            if (!ALLOW_CUSTOM_TOKEN) {
+                // 不允許用戶輸入，顯示管理員設定提示
+                showAdminSetupMessage();
+                return;
+            }
+            
+            // 允許用戶輸入，從 localStorage 載入已儲存的 token
             const savedToken = localStorage.getItem('github_token');
             if (savedToken) {
                 githubToken = savedToken;
                 document.getElementById('github-token-input').value = savedToken;
                 hideTokenSetup();
                 connectToGitHub();
+            }
+        }
+        
+        // 顯示管理員設定提示
+        function showAdminSetupMessage() {
+            const tokenSetup = document.getElementById('token-setup');
+            tokenSetup.innerHTML = `
+                <h3>⚠️ 系統設定未完成</h3>
+                <div class="validation-error">
+                    <strong>系統管理員注意：</strong><br>
+                    請在代碼中設定 GitHub Token 以啟用系統功能。<br><br>
+                    <strong>設定步驟：</strong><br>
+                    1. 取得 GitHub Personal Access Token<br>
+                    2. 在代碼第 ${findTokenLineNumber()} 行左右找到：<br>
+                    <code>let githubToken = 'YOUR_GITHUB_TOKEN_HERE';</code><br>
+                    3. 將 'YOUR_GITHUB_TOKEN_HERE' 替換為真實的 Token<br>
+                    4. 重新載入頁面
+                </div>
+            `;
+        }
+        
+        // 找到 Token 設定的大概行數（用於提示）
+        function findTokenLineNumber() {
+            try {
+                const scriptText = document.scripts[document.scripts.length - 1].innerHTML;
+                const lines = scriptText.split('\n');
+                for (let i = 0; i < lines.length; i++) {
+                    if (lines[i].includes('githubToken = ') && lines[i].includes('YOUR_GITHUB_TOKEN_HERE')) {
+                        return i + 1;
+                    }
+                }
+                return '大約 350';
+            } catch (error) {
+                return '大約 350';
             }
         }
         
@@ -769,7 +847,11 @@
             }
             
             githubToken = token;
-            localStorage.setItem('github_token', token);
+            
+            // 只有在允許自訂 Token 時才儲存到 localStorage
+            if (ALLOW_CUSTOM_TOKEN) {
+                localStorage.setItem('github_token', token);
+            }
             
             showMessage('✅ GitHub Token 已儲存！正在連接...', 'success');
             hideTokenSetup();
