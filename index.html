@@ -358,6 +358,46 @@
         .employee-table tr:hover {
             background: #f0f2ff; /* Hover effect for table rows */
         }
+        
+        /* New Styles for Collapsible Details */
+        .toggle-details-btn {
+            cursor: pointer;
+            background: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            font-weight: bold;
+            font-size: 16px;
+            line-height: 24px;
+            text-align: center;
+        }
+        .details-row {
+            display: none;
+        }
+        .details-row td {
+            background-color: #f8f9fa !important;
+            padding: 15px !important;
+            text-align: left !important;
+        }
+        .details-table {
+            width: 50%;
+            margin: 0 auto;
+            border-collapse: collapse;
+        }
+        .details-table th, .details-table td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: center;
+            background: white;
+        }
+        .details-table th {
+            background: #6c757d;
+            color: white;
+            font-size: 12px;
+        }
+
 
         .status-normal {
             color: #228B22;
@@ -740,13 +780,13 @@
             <div class="token-instructions">
                 <h4>📋 如何使用：</h4>
                 <ol>
-                    <li><strong>輸入 Token：：</strong>將您的 GitHub Token 貼到上方輸入框</li>
-                    <li><strong>點擊連接：：</strong>系統會測試連接並載入資料</li>
-                    <li><strong>開始使用：：</strong>上傳工時表、查看報表等</li>
-                    <li><strong>安全性提醒：：</strong>Token 不會被儲存，關閉瀏覽器後自動清除，確保安全。</li>
+                    <li><strong>輸入 Token：</strong>將您的 GitHub Token 貼到上方輸入框</li>
+                    <li><strong>點擊連接：</strong>系統會測試連接並載入資料</li>
+                    <li><strong>開始使用：</strong>上傳工時表、查看報表等</li>
+                    <li><strong>安全性提醒：</strong>Token 不會被儲存，關閉瀏覽器後自動清除，確保安全。</li>
                 </ol>
                 
-                <h4>🔐 如何取得 GitHub Token：：</h4>
+                <h4>🔐 如何取得 GitHub Token：</h4>
                 <ol>
                     <li>登入 GitHub → Settings → Developer settings → Personal access tokens</li>
                     <li>點擊 "Generate new token (classic)" 或 "Generate new token"</li>
@@ -755,14 +795,14 @@
                 </ol>
                 
                 <div class="success-message">
-                    <strong>✅ 安全優勢：：</strong><br>
+                    <strong>✅ 安全優勢：</strong><br>
                     • Token 不會被**持久化**儲存在電腦中<br>
                     • 每次使用都需要重新輸入，適合共用電腦環境<br>
                     • 關閉瀏覽器後 Token 從記憶體中自動清除
                 </div>
                 
                 <div class="warning-message">
-                    <strong>🎯 使用建議：：</strong><br>
+                    <strong>🎯 使用建議：</strong><br>
                     • 建議建立專用的 GitHub 帳戶供工時系統使用<br>
                     • 或使用公司統一的 GitHub Token<br>
                     • Token 具有 GitHub 權限，請妥善保管，如果洩露請立即撤銷並重新生成
@@ -794,7 +834,7 @@
             <h3>🐙 GitHub 連接狀態</h3>
             <p id="github-status-text">尚未連接到 GitHub repository</p>
             <div id="last-sync" class="last-sync" style="display: none;">
-                <strong>最後同步：：</strong><span id="sync-time">尚未同步</span>
+                <strong>最後同步：</strong><span id="sync-time">尚未同步</span>
             </div>
             <button id="github-sync-btn" class="github-btn" onclick="syncFromGitHub()" style="display: none;">
                 <span class="spinner" style="display: none;"></span>
@@ -835,14 +875,14 @@
                     <br>EQ-0001, John, Doe, 2024-01-15, 2024-01-22, 38, Senior, 25.50, Farm A
                     <br>EQ-0002, Jane, Smith, 2024-02-01, 2024-02-05, 42, Junior, 20.00, Farm B
                 </div>
-                <p><strong>重要格式說明：：</strong></p>
+                <p><strong>重要格式說明：</strong></p>
                 <ul>
                     <li>📅 <strong>Start Date</strong>：員工在該農場工作的第一天（只需在第一次上傳時提供，後續會自動保留），格式為 `YYYY-MM-DD` 或 `DD/MM/YYYY`。</li>
                     <li>📅 <strong>Work Week</strong>：工作週的週一日期（例如：2024-01-15 表示 2024年1月15日那一週），格式為 `YYYY-MM-DD` 或 `DD/MM/YYYY`。</li>
                     <li>🔢 <strong>週數計算</strong>：系統會自動根據 Start Date 和 Work Week 計算正確的週數</li>
                     <li>🏭 <strong>Farm/Level/Rate 更新</strong>：如果員工轉換農場或調整薪資，新資料會覆蓋舊資料</li>
                 </ul>
-                <p><strong>上傳後自動處理：：</strong></p>
+                <p><strong>上傳後自動處理：</strong></p>
                 <ul>
                     <li>✅ 驗證 EQ-0001 格式的員工編號</li>
                     <li>✅ 自動計算正確的工作週數</li>
@@ -871,11 +911,6 @@
             
             <div id="validation-results" class="validation-results"></div>
         </div>
-        <div class="tabs">
-            <div class="tab active" onclick="switchTab('upload')">📁 資料上傳</div>
-            <div class="tab" onclick="switchTab('overview')">👥 員工總覽</div>
-            <div class="tab" onclick="switchTab('payroll')">💰 薪資計算</div>
-        </div>
         
         <div id="overview-tab" class="tab-content"> 
             <h2>👥 員工總覽與週期分析</h2>
@@ -884,24 +919,22 @@
                 <h4>🔍 篩選選項</h4>
                 <div style="display: flex; gap: 20px; align-items: center; flex-wrap: wrap;">
                     <div>
-                        <label for="farm-filter"><strong>農場：：</strong></label>
+                        <label for="farm-filter"><strong>農場：</strong></label>
                         <select id="farm-filter" onchange="updateAllTables()" style="padding: 8px 12px; margin-left: 8px; border-radius: 5px; border: 1px solid #ccc;">
                             <option value="">所有農場</option>
                         </select>
                     </div>
                     <div>
-                        <label for="level-filter"><strong>職級：：</strong></label>
+                        <label for="level-filter"><strong>職級：</strong></label>
                         <select id="level-filter" onchange="updateAllTables()" style="padding: 8px 12px; margin-left: 8px; border-radius: 5px; border: 1px solid #ccc;">
                             <option value="">所有職級</option>
                         </select>
                     </div>
                     <div>
-                        <label for="status-filter"><strong>週期狀態：：</strong></label>
-                        <select id="status-filter" onchange="updateAllTables()" style="padding: 8px 12px; margin-left: 8px; border-radius: 5px; border: 1px solid #ccc;">
-                            <option value="">所有狀態</option>
-                            <option value="active">進行中</option>
-                            <option value="overtime">需加班費</option>
-                            </select>
+                        <label for="employee-filter"><strong>員工：</strong></label>
+                        <select id="employee-filter" onchange="updateAllTables()" style="padding: 8px 12px; margin-left: 8px; border-radius: 5px; border: 1px solid #ccc;">
+                            <option value="">所有員工</option>
+                        </select>
                     </div>
                     <button class="action-btn" onclick="clearFilters()" style="padding: 8px 18px; background: #6c757d; color: white; border: none; border-radius: 3px; box-shadow: none;">清除篩選</button>
                 </div>
@@ -1055,12 +1088,12 @@
                     <p>在您的 GitHub 帳戶中找不到名為 <strong>${REPO_NAME}</strong> 的 repository。</p>
                     
                     <div class="warning-message">
-                        <strong>目前設定：：</strong><br>
+                        <strong>目前設定：</strong><br>
                         用戶：${REPO_OWNER}<br>
                         Repository：${REPO_NAME}
                     </div>
                     
-                    <p>請選擇以下其中一個選項：：</p>
+                    <p>請選擇以下其中一個選項：</p>
                     
                     <div class="confirm-buttons">
                         <button class="btn-confirm" id="createRepoBtn" onclick="createRepository()">
@@ -1357,13 +1390,14 @@
                         headers: {
                             'Authorization': `token ${githubToken}`,
                             'Accept': 'application/vnd.github.v3+json',
-                            'User-Agent': 'Timesheet-System/1.0'
+                            'User-Agent': 'Timesheet-System/1.0',
+                            'Cache-Control': 'no-cache' // Prevent caching issues
                         }
                     });
                 } else {
                     // If no token, try fetching raw content (for public repos)
                     isPublicFetch = true;
-                    response = await fetch(`https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/${DATA_FILE_NAME}`);
+                    response = await fetch(`https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/${DATA_FILE_NAME}?cache_bust=${new Date().getTime()}`);
                 }
 
                 if (response.status === 404) {
@@ -1421,7 +1455,7 @@
                     employees: employees,
                     timesheetData: timesheetData,
                     lastUpdated: new Date().toISOString(),
-                    version: '1.3', 
+                    version: '1.4', // Updated version
                     systemName: 'GitHub 版工時管理系統'
                 };
                 
@@ -1537,16 +1571,6 @@
         
         /**
          * Calculates employee cycle information based on start date and current date.
-         * This function determines:
-         * - currentCycle: Which 8-week cycle the employee is in.
-         * - weekInCycle: The week number within the current 8-week cycle (1-8).
-         * - cycleStartDate: The start date of the current 8-week cycle.
-         * - cycleEndDate: The end date of the current 8-week cycle.
-         * - daysInCycle: Number of days passed in the current cycle relative to today.
-         * - totalWeeksFromStart: Total weeks passed since the employee's start date.
-         * - status: 'active', 'overtime', 'complete', or 'pending'. (Internal status)
-         * - progressPercentage: Progress of the current cycle.
-         * - cycleHours: Sum of hours *only* within the current 8-week cycle.
          */
         function calculateEmployeeCycle(employee, referenceDate = new Date()) {
             const parsedStartDate = parseDate(employee.startDate);
@@ -1679,7 +1703,7 @@
         function parseDate(dateString) {
             if (!dateString) return null;
             
-            // Try ISOือบ-MM-DD
+            // Try ISO YYYY-MM-DD
             let date = new Date(dateString);
             if (!isNaN(date.getTime()) && date.toISOString().slice(0,10) === dateString) {
                 return date;
@@ -2165,18 +2189,12 @@
         function getFilteredEmployees() {
             const farmFilter = document.getElementById('farm-filter')?.value || '';
             const levelFilter = document.getElementById('level-filter')?.value || '';
-            const statusFilter = document.getElementById('status-filter')?.value || '';
+            const employeeFilter = document.getElementById('employee-filter')?.value || '';
             
             return Object.values(employees).filter(employee => {
                 if (farmFilter && employee.farm !== farmFilter) return false;
                 if (levelFilter && employee.level !== levelFilter) return false;
-                
-                if (statusFilter) {
-                    const cycleInfo = calculateEmployeeCycle(employee, new Date()); 
-                    if (statusFilter === 'overtime' && cycleInfo.status !== 'overtime') return false; 
-                    if (statusFilter === 'active' && cycleInfo.status !== 'active') return false;
-                    // Removed filtering for 'complete' and 'pending' statuses as per request
-                }
+                if (employeeFilter && employee.payrollId !== employeeFilter) return false;
                 
                 return true;
             });
@@ -2186,17 +2204,27 @@
         function updateFilterOptions() {
             const farmFilter = document.getElementById('farm-filter');
             const levelFilter = document.getElementById('level-filter');
+            const employeeFilter = document.getElementById('employee-filter');
             
-            if (!farmFilter || !levelFilter) return;
+            if (!farmFilter || !levelFilter || !employeeFilter) return;
             
             const farms = new Set();
             const levels = new Set();
+            const employeeList = [];
             
             Object.values(employees).forEach(employee => {
                 if (employee.farm) farms.add(employee.farm);
                 if (employee.level) levels.add(employee.level);
+                employeeList.push({ 
+                    name: `${employee.firstName} ${employee.lastName} (${employee.payrollId})`, 
+                    id: employee.payrollId 
+                });
             });
+
+            // Sort employees by name
+            employeeList.sort((a, b) => a.name.localeCompare(b.name));
             
+            // Populate Farm filter
             const currentFarm = farmFilter.value;
             farmFilter.innerHTML = '<option value="">所有農場</option>';
             [...farms].sort().forEach(farm => {
@@ -2207,6 +2235,7 @@
                 farmFilter.appendChild(option);
             });
             
+            // Populate Level filter
             const currentLevel = levelFilter.value;
             levelFilter.innerHTML = '<option value="">所有職級</option>';
             [...levels].sort().forEach(level => {
@@ -2216,14 +2245,39 @@
                 if (level === currentLevel) option.selected = true;
                 levelFilter.appendChild(option);
             });
+
+            // Populate Employee filter
+            const currentEmployee = employeeFilter.value;
+            employeeFilter.innerHTML = '<option value="">所有員工</option>';
+            employeeList.forEach(emp => {
+                const option = document.createElement('option');
+                option.value = emp.id;
+                option.textContent = emp.name;
+                if (emp.id === currentEmployee) option.selected = true;
+                employeeFilter.appendChild(option);
+            });
         }
         
         // Clear all filter selections
         function clearFilters() {
             document.getElementById('farm-filter').value = '';
             document.getElementById('level-filter').value = '';
-            document.getElementById('status-filter').value = '';
+            document.getElementById('employee-filter').value = '';
             updateAllTables();
+        }
+
+        // Toggle details row visibility
+        function toggleDetails(button, payrollId) {
+            const detailsRow = document.getElementById(`details-${payrollId}`);
+            if (detailsRow) {
+                if (detailsRow.style.display === 'none') {
+                    detailsRow.style.display = 'table-row';
+                    button.textContent = '-';
+                } else {
+                    detailsRow.style.display = 'none';
+                    button.textContent = '+';
+                }
+            }
         }
         
         // Update the employee overview table with cycle info
@@ -2249,6 +2303,7 @@
                 <table class="employee-table">
                     <thead>
                         <tr>
+                            <th></th>
                             <th>員工編號</th>
                             <th>姓名</th>
                             <th>農場</th>
@@ -2258,13 +2313,16 @@
                             <th>週期內週數</th>    
                             <th>歷史總工時</th>
                             <th>週期工時</th>
-                            <th>距OT門檻</th> </tr>
+                            <th>距OT門檻</th>
+                        </tr>
                     </thead>
                     <tbody>
             `;
             
             let activeCycles = 0;
-            let overtimeCycles = 0; 
+            let overtimeCycles = 0;
+            let totalHistoricalHours = 0;
+            let totalCycleHours = 0;
             
             filteredEmployees
                 .sort((a, b) => a.payrollId.localeCompare(b.payrollId))
@@ -2279,28 +2337,63 @@
                         activeCycles++;
                     }
                     
-                    // Display currentCycle and weekInCycle separately, show 0 if calculation result is 0/NaN
                     const displayCurrentCycle = Number(cycleInfo.currentCycle) || 0; 
                     const displayWeekInCycle = Number(cycleInfo.weekInCycle) || 0;
-
-                    // Remaining hours to/over threshold (304 - current cycle hours)
                     const otThresholdDifference = REGULAR_HOURS_THRESHOLD - (Number(cycleInfo.cycleHours) || 0); 
+                    const currentTotalHours = Number(employee.totalHours) || 0;
+                    const currentCycleHours = Number(cycleInfo.cycleHours) || 0;
+                    
+                    totalHistoricalHours += currentTotalHours;
+                    totalCycleHours += currentCycleHours;
+
+                    // Build work weeks detail table
+                    let detailsTableHTML = '<div style="text-align:center;">無工時記錄</div>';
+                    const workWeeks = Object.entries(employee.workWeeks || {})
+                                            .sort((a, b) => new Date(a[0]) - new Date(b[0])); // Sort by date
+
+                    if (workWeeks.length > 0) {
+                         detailsTableHTML = `
+                            <table class="details-table">
+                                <thead><tr><th>工作週 (週一)</th><th>工時</th></tr></thead>
+                                <tbody>
+                                    ${workWeeks.map(([date, hours]) => `<tr><td>${new Date(date).toLocaleDateString('en-AU')}</td><td>${hours}</td></tr>`).join('')}
+                                </tbody>
+                            </table>
+                        `;
+                    }
                     
                     tableHTML += `
                         <tr>
+                            <td><button class="toggle-details-btn" onclick="toggleDetails(this, '${employee.payrollId}')">+</button></td>
                             <td><strong>${employee.payrollId}</strong></td>
                             <td>${fullName}</td>
                             <td>${employee.farm || '-'}</td>
                             <td>${employee.level || '-'}</td>
-                            <td>${(parseDate(employee.startDate) || new Date()).toLocaleDateString('en-AU')}</td> <td>${displayCurrentCycle}</td>   
+                            <td>${(parseDate(employee.startDate) || new Date()).toLocaleDateString('en-AU')}</td>
+                            <td>${displayCurrentCycle}</td>   
                             <td>${displayWeekInCycle}</td>    
-                            <td><strong>${Number(employee.totalHours) || 0}</strong></td> 
-                            <td><strong>${Number(cycleInfo.cycleHours) || 0}</strong></td>  
-                            <td>${otThresholdDifference}</td> </tr>
+                            <td><strong>${currentTotalHours}</strong></td> 
+                            <td><strong>${currentCycleHours}</strong></td>  
+                            <td class="${otThresholdDifference < 0 ? 'status-overtime' : ''}">${otThresholdDifference}</td>
+                        </tr>
+                        <tr class="details-row" id="details-${employee.payrollId}">
+                            <td colspan="11">${detailsTableHTML}</td>
+                        </tr>
                     `;
                 });
             
-            tableHTML += '</tbody></table>';
+            tableHTML += `
+                </tbody>
+                <tfoot>
+                    <tr style="background: #f0f0f0; font-weight: bold; text-align: center;">
+                        <td colspan="8" style="text-align: right;">總計</td>
+                        <td>${totalHistoricalHours}</td>
+                        <td>${totalCycleHours}</td>
+                        <td>-</td>
+                    </tr>
+                </tfoot>
+                </table>
+            `;
             container.innerHTML = tableHTML;
             
             // Update summary cards (only Active and Overtime)
@@ -2367,31 +2460,31 @@
             container.innerHTML = `
                 <h3>📊 上傳摘要</h3>
                 <div class="summary-item">
-                    <span>總記錄數：：</span>
+                    <span>總記錄數：</span>
                     <span class="highlight">${summary.totalRecords}</span>
                 </div>
                 <div class="summary-item">
-                    <span>員工數量：：</span>
+                    <span>員工數量：</span>
                     <span class="highlight">${summary.employees.size}</span>
                 </div>
                 <div class="summary-item">
-                    <span>涵蓋週數：：</span>
+                    <span>涵蓋週數：</span>
                     <span>${weeksDisplay}</span>
                 </div>
                 <div class="summary-item">
-                    <span>新增記錄：：</span>
+                    <span>新增記錄：</span>
                     <span class="highlight">${summary.newRecords}</span>
                 </div>
                 <div class="summary-item">
-                    <span>更新記錄：：</span>
+                    <span>更新記錄：</span>
                     <span class="highlight">${summary.updatedRecords}</span>
                 </div>
                 <div class="summary-item">
-                    <span>上傳時間：：</span>
+                    <span>上傳時間：</span>
                     <span>${new Date().toLocaleDateString('en-AU') + ' ' + new Date().toLocaleTimeString('en-AU')}</span>
                 </div>
                 <div class="summary-item">
-                    <span>同步狀態：：</span>
+                    <span>同步狀態：</span>
                     <span class="highlight">${isGitHubConnected ? '已同步到 GitHub' : '未連接 GitHub (僅本地記憶體)'}</span>
                 </div>
             `;
@@ -2499,32 +2592,30 @@
                             <th>姓名</th>
                             <th>農場</th>
                             <th>職級</th>
-                            <th>歷史總工時</th>
-                            <th>週期工時</th>
                             <th>時薪</th>
+                            <th>OT工時</th>
                             <th>加班費</th>
-                            <th>累加加班費</th> </tr>
+                            <th>累加加班費</th>
+                        </tr>
                     </thead>
                     <tbody>
             `;
             
-            let totalOvertimePayCurrentCycle = 0; // Total overtime for current cycle across all employees
-            let totalOvertimeHoursCurrentCycle = 0; // Total overtime hours for current cycle across all employees
-            let totalCycleHoursAllEmployees = 0; // Total cycle hours for all employees
-            let totalAccumulatedOvertimePayAllEmployees = 0; // Sum of accumulated overtime pay for all employees
+            let totalOvertimePayCurrentCycle = 0;
+            let totalOvertimeHoursCurrentCycle = 0;
+            let totalAccumulatedOvertimePayAllEmployees = 0;
 
             Object.values(employees)
                 .sort((a, b) => (Number(b.payrollData.overtimePay) || 0) - (Number(a.payrollData.overtimePay) || 0)) // Sort by current cycle overtime pay
                 .forEach(employee => {
                     const fullName = `${employee.firstName} ${employee.lastName}`.trim();
                     
-                    // Accumulate totals for summary cards
                     totalOvertimePayCurrentCycle += (Number(employee.payrollData.overtimePay) || 0);
                     totalOvertimeHoursCurrentCycle += (Number(employee.payrollData.overtimeHours) || 0);
-                    totalCycleHoursAllEmployees += (Number(employee.payrollData.cycleHours) || 0); 
-                    totalAccumulatedOvertimePayAllEmployees += (Number(employee.accumulatedOvertimePay) || 0); // Accumulate individual's total accumulated overtime
+                    totalAccumulatedOvertimePayAllEmployees += (Number(employee.accumulatedOvertimePay) || 0);
 
-                    const overtimeClass = (Number(employee.payrollData.overtimeHours) || 0) > 0 ? 'status-overtime' : '';
+                    const overtimeHours = Number(employee.payrollData.overtimeHours) || 0;
+                    const overtimeClass = overtimeHours > 0 ? 'status-overtime' : '';
                     
                     tableHTML += `
                         <tr>
@@ -2532,17 +2623,21 @@
                             <td>${fullName}</td>
                             <td>${employee.farm || '-'}</td>
                             <td>${employee.level || '-'}</td>
-                            <td><strong>${Number(employee.totalHours) || 0}</strong></td> 
-                            <td><strong>${Number(employee.payrollData.cycleHours) || 0}</strong></td> 
-                            <td>$${(Number(employee.hourlyRate) || 0).toFixed(2)}</td> <td class="money ${overtimeClass}"><strong>$${(Number(employee.payrollData.overtimePay) || 0).toFixed(2)}</strong></td>
-                            <td class="money"><strong>$${(Number(employee.accumulatedOvertimePay) || 0).toFixed(2)}</strong></td> </tr>
+                            <td>$${(Number(employee.hourlyRate) || 0).toFixed(2)}</td>
+                            <td class="${overtimeClass}"><strong>${overtimeHours.toFixed(2)}</strong></td>
+                            <td class="money ${overtimeClass}"><strong>$${(Number(employee.payrollData.overtimePay) || 0).toFixed(2)}</strong></td>
+                            <td class="money"><strong>$${(Number(employee.accumulatedOvertimePay) || 0).toFixed(2)}</strong></td>
+                        </tr>
                     `;
                 });
             
             tableHTML += `
                 <tr style="background: #f0f0f0; font-weight: bold;">
-                    <td colspan="5" style="text-align: right;">總計</td> <td>${Number(totalCycleHoursAllEmployees) || 0}</td> <td>-</td> <td class="money status-overtime">$${(Number(totalOvertimePayCurrentCycle) || 0).toFixed(2)}</td>
-                    <td class="money">$${(Number(totalAccumulatedOvertimePayAllEmployees) || 0).toFixed(2)}</td> </tr>
+                    <td colspan="5" style="text-align: right;">總計</td>
+                    <td class="status-overtime">${totalOvertimeHoursCurrentCycle.toFixed(2)}</td>
+                    <td class="money status-overtime">$${totalOvertimePayCurrentCycle.toFixed(2)}</td>
+                    <td class="money">$${totalAccumulatedOvertimePayAllEmployees.toFixed(2)}</td>
+                </tr>
             `;
             
             tableHTML += '</tbody></table>';
@@ -2551,28 +2646,24 @@
             // Update payroll summary cards
             const totalEmployees = Object.keys(employees).length;
             const overtimeEmployees = Object.values(employees).filter(emp => (Number(emp.payrollData.overtimeHours) || 0) > 0).length;
-            const avgOvertimePayCurrentCycle = overtimeEmployees > 0 ? (totalOvertimePayCurrentCycle / overtimeEmployees) : 0;
             
             const summaryHTML = `
                 <div class="summary-card">
-                    <h3>$${(Number(totalOvertimePayCurrentCycle) || 0).toFixed(0)}</h3>
+                    <h3>$${totalOvertimePayCurrentCycle.toFixed(0)}</h3>
                     <p>總加班費支出 (本週期)</p>
                 </div>
                 <div class="summary-card">
-                    <h3>${(Number(totalOvertimeHoursCurrentCycle) || 0)}</h3>
+                    <h3>${totalOvertimeHoursCurrentCycle.toFixed(0)}</h3>
                     <p>總加班工時 (本週期)</p>
-                </div>
-                <div class="summary-card">
-                    <h3>${(Number(totalCycleHoursAllEmployees) || 0)}</h3>
-                    <p>當前週期總工時</p>
                 </div>
                 <div class="summary-card">
                     <h3>${overtimeEmployees} / ${totalEmployees}</h3>
                     <p>需加班費員工</p>
                 </div>
                 <div class="summary-card">
-                    <h3>$${(Number(totalAccumulatedOvertimePayAllEmployees) || 0).toFixed(0)}</h3>
-                    <p>所有員工累加加班費</p> </div>
+                    <h3>$${totalAccumulatedOvertimePayAllEmployees.toFixed(0)}</h3>
+                    <p>所有員工累加加班費</p>
+                </div>
             `;
             document.getElementById('payroll-summary-cards').innerHTML = summaryHTML;
         }
@@ -2588,13 +2679,12 @@
             
             try {
                 const filteredEmployees = getFilteredEmployees(); 
-                // Updated CSV header for new column structure
-                let csvContent = '員工編號,姓名,農場,職級,歷史總工時,週期工時,時薪,加班費,累加加班費\n'; // Removed 正常工時, 加班工時
+                let csvContent = '員工編號,姓名,農場,職級,時薪,OT工時,加班費,累加加班費\n';
                 
                 filteredEmployees.forEach(employee => {
                     const fullName = `${employee.firstName} ${employee.lastName}`.trim();
                     
-                    csvContent += `${employee.payrollId},"${fullName}",${employee.farm || ''},${employee.level || ''},${(Number(employee.totalHours) || 0)},${(Number(employee.payrollData.cycleHours) || 0)},${(Number(employee.hourlyRate) || 0)},${(Number(employee.payrollData.overtimePay) || 0).toFixed(2)},${(Number(employee.accumulatedOvertimePay) || 0).toFixed(2)}\n`;
+                    csvContent += `${employee.payrollId},"${fullName}",${employee.farm || ''},${employee.level || ''},${(Number(employee.hourlyRate) || 0)},${(Number(employee.payrollData.overtimeHours) || 0).toFixed(2)},${(Number(employee.payrollData.overtimePay) || 0).toFixed(2)},${(Number(employee.accumulatedOvertimePay) || 0).toFixed(2)}\n`;
                 });
                 
                 downloadCSV(csvContent, `加班費報表_${new Date().toLocaleDateString('en-AU').replace(/\//g, '-')}.csv`); 
@@ -2609,7 +2699,7 @@
         
         // Download CSV file to user's computer
         function downloadCSV(content, filename) {
-            const blob = new Blob([content], { type: 'text/csv;charset=utf-8;' });
+            const blob = new Blob([new Uint8Array([0xEF, 0xBB, 0xBF]), content], { type: 'text/csv;charset=utf-8;' }); // Add BOM for Excel
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
             link.download = filename;
