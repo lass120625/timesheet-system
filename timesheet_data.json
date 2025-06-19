@@ -232,9 +232,9 @@
       "firstName": "Hiu Ting",
       "lastName": "Man",
       "startDate": "2024-01-01",
-      "level": "Level2",
+      "level": "Level4",
       "farm": "Caboolture",
-      "hourlyRate": 30.13,
+      "hourlyRate": 32.08,
       "workWeeks": {
         "2025-06-02": 7,
         "2025-06-09": 17
@@ -243,7 +243,7 @@
       "payrollData": {
         "regularHours": 24,
         "overtimeHours": 0,
-        "regularPay": 723.12,
+        "regularPay": 769.92,
         "overtimePay": 0,
         "cycleHours": 24
       },
@@ -359,9 +359,9 @@
       "firstName": "I-HSIN",
       "lastName": "SU",
       "startDate": "2025-06-09",
-      "level": "Level2",
+      "level": "Level3",
       "farm": "Caboolture",
-      "hourlyRate": 30.13,
+      "hourlyRate": 30.95,
       "workWeeks": {
         "2025-06-09": 8.25
       },
@@ -369,7 +369,7 @@
       "payrollData": {
         "regularHours": 8.25,
         "overtimeHours": 0,
-        "regularPay": 248.5725,
+        "regularPay": 255.3375,
         "overtimePay": 0,
         "cycleHours": 8.25
       },
@@ -654,7 +654,7 @@
     },
     "EQ-0736": {
       "payrollId": "EQ-0736",
-      "firstName": "YI-JU",
+      "firstName": "YI JU",
       "lastName": "LI",
       "startDate": "2024-01-01",
       "level": "Level2",
@@ -929,7 +929,7 @@
     },
     "EQ-0881": {
       "payrollId": "EQ-0881",
-      "firstName": "YU-CHANG",
+      "firstName": "YU CHANG",
       "lastName": "HSU",
       "startDate": "2024-01-01",
       "level": "Level2",
@@ -985,9 +985,9 @@
       "firstName": "Made Candra",
       "lastName": "Andiyasa",
       "startDate": "2025-02-13",
-      "level": "Level2",
+      "level": "Level3",
       "farm": "Caboolture",
-      "hourlyRate": 30.13,
+      "hourlyRate": 30.95,
       "workWeeks": {
         "2025-02-10": 6,
         "2025-03-03": 18,
@@ -1012,11 +1012,11 @@
       "payrollData": {
         "regularHours": 63.25,
         "overtimeHours": 0,
-        "regularPay": 1905.7224999999999,
+        "regularPay": 1957.5874999999999,
         "overtimePay": 0,
         "cycleHours": 63.25
       },
-      "accumulatedOvertimePay": 1822.865
+      "accumulatedOvertimePay": 1872.475
     },
     "EQ-0967": {
       "payrollId": "EQ-0967",
@@ -1069,12 +1069,12 @@
     },
     "EQ-0974": {
       "payrollId": "EQ-0974",
-      "firstName": "MENG-HSUAN",
+      "firstName": "MENG HSUAN",
       "lastName": "CHIANG",
       "startDate": "2024-01-01",
-      "level": "Level2",
+      "level": "Level3",
       "farm": "Caboolture",
-      "hourlyRate": 30.13,
+      "hourlyRate": 30.95,
       "workWeeks": {
         "2025-03-10": 3.5,
         "2025-05-26": 4,
@@ -1093,7 +1093,7 @@
       "payrollData": {
         "regularHours": 24.75,
         "overtimeHours": 0,
-        "regularPay": 745.7175,
+        "regularPay": 766.0124999999999,
         "overtimePay": 0,
         "cycleHours": 24.75
       },
@@ -1104,9 +1104,9 @@
       "firstName": "Laura Jesiska",
       "lastName": "Sitorus",
       "startDate": "2024-01-01",
-      "level": "Level2",
+      "level": "Level3",
       "farm": "Caboolture",
-      "hourlyRate": 30.13,
+      "hourlyRate": 30.95,
       "workWeeks": {
         "2025-06-02": 29.75,
         "2025-06-09": 39.25,
@@ -1117,7 +1117,7 @@
       "payrollData": {
         "regularHours": 164,
         "overtimeHours": 0,
-        "regularPay": 4941.32,
+        "regularPay": 5075.8,
         "overtimePay": 0,
         "cycleHours": 164
       },
@@ -1196,9 +1196,9 @@
       "firstName": "BORONG",
       "lastName": "HUANG",
       "startDate": "2025-02-19",
-      "level": "Level2",
+      "level": "Level4",
       "farm": "Caboolture",
-      "hourlyRate": 30.13,
+      "hourlyRate": 32.08,
       "workWeeks": {
         "2025-02-17": 5.5,
         "2025-06-02": 15.75,
@@ -1222,7 +1222,7 @@
       "payrollData": {
         "regularHours": 26.75,
         "overtimeHours": 0,
-        "regularPay": 805.9775,
+        "regularPay": 858.14,
         "overtimePay": 0,
         "cycleHours": 26.75
       },
@@ -1494,9 +1494,9 @@
       "firstName": "Li Shan",
       "lastName": "Fang",
       "startDate": "2024-01-01",
-      "level": "Level2",
+      "level": "Level3",
       "farm": "Caboolture",
-      "hourlyRate": 30.13,
+      "hourlyRate": 30.95,
       "workWeeks": {
         "2025-06-02": 6,
         "2025-03-10": 7.25,
@@ -1517,7 +1517,7 @@
       "payrollData": {
         "regularHours": 69.5,
         "overtimeHours": 0,
-        "regularPay": 2094.035,
+        "regularPay": 2151.025,
         "overtimePay": 0,
         "cycleHours": 69.5
       },
@@ -1587,9 +1587,9 @@
       "firstName": "Dian",
       "lastName": "Atika",
       "startDate": "2024-01-01",
-      "level": "Level2",
+      "level": "Level4",
       "farm": "Caboolture",
-      "hourlyRate": 30.13,
+      "hourlyRate": 32.08,
       "workWeeks": {
         "2025-06-02": 32,
         "2025-06-09": 33.25,
@@ -1608,11 +1608,11 @@
       "payrollData": {
         "regularHours": 151.5,
         "overtimeHours": 0,
-        "regularPay": 4564.695,
+        "regularPay": 4860.12,
         "overtimePay": 0,
         "cycleHours": 151.5
       },
-      "accumulatedOvertimePay": 1047.0175
+      "accumulatedOvertimePay": 1114.78
     },
     "EQ-1355": {
       "payrollId": "EQ-1355",
@@ -1662,9 +1662,9 @@
       "firstName": "LING",
       "lastName": "CHENG",
       "startDate": "2024-01-01",
-      "level": "Level2",
+      "level": "Level3",
       "farm": "Caboolture",
-      "hourlyRate": 30.13,
+      "hourlyRate": 30.95,
       "workWeeks": {
         "2025-03-10": 7.25,
         "2025-03-31": 14.75,
@@ -1685,7 +1685,7 @@
       "payrollData": {
         "regularHours": 118,
         "overtimeHours": 0,
-        "regularPay": 3555.3399999999997,
+        "regularPay": 3652.1,
         "overtimePay": 0,
         "cycleHours": 118
       },
@@ -1693,12 +1693,12 @@
     },
     "EQ-1360": {
       "payrollId": "EQ-1360",
-      "firstName": "Cyong-syuan",
+      "firstName": "Cyong syuan",
       "lastName": "Hunag",
       "startDate": "2024-01-01",
-      "level": "Level2",
+      "level": "Level4",
       "farm": "Caboolture",
-      "hourlyRate": 30.13,
+      "hourlyRate": 32.08,
       "workWeeks": {
         "2025-05-26": 4.75,
         "2025-06-09": 5,
@@ -1719,7 +1719,7 @@
       "payrollData": {
         "regularHours": 31.75,
         "overtimeHours": 0,
-        "regularPay": 956.6274999999999,
+        "regularPay": 1018.54,
         "overtimePay": 0,
         "cycleHours": 31.75
       },
@@ -1842,9 +1842,9 @@
       "firstName": "HSI YING",
       "lastName": "LIN",
       "startDate": "2024-01-01",
-      "level": "Level2",
+      "level": "Level4",
       "farm": "Caboolture",
-      "hourlyRate": 30.13,
+      "hourlyRate": 32.08,
       "workWeeks": {
         "2025-06-09": 10.25,
         "2025-06-02": 11,
@@ -1862,7 +1862,7 @@
       "payrollData": {
         "regularHours": 74,
         "overtimeHours": 0,
-        "regularPay": 2229.62,
+        "regularPay": 2373.92,
         "overtimePay": 0,
         "cycleHours": 74
       },
@@ -1873,9 +1873,9 @@
       "firstName": "Han Yi",
       "lastName": "Huang",
       "startDate": "2024-01-01",
-      "level": "Level2",
+      "level": "Level4",
       "farm": "Caboolture",
-      "hourlyRate": 30.13,
+      "hourlyRate": 32.08,
       "workWeeks": {
         "2025-06-09": 0.83,
         "2025-05-12": 4.5,
@@ -1889,7 +1889,7 @@
       "payrollData": {
         "regularHours": 49.91,
         "overtimeHours": 0,
-        "regularPay": 1503.7883,
+        "regularPay": 1601.1127999999999,
         "overtimePay": 0,
         "cycleHours": 49.91
       },
@@ -1900,9 +1900,9 @@
       "firstName": "Chu Wen",
       "lastName": "Zhang",
       "startDate": "2024-01-01",
-      "level": "Level2",
+      "level": "Level4",
       "farm": "Caboolture",
-      "hourlyRate": 30.13,
+      "hourlyRate": 32.08,
       "workWeeks": {
         "2025-04-21": 26,
         "2025-04-28": 31.75,
@@ -1917,7 +1917,7 @@
       "payrollData": {
         "regularHours": 158.75,
         "overtimeHours": 0,
-        "regularPay": 4783.1375,
+        "regularPay": 5092.7,
         "overtimePay": 0,
         "cycleHours": 158.75
       },
@@ -1975,9 +1975,9 @@
       "firstName": "Pei chi",
       "lastName": "Wu",
       "startDate": "2024-01-01",
-      "level": "Level2",
+      "level": "Level3",
       "farm": "Caboolture",
-      "hourlyRate": 30.13,
+      "hourlyRate": 30.95,
       "workWeeks": {
         "2025-05-19": 5.5,
         "2025-05-05": 7.75,
@@ -1992,7 +1992,7 @@
       "payrollData": {
         "regularHours": 61.5,
         "overtimeHours": 0,
-        "regularPay": 1852.995,
+        "regularPay": 1903.425,
         "overtimePay": 0,
         "cycleHours": 61.5
       },
@@ -2279,9 +2279,9 @@
       "firstName": "Putu Ardi",
       "lastName": "Rastiawan",
       "startDate": "2024-01-01",
-      "level": "Level2",
+      "level": "Level3",
       "farm": "Caboolture",
-      "hourlyRate": 30.13,
+      "hourlyRate": 30.95,
       "workWeeks": {
         "2025-06-09": 32.5,
         "2025-06-02": 33.25,
@@ -2293,7 +2293,7 @@
       "payrollData": {
         "regularHours": 155,
         "overtimeHours": 0,
-        "regularPay": 4670.15,
+        "regularPay": 4797.25,
         "overtimePay": 0,
         "cycleHours": 155
       },
@@ -6955,7 +6955,7 @@
       "uploadDate": "2025-06-19T14:39:30.362Z"
     }
   ],
-  "lastUpdated": "2025-06-19T14:39:30.373Z",
+  "lastUpdated": "2025-06-19T14:49:30.740Z",
   "version": "1.7",
   "systemName": "GitHub 版工時管理系統"
 }
