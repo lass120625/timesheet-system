@@ -342,6 +342,7 @@
             border: 1px solid #ddd;
             padding: 10px 8px; /* More padding */
             text-align: center; /* All table content centered */
+            vertical-align: middle;
         }
 
         .employee-table th {
@@ -375,6 +376,9 @@
         }
         .details-row {
             display: none;
+        }
+        .details-row.is-open {
+            display: table-row;
         }
         .details-row td {
             background-color: #f8f9fa !important;
@@ -1455,7 +1459,7 @@
                     employees: employees,
                     timesheetData: timesheetData,
                     lastUpdated: new Date().toISOString(),
-                    version: '1.4', // Updated version
+                    version: '1.5', // Updated version
                     systemName: 'GitHub 版工時管理系統'
                 };
                 
@@ -1619,7 +1623,7 @@
                 for (const workWeekDateStr in employee.workWeeks) {
                     const workWeekDate = parseDate(workWeekDateStr);
                     if (workWeekDate && workWeekDate >= cycleStartDate && workWeekDate <= cycleEndDate) {
-                        cycleHours += employee.workWeeks[workWeekDate];
+                        cycleHours += employee.workWeeks[workWeekDateStr];
                     }
                 }
 
@@ -1703,7 +1707,7 @@
         function parseDate(dateString) {
             if (!dateString) return null;
             
-            // Try ISO YYYY-MM-DD
+            // Try YYYY-MM-DD
             let date = new Date(dateString);
             if (!isNaN(date.getTime()) && date.toISOString().slice(0,10) === dateString) {
                 return date;
@@ -1717,6 +1721,13 @@
                 if (!isNaN(date.getTime())) return date;
             }
             
+            // Try YYYY/MM/DD
+            const partsSlashYearFirst = dateString.split('/');
+            if (partsSlashYearFirst.length === 3 && partsSlashYearFirst[0].length === 4) {
+                 date = new Date(parseInt(partsSlashYearFirst[0]), parseInt(partsSlashYearFirst[1]) - 1, parseInt(partsSlashYearFirst[2]));
+                 if (!isNaN(date.getTime())) return date;
+            }
+
             // If all fails, return null
             return null;
         }
@@ -1904,14 +1915,14 @@
             
             newData.forEach(row => {
                 const payrollId = row['Payroll ID']?.trim();
-                const workWeekDate = row['Work Week']?.trim();
+                const workWeekDateStr = row['Work Week']?.trim();
                 
-                if (payrollId && workWeekDate) {
+                if (payrollId && workWeekDateStr) {
+                    const workWeekDate = parseDate(workWeekDateStr)?.toISOString().slice(0, 10) || workWeekDateStr;
                     const key = `${payrollId}-${workWeekDate}`;
-                    const existingHours = parseFloat(existingDataMap.get(key)); // Ensure parsed as float
-                    const newHours = parseFloat(row['Hours']) || 0; // Ensure parsed as float
+                    const existingHours = parseFloat(existingDataMap.get(key));
+                    const newHours = parseFloat(row['Hours']) || 0;
 
-                    // Only conflict if exists AND hours differ
                     if (!isNaN(existingHours) && existingHours !== newHours) { 
                         conflicts.push({
                             payrollId: payrollId,
@@ -1999,15 +2010,18 @@
                 const firstName = row['First Name']?.trim();
                 const lastName = row['Last Name']?.trim();
                 const startDateStr = row['Start Date']?.trim();
-                const workWeekDate = row['Work Week']?.trim();
+                const workWeekStr = row['Work Week']?.trim();
                 const hours = parseFloat(row['Hours']) || 0; 
                 const level = row['Level']?.trim();
                 const rate = parseRate(row['Rate']);
                 const farm = row['Farm']?.trim();
 
-                if (!validatePayrollID(payrollId) || !workWeekDate || isNaN(parseDate(workWeekDate)?.getTime())) {
+                const parsedWorkWeek = parseDate(workWeekStr);
+                if (!validatePayrollID(payrollId) || !parsedWorkWeek) {
                     continue; 
                 }
+                
+                const workWeekDate = parsedWorkWeek.toISOString().slice(0, 10);
                 
                 uploadSummary.employees.add(payrollId);
                 uploadSummary.weeks.add(workWeekDate); 
@@ -2083,41 +2097,26 @@
             
             updateProgress(85, '計算工時與薪資...');
             
-            // Re-calculate all employee data after all new records are processed
             Object.values(employees).forEach(employee => {
-                // Ensure employee.workWeeks is up-to-date from timesheetData
                 employee.workWeeks = timesheetData
                                         .filter(item => item.payrollId === employee.payrollId)
                                         .reduce((acc, item) => {
                                             acc[item.workWeekDate] = item.hours;
                                             return acc;
                                         }, {});
-
-                // Calculate total historical hours
                 employee.totalHours = Object.values(employee.workWeeks).reduce((sum, hours) => sum + hours, 0);
-                
-                // Calculate payroll data for current cycle
                 calculatePayroll(employee); 
-
-                // --- Calculate Accumulated Overtime Pay for this employee across all past cycles ---
-                // This accumulates overtime pay from ALL 8-week cycles since the employee's start date up to today.
-                employee.accumulatedOvertimePay = 0; // Reset before recalculating for a clean sum
-                
+                employee.accumulatedOvertimePay = 0;
                 const employeeStartMonday = parseDate(employee.startDate) ? getMonday(parseDate(employee.startDate)) : null;
-
                 if (employeeStartMonday) {
                     const currentReferenceMonday = getMonday(new Date()); 
-                    
                     const totalWeeksSinceStart = Math.floor((currentReferenceMonday.getTime() - employeeStartMonday.getTime()) / (7 * 24 * 60 * 60 * 1000)) + 1;
                     const totalCyclesToConsider = Math.max(1, Math.ceil(totalWeeksSinceStart / WEEKS_PER_CYCLE)); 
-
                     for (let c = 0; c < totalCyclesToConsider; c++) { 
                         const cycleStartDate = new Date(employeeStartMonday);
                         cycleStartDate.setDate(cycleStartDate.getDate() + (c * WEEKS_PER_CYCLE * 7));
-
                         const cycleEndDate = new Date(cycleStartDate);
                         cycleEndDate.setDate(cycleEndDate.getDate() + (WEEKS_PER_CYCLE * 7) - 1);
-
                         let thisCycleHours = 0;
                         for (const wwDateStr in employee.workWeeks) {
                             const wwDate = parseDate(wwDateStr);
@@ -2125,13 +2124,11 @@
                                 thisCycleHours += employee.workWeeks[wwDateStr];
                             }
                         }
-                        
                         if (thisCycleHours > REGULAR_HOURS_THRESHOLD) {
                             employee.accumulatedOvertimePay += (thisCycleHours - REGULAR_HOURS_THRESHOLD) * employee.hourlyRate;
                         }
                     }
                 }
-                // --- End Calculate Accumulated Overtime Pay ---
             });
             
             updateProgress(90, '同步資料...');
@@ -2161,17 +2158,12 @@
         
         /**
          * Calculates payroll data for an employee.
-         * Now uses employee.payrollData.cycleHours for overtime calculation.
          */
         function calculatePayroll(employee) {
             const hourlyRate = Number(employee.hourlyRate) || 0; 
-            
-            // Get current cycle info to get cycleHours
             const cycleInfo = calculateEmployeeCycle(employee, new Date());
-            employee.payrollData.cycleHours = Number(cycleInfo.cycleHours) || 0; // Store cycle hours in payrollData, ensure number
-            
+            employee.payrollData.cycleHours = Number(cycleInfo.cycleHours) || 0;
             const currentCycleHours = employee.payrollData.cycleHours;
-
             if (currentCycleHours > REGULAR_HOURS_THRESHOLD) {
                 employee.payrollData.regularHours = REGULAR_HOURS_THRESHOLD;
                 employee.payrollData.overtimeHours = currentCycleHours - REGULAR_HOURS_THRESHOLD;
@@ -2221,10 +2213,8 @@
                 });
             });
 
-            // Sort employees by name
             employeeList.sort((a, b) => a.name.localeCompare(b.name));
             
-            // Populate Farm filter
             const currentFarm = farmFilter.value;
             farmFilter.innerHTML = '<option value="">所有農場</option>';
             [...farms].sort().forEach(farm => {
@@ -2235,7 +2225,6 @@
                 farmFilter.appendChild(option);
             });
             
-            // Populate Level filter
             const currentLevel = levelFilter.value;
             levelFilter.innerHTML = '<option value="">所有職級</option>';
             [...levels].sort().forEach(level => {
@@ -2246,7 +2235,6 @@
                 levelFilter.appendChild(option);
             });
 
-            // Populate Employee filter
             const currentEmployee = employeeFilter.value;
             employeeFilter.innerHTML = '<option value="">所有員工</option>';
             employeeList.forEach(emp => {
@@ -2270,12 +2258,12 @@
         function toggleDetails(button, payrollId) {
             const detailsRow = document.getElementById(`details-${payrollId}`);
             if (detailsRow) {
-                if (detailsRow.style.display === 'none') {
-                    detailsRow.style.display = 'table-row';
-                    button.textContent = '-';
-                } else {
-                    detailsRow.style.display = 'none';
+                if (detailsRow.classList.contains('is-open')) {
+                    detailsRow.classList.remove('is-open');
                     button.textContent = '+';
+                } else {
+                    detailsRow.classList.add('is-open');
+                    button.textContent = '-';
                 }
             }
         }
@@ -2330,10 +2318,9 @@
                     const fullName = `${employee.firstName} ${employee.lastName}`.trim();
                     const cycleInfo = calculateEmployeeCycle(employee, new Date());
                     
-                    // Count cycle status (only Active & Overtime for display summary)
                     if (cycleInfo.status === 'overtime') {
                         overtimeCycles++;
-                    } else if (cycleInfo.status === 'active') { // Only count active for summary
+                    } else if (cycleInfo.status === 'active') {
                         activeCycles++;
                     }
                     
@@ -2346,24 +2333,27 @@
                     totalHistoricalHours += currentTotalHours;
                     totalCycleHours += currentCycleHours;
 
-                    // Build work weeks detail table
                     let detailsTableHTML = '<div style="text-align:center;">無工時記錄</div>';
                     const workWeeks = Object.entries(employee.workWeeks || {})
-                                            .sort((a, b) => new Date(a[0]) - new Date(b[0])); // Sort by date
+                                            .sort((a, b) => new Date(a[0]) - new Date(b[0]));
 
                     if (workWeeks.length > 0) {
                          detailsTableHTML = `
                             <table class="details-table">
                                 <thead><tr><th>工作週 (週一)</th><th>工時</th></tr></thead>
                                 <tbody>
-                                    ${workWeeks.map(([date, hours]) => `<tr><td>${new Date(date).toLocaleDateString('en-AU')}</td><td>${hours}</td></tr>`).join('')}
+                                    ${workWeeks.map(([date, hours]) => {
+                                        const d = parseDate(date);
+                                        const displayDate = d ? d.toLocaleDateString('en-AU') : '無效日期';
+                                        return `<tr><td>${displayDate}</td><td>${hours}</td></tr>`;
+                                    }).join('')}
                                 </tbody>
                             </table>
                         `;
                     }
                     
                     tableHTML += `
-                        <tr>
+                        <tr class="main-row">
                             <td><button class="toggle-details-btn" onclick="toggleDetails(this, '${employee.payrollId}')">+</button></td>
                             <td><strong>${employee.payrollId}</strong></td>
                             <td>${fullName}</td>
@@ -2396,7 +2386,6 @@
             `;
             container.innerHTML = tableHTML;
             
-            // Update summary cards (only Active and Overtime)
             const totalFiltered = filteredEmployees.length;
             const summaryHTML = `
                 <div class="summary-card">
@@ -2426,7 +2415,6 @@
             
             try {
                 const filteredEmployees = getFilteredEmployees();
-                // Updated CSV header for new column structure
                 let csvContent = '員工編號,姓名,農場,職級,開始日期,當前週期,週期內週數,歷史總工時,週期工時,距OT門檻\n'; 
                 
                 filteredEmployees.forEach(employee => {
@@ -2528,21 +2516,18 @@
             if (lines.length === 0) return [];
 
             const headerLine = lines[0];
-            // === Delimiter detection logic ===
-            // Prioritize tab if more tabs than commas, or if only tabs exist.
             const commaCount = (headerLine.match(/,/g) || []).length;
             const tabCount = (headerLine.match(/\t/g) || []).length;
-            let delimiter = ','; // Default to comma
-            if (tabCount > commaCount && tabCount > 0) { // If tabs are more prevalent and exist
+            let delimiter = ',';
+            if (tabCount > commaCount && tabCount > 0) {
                 delimiter = '\t';
             }
-            // === End Delimiter detection logic ===
 
             const headers = parseCSVLine(headerLine, delimiter); 
             
             return lines.slice(1)
                 .map(line => parseCSVLine(line, delimiter)) 
-                .filter(values => values.some(val => val.trim() !== '')) // Filter out truly empty lines
+                .filter(values => values.some(val => val.trim() !== ''))
                 .map(values => {
                     const row = {};
                     headers.forEach((header, index) => {
@@ -2560,13 +2545,10 @@
                 });
         }
 
-        // Helper function to parse a single CSV line based on detected delimiter
-        // This version assumes fields are not quoted with commas inside.
         function parseCSVLine(line, delimiter) {
             const values = line.split(delimiter); 
             return values.map(val => val.trim()); 
         }
-        // === END MODIFIED parseCSV and parseCSVLine ===
         
         // Update all displayed tables (overview and payroll)
         function updateAllTables() {
@@ -2606,7 +2588,7 @@
             let totalAccumulatedOvertimePayAllEmployees = 0;
 
             Object.values(employees)
-                .sort((a, b) => (Number(b.payrollData.overtimePay) || 0) - (Number(a.payrollData.overtimePay) || 0)) // Sort by current cycle overtime pay
+                .sort((a, b) => (Number(b.payrollData.overtimePay) || 0) - (Number(a.payrollData.overtimePay) || 0))
                 .forEach(employee => {
                     const fullName = `${employee.firstName} ${employee.lastName}`.trim();
                     
@@ -2643,7 +2625,6 @@
             tableHTML += '</tbody></table>';
             container.innerHTML = tableHTML;
             
-            // Update payroll summary cards
             const totalEmployees = Object.keys(employees).length;
             const overtimeEmployees = Object.values(employees).filter(emp => (Number(emp.payrollData.overtimeHours) || 0) > 0).length;
             
