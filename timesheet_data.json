@@ -48,11 +48,11 @@
       },
       "totalHours": 192,
       "payrollData": {
-        "regularHours": 0,
+        "regularHours": 152,
         "overtimeHours": 0,
-        "regularPay": 0,
+        "regularPay": 4704.4,
         "overtimePay": 0,
-        "cycleHours": 0
+        "cycleHours": 152
       },
       "accumulatedOvertimePay": 0
     },
@@ -89,7 +89,7 @@
       "lastName": "Chen",
       "workWeekDate": "2025-06-01",
       "hours": 38,
-      "uploadDate": "2025-06-19T06:11:53.476Z"
+      "uploadDate": "2025-06-19T06:25:11.147Z"
     },
     {
       "payrollId": "EQ-0002",
@@ -97,7 +97,7 @@
       "lastName": "Chen",
       "workWeekDate": "2025-05-25",
       "hours": 32,
-      "uploadDate": "2025-06-19T06:11:53.477Z"
+      "uploadDate": "2025-06-19T06:25:11.149Z"
     },
     {
       "payrollId": "EQ-0002",
@@ -105,7 +105,7 @@
       "lastName": "Chen",
       "workWeekDate": "2025-05-18",
       "hours": 25,
-      "uploadDate": "2025-06-19T06:11:53.477Z"
+      "uploadDate": "2025-06-19T06:25:11.149Z"
     },
     {
       "payrollId": "EQ-0002",
@@ -113,7 +113,7 @@
       "lastName": "Chen",
       "workWeekDate": "2025-05-11",
       "hours": 15,
-      "uploadDate": "2025-06-19T06:11:53.477Z"
+      "uploadDate": "2025-06-19T06:25:11.149Z"
     },
     {
       "payrollId": "EQ-0002",
@@ -121,7 +121,7 @@
       "lastName": "Chen",
       "workWeekDate": "2025-05-04",
       "hours": 38,
-      "uploadDate": "2025-06-19T06:11:53.477Z"
+      "uploadDate": "2025-06-19T06:25:11.149Z"
     },
     {
       "payrollId": "EQ-0002",
@@ -129,7 +129,7 @@
       "lastName": "Chen",
       "workWeekDate": "2025-04-27",
       "hours": 34,
-      "uploadDate": "2025-06-19T06:11:53.477Z"
+      "uploadDate": "2025-06-19T06:25:11.149Z"
     },
     {
       "payrollId": "EQ-0002",
@@ -137,7 +137,7 @@
       "lastName": "Chen",
       "workWeekDate": "2025-04-20",
       "hours": 16,
-      "uploadDate": "2025-06-19T06:11:53.479Z"
+      "uploadDate": "2025-06-19T06:25:11.152Z"
     },
     {
       "payrollId": "EQ-0002",
@@ -145,7 +145,7 @@
       "lastName": "Chen",
       "workWeekDate": "2025-04-13",
       "hours": 24,
-      "uploadDate": "2025-06-19T06:11:53.479Z"
+      "uploadDate": "2025-06-19T06:25:11.152Z"
     },
     {
       "payrollId": "EQ-0122",
@@ -153,7 +153,7 @@
       "lastName": "Chang",
       "workWeekDate": "2025-06-01",
       "hours": 25,
-      "uploadDate": "2025-06-19T06:11:53.479Z"
+      "uploadDate": "2025-06-19T06:25:11.152Z"
     },
     {
       "payrollId": "EQ-0122",
@@ -161,7 +161,7 @@
       "lastName": "Chang",
       "workWeekDate": "2025-05-25",
       "hours": 30,
-      "uploadDate": "2025-06-19T06:11:53.479Z"
+      "uploadDate": "2025-06-19T06:25:11.152Z"
     },
     {
       "payrollId": "EQ-0122",
@@ -169,7 +169,7 @@
       "lastName": "Chang",
       "workWeekDate": "2025-05-18",
       "hours": 18,
-      "uploadDate": "2025-06-19T06:11:53.479Z"
+      "uploadDate": "2025-06-19T06:25:11.152Z"
     },
     {
       "payrollId": "EQ-0122",
@@ -177,7 +177,7 @@
       "lastName": "Chang",
       "workWeekDate": "2025-05-11",
       "hours": 15,
-      "uploadDate": "2025-06-19T06:11:53.480Z"
+      "uploadDate": "2025-06-19T06:25:11.153Z"
     },
     {
       "payrollId": "EQ-0122",
@@ -185,7 +185,7 @@
       "lastName": "Chang",
       "workWeekDate": "2025-05-04",
       "hours": 30,
-      "uploadDate": "2025-06-19T06:11:53.480Z"
+      "uploadDate": "2025-06-19T06:25:11.153Z"
     },
     {
       "payrollId": "EQ-0122",
@@ -193,7 +193,7 @@
       "lastName": "Chang",
       "workWeekDate": "2025-04-27",
       "hours": 34,
-      "uploadDate": "2025-06-19T06:11:53.480Z"
+      "uploadDate": "2025-06-19T06:25:11.153Z"
     },
     {
       "payrollId": "EQ-0122",
@@ -201,7 +201,7 @@
       "lastName": "Chang",
       "workWeekDate": "2025-04-20",
       "hours": 16,
-      "uploadDate": "2025-06-19T06:11:53.480Z"
+      "uploadDate": "2025-06-19T06:25:11.153Z"
     },
     {
       "payrollId": "EQ-0122",
@@ -209,7 +209,7 @@
       "lastName": "Chang",
       "workWeekDate": "2025-04-13",
       "hours": 24,
-      "uploadDate": "2025-06-19T06:11:53.480Z"
+      "uploadDate": "2025-06-19T06:25:11.153Z"
     },
     {
       "payrollId": "EQ-0003",
@@ -217,7 +217,7 @@
       "lastName": "Chieh",
       "workWeekDate": "2025-05-11",
       "hours": 21,
-      "uploadDate": "2025-06-19T06:11:53.482Z"
+      "uploadDate": "2025-06-19T06:25:11.154Z"
     },
     {
       "payrollId": "EQ-0003",
@@ -225,7 +225,7 @@
       "lastName": "Chieh",
       "workWeekDate": "2025-05-18",
       "hours": 26,
-      "uploadDate": "2025-06-19T06:11:53.482Z"
+      "uploadDate": "2025-06-19T06:25:11.154Z"
     },
     {
       "payrollId": "EQ-0003",
@@ -233,7 +233,7 @@
       "lastName": "Chieh",
       "workWeekDate": "2025-05-25",
       "hours": 32,
-      "uploadDate": "2025-06-19T06:11:53.482Z"
+      "uploadDate": "2025-06-19T06:25:11.154Z"
     },
     {
       "payrollId": "EQ-0003",
@@ -241,7 +241,7 @@
       "lastName": "Chieh",
       "workWeekDate": "2025-06-01",
       "hours": 25,
-      "uploadDate": "2025-06-19T06:11:53.482Z"
+      "uploadDate": "2025-06-19T06:25:11.154Z"
     },
     {
       "payrollId": "EQ-0003",
@@ -249,10 +249,10 @@
       "lastName": "Chieh",
       "workWeekDate": "2025-06-08",
       "hours": 19,
-      "uploadDate": "2025-06-19T06:11:53.482Z"
+      "uploadDate": "2025-06-19T06:25:11.154Z"
     }
   ],
-  "lastUpdated": "2025-06-19T06:11:53.484Z",
-  "version": "1.5",
+  "lastUpdated": "2025-06-19T06:25:11.156Z",
+  "version": "1.6",
   "systemName": "GitHub 版工時管理系統"
 }
