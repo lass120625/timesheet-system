@@ -1,0 +1,6961 @@
+{
+  "employees": {
+    "EQ-0003": {
+      "payrollId": "EQ-0003",
+      "firstName": "Yi Ai",
+      "lastName": "Chien",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-06-09": 11.25,
+        "2025-05-05": 12.25,
+        "2025-06-02": 30.75
+      },
+      "totalHours": 54.25,
+      "payrollData": {
+        "regularHours": 42,
+        "overtimeHours": 0,
+        "regularPay": 1265.46,
+        "overtimePay": 0,
+        "cycleHours": 42
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-0005": {
+      "payrollId": "EQ-0005",
+      "firstName": "CHIANG-SHUO",
+      "lastName": "Chung",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-03-10": 2.5,
+        "2025-03-17": 6.75,
+        "2025-04-14": 7.5,
+        "2025-04-21": 8.25,
+        "2025-03-24": 9.5,
+        "2025-03-31": 14.5,
+        "2025-04-07": 18,
+        "2025-05-05": 36.5
+      },
+      "totalHours": 103.5,
+      "payrollData": {
+        "regularHours": 0,
+        "overtimeHours": 0,
+        "regularPay": 0,
+        "overtimePay": 0,
+        "cycleHours": 0
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-0006": {
+      "payrollId": "EQ-0006",
+      "firstName": "CHIA-YING",
+      "lastName": "Wu",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-03-10": 2.5,
+        "2025-03-17": 6.75,
+        "2025-04-14": 7.5,
+        "2025-04-21": 8.25,
+        "2025-03-24": 9.5,
+        "2025-04-07": 11,
+        "2025-03-31": 15,
+        "2025-05-05": 36.5
+      },
+      "totalHours": 97,
+      "payrollData": {
+        "regularHours": 0,
+        "overtimeHours": 0,
+        "regularPay": 0,
+        "overtimePay": 0,
+        "cycleHours": 0
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-0008": {
+      "payrollId": "EQ-0008",
+      "firstName": "TA-CHUN",
+      "lastName": "Huang",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-04-28": 6.25
+      },
+      "totalHours": 6.25,
+      "payrollData": {
+        "regularHours": 0,
+        "overtimeHours": 0,
+        "regularPay": 0,
+        "overtimePay": 0,
+        "cycleHours": 0
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-0009": {
+      "payrollId": "EQ-0009",
+      "firstName": "SSU-CHI",
+      "lastName": "Liao",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-04-28": 6.25
+      },
+      "totalHours": 6.25,
+      "payrollData": {
+        "regularHours": 0,
+        "overtimeHours": 0,
+        "regularPay": 0,
+        "overtimePay": 0,
+        "cycleHours": 0
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-0022": {
+      "payrollId": "EQ-0022",
+      "firstName": "Ting Wei",
+      "lastName": "Chang",
+      "startDate": "2025-02-24",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-03-17": 2,
+        "2025-04-28": 3,
+        "2025-03-24": 3.5,
+        "2025-04-07": 3.5,
+        "2025-05-05": 3.75,
+        "2025-04-14": 7.25,
+        "2025-03-31": 11.75
+      },
+      "totalHours": 34.75,
+      "payrollData": {
+        "regularHours": 6.75,
+        "overtimeHours": 0,
+        "regularPay": 203.3775,
+        "overtimePay": 0,
+        "cycleHours": 6.75
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-0023": {
+      "payrollId": "EQ-0023",
+      "firstName": "Jing Ting",
+      "lastName": "Syu",
+      "startDate": "2025-02-24",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-03-17": 2,
+        "2025-04-28": 3,
+        "2025-03-24": 3.5,
+        "2025-04-07": 3.5,
+        "2025-05-05": 3.75,
+        "2025-04-14": 7.25,
+        "2025-03-31": 11.75
+      },
+      "totalHours": 34.75,
+      "payrollData": {
+        "regularHours": 6.75,
+        "overtimeHours": 0,
+        "regularPay": 203.3775,
+        "overtimePay": 0,
+        "cycleHours": 6.75
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-0032": {
+      "payrollId": "EQ-0032",
+      "firstName": "Ting Jou",
+      "lastName": "Yu",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-03-10": 3.5,
+        "2025-03-24": 4.75,
+        "2025-04-07": 4.75,
+        "2025-03-31": 6
+      },
+      "totalHours": 19,
+      "payrollData": {
+        "regularHours": 0,
+        "overtimeHours": 0,
+        "regularPay": 0,
+        "overtimePay": 0,
+        "cycleHours": 0
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-0035": {
+      "payrollId": "EQ-0035",
+      "firstName": "Anthony",
+      "lastName": "Bubla",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-03-24": 1,
+        "2025-05-05": 2.25,
+        "2025-03-10": 3.5,
+        "2025-04-21": 6.25,
+        "2025-04-28": 6.25,
+        "2025-04-14": 6.75,
+        "2025-03-31": 7.5,
+        "2025-04-07": 9.25
+      },
+      "totalHours": 42.75,
+      "payrollData": {
+        "regularHours": 0,
+        "overtimeHours": 0,
+        "regularPay": 0,
+        "overtimePay": 0,
+        "cycleHours": 0
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-0064": {
+      "payrollId": "EQ-0064",
+      "firstName": "Hiu Ting",
+      "lastName": "Man",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-06-02": 7,
+        "2025-06-09": 17
+      },
+      "totalHours": 24,
+      "payrollData": {
+        "regularHours": 24,
+        "overtimeHours": 0,
+        "regularPay": 723.12,
+        "overtimePay": 0,
+        "cycleHours": 24
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-0121": {
+      "payrollId": "EQ-0121",
+      "firstName": "Yun Ru",
+      "lastName": "Hsieh",
+      "startDate": "2025-02-13",
+      "level": "Level4",
+      "farm": "Caboolture",
+      "hourlyRate": 32.08,
+      "workWeeks": {
+        "2025-02-10": 4.5,
+        "2025-05-05": 10,
+        "2025-03-10": 17.5,
+        "2025-05-26": 18,
+        "2025-06-09": 22.5,
+        "2025-04-14": 23,
+        "2025-02-17": 24,
+        "2025-02-24": 28,
+        "2025-03-17": 28.25,
+        "2025-04-21": 29.25,
+        "2025-06-02": 30,
+        "2025-03-31": 30.5,
+        "2025-05-19": 35.5,
+        "2025-04-28": 37,
+        "2025-03-24": 43.75,
+        "2025-03-03": 45,
+        "2025-05-12": 47.25
+      },
+      "totalHours": 474,
+      "payrollData": {
+        "regularHours": 52.5,
+        "overtimeHours": 0,
+        "regularPay": 1684.1999999999998,
+        "overtimePay": 0,
+        "cycleHours": 52.5
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-0122": {
+      "payrollId": "EQ-0122",
+      "firstName": "Yu Tzu",
+      "lastName": "Chang",
+      "startDate": "2025-02-13",
+      "level": "Level3",
+      "farm": "Caboolture",
+      "hourlyRate": 30.95,
+      "workWeeks": {
+        "2025-02-10": 4.5,
+        "2025-03-10": 6.5,
+        "2025-05-05": 10,
+        "2025-05-19": 13,
+        "2025-04-07": 13.5,
+        "2025-03-17": 15.25,
+        "2025-06-09": 15.5,
+        "2025-03-03": 21,
+        "2025-04-14": 21.75,
+        "2025-02-24": 22.75,
+        "2025-02-17": 24,
+        "2025-03-31": 27.5,
+        "2025-04-21": 29.75,
+        "2025-03-24": 30.25,
+        "2025-06-02": 34.5,
+        "2025-04-28": 36.75,
+        "2025-05-12": 43
+      },
+      "totalHours": 369.5,
+      "payrollData": {
+        "regularHours": 50,
+        "overtimeHours": 0,
+        "regularPay": 1547.5,
+        "overtimePay": 0,
+        "cycleHours": 50
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-0270": {
+      "payrollId": "EQ-0270",
+      "firstName": "HONG-ZHENG",
+      "lastName": "WU",
+      "startDate": "2025-02-24",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-03-03": 1,
+        "2025-03-17": 1.75,
+        "2025-03-10": 3,
+        "2025-04-28": 3,
+        "2025-05-05": 3.5,
+        "2025-02-24": 6,
+        "2025-04-21": 6.25,
+        "2025-04-14": 6.75,
+        "2025-03-24": 9,
+        "2025-03-31": 9.25,
+        "2025-04-07": 11
+      },
+      "totalHours": 60.5,
+      "payrollData": {
+        "regularHours": 12.75,
+        "overtimeHours": 0,
+        "regularPay": 384.15749999999997,
+        "overtimePay": 0,
+        "cycleHours": 12.75
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-0271": {
+      "payrollId": "EQ-0271",
+      "firstName": "I-HSIN",
+      "lastName": "SU",
+      "startDate": "2025-06-09",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-06-09": 8.25
+      },
+      "totalHours": 8.25,
+      "payrollData": {
+        "regularHours": 8.25,
+        "overtimeHours": 0,
+        "regularPay": 248.5725,
+        "overtimePay": 0,
+        "cycleHours": 8.25
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-0309": {
+      "payrollId": "EQ-0309",
+      "firstName": "Chia Hao",
+      "lastName": "Pai",
+      "startDate": "2025-03-03",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-03-03": 1,
+        "2025-03-31": 1.25,
+        "2025-03-10": 3,
+        "2025-04-07": 5.25,
+        "2025-04-21": 6.25,
+        "2025-04-14": 12.5,
+        "2025-03-24": 13.75
+      },
+      "totalHours": 43,
+      "payrollData": {
+        "regularHours": 0,
+        "overtimeHours": 0,
+        "regularPay": 0,
+        "overtimePay": 0,
+        "cycleHours": 0
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-0311": {
+      "payrollId": "EQ-0311",
+      "firstName": "Tsung Cheng",
+      "lastName": "Chen",
+      "startDate": "2025-03-03",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-04-07": 3,
+        "2025-04-28": 3,
+        "2025-05-26": 4,
+        "2025-03-17": 4.25,
+        "2025-03-10": 4.5,
+        "2025-05-05": 5.25,
+        "2025-03-24": 7.5,
+        "2025-04-14": 7.75,
+        "2025-04-21": 8.75,
+        "2025-03-31": 9,
+        "2025-06-02": 9.75
+      },
+      "totalHours": 66.75,
+      "payrollData": {
+        "regularHours": 22,
+        "overtimeHours": 0,
+        "regularPay": 662.86,
+        "overtimePay": 0,
+        "cycleHours": 22
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-0345": {
+      "payrollId": "EQ-0345",
+      "firstName": "Yu-yao",
+      "lastName": "Hsu",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-03-10": 11.5,
+        "2025-03-17": 27.5
+      },
+      "totalHours": 39,
+      "payrollData": {
+        "regularHours": 0,
+        "overtimeHours": 0,
+        "regularPay": 0,
+        "overtimePay": 0,
+        "cycleHours": 0
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-0363": {
+      "payrollId": "EQ-0363",
+      "firstName": "CHIA-WEN",
+      "lastName": "LIU",
+      "startDate": "2025-03-03",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-03-03": 1,
+        "2025-03-17": 1.75,
+        "2025-03-10": 3,
+        "2025-04-28": 3,
+        "2025-05-05": 3.5,
+        "2025-04-21": 6.25,
+        "2025-04-14": 6.75,
+        "2025-03-24": 9,
+        "2025-03-31": 9.25,
+        "2025-04-07": 11
+      },
+      "totalHours": 54.5,
+      "payrollData": {
+        "regularHours": 6.5,
+        "overtimeHours": 0,
+        "regularPay": 195.845,
+        "overtimePay": 0,
+        "cycleHours": 6.5
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-0378": {
+      "payrollId": "EQ-0378",
+      "firstName": "Yue xi",
+      "lastName": "Chen",
+      "startDate": "2025-02-13",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-03-10": 2.5,
+        "2025-02-10": 3,
+        "2025-02-17": 17.25,
+        "2025-03-17": 17.75,
+        "2025-04-14": 18,
+        "2025-03-03": 19.75,
+        "2025-02-24": 22.75,
+        "2025-03-31": 23.5,
+        "2025-04-21": 28,
+        "2025-04-07": 29.75,
+        "2025-06-09": 30.75,
+        "2025-03-24": 33,
+        "2025-06-02": 34.5,
+        "2025-04-28": 36.5,
+        "2025-05-19": 42,
+        "2025-05-05": 46.5,
+        "2025-05-12": 54.25,
+        "2025-05-26": 59
+      },
+      "totalHours": 518.75,
+      "payrollData": {
+        "regularHours": 65.25,
+        "overtimeHours": 0,
+        "regularPay": 1965.9824999999998,
+        "overtimePay": 0,
+        "cycleHours": 65.25
+      },
+      "accumulatedOvertimePay": 301.3
+    },
+    "EQ-0424": {
+      "payrollId": "EQ-0424",
+      "firstName": "SHAO HUA",
+      "lastName": "YEH",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-05-12": 2,
+        "2025-05-05": 5.5
+      },
+      "totalHours": 7.5,
+      "payrollData": {
+        "regularHours": 0,
+        "overtimeHours": 0,
+        "regularPay": 0,
+        "overtimePay": 0,
+        "cycleHours": 0
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-0461": {
+      "payrollId": "EQ-0461",
+      "firstName": "Si Rong",
+      "lastName": "Wu",
+      "startDate": "2025-03-03",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-03-03": 7.75,
+        "2025-03-10": 23.75,
+        "2025-03-17": 27.5
+      },
+      "totalHours": 59,
+      "payrollData": {
+        "regularHours": 0,
+        "overtimeHours": 0,
+        "regularPay": 0,
+        "overtimePay": 0,
+        "cycleHours": 0
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-0523": {
+      "payrollId": "EQ-0523",
+      "firstName": "JIAYOU",
+      "lastName": "TU",
+      "startDate": "2025-03-03",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-03-03": 1,
+        "2025-03-17": 1.75,
+        "2025-03-10": 3,
+        "2025-04-28": 3,
+        "2025-03-24": 3.75,
+        "2025-04-07": 8.5,
+        "2025-04-14": 10.5,
+        "2025-03-31": 11.5,
+        "2025-04-21": 14.25
+      },
+      "totalHours": 57.25,
+      "payrollData": {
+        "regularHours": 3,
+        "overtimeHours": 0,
+        "regularPay": 90.39,
+        "overtimePay": 0,
+        "cycleHours": 3
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-0663": {
+      "payrollId": "EQ-0663",
+      "firstName": "Yi Ting",
+      "lastName": "Hsieh",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-05-19": 5.5,
+        "2025-04-28": 6.25,
+        "2025-04-14": 7,
+        "2025-03-24": 8,
+        "2025-03-31": 9,
+        "2025-04-07": 9.75,
+        "2025-05-26": 10.75,
+        "2025-04-21": 11.25,
+        "2025-03-17": 13.25
+      },
+      "totalHours": 80.75,
+      "payrollData": {
+        "regularHours": 16.25,
+        "overtimeHours": 0,
+        "regularPay": 489.6125,
+        "overtimePay": 0,
+        "cycleHours": 16.25
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-0695": {
+      "payrollId": "EQ-0695",
+      "firstName": "Shoutsan",
+      "lastName": "Chen",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-04-21": 2,
+        "2025-03-24": 3.75,
+        "2025-03-17": 4.25,
+        "2025-04-14": 6.5,
+        "2025-04-07": 6.75,
+        "2025-03-31": 8.75
+      },
+      "totalHours": 32,
+      "payrollData": {
+        "regularHours": 0,
+        "overtimeHours": 0,
+        "regularPay": 0,
+        "overtimePay": 0,
+        "cycleHours": 0
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-0736": {
+      "payrollId": "EQ-0736",
+      "firstName": "YI-JU",
+      "lastName": "LI",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-03-10": 2.5,
+        "2025-06-09": 3.25,
+        "2025-05-05": 3.5,
+        "2025-03-24": 4.75,
+        "2025-04-28": 6.5,
+        "2025-05-26": 7,
+        "2025-04-07": 8,
+        "2025-03-31": 9,
+        "2025-04-14": 10.25,
+        "2025-04-21": 10.75
+      },
+      "totalHours": 65.5,
+      "payrollData": {
+        "regularHours": 10.25,
+        "overtimeHours": 0,
+        "regularPay": 308.8325,
+        "overtimePay": 0,
+        "cycleHours": 10.25
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-0737": {
+      "payrollId": "EQ-0737",
+      "firstName": "Ying Chi",
+      "lastName": "Chou",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-05-19": 1,
+        "2025-04-21": 2,
+        "2025-03-24": 3.75,
+        "2025-03-17": 4.25,
+        "2025-04-14": 6.5,
+        "2025-04-07": 6.75,
+        "2025-03-31": 8.75
+      },
+      "totalHours": 33,
+      "payrollData": {
+        "regularHours": 1,
+        "overtimeHours": 0,
+        "regularPay": 30.13,
+        "overtimePay": 0,
+        "cycleHours": 1
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-0738": {
+      "payrollId": "EQ-0738",
+      "firstName": "CHE WEI",
+      "lastName": "HSU",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-05-19": 1,
+        "2025-04-21": 2,
+        "2025-03-24": 3.75,
+        "2025-03-17": 4.25,
+        "2025-04-14": 6.5,
+        "2025-04-07": 6.75,
+        "2025-03-31": 8.75
+      },
+      "totalHours": 33,
+      "payrollData": {
+        "regularHours": 1,
+        "overtimeHours": 0,
+        "regularPay": 30.13,
+        "overtimePay": 0,
+        "cycleHours": 1
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-0739": {
+      "payrollId": "EQ-0739",
+      "firstName": "Wen Shuo",
+      "lastName": "Chang",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-05-05": 6.25,
+        "2025-06-09": 32,
+        "2025-05-19": 40.25,
+        "2025-06-02": 45,
+        "2025-05-12": 54,
+        "2025-05-26": 58.75
+      },
+      "totalHours": 236.25,
+      "payrollData": {
+        "regularHours": 176,
+        "overtimeHours": 0,
+        "regularPay": 5302.88,
+        "overtimePay": 0,
+        "cycleHours": 176
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-0753": {
+      "payrollId": "EQ-0753",
+      "firstName": "Yang han",
+      "lastName": "Lin",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-06-02": 3,
+        "2025-04-28": 3.5,
+        "2025-05-05": 8.75
+      },
+      "totalHours": 15.25,
+      "payrollData": {
+        "regularHours": 3,
+        "overtimeHours": 0,
+        "regularPay": 90.39,
+        "overtimePay": 0,
+        "cycleHours": 3
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-0815": {
+      "payrollId": "EQ-0815",
+      "firstName": "KuanYi",
+      "lastName": "Yu",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-05-12": 3.25,
+        "2025-05-26": 4,
+        "2025-04-28": 6.25,
+        "2025-05-05": 6.25,
+        "2025-06-02": 12.5,
+        "2025-04-21": 17.75
+      },
+      "totalHours": 50,
+      "payrollData": {
+        "regularHours": 16.5,
+        "overtimeHours": 0,
+        "regularPay": 497.145,
+        "overtimePay": 0,
+        "cycleHours": 16.5
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-0848": {
+      "payrollId": "EQ-0848",
+      "firstName": "YI TUNG",
+      "lastName": "LIU",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-05-12": 3.25,
+        "2025-05-26": 4,
+        "2025-04-28": 6.25,
+        "2025-05-05": 6.25,
+        "2025-04-21": 13.5
+      },
+      "totalHours": 33.25,
+      "payrollData": {
+        "regularHours": 4,
+        "overtimeHours": 0,
+        "regularPay": 120.52,
+        "overtimePay": 0,
+        "cycleHours": 4
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-0868": {
+      "payrollId": "EQ-0868",
+      "firstName": "YU LING",
+      "lastName": "SUN",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-03-10": 20,
+        "2025-03-17": 26
+      },
+      "totalHours": 46,
+      "payrollData": {
+        "regularHours": 0,
+        "overtimeHours": 0,
+        "regularPay": 0,
+        "overtimePay": 0,
+        "cycleHours": 0
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-0869": {
+      "payrollId": "EQ-0869",
+      "firstName": "Yafan",
+      "lastName": "Chang",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-03-17": 6,
+        "2025-03-10": 14.5
+      },
+      "totalHours": 20.5,
+      "payrollData": {
+        "regularHours": 0,
+        "overtimeHours": 0,
+        "regularPay": 0,
+        "overtimePay": 0,
+        "cycleHours": 0
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-0872": {
+      "payrollId": "EQ-0872",
+      "firstName": "Chia-Chi",
+      "lastName": "Lin",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-05-05": 1.5,
+        "2025-04-21": 11.5
+      },
+      "totalHours": 13,
+      "payrollData": {
+        "regularHours": 0,
+        "overtimeHours": 0,
+        "regularPay": 0,
+        "overtimePay": 0,
+        "cycleHours": 0
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-0874": {
+      "payrollId": "EQ-0874",
+      "firstName": "Bing Chun",
+      "lastName": "Lu",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-05-19": 1,
+        "2025-04-14": 6,
+        "2025-04-21": 6.25,
+        "2025-04-07": 7,
+        "2025-03-31": 11
+      },
+      "totalHours": 31.25,
+      "payrollData": {
+        "regularHours": 1,
+        "overtimeHours": 0,
+        "regularPay": 30.13,
+        "overtimePay": 0,
+        "cycleHours": 1
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-0881": {
+      "payrollId": "EQ-0881",
+      "firstName": "YU-CHANG",
+      "lastName": "HSU",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-04-28": 3,
+        "2025-06-09": 3.25,
+        "2025-05-05": 3.5,
+        "2025-03-24": 4.75,
+        "2025-04-07": 8,
+        "2025-04-14": 10.25,
+        "2025-04-21": 10.75,
+        "2025-03-31": 11
+      },
+      "totalHours": 54.5,
+      "payrollData": {
+        "regularHours": 3.25,
+        "overtimeHours": 0,
+        "regularPay": 97.9225,
+        "overtimePay": 0,
+        "cycleHours": 3.25
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-0882": {
+      "payrollId": "EQ-0882",
+      "firstName": "Hsuan-Jo",
+      "lastName": "Chang",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-05-12": 3.25,
+        "2025-04-14": 6,
+        "2025-04-21": 6.25,
+        "2025-04-07": 7,
+        "2025-03-31": 11
+      },
+      "totalHours": 33.5,
+      "payrollData": {
+        "regularHours": 0,
+        "overtimeHours": 0,
+        "regularPay": 0,
+        "overtimePay": 0,
+        "cycleHours": 0
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-0919": {
+      "payrollId": "EQ-0919",
+      "firstName": "Made Candra",
+      "lastName": "Andiyasa",
+      "startDate": "2025-02-13",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-02-10": 6,
+        "2025-03-03": 18,
+        "2025-06-09": 26.25,
+        "2025-04-21": 26.75,
+        "2025-04-14": 31,
+        "2025-04-07": 34.5,
+        "2025-03-17": 36.5,
+        "2025-03-31": 37,
+        "2025-06-02": 37,
+        "2025-02-17": 39,
+        "2025-04-28": 39.25,
+        "2025-03-10": 44.25,
+        "2025-02-24": 45.5,
+        "2025-03-24": 51.25,
+        "2025-05-05": 51.5,
+        "2025-05-19": 58.5,
+        "2025-05-12": 60.5,
+        "2025-05-26": 62.5
+      },
+      "totalHours": 705.25,
+      "payrollData": {
+        "regularHours": 63.25,
+        "overtimeHours": 0,
+        "regularPay": 1905.7224999999999,
+        "overtimePay": 0,
+        "cycleHours": 63.25
+      },
+      "accumulatedOvertimePay": 1822.865
+    },
+    "EQ-0967": {
+      "payrollId": "EQ-0967",
+      "firstName": "Huan Sheng",
+      "lastName": "Hsu",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-05-12": 2
+      },
+      "totalHours": 2,
+      "payrollData": {
+        "regularHours": 0,
+        "overtimeHours": 0,
+        "regularPay": 0,
+        "overtimePay": 0,
+        "cycleHours": 0
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-0973": {
+      "payrollId": "EQ-0973",
+      "firstName": "YI-WEN",
+      "lastName": "ZHOU",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-04-28": 3,
+        "2025-05-05": 5.25,
+        "2025-04-14": 7.25,
+        "2025-04-07": 7.5,
+        "2025-03-24": 8.25,
+        "2025-04-21": 10.75,
+        "2025-03-31": 11.25,
+        "2025-03-17": 13.5
+      },
+      "totalHours": 66.75,
+      "payrollData": {
+        "regularHours": 0,
+        "overtimeHours": 0,
+        "regularPay": 0,
+        "overtimePay": 0,
+        "cycleHours": 0
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-0974": {
+      "payrollId": "EQ-0974",
+      "firstName": "MENG-HSUAN",
+      "lastName": "CHIANG",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-03-10": 3.5,
+        "2025-05-26": 4,
+        "2025-06-02": 10.25,
+        "2025-06-09": 10.5,
+        "2025-04-21": 10.75,
+        "2025-05-05": 10.75,
+        "2025-04-28": 11,
+        "2025-03-24": 11.5,
+        "2025-03-31": 11.75,
+        "2025-04-07": 12,
+        "2025-03-17": 13.5,
+        "2025-04-14": 16.5
+      },
+      "totalHours": 126,
+      "payrollData": {
+        "regularHours": 24.75,
+        "overtimeHours": 0,
+        "regularPay": 745.7175,
+        "overtimePay": 0,
+        "cycleHours": 24.75
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-1049": {
+      "payrollId": "EQ-1049",
+      "firstName": "Laura Jesiska",
+      "lastName": "Sitorus",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-06-02": 29.75,
+        "2025-06-09": 39.25,
+        "2025-05-26": 45,
+        "2025-05-19": 50
+      },
+      "totalHours": 164,
+      "payrollData": {
+        "regularHours": 164,
+        "overtimeHours": 0,
+        "regularPay": 4941.32,
+        "overtimePay": 0,
+        "cycleHours": 164
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-1061": {
+      "payrollId": "EQ-1061",
+      "firstName": "CHINKUN",
+      "lastName": "CHEN",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-05-05": 1.5
+      },
+      "totalHours": 1.5,
+      "payrollData": {
+        "regularHours": 0,
+        "overtimeHours": 0,
+        "regularPay": 0,
+        "overtimePay": 0,
+        "cycleHours": 0
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-1063": {
+      "payrollId": "EQ-1063",
+      "firstName": "YU-XUAN",
+      "lastName": "CHIEN",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-05-05": 1.5
+      },
+      "totalHours": 1.5,
+      "payrollData": {
+        "regularHours": 0,
+        "overtimeHours": 0,
+        "regularPay": 0,
+        "overtimePay": 0,
+        "cycleHours": 0
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-1070": {
+      "payrollId": "EQ-1070",
+      "firstName": "YA HSUAN",
+      "lastName": "Chen",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-05-12": 2,
+        "2025-05-05": 2.25,
+        "2025-05-26": 7,
+        "2025-06-09": 9,
+        "2025-04-28": 11,
+        "2025-04-21": 17.75
+      },
+      "totalHours": 49,
+      "payrollData": {
+        "regularHours": 16,
+        "overtimeHours": 0,
+        "regularPay": 482.08,
+        "overtimePay": 0,
+        "cycleHours": 16
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-1071": {
+      "payrollId": "EQ-1071",
+      "firstName": "BORONG",
+      "lastName": "HUANG",
+      "startDate": "2025-02-19",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-02-17": 5.5,
+        "2025-06-02": 15.75,
+        "2025-06-09": 26.75,
+        "2025-04-07": 29.25,
+        "2025-04-14": 30,
+        "2025-03-03": 31,
+        "2025-03-10": 32.5,
+        "2025-02-24": 33.5,
+        "2025-04-21": 33.5,
+        "2025-04-28": 33.75,
+        "2025-03-24": 36.25,
+        "2025-05-26": 36.5,
+        "2025-03-31": 37,
+        "2025-03-17": 38.75,
+        "2025-05-12": 42.75,
+        "2025-05-19": 44,
+        "2025-05-05": 44.25
+      },
+      "totalHours": 551,
+      "payrollData": {
+        "regularHours": 26.75,
+        "overtimeHours": 0,
+        "regularPay": 805.9775,
+        "overtimePay": 0,
+        "cycleHours": 26.75
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-1079": {
+      "payrollId": "EQ-1079",
+      "firstName": "Zili",
+      "lastName": "Wang",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-05-12": 2,
+        "2025-04-28": 3.5,
+        "2025-05-05": 8.75
+      },
+      "totalHours": 14.25,
+      "payrollData": {
+        "regularHours": 0,
+        "overtimeHours": 0,
+        "regularPay": 0,
+        "overtimePay": 0,
+        "cycleHours": 0
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-1081": {
+      "payrollId": "EQ-1081",
+      "firstName": "Peiyu",
+      "lastName": "Chou",
+      "startDate": "2025-03-03",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-05-05": 10.75,
+        "2025-03-03": 18.5,
+        "2025-04-14": 25.5,
+        "2025-05-26": 28.75,
+        "2025-03-31": 29.75,
+        "2025-03-17": 32,
+        "2025-04-21": 33.25,
+        "2025-05-19": 37,
+        "2025-03-24": 37.25,
+        "2025-03-10": 37.5,
+        "2025-05-12": 39,
+        "2025-04-07": 39.25
+      },
+      "totalHours": 368.5,
+      "payrollData": {
+        "regularHours": 115.5,
+        "overtimeHours": 0,
+        "regularPay": 3480.015,
+        "overtimePay": 0,
+        "cycleHours": 115.5
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-1095": {
+      "payrollId": "EQ-1095",
+      "firstName": "JHENJHEN",
+      "lastName": "PENG",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-03-24": 4,
+        "2025-05-12": 6.25,
+        "2025-05-26": 9.75,
+        "2025-04-14": 13,
+        "2025-04-07": 15.25,
+        "2025-03-31": 15.5,
+        "2025-04-21": 18.5
+      },
+      "totalHours": 82.25,
+      "payrollData": {
+        "regularHours": 9.75,
+        "overtimeHours": 0,
+        "regularPay": 293.7675,
+        "overtimePay": 0,
+        "cycleHours": 9.75
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-1109": {
+      "payrollId": "EQ-1109",
+      "firstName": "Benjarong",
+      "lastName": "Thaitiamsing",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-03-17": 1.75,
+        "2025-03-10": 3,
+        "2025-03-24": 9
+      },
+      "totalHours": 13.75,
+      "payrollData": {
+        "regularHours": 0,
+        "overtimeHours": 0,
+        "regularPay": 0,
+        "overtimePay": 0,
+        "cycleHours": 0
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-1113": {
+      "payrollId": "EQ-1113",
+      "firstName": "Yun jie",
+      "lastName": "Lan",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-05-12": 6.75,
+        "2025-05-19": 11
+      },
+      "totalHours": 17.75,
+      "payrollData": {
+        "regularHours": 11,
+        "overtimeHours": 0,
+        "regularPay": 331.43,
+        "overtimePay": 0,
+        "cycleHours": 11
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-1117": {
+      "payrollId": "EQ-1117",
+      "firstName": "Sho",
+      "lastName": "Shimomukai",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-05-12": 4.25,
+        "2025-05-05": 4.5,
+        "2025-04-28": 9.75,
+        "2025-04-21": 20
+      },
+      "totalHours": 38.5,
+      "payrollData": {
+        "regularHours": 0,
+        "overtimeHours": 0,
+        "regularPay": 0,
+        "overtimePay": 0,
+        "cycleHours": 0
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-1132": {
+      "payrollId": "EQ-1132",
+      "firstName": "Chieh",
+      "lastName": "Lo",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-03-10": 3,
+        "2025-04-28": 3,
+        "2025-05-05": 3.5,
+        "2025-04-14": 4.25,
+        "2025-03-24": 7.75,
+        "2025-04-21": 9.25,
+        "2025-04-07": 10.25,
+        "2025-03-31": 11.5,
+        "2025-05-12": 13.25,
+        "2025-03-17": 14.25
+      },
+      "totalHours": 80,
+      "payrollData": {
+        "regularHours": 0,
+        "overtimeHours": 0,
+        "regularPay": 0,
+        "overtimePay": 0,
+        "cycleHours": 0
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-1146": {
+      "payrollId": "EQ-1146",
+      "firstName": "CHENG XIAN",
+      "lastName": "JIANG",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-05-26": 7,
+        "2025-04-14": 35.75,
+        "2025-04-28": 36.75,
+        "2025-05-05": 38.25,
+        "2025-04-07": 41.5,
+        "2025-04-21": 42.75,
+        "2025-03-31": 46.25
+      },
+      "totalHours": 248.25,
+      "payrollData": {
+        "regularHours": 7,
+        "overtimeHours": 0,
+        "regularPay": 210.91,
+        "overtimePay": 0,
+        "cycleHours": 7
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-1179": {
+      "payrollId": "EQ-1179",
+      "firstName": "Thunchanok",
+      "lastName": "Ketsamut",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-03-10": 6.5,
+        "2025-03-17": 11.25,
+        "2025-03-24": 16.75
+      },
+      "totalHours": 34.5,
+      "payrollData": {
+        "regularHours": 0,
+        "overtimeHours": 0,
+        "regularPay": 0,
+        "overtimePay": 0,
+        "cycleHours": 0
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-1348": {
+      "payrollId": "EQ-1348",
+      "firstName": "Jasmine Azhira",
+      "lastName": "Ibrajie",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-03-10": 14.5,
+        "2025-04-21": 24.75,
+        "2025-04-14": 26.75,
+        "2025-03-31": 33.25,
+        "2025-04-28": 36.75,
+        "2025-03-17": 38.5,
+        "2025-04-07": 40.25,
+        "2025-03-24": 47.25,
+        "2025-05-05": 47.25,
+        "2025-05-12": 53.5
+      },
+      "totalHours": 362.75,
+      "payrollData": {
+        "regularHours": 0,
+        "overtimeHours": 0,
+        "regularPay": 0,
+        "overtimePay": 0,
+        "cycleHours": 0
+      },
+      "accumulatedOvertimePay": 173.2475
+    },
+    "EQ-1349": {
+      "payrollId": "EQ-1349",
+      "firstName": "Li Shan",
+      "lastName": "Fang",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-06-02": 6,
+        "2025-03-10": 7.25,
+        "2025-06-09": 10.5,
+        "2025-04-07": 14,
+        "2025-03-31": 14.75,
+        "2025-03-24": 17.5,
+        "2025-04-14": 20,
+        "2025-03-17": 23.5,
+        "2025-04-21": 24.5,
+        "2025-04-28": 25.25,
+        "2025-05-12": 26.25,
+        "2025-05-26": 26.25,
+        "2025-05-19": 26.75,
+        "2025-05-05": 33
+      },
+      "totalHours": 275.5,
+      "payrollData": {
+        "regularHours": 69.5,
+        "overtimeHours": 0,
+        "regularPay": 2094.035,
+        "overtimePay": 0,
+        "cycleHours": 69.5
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-1350": {
+      "payrollId": "EQ-1350",
+      "firstName": "JUN YOU",
+      "lastName": "LAI",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-06-02": 6,
+        "2025-03-10": 7.25,
+        "2025-04-07": 14,
+        "2025-03-31": 14.75,
+        "2025-06-09": 15.5,
+        "2025-03-24": 17.5,
+        "2025-04-14": 20,
+        "2025-05-26": 20.5,
+        "2025-03-17": 23.5,
+        "2025-04-21": 24.75,
+        "2025-04-28": 25.25,
+        "2025-05-12": 26.25,
+        "2025-05-19": 30.25,
+        "2025-05-05": 32.75
+      },
+      "totalHours": 278.25,
+      "payrollData": {
+        "regularHours": 72.25,
+        "overtimeHours": 0,
+        "regularPay": 2176.8925,
+        "overtimePay": 0,
+        "cycleHours": 72.25
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-1351": {
+      "payrollId": "EQ-1351",
+      "firstName": "Xinyi",
+      "lastName": "Lin",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-05-05": 1.5,
+        "2025-03-31": 6.5,
+        "2025-04-14": 7,
+        "2025-03-24": 8.25,
+        "2025-04-07": 8.5
+      },
+      "totalHours": 31.75,
+      "payrollData": {
+        "regularHours": 0,
+        "overtimeHours": 0,
+        "regularPay": 0,
+        "overtimePay": 0,
+        "cycleHours": 0
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-1353": {
+      "payrollId": "EQ-1353",
+      "firstName": "Dian",
+      "lastName": "Atika",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-06-02": 32,
+        "2025-06-09": 33.25,
+        "2025-04-07": 33.75,
+        "2025-04-14": 36.25,
+        "2025-04-21": 36.25,
+        "2025-04-28": 37.75,
+        "2025-05-19": 42.25,
+        "2025-03-31": 43.25,
+        "2025-05-26": 44,
+        "2025-05-05": 47.75,
+        "2025-03-24": 48.75,
+        "2025-05-12": 55
+      },
+      "totalHours": 490.25,
+      "payrollData": {
+        "regularHours": 151.5,
+        "overtimeHours": 0,
+        "regularPay": 4564.695,
+        "overtimePay": 0,
+        "cycleHours": 151.5
+      },
+      "accumulatedOvertimePay": 1047.0175
+    },
+    "EQ-1355": {
+      "payrollId": "EQ-1355",
+      "firstName": "Li-I",
+      "lastName": "Chen",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-04-21": 1,
+        "2025-04-28": 9.5
+      },
+      "totalHours": 10.5,
+      "payrollData": {
+        "regularHours": 0,
+        "overtimeHours": 0,
+        "regularPay": 0,
+        "overtimePay": 0,
+        "cycleHours": 0
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-1357": {
+      "payrollId": "EQ-1357",
+      "firstName": "YONG-LUNG",
+      "lastName": "KUO",
+      "startDate": "2025-03-10",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-03-10": 3
+      },
+      "totalHours": 3,
+      "payrollData": {
+        "regularHours": 0,
+        "overtimeHours": 0,
+        "regularPay": 0,
+        "overtimePay": 0,
+        "cycleHours": 0
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-1358": {
+      "payrollId": "EQ-1358",
+      "firstName": "LING",
+      "lastName": "CHENG",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-03-10": 7.25,
+        "2025-03-31": 14.75,
+        "2025-03-24": 17.5,
+        "2025-04-07": 18.5,
+        "2025-04-14": 19.5,
+        "2025-06-09": 20.5,
+        "2025-03-17": 23.5,
+        "2025-04-21": 25,
+        "2025-05-12": 26,
+        "2025-04-28": 27.25,
+        "2025-06-02": 28.5,
+        "2025-05-19": 34,
+        "2025-05-26": 35,
+        "2025-05-05": 35.5
+      },
+      "totalHours": 332.75,
+      "payrollData": {
+        "regularHours": 118,
+        "overtimeHours": 0,
+        "regularPay": 3555.3399999999997,
+        "overtimePay": 0,
+        "cycleHours": 118
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-1360": {
+      "payrollId": "EQ-1360",
+      "firstName": "Cyong-syuan",
+      "lastName": "Hunag",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-05-26": 4.75,
+        "2025-06-09": 5,
+        "2025-05-19": 5.25,
+        "2025-03-10": 7.25,
+        "2025-04-07": 14,
+        "2025-03-31": 14.75,
+        "2025-05-05": 16.5,
+        "2025-06-02": 16.75,
+        "2025-03-24": 17.5,
+        "2025-04-14": 19.5,
+        "2025-05-12": 21.25,
+        "2025-03-17": 23.5,
+        "2025-04-28": 24.5,
+        "2025-04-21": 24.75
+      },
+      "totalHours": 215.25,
+      "payrollData": {
+        "regularHours": 31.75,
+        "overtimeHours": 0,
+        "regularPay": 956.6274999999999,
+        "overtimePay": 0,
+        "cycleHours": 31.75
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-1367": {
+      "payrollId": "EQ-1367",
+      "firstName": "JING QI",
+      "lastName": "GAO",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-04-07": 14,
+        "2025-03-31": 14.75,
+        "2025-04-21": 15.25,
+        "2025-04-14": 16.25,
+        "2025-03-24": 16.75
+      },
+      "totalHours": 77,
+      "payrollData": {
+        "regularHours": 0,
+        "overtimeHours": 0,
+        "regularPay": 0,
+        "overtimePay": 0,
+        "cycleHours": 0
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-1368": {
+      "payrollId": "EQ-1368",
+      "firstName": "CHIEH YU",
+      "lastName": "KAO",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-04-07": 14,
+        "2025-03-31": 14.75,
+        "2025-04-21": 15,
+        "2025-03-24": 16.75,
+        "2025-04-14": 19.25
+      },
+      "totalHours": 79.75,
+      "payrollData": {
+        "regularHours": 0,
+        "overtimeHours": 0,
+        "regularPay": 0,
+        "overtimePay": 0,
+        "cycleHours": 0
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-1369": {
+      "payrollId": "EQ-1369",
+      "firstName": "Tsai Chiao",
+      "lastName": "Liu",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-04-07": 10.25,
+        "2025-04-14": 12.25,
+        "2025-05-26": 14.25,
+        "2025-03-31": 15.5,
+        "2025-05-05": 16.5,
+        "2025-05-19": 19,
+        "2025-03-24": 21,
+        "2025-04-21": 22.25,
+        "2025-05-12": 22.25,
+        "2025-04-28": 25.25
+      },
+      "totalHours": 178.5,
+      "payrollData": {
+        "regularHours": 33.25,
+        "overtimeHours": 0,
+        "regularPay": 1001.8225,
+        "overtimePay": 0,
+        "cycleHours": 33.25
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-1377": {
+      "payrollId": "EQ-1377",
+      "firstName": "YI YUN",
+      "lastName": "CHANG",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-03-24": 4,
+        "2025-06-09": 10.25,
+        "2025-06-02": 11,
+        "2025-04-07": 14.5,
+        "2025-03-31": 14.75,
+        "2025-04-14": 19.25,
+        "2025-05-12": 21.25,
+        "2025-04-21": 24.5,
+        "2025-04-28": 25.25,
+        "2025-05-26": 26,
+        "2025-05-19": 26.75,
+        "2025-05-05": 32.75
+      },
+      "totalHours": 230.25,
+      "payrollData": {
+        "regularHours": 74,
+        "overtimeHours": 0,
+        "regularPay": 2229.62,
+        "overtimePay": 0,
+        "cycleHours": 74
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-1378": {
+      "payrollId": "EQ-1378",
+      "firstName": "HSI YING",
+      "lastName": "LIN",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-06-09": 10.25,
+        "2025-06-02": 11,
+        "2025-04-07": 14.5,
+        "2025-03-31": 14.75,
+        "2025-04-14": 19.25,
+        "2025-05-12": 20.75,
+        "2025-04-21": 24.75,
+        "2025-04-28": 25.25,
+        "2025-05-26": 26,
+        "2025-05-19": 26.75,
+        "2025-05-05": 32.75
+      },
+      "totalHours": 226,
+      "payrollData": {
+        "regularHours": 74,
+        "overtimeHours": 0,
+        "regularPay": 2229.62,
+        "overtimePay": 0,
+        "cycleHours": 74
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-1384": {
+      "payrollId": "EQ-1384",
+      "firstName": "Han Yi",
+      "lastName": "Huang",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-06-09": 0.83,
+        "2025-05-12": 4.5,
+        "2025-05-05": 20,
+        "2025-05-19": 23.08,
+        "2025-05-26": 26,
+        "2025-04-21": 32.25,
+        "2025-04-28": 33
+      },
+      "totalHours": 139.66,
+      "payrollData": {
+        "regularHours": 49.91,
+        "overtimeHours": 0,
+        "regularPay": 1503.7883,
+        "overtimePay": 0,
+        "cycleHours": 49.91
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-1385": {
+      "payrollId": "EQ-1385",
+      "firstName": "Chu Wen",
+      "lastName": "Zhang",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-04-21": 26,
+        "2025-04-28": 31.75,
+        "2025-06-09": 33.75,
+        "2025-06-02": 36,
+        "2025-05-19": 44,
+        "2025-05-12": 45,
+        "2025-05-26": 45,
+        "2025-05-05": 46.25
+      },
+      "totalHours": 307.75,
+      "payrollData": {
+        "regularHours": 158.75,
+        "overtimeHours": 0,
+        "regularPay": 4783.1375,
+        "overtimePay": 0,
+        "cycleHours": 158.75
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-1387": {
+      "payrollId": "EQ-1387",
+      "firstName": "YUNG YEN",
+      "lastName": "SUN",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-05-19": 5.5,
+        "2025-05-12": 6.25,
+        "2025-05-26": 7,
+        "2025-05-05": 18.25
+      },
+      "totalHours": 37,
+      "payrollData": {
+        "regularHours": 12.5,
+        "overtimeHours": 0,
+        "regularPay": 376.625,
+        "overtimePay": 0,
+        "cycleHours": 12.5
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-1388": {
+      "payrollId": "EQ-1388",
+      "firstName": "Hsuan Chen",
+      "lastName": "Lin",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-05-12": 9,
+        "2025-04-28": 26.25,
+        "2025-05-05": 43.5
+      },
+      "totalHours": 78.75,
+      "payrollData": {
+        "regularHours": 0,
+        "overtimeHours": 0,
+        "regularPay": 0,
+        "overtimePay": 0,
+        "cycleHours": 0
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-1390": {
+      "payrollId": "EQ-1390",
+      "firstName": "Pei chi",
+      "lastName": "Wu",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-05-19": 5.5,
+        "2025-05-05": 7.75,
+        "2025-05-12": 10.5,
+        "2025-05-26": 11.25,
+        "2025-04-28": 11.5,
+        "2025-04-21": 19.25,
+        "2025-06-09": 19.5,
+        "2025-06-02": 25.25
+      },
+      "totalHours": 110.5,
+      "payrollData": {
+        "regularHours": 61.5,
+        "overtimeHours": 0,
+        "regularPay": 1852.995,
+        "overtimePay": 0,
+        "cycleHours": 61.5
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-1391": {
+      "payrollId": "EQ-1391",
+      "firstName": "Yi Nian",
+      "lastName": "Wang",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-06-02": 16.75,
+        "2025-05-12": 17.25,
+        "2025-05-26": 17.5,
+        "2025-04-28": 24.5,
+        "2025-05-05": 26.25,
+        "2025-05-19": 28
+      },
+      "totalHours": 130.25,
+      "payrollData": {
+        "regularHours": 62.25,
+        "overtimeHours": 0,
+        "regularPay": 1875.5925,
+        "overtimePay": 0,
+        "cycleHours": 62.25
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-1392": {
+      "payrollId": "EQ-1392",
+      "firstName": "Ming yuan",
+      "lastName": "Jiang",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-05-26": 12.5,
+        "2025-06-02": 16.75,
+        "2025-05-12": 17.25,
+        "2025-04-28": 25.25,
+        "2025-05-05": 26,
+        "2025-05-19": 27
+      },
+      "totalHours": 124.75,
+      "payrollData": {
+        "regularHours": 56.25,
+        "overtimeHours": 0,
+        "regularPay": 1694.8125,
+        "overtimePay": 0,
+        "cycleHours": 56.25
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-1397": {
+      "payrollId": "EQ-1397",
+      "firstName": "CHIH YI",
+      "lastName": "LI",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-05-26": 6.25,
+        "2025-05-19": 33.75,
+        "2025-05-05": 42,
+        "2025-05-12": 48
+      },
+      "totalHours": 130,
+      "payrollData": {
+        "regularHours": 40,
+        "overtimeHours": 0,
+        "regularPay": 1205.2,
+        "overtimePay": 0,
+        "cycleHours": 40
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-1398": {
+      "payrollId": "EQ-1398",
+      "firstName": "Jie",
+      "lastName": "Tang",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-05-12": 6.25,
+        "2025-05-05": 14.25
+      },
+      "totalHours": 20.5,
+      "payrollData": {
+        "regularHours": 0,
+        "overtimeHours": 0,
+        "regularPay": 0,
+        "overtimePay": 0,
+        "cycleHours": 0
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-1404": {
+      "payrollId": "EQ-1404",
+      "firstName": "TZU HSUAN",
+      "lastName": "CHEN",
+      "startDate": "2025-05-05",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-05-05": 18.25
+      },
+      "totalHours": 18.25,
+      "payrollData": {
+        "regularHours": 18.25,
+        "overtimeHours": 0,
+        "regularPay": 549.8725,
+        "overtimePay": 0,
+        "cycleHours": 18.25
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-1405": {
+      "payrollId": "EQ-1405",
+      "firstName": "Runhan",
+      "lastName": "Shen",
+      "startDate": "2025-05-05",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-05-05": 9.5
+      },
+      "totalHours": 9.5,
+      "payrollData": {
+        "regularHours": 9.5,
+        "overtimeHours": 0,
+        "regularPay": 286.235,
+        "overtimePay": 0,
+        "cycleHours": 9.5
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-1406": {
+      "payrollId": "EQ-1406",
+      "firstName": "YAO HSIEN",
+      "lastName": "FENG",
+      "startDate": "2025-05-05",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-05-05": 9.5
+      },
+      "totalHours": 9.5,
+      "payrollData": {
+        "regularHours": 9.5,
+        "overtimeHours": 0,
+        "regularPay": 286.235,
+        "overtimePay": 0,
+        "cycleHours": 9.5
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-1407": {
+      "payrollId": "EQ-1407",
+      "firstName": "KUAN HAO",
+      "lastName": "CHEN",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-05-12": 9,
+        "2025-05-05": 25.5
+      },
+      "totalHours": 34.5,
+      "payrollData": {
+        "regularHours": 0,
+        "overtimeHours": 0,
+        "regularPay": 0,
+        "overtimePay": 0,
+        "cycleHours": 0
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-1408": {
+      "payrollId": "EQ-1408",
+      "firstName": "Diego",
+      "lastName": "Catalan Alarcon",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-05-12": 4,
+        "2025-05-05": 6.25
+      },
+      "totalHours": 10.25,
+      "payrollData": {
+        "regularHours": 0,
+        "overtimeHours": 0,
+        "regularPay": 0,
+        "overtimePay": 0,
+        "cycleHours": 0
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-1409": {
+      "payrollId": "EQ-1409",
+      "firstName": "Kaito",
+      "lastName": "Kuragaichi",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-06-02": 3,
+        "2025-05-19": 5.5,
+        "2025-05-05": 6.25,
+        "2025-05-12": 7.5
+      },
+      "totalHours": 22.25,
+      "payrollData": {
+        "regularHours": 8.5,
+        "overtimeHours": 0,
+        "regularPay": 256.105,
+        "overtimePay": 0,
+        "cycleHours": 8.5
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-1410": {
+      "payrollId": "EQ-1410",
+      "firstName": "Yuka",
+      "lastName": "Tanaka",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-06-02": 3,
+        "2025-05-19": 5.5,
+        "2025-05-05": 6.25,
+        "2025-05-12": 7.5
+      },
+      "totalHours": 22.25,
+      "payrollData": {
+        "regularHours": 8.5,
+        "overtimeHours": 0,
+        "regularPay": 256.105,
+        "overtimePay": 0,
+        "cycleHours": 8.5
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-1411": {
+      "payrollId": "EQ-1411",
+      "firstName": "Yu Chiao",
+      "lastName": "Lin",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-05-12": 6.75,
+        "2025-05-19": 31.25,
+        "2025-05-26": 45.5
+      },
+      "totalHours": 83.5,
+      "payrollData": {
+        "regularHours": 76.75,
+        "overtimeHours": 0,
+        "regularPay": 2312.4775,
+        "overtimePay": 0,
+        "cycleHours": 76.75
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-1412": {
+      "payrollId": "EQ-1412",
+      "firstName": "Putu Ardi",
+      "lastName": "Rastiawan",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-06-09": 32.5,
+        "2025-06-02": 33.25,
+        "2025-05-12": 36.5,
+        "2025-05-26": 44,
+        "2025-05-19": 45.25
+      },
+      "totalHours": 191.5,
+      "payrollData": {
+        "regularHours": 155,
+        "overtimeHours": 0,
+        "regularPay": 4670.15,
+        "overtimePay": 0,
+        "cycleHours": 155
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-1413": {
+      "payrollId": "EQ-1413",
+      "firstName": "daichi",
+      "lastName": "aratani",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-06-02": 3,
+        "2025-05-19": 5.5,
+        "2025-05-05": 6.25,
+        "2025-05-12": 7.5
+      },
+      "totalHours": 22.25,
+      "payrollData": {
+        "regularHours": 8.5,
+        "overtimeHours": 0,
+        "regularPay": 256.105,
+        "overtimePay": 0,
+        "cycleHours": 8.5
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-1414": {
+      "payrollId": "EQ-1414",
+      "firstName": "CHIHSHENG",
+      "lastName": "HU",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-05-12": 6.75,
+        "2025-05-19": 11
+      },
+      "totalHours": 17.75,
+      "payrollData": {
+        "regularHours": 11,
+        "overtimeHours": 0,
+        "regularPay": 331.43,
+        "overtimePay": 0,
+        "cycleHours": 11
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-1426": {
+      "payrollId": "EQ-1426",
+      "firstName": "Yu-Ting",
+      "lastName": "Chen",
+      "startDate": "2025-06-09",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-06-09": 4
+      },
+      "totalHours": 4,
+      "payrollData": {
+        "regularHours": 4,
+        "overtimeHours": 0,
+        "regularPay": 120.52,
+        "overtimePay": 0,
+        "cycleHours": 4
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-1427": {
+      "payrollId": "EQ-1427",
+      "firstName": "WEN-HUI",
+      "lastName": "CHEN",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-05-26": 6.5
+      },
+      "totalHours": 6.5,
+      "payrollData": {
+        "regularHours": 6.5,
+        "overtimeHours": 0,
+        "regularPay": 195.845,
+        "overtimePay": 0,
+        "cycleHours": 6.5
+      },
+      "accumulatedOvertimePay": 0
+    },
+    "EQ-1429": {
+      "payrollId": "EQ-1429",
+      "firstName": "Shan-Yuan",
+      "lastName": "LUO",
+      "startDate": "2024-01-01",
+      "level": "Level2",
+      "farm": "Caboolture",
+      "hourlyRate": 30.13,
+      "workWeeks": {
+        "2025-05-26": 6.5
+      },
+      "totalHours": 6.5,
+      "payrollData": {
+        "regularHours": 6.5,
+        "overtimeHours": 0,
+        "regularPay": 195.845,
+        "overtimePay": 0,
+        "cycleHours": 6.5
+      },
+      "accumulatedOvertimePay": 0
+    }
+  },
+  "timesheetData": [
+    {
+      "payrollId": "EQ-0003",
+      "firstName": "Yi Ai",
+      "lastName": "Chien",
+      "workWeekDate": "2025-06-09",
+      "hours": 11.25,
+      "uploadDate": "2025-06-19T15:13:42.915Z"
+    },
+    {
+      "payrollId": "EQ-0003",
+      "firstName": "Yi-Ai",
+      "lastName": "Chien",
+      "workWeekDate": "2025-05-05",
+      "hours": 12.25,
+      "uploadDate": "2025-06-19T15:13:42.917Z"
+    },
+    {
+      "payrollId": "EQ-0003",
+      "firstName": "Yi Ai",
+      "lastName": "Chien",
+      "workWeekDate": "2025-06-02",
+      "hours": 30.75,
+      "uploadDate": "2025-06-19T15:13:42.917Z"
+    },
+    {
+      "payrollId": "EQ-0005",
+      "firstName": "CHIANG-SHUO",
+      "lastName": "Chung",
+      "workWeekDate": "2025-03-10",
+      "hours": 2.5,
+      "uploadDate": "2025-06-19T15:13:42.917Z"
+    },
+    {
+      "payrollId": "EQ-0005",
+      "firstName": "CHIANG-SHUO",
+      "lastName": "Chung",
+      "workWeekDate": "2025-03-17",
+      "hours": 6.75,
+      "uploadDate": "2025-06-19T15:13:42.917Z"
+    },
+    {
+      "payrollId": "EQ-0005",
+      "firstName": "CHIANG-SHUO",
+      "lastName": "Chung",
+      "workWeekDate": "2025-04-14",
+      "hours": 7.5,
+      "uploadDate": "2025-06-19T15:13:42.917Z"
+    },
+    {
+      "payrollId": "EQ-0005",
+      "firstName": "CHIANG-SHUO",
+      "lastName": "Chung",
+      "workWeekDate": "2025-04-21",
+      "hours": 8.25,
+      "uploadDate": "2025-06-19T15:13:42.917Z"
+    },
+    {
+      "payrollId": "EQ-0005",
+      "firstName": "CHIANG-SHUO",
+      "lastName": "Chung",
+      "workWeekDate": "2025-03-24",
+      "hours": 9.5,
+      "uploadDate": "2025-06-19T15:13:42.917Z"
+    },
+    {
+      "payrollId": "EQ-0005",
+      "firstName": "CHIANG-SHUO",
+      "lastName": "Chung",
+      "workWeekDate": "2025-03-31",
+      "hours": 14.5,
+      "uploadDate": "2025-06-19T15:13:42.917Z"
+    },
+    {
+      "payrollId": "EQ-0005",
+      "firstName": "CHIANG-SHUO",
+      "lastName": "Chung",
+      "workWeekDate": "2025-04-07",
+      "hours": 18,
+      "uploadDate": "2025-06-19T15:13:42.917Z"
+    },
+    {
+      "payrollId": "EQ-0005",
+      "firstName": "CHIANG-SHUO",
+      "lastName": "Chung",
+      "workWeekDate": "2025-05-05",
+      "hours": 36.5,
+      "uploadDate": "2025-06-19T15:13:42.917Z"
+    },
+    {
+      "payrollId": "EQ-0006",
+      "firstName": "CHIA-YING",
+      "lastName": "Wu",
+      "workWeekDate": "2025-03-10",
+      "hours": 2.5,
+      "uploadDate": "2025-06-19T15:13:42.918Z"
+    },
+    {
+      "payrollId": "EQ-0006",
+      "firstName": "CHIA-YING",
+      "lastName": "Wu",
+      "workWeekDate": "2025-03-17",
+      "hours": 6.75,
+      "uploadDate": "2025-06-19T15:13:42.918Z"
+    },
+    {
+      "payrollId": "EQ-0006",
+      "firstName": "CHIA-YING",
+      "lastName": "Wu",
+      "workWeekDate": "2025-04-14",
+      "hours": 7.5,
+      "uploadDate": "2025-06-19T15:13:42.918Z"
+    },
+    {
+      "payrollId": "EQ-0006",
+      "firstName": "CHIA-YING",
+      "lastName": "Wu",
+      "workWeekDate": "2025-04-21",
+      "hours": 8.25,
+      "uploadDate": "2025-06-19T15:13:42.918Z"
+    },
+    {
+      "payrollId": "EQ-0006",
+      "firstName": "CHIA-YING",
+      "lastName": "Wu",
+      "workWeekDate": "2025-03-24",
+      "hours": 9.5,
+      "uploadDate": "2025-06-19T15:13:42.918Z"
+    },
+    {
+      "payrollId": "EQ-0006",
+      "firstName": "CHIA-YING",
+      "lastName": "Wu",
+      "workWeekDate": "2025-04-07",
+      "hours": 11,
+      "uploadDate": "2025-06-19T15:13:42.918Z"
+    },
+    {
+      "payrollId": "EQ-0006",
+      "firstName": "CHIA-YING",
+      "lastName": "Wu",
+      "workWeekDate": "2025-03-31",
+      "hours": 15,
+      "uploadDate": "2025-06-19T15:13:42.918Z"
+    },
+    {
+      "payrollId": "EQ-0006",
+      "firstName": "CHIA-YING",
+      "lastName": "Wu",
+      "workWeekDate": "2025-05-05",
+      "hours": 36.5,
+      "uploadDate": "2025-06-19T15:13:42.918Z"
+    },
+    {
+      "payrollId": "EQ-0008",
+      "firstName": "TA-CHUN",
+      "lastName": "Huang",
+      "workWeekDate": "2025-04-28",
+      "hours": 6.25,
+      "uploadDate": "2025-06-19T15:13:42.918Z"
+    },
+    {
+      "payrollId": "EQ-0009",
+      "firstName": "SSU-CHI",
+      "lastName": "Liao",
+      "workWeekDate": "2025-04-28",
+      "hours": 6.25,
+      "uploadDate": "2025-06-19T15:13:42.918Z"
+    },
+    {
+      "payrollId": "EQ-0022",
+      "firstName": "Ting Wei",
+      "lastName": "Chang",
+      "workWeekDate": "2025-03-17",
+      "hours": 2,
+      "uploadDate": "2025-06-19T15:13:42.919Z"
+    },
+    {
+      "payrollId": "EQ-0022",
+      "firstName": "Ting Wei",
+      "lastName": "Chang",
+      "workWeekDate": "2025-04-28",
+      "hours": 3,
+      "uploadDate": "2025-06-19T15:13:42.919Z"
+    },
+    {
+      "payrollId": "EQ-0022",
+      "firstName": "Ting Wei",
+      "lastName": "Chang",
+      "workWeekDate": "2025-03-24",
+      "hours": 3.5,
+      "uploadDate": "2025-06-19T15:13:42.919Z"
+    },
+    {
+      "payrollId": "EQ-0022",
+      "firstName": "Ting Wei",
+      "lastName": "Chang",
+      "workWeekDate": "2025-04-07",
+      "hours": 3.5,
+      "uploadDate": "2025-06-19T15:13:42.919Z"
+    },
+    {
+      "payrollId": "EQ-0022",
+      "firstName": "Ting Wei",
+      "lastName": "Chang",
+      "workWeekDate": "2025-05-05",
+      "hours": 3.75,
+      "uploadDate": "2025-06-19T15:13:42.919Z"
+    },
+    {
+      "payrollId": "EQ-0022",
+      "firstName": "Ting Wei",
+      "lastName": "Chang",
+      "workWeekDate": "2025-04-14",
+      "hours": 7.25,
+      "uploadDate": "2025-06-19T15:13:42.919Z"
+    },
+    {
+      "payrollId": "EQ-0022",
+      "firstName": "Ting Wei",
+      "lastName": "Chang",
+      "workWeekDate": "2025-03-31",
+      "hours": 11.75,
+      "uploadDate": "2025-06-19T15:13:42.919Z"
+    },
+    {
+      "payrollId": "EQ-0023",
+      "firstName": "Jing Ting",
+      "lastName": "Syu",
+      "workWeekDate": "2025-03-17",
+      "hours": 2,
+      "uploadDate": "2025-06-19T15:13:42.919Z"
+    },
+    {
+      "payrollId": "EQ-0023",
+      "firstName": "Jing Ting",
+      "lastName": "Syu",
+      "workWeekDate": "2025-04-28",
+      "hours": 3,
+      "uploadDate": "2025-06-19T15:13:42.919Z"
+    },
+    {
+      "payrollId": "EQ-0023",
+      "firstName": "Jing Ting",
+      "lastName": "Syu",
+      "workWeekDate": "2025-03-24",
+      "hours": 3.5,
+      "uploadDate": "2025-06-19T15:13:42.919Z"
+    },
+    {
+      "payrollId": "EQ-0023",
+      "firstName": "Jing Ting",
+      "lastName": "Syu",
+      "workWeekDate": "2025-04-07",
+      "hours": 3.5,
+      "uploadDate": "2025-06-19T15:13:42.921Z"
+    },
+    {
+      "payrollId": "EQ-0023",
+      "firstName": "Jing Ting",
+      "lastName": "Syu",
+      "workWeekDate": "2025-05-05",
+      "hours": 3.75,
+      "uploadDate": "2025-06-19T15:13:42.921Z"
+    },
+    {
+      "payrollId": "EQ-0023",
+      "firstName": "Jing Ting",
+      "lastName": "Syu",
+      "workWeekDate": "2025-04-14",
+      "hours": 7.25,
+      "uploadDate": "2025-06-19T15:13:42.921Z"
+    },
+    {
+      "payrollId": "EQ-0023",
+      "firstName": "Jing Ting",
+      "lastName": "Syu",
+      "workWeekDate": "2025-03-31",
+      "hours": 11.75,
+      "uploadDate": "2025-06-19T15:13:42.921Z"
+    },
+    {
+      "payrollId": "EQ-0032",
+      "firstName": "Ting Jou",
+      "lastName": "Yu",
+      "workWeekDate": "2025-03-10",
+      "hours": 3.5,
+      "uploadDate": "2025-06-19T15:13:42.921Z"
+    },
+    {
+      "payrollId": "EQ-0032",
+      "firstName": "Ting Jou",
+      "lastName": "Yu",
+      "workWeekDate": "2025-03-24",
+      "hours": 4.75,
+      "uploadDate": "2025-06-19T15:13:42.921Z"
+    },
+    {
+      "payrollId": "EQ-0032",
+      "firstName": "Ting Jou",
+      "lastName": "Yu",
+      "workWeekDate": "2025-04-07",
+      "hours": 4.75,
+      "uploadDate": "2025-06-19T15:13:42.921Z"
+    },
+    {
+      "payrollId": "EQ-0032",
+      "firstName": "Ting Jou",
+      "lastName": "Yu",
+      "workWeekDate": "2025-03-31",
+      "hours": 6,
+      "uploadDate": "2025-06-19T15:13:42.921Z"
+    },
+    {
+      "payrollId": "EQ-0035",
+      "firstName": "Anthony",
+      "lastName": "Bubla",
+      "workWeekDate": "2025-03-24",
+      "hours": 1,
+      "uploadDate": "2025-06-19T15:13:42.921Z"
+    },
+    {
+      "payrollId": "EQ-0035",
+      "firstName": "Anthony",
+      "lastName": "Bubla",
+      "workWeekDate": "2025-05-05",
+      "hours": 2.25,
+      "uploadDate": "2025-06-19T15:13:42.921Z"
+    },
+    {
+      "payrollId": "EQ-0035",
+      "firstName": "Anthony",
+      "lastName": "Bubla",
+      "workWeekDate": "2025-03-10",
+      "hours": 3.5,
+      "uploadDate": "2025-06-19T15:13:42.922Z"
+    },
+    {
+      "payrollId": "EQ-0035",
+      "firstName": "Anthony",
+      "lastName": "Bubla",
+      "workWeekDate": "2025-04-21",
+      "hours": 6.25,
+      "uploadDate": "2025-06-19T15:13:42.922Z"
+    },
+    {
+      "payrollId": "EQ-0035",
+      "firstName": "Anthony",
+      "lastName": "Bubla",
+      "workWeekDate": "2025-04-28",
+      "hours": 6.25,
+      "uploadDate": "2025-06-19T15:13:42.922Z"
+    },
+    {
+      "payrollId": "EQ-0035",
+      "firstName": "Anthony",
+      "lastName": "Bubla",
+      "workWeekDate": "2025-04-14",
+      "hours": 6.75,
+      "uploadDate": "2025-06-19T15:13:42.922Z"
+    },
+    {
+      "payrollId": "EQ-0035",
+      "firstName": "Anthony",
+      "lastName": "Bubla",
+      "workWeekDate": "2025-03-31",
+      "hours": 7.5,
+      "uploadDate": "2025-06-19T15:13:42.922Z"
+    },
+    {
+      "payrollId": "EQ-0035",
+      "firstName": "Anthony",
+      "lastName": "Bubla",
+      "workWeekDate": "2025-04-07",
+      "hours": 9.25,
+      "uploadDate": "2025-06-19T15:13:42.922Z"
+    },
+    {
+      "payrollId": "EQ-0064",
+      "firstName": "Hiu Ting",
+      "lastName": "Man",
+      "workWeekDate": "2025-06-02",
+      "hours": 7,
+      "uploadDate": "2025-06-19T15:13:42.922Z"
+    },
+    {
+      "payrollId": "EQ-0064",
+      "firstName": "Hiu Ting",
+      "lastName": "Man",
+      "workWeekDate": "2025-06-09",
+      "hours": 17,
+      "uploadDate": "2025-06-19T15:13:42.922Z"
+    },
+    {
+      "payrollId": "EQ-0121",
+      "firstName": "Yun-Ru",
+      "lastName": "Hsieh",
+      "workWeekDate": "2025-02-10",
+      "hours": 4.5,
+      "uploadDate": "2025-06-19T15:13:42.922Z"
+    },
+    {
+      "payrollId": "EQ-0121",
+      "firstName": "Yun-Ru",
+      "lastName": "Hsieh",
+      "workWeekDate": "2025-05-05",
+      "hours": 10,
+      "uploadDate": "2025-06-19T15:13:42.922Z"
+    },
+    {
+      "payrollId": "EQ-0121",
+      "firstName": "Yun-Ru",
+      "lastName": "Hsieh",
+      "workWeekDate": "2025-03-10",
+      "hours": 17.5,
+      "uploadDate": "2025-06-19T15:13:42.923Z"
+    },
+    {
+      "payrollId": "EQ-0121",
+      "firstName": "Yun Ru",
+      "lastName": "Hsieh",
+      "workWeekDate": "2025-05-26",
+      "hours": 18,
+      "uploadDate": "2025-06-19T15:13:42.923Z"
+    },
+    {
+      "payrollId": "EQ-0121",
+      "firstName": "Yun Ru",
+      "lastName": "Hsieh",
+      "workWeekDate": "2025-06-09",
+      "hours": 22.5,
+      "uploadDate": "2025-06-19T15:13:42.923Z"
+    },
+    {
+      "payrollId": "EQ-0121",
+      "firstName": "Yun-Ru",
+      "lastName": "Hsieh",
+      "workWeekDate": "2025-04-14",
+      "hours": 23,
+      "uploadDate": "2025-06-19T15:13:42.923Z"
+    },
+    {
+      "payrollId": "EQ-0121",
+      "firstName": "Yun-Ru",
+      "lastName": "Hsieh",
+      "workWeekDate": "2025-02-17",
+      "hours": 24,
+      "uploadDate": "2025-06-19T15:13:42.923Z"
+    },
+    {
+      "payrollId": "EQ-0121",
+      "firstName": "Yun-Ru",
+      "lastName": "Hsieh",
+      "workWeekDate": "2025-02-24",
+      "hours": 28,
+      "uploadDate": "2025-06-19T15:13:42.923Z"
+    },
+    {
+      "payrollId": "EQ-0121",
+      "firstName": "Yun-Ru",
+      "lastName": "Hsieh",
+      "workWeekDate": "2025-03-17",
+      "hours": 28.25,
+      "uploadDate": "2025-06-19T15:13:42.923Z"
+    },
+    {
+      "payrollId": "EQ-0121",
+      "firstName": "Yun-Ru",
+      "lastName": "Hsieh",
+      "workWeekDate": "2025-04-21",
+      "hours": 29.25,
+      "uploadDate": "2025-06-19T15:13:42.923Z"
+    },
+    {
+      "payrollId": "EQ-0121",
+      "firstName": "Yun Ru",
+      "lastName": "Hsieh",
+      "workWeekDate": "2025-06-02",
+      "hours": 30,
+      "uploadDate": "2025-06-19T15:13:42.923Z"
+    },
+    {
+      "payrollId": "EQ-0121",
+      "firstName": "Yun-Ru",
+      "lastName": "Hsieh",
+      "workWeekDate": "2025-03-31",
+      "hours": 30.5,
+      "uploadDate": "2025-06-19T15:13:42.923Z"
+    },
+    {
+      "payrollId": "EQ-0121",
+      "firstName": "Yun Ru",
+      "lastName": "Hsieh",
+      "workWeekDate": "2025-05-19",
+      "hours": 35.5,
+      "uploadDate": "2025-06-19T15:13:42.928Z"
+    },
+    {
+      "payrollId": "EQ-0121",
+      "firstName": "Yun-Ru",
+      "lastName": "Hsieh",
+      "workWeekDate": "2025-04-28",
+      "hours": 37,
+      "uploadDate": "2025-06-19T15:13:42.928Z"
+    },
+    {
+      "payrollId": "EQ-0121",
+      "firstName": "Yun-Ru",
+      "lastName": "Hsieh",
+      "workWeekDate": "2025-03-24",
+      "hours": 43.75,
+      "uploadDate": "2025-06-19T15:13:42.928Z"
+    },
+    {
+      "payrollId": "EQ-0121",
+      "firstName": "Yun-Ru",
+      "lastName": "Hsieh",
+      "workWeekDate": "2025-03-03",
+      "hours": 45,
+      "uploadDate": "2025-06-19T15:13:42.928Z"
+    },
+    {
+      "payrollId": "EQ-0121",
+      "firstName": "Yun Ru",
+      "lastName": "Hsieh",
+      "workWeekDate": "2025-05-12",
+      "hours": 47.25,
+      "uploadDate": "2025-06-19T15:13:42.928Z"
+    },
+    {
+      "payrollId": "EQ-0122",
+      "firstName": "Yu-Tzu",
+      "lastName": "Chang",
+      "workWeekDate": "2025-02-10",
+      "hours": 4.5,
+      "uploadDate": "2025-06-19T15:13:42.928Z"
+    },
+    {
+      "payrollId": "EQ-0122",
+      "firstName": "Yu-Tzu",
+      "lastName": "Chang",
+      "workWeekDate": "2025-03-10",
+      "hours": 6.5,
+      "uploadDate": "2025-06-19T15:13:42.928Z"
+    },
+    {
+      "payrollId": "EQ-0122",
+      "firstName": "Yu-Tzu",
+      "lastName": "Chang",
+      "workWeekDate": "2025-05-05",
+      "hours": 10,
+      "uploadDate": "2025-06-19T15:13:42.928Z"
+    },
+    {
+      "payrollId": "EQ-0122",
+      "firstName": "Yu Tzu",
+      "lastName": "Chang",
+      "workWeekDate": "2025-05-19",
+      "hours": 13,
+      "uploadDate": "2025-06-19T15:13:42.928Z"
+    },
+    {
+      "payrollId": "EQ-0122",
+      "firstName": "Yu-Tzu",
+      "lastName": "Chang",
+      "workWeekDate": "2025-04-07",
+      "hours": 13.5,
+      "uploadDate": "2025-06-19T15:13:42.928Z"
+    },
+    {
+      "payrollId": "EQ-0122",
+      "firstName": "Yu-Tzu",
+      "lastName": "Chang",
+      "workWeekDate": "2025-03-17",
+      "hours": 15.25,
+      "uploadDate": "2025-06-19T15:13:42.932Z"
+    },
+    {
+      "payrollId": "EQ-0122",
+      "firstName": "Yu Tzu",
+      "lastName": "Chang",
+      "workWeekDate": "2025-06-09",
+      "hours": 15.5,
+      "uploadDate": "2025-06-19T15:13:42.932Z"
+    },
+    {
+      "payrollId": "EQ-0122",
+      "firstName": "Yu-Tzu",
+      "lastName": "Chang",
+      "workWeekDate": "2025-03-03",
+      "hours": 21,
+      "uploadDate": "2025-06-19T15:13:42.932Z"
+    },
+    {
+      "payrollId": "EQ-0122",
+      "firstName": "Yu-Tzu",
+      "lastName": "Chang",
+      "workWeekDate": "2025-04-14",
+      "hours": 21.75,
+      "uploadDate": "2025-06-19T15:13:42.932Z"
+    },
+    {
+      "payrollId": "EQ-0122",
+      "firstName": "Yu-Tzu",
+      "lastName": "Chang",
+      "workWeekDate": "2025-02-24",
+      "hours": 22.75,
+      "uploadDate": "2025-06-19T15:13:42.932Z"
+    },
+    {
+      "payrollId": "EQ-0122",
+      "firstName": "Yu-Tzu",
+      "lastName": "Chang",
+      "workWeekDate": "2025-02-17",
+      "hours": 24,
+      "uploadDate": "2025-06-19T15:13:42.932Z"
+    },
+    {
+      "payrollId": "EQ-0122",
+      "firstName": "Yu-Tzu",
+      "lastName": "Chang",
+      "workWeekDate": "2025-03-31",
+      "hours": 27.5,
+      "uploadDate": "2025-06-19T15:13:42.932Z"
+    },
+    {
+      "payrollId": "EQ-0122",
+      "firstName": "Yu-Tzu",
+      "lastName": "Chang",
+      "workWeekDate": "2025-04-21",
+      "hours": 29.75,
+      "uploadDate": "2025-06-19T15:13:42.932Z"
+    },
+    {
+      "payrollId": "EQ-0122",
+      "firstName": "Yu-Tzu",
+      "lastName": "Chang",
+      "workWeekDate": "2025-03-24",
+      "hours": 30.25,
+      "uploadDate": "2025-06-19T15:13:42.932Z"
+    },
+    {
+      "payrollId": "EQ-0122",
+      "firstName": "Yu Tzu",
+      "lastName": "Chang",
+      "workWeekDate": "2025-06-02",
+      "hours": 34.5,
+      "uploadDate": "2025-06-19T15:13:42.932Z"
+    },
+    {
+      "payrollId": "EQ-0122",
+      "firstName": "Yu-Tzu",
+      "lastName": "Chang",
+      "workWeekDate": "2025-04-28",
+      "hours": 36.75,
+      "uploadDate": "2025-06-19T15:13:42.937Z"
+    },
+    {
+      "payrollId": "EQ-0122",
+      "firstName": "Yu Tzu",
+      "lastName": "Chang",
+      "workWeekDate": "2025-05-12",
+      "hours": 43,
+      "uploadDate": "2025-06-19T15:13:42.937Z"
+    },
+    {
+      "payrollId": "EQ-0270",
+      "firstName": "HONG-ZHENG",
+      "lastName": "WU",
+      "workWeekDate": "2025-03-03",
+      "hours": 1,
+      "uploadDate": "2025-06-19T15:13:42.937Z"
+    },
+    {
+      "payrollId": "EQ-0270",
+      "firstName": "HONG-ZHENG",
+      "lastName": "WU",
+      "workWeekDate": "2025-03-17",
+      "hours": 1.75,
+      "uploadDate": "2025-06-19T15:13:42.937Z"
+    },
+    {
+      "payrollId": "EQ-0270",
+      "firstName": "HONG-ZHENG",
+      "lastName": "WU",
+      "workWeekDate": "2025-03-10",
+      "hours": 3,
+      "uploadDate": "2025-06-19T15:13:42.937Z"
+    },
+    {
+      "payrollId": "EQ-0270",
+      "firstName": "HONG-ZHENG",
+      "lastName": "WU",
+      "workWeekDate": "2025-04-28",
+      "hours": 3,
+      "uploadDate": "2025-06-19T15:13:42.937Z"
+    },
+    {
+      "payrollId": "EQ-0270",
+      "firstName": "HONG-ZHENG",
+      "lastName": "WU",
+      "workWeekDate": "2025-05-05",
+      "hours": 3.5,
+      "uploadDate": "2025-06-19T15:13:42.937Z"
+    },
+    {
+      "payrollId": "EQ-0270",
+      "firstName": "HONG-ZHENG",
+      "lastName": "WU",
+      "workWeekDate": "2025-02-24",
+      "hours": 6,
+      "uploadDate": "2025-06-19T15:13:42.937Z"
+    },
+    {
+      "payrollId": "EQ-0270",
+      "firstName": "HONG-ZHENG",
+      "lastName": "WU",
+      "workWeekDate": "2025-04-21",
+      "hours": 6.25,
+      "uploadDate": "2025-06-19T15:13:42.937Z"
+    },
+    {
+      "payrollId": "EQ-0270",
+      "firstName": "HONG-ZHENG",
+      "lastName": "WU",
+      "workWeekDate": "2025-04-14",
+      "hours": 6.75,
+      "uploadDate": "2025-06-19T15:13:42.937Z"
+    },
+    {
+      "payrollId": "EQ-0270",
+      "firstName": "HONG-ZHENG",
+      "lastName": "WU",
+      "workWeekDate": "2025-03-24",
+      "hours": 9,
+      "uploadDate": "2025-06-19T15:13:42.942Z"
+    },
+    {
+      "payrollId": "EQ-0270",
+      "firstName": "HONG-ZHENG",
+      "lastName": "WU",
+      "workWeekDate": "2025-03-31",
+      "hours": 9.25,
+      "uploadDate": "2025-06-19T15:13:42.942Z"
+    },
+    {
+      "payrollId": "EQ-0270",
+      "firstName": "HONG-ZHENG",
+      "lastName": "WU",
+      "workWeekDate": "2025-04-07",
+      "hours": 11,
+      "uploadDate": "2025-06-19T15:13:42.942Z"
+    },
+    {
+      "payrollId": "EQ-0271",
+      "firstName": "I-HSIN",
+      "lastName": "SU",
+      "workWeekDate": "2025-06-09",
+      "hours": 8.25,
+      "uploadDate": "2025-06-19T15:13:42.942Z"
+    },
+    {
+      "payrollId": "EQ-0309",
+      "firstName": "Chia Hao",
+      "lastName": "Pai",
+      "workWeekDate": "2025-03-03",
+      "hours": 1,
+      "uploadDate": "2025-06-19T15:13:42.942Z"
+    },
+    {
+      "payrollId": "EQ-0309",
+      "firstName": "Chia Hao",
+      "lastName": "Pai",
+      "workWeekDate": "2025-03-31",
+      "hours": 1.25,
+      "uploadDate": "2025-06-19T15:13:42.942Z"
+    },
+    {
+      "payrollId": "EQ-0309",
+      "firstName": "Chia Hao",
+      "lastName": "Pai",
+      "workWeekDate": "2025-03-10",
+      "hours": 3,
+      "uploadDate": "2025-06-19T15:13:42.942Z"
+    },
+    {
+      "payrollId": "EQ-0309",
+      "firstName": "Chia Hao",
+      "lastName": "Pai",
+      "workWeekDate": "2025-04-07",
+      "hours": 5.25,
+      "uploadDate": "2025-06-19T15:13:42.942Z"
+    },
+    {
+      "payrollId": "EQ-0309",
+      "firstName": "Chia Hao",
+      "lastName": "Pai",
+      "workWeekDate": "2025-04-21",
+      "hours": 6.25,
+      "uploadDate": "2025-06-19T15:13:42.942Z"
+    },
+    {
+      "payrollId": "EQ-0309",
+      "firstName": "Chia Hao",
+      "lastName": "Pai",
+      "workWeekDate": "2025-04-14",
+      "hours": 12.5,
+      "uploadDate": "2025-06-19T15:13:42.942Z"
+    },
+    {
+      "payrollId": "EQ-0309",
+      "firstName": "Chia Hao",
+      "lastName": "Pai",
+      "workWeekDate": "2025-03-24",
+      "hours": 13.75,
+      "uploadDate": "2025-06-19T15:13:42.946Z"
+    },
+    {
+      "payrollId": "EQ-0311",
+      "firstName": "Tsung-Cheng",
+      "lastName": "Chen",
+      "workWeekDate": "2025-04-07",
+      "hours": 3,
+      "uploadDate": "2025-06-19T15:13:42.947Z"
+    },
+    {
+      "payrollId": "EQ-0311",
+      "firstName": "Tsung-Cheng",
+      "lastName": "Chen",
+      "workWeekDate": "2025-04-28",
+      "hours": 3,
+      "uploadDate": "2025-06-19T15:13:42.947Z"
+    },
+    {
+      "payrollId": "EQ-0311",
+      "firstName": "Tsung Cheng",
+      "lastName": "Chen",
+      "workWeekDate": "2025-05-26",
+      "hours": 4,
+      "uploadDate": "2025-06-19T15:13:42.947Z"
+    },
+    {
+      "payrollId": "EQ-0311",
+      "firstName": "Tsung-Cheng",
+      "lastName": "Chen",
+      "workWeekDate": "2025-03-17",
+      "hours": 4.25,
+      "uploadDate": "2025-06-19T15:13:42.947Z"
+    },
+    {
+      "payrollId": "EQ-0311",
+      "firstName": "Tsung-Cheng",
+      "lastName": "Chen",
+      "workWeekDate": "2025-03-10",
+      "hours": 4.5,
+      "uploadDate": "2025-06-19T15:13:42.947Z"
+    },
+    {
+      "payrollId": "EQ-0311",
+      "firstName": "Tsung-Cheng",
+      "lastName": "Chen",
+      "workWeekDate": "2025-05-05",
+      "hours": 5.25,
+      "uploadDate": "2025-06-19T15:13:42.947Z"
+    },
+    {
+      "payrollId": "EQ-0311",
+      "firstName": "Tsung-Cheng",
+      "lastName": "Chen",
+      "workWeekDate": "2025-03-24",
+      "hours": 7.5,
+      "uploadDate": "2025-06-19T15:13:42.947Z"
+    },
+    {
+      "payrollId": "EQ-0311",
+      "firstName": "Tsung-Cheng",
+      "lastName": "Chen",
+      "workWeekDate": "2025-04-14",
+      "hours": 7.75,
+      "uploadDate": "2025-06-19T15:13:42.947Z"
+    },
+    {
+      "payrollId": "EQ-0311",
+      "firstName": "Tsung-Cheng",
+      "lastName": "Chen",
+      "workWeekDate": "2025-04-21",
+      "hours": 8.75,
+      "uploadDate": "2025-06-19T15:13:42.947Z"
+    },
+    {
+      "payrollId": "EQ-0311",
+      "firstName": "Tsung-Cheng",
+      "lastName": "Chen",
+      "workWeekDate": "2025-03-31",
+      "hours": 9,
+      "uploadDate": "2025-06-19T15:13:42.951Z"
+    },
+    {
+      "payrollId": "EQ-0311",
+      "firstName": "Tsung Cheng",
+      "lastName": "Chen",
+      "workWeekDate": "2025-06-02",
+      "hours": 9.75,
+      "uploadDate": "2025-06-19T15:13:42.951Z"
+    },
+    {
+      "payrollId": "EQ-0345",
+      "firstName": "Yu-yao",
+      "lastName": "Hsu",
+      "workWeekDate": "2025-03-10",
+      "hours": 11.5,
+      "uploadDate": "2025-06-19T15:13:42.951Z"
+    },
+    {
+      "payrollId": "EQ-0345",
+      "firstName": "Yu-yao",
+      "lastName": "Hsu",
+      "workWeekDate": "2025-03-17",
+      "hours": 27.5,
+      "uploadDate": "2025-06-19T15:13:42.951Z"
+    },
+    {
+      "payrollId": "EQ-0363",
+      "firstName": "CHIA-WEN",
+      "lastName": "LIU",
+      "workWeekDate": "2025-03-03",
+      "hours": 1,
+      "uploadDate": "2025-06-19T15:13:42.951Z"
+    },
+    {
+      "payrollId": "EQ-0363",
+      "firstName": "CHIA-WEN",
+      "lastName": "LIU",
+      "workWeekDate": "2025-03-17",
+      "hours": 1.75,
+      "uploadDate": "2025-06-19T15:13:42.951Z"
+    },
+    {
+      "payrollId": "EQ-0363",
+      "firstName": "CHIA-WEN",
+      "lastName": "LIU",
+      "workWeekDate": "2025-03-10",
+      "hours": 3,
+      "uploadDate": "2025-06-19T15:13:42.951Z"
+    },
+    {
+      "payrollId": "EQ-0363",
+      "firstName": "CHIA-WEN",
+      "lastName": "LIU",
+      "workWeekDate": "2025-04-28",
+      "hours": 3,
+      "uploadDate": "2025-06-19T15:13:42.951Z"
+    },
+    {
+      "payrollId": "EQ-0363",
+      "firstName": "CHIA-WEN",
+      "lastName": "LIU",
+      "workWeekDate": "2025-05-05",
+      "hours": 3.5,
+      "uploadDate": "2025-06-19T15:13:42.951Z"
+    },
+    {
+      "payrollId": "EQ-0363",
+      "firstName": "CHIA-WEN",
+      "lastName": "LIU",
+      "workWeekDate": "2025-04-21",
+      "hours": 6.25,
+      "uploadDate": "2025-06-19T15:13:42.951Z"
+    },
+    {
+      "payrollId": "EQ-0363",
+      "firstName": "CHIA-WEN",
+      "lastName": "LIU",
+      "workWeekDate": "2025-04-14",
+      "hours": 6.75,
+      "uploadDate": "2025-06-19T15:13:42.956Z"
+    },
+    {
+      "payrollId": "EQ-0363",
+      "firstName": "CHIA-WEN",
+      "lastName": "LIU",
+      "workWeekDate": "2025-03-24",
+      "hours": 9,
+      "uploadDate": "2025-06-19T15:13:42.956Z"
+    },
+    {
+      "payrollId": "EQ-0363",
+      "firstName": "CHIA-WEN",
+      "lastName": "LIU",
+      "workWeekDate": "2025-03-31",
+      "hours": 9.25,
+      "uploadDate": "2025-06-19T15:13:42.956Z"
+    },
+    {
+      "payrollId": "EQ-0363",
+      "firstName": "CHIA-WEN",
+      "lastName": "LIU",
+      "workWeekDate": "2025-04-07",
+      "hours": 11,
+      "uploadDate": "2025-06-19T15:13:42.956Z"
+    },
+    {
+      "payrollId": "EQ-0378",
+      "firstName": "Yue-xi",
+      "lastName": "Chen",
+      "workWeekDate": "2025-03-10",
+      "hours": 2.5,
+      "uploadDate": "2025-06-19T15:13:42.956Z"
+    },
+    {
+      "payrollId": "EQ-0378",
+      "firstName": "Yue-xi",
+      "lastName": "Chen",
+      "workWeekDate": "2025-02-10",
+      "hours": 3,
+      "uploadDate": "2025-06-19T15:13:42.957Z"
+    },
+    {
+      "payrollId": "EQ-0378",
+      "firstName": "Yue-xi",
+      "lastName": "Chen",
+      "workWeekDate": "2025-02-17",
+      "hours": 17.25,
+      "uploadDate": "2025-06-19T15:13:42.957Z"
+    },
+    {
+      "payrollId": "EQ-0378",
+      "firstName": "Yue-xi",
+      "lastName": "Chen",
+      "workWeekDate": "2025-03-17",
+      "hours": 17.75,
+      "uploadDate": "2025-06-19T15:13:42.957Z"
+    },
+    {
+      "payrollId": "EQ-0378",
+      "firstName": "Yue-xi",
+      "lastName": "Chen",
+      "workWeekDate": "2025-04-14",
+      "hours": 18,
+      "uploadDate": "2025-06-19T15:13:42.957Z"
+    },
+    {
+      "payrollId": "EQ-0378",
+      "firstName": "Yue-xi",
+      "lastName": "Chen",
+      "workWeekDate": "2025-03-03",
+      "hours": 19.75,
+      "uploadDate": "2025-06-19T15:13:42.957Z"
+    },
+    {
+      "payrollId": "EQ-0378",
+      "firstName": "Yue-xi",
+      "lastName": "Chen",
+      "workWeekDate": "2025-02-24",
+      "hours": 22.75,
+      "uploadDate": "2025-06-19T15:13:42.961Z"
+    },
+    {
+      "payrollId": "EQ-0378",
+      "firstName": "Yue-xi",
+      "lastName": "Chen",
+      "workWeekDate": "2025-03-31",
+      "hours": 23.5,
+      "uploadDate": "2025-06-19T15:13:42.961Z"
+    },
+    {
+      "payrollId": "EQ-0378",
+      "firstName": "Yue-xi",
+      "lastName": "Chen",
+      "workWeekDate": "2025-04-21",
+      "hours": 28,
+      "uploadDate": "2025-06-19T15:13:42.961Z"
+    },
+    {
+      "payrollId": "EQ-0378",
+      "firstName": "Yue-xi",
+      "lastName": "Chen",
+      "workWeekDate": "2025-04-07",
+      "hours": 29.75,
+      "uploadDate": "2025-06-19T15:13:42.961Z"
+    },
+    {
+      "payrollId": "EQ-0378",
+      "firstName": "Yue xi",
+      "lastName": "Chen",
+      "workWeekDate": "2025-06-09",
+      "hours": 30.75,
+      "uploadDate": "2025-06-19T15:13:42.961Z"
+    },
+    {
+      "payrollId": "EQ-0378",
+      "firstName": "Yue-xi",
+      "lastName": "Chen",
+      "workWeekDate": "2025-03-24",
+      "hours": 33,
+      "uploadDate": "2025-06-19T15:13:42.961Z"
+    },
+    {
+      "payrollId": "EQ-0378",
+      "firstName": "Yue xi",
+      "lastName": "Chen",
+      "workWeekDate": "2025-06-02",
+      "hours": 34.5,
+      "uploadDate": "2025-06-19T15:13:42.961Z"
+    },
+    {
+      "payrollId": "EQ-0378",
+      "firstName": "Yue-xi",
+      "lastName": "Chen",
+      "workWeekDate": "2025-04-28",
+      "hours": 36.5,
+      "uploadDate": "2025-06-19T15:13:42.961Z"
+    },
+    {
+      "payrollId": "EQ-0378",
+      "firstName": "Yue xi",
+      "lastName": "Chen",
+      "workWeekDate": "2025-05-19",
+      "hours": 42,
+      "uploadDate": "2025-06-19T15:13:42.961Z"
+    },
+    {
+      "payrollId": "EQ-0378",
+      "firstName": "Yue-xi",
+      "lastName": "Chen",
+      "workWeekDate": "2025-05-05",
+      "hours": 46.5,
+      "uploadDate": "2025-06-19T15:13:42.961Z"
+    },
+    {
+      "payrollId": "EQ-0378",
+      "firstName": "Yue xi",
+      "lastName": "Chen",
+      "workWeekDate": "2025-05-12",
+      "hours": 54.25,
+      "uploadDate": "2025-06-19T15:13:42.965Z"
+    },
+    {
+      "payrollId": "EQ-0378",
+      "firstName": "Yue xi",
+      "lastName": "Chen",
+      "workWeekDate": "2025-05-26",
+      "hours": 59,
+      "uploadDate": "2025-06-19T15:13:42.965Z"
+    },
+    {
+      "payrollId": "EQ-0424",
+      "firstName": "SHAO HUA",
+      "lastName": "YEH",
+      "workWeekDate": "2025-05-12",
+      "hours": 2,
+      "uploadDate": "2025-06-19T15:13:42.965Z"
+    },
+    {
+      "payrollId": "EQ-0424",
+      "firstName": "SHAO HUA",
+      "lastName": "YEH",
+      "workWeekDate": "2025-05-05",
+      "hours": 5.5,
+      "uploadDate": "2025-06-19T15:13:42.966Z"
+    },
+    {
+      "payrollId": "EQ-0461",
+      "firstName": "Si Rong",
+      "lastName": "Wu",
+      "workWeekDate": "2025-03-03",
+      "hours": 7.75,
+      "uploadDate": "2025-06-19T15:13:42.966Z"
+    },
+    {
+      "payrollId": "EQ-0461",
+      "firstName": "Si Rong",
+      "lastName": "Wu",
+      "workWeekDate": "2025-03-10",
+      "hours": 23.75,
+      "uploadDate": "2025-06-19T15:13:42.966Z"
+    },
+    {
+      "payrollId": "EQ-0461",
+      "firstName": "Si Rong",
+      "lastName": "Wu",
+      "workWeekDate": "2025-03-17",
+      "hours": 27.5,
+      "uploadDate": "2025-06-19T15:13:42.966Z"
+    },
+    {
+      "payrollId": "EQ-0523",
+      "firstName": "JIAYOU",
+      "lastName": "TU",
+      "workWeekDate": "2025-03-03",
+      "hours": 1,
+      "uploadDate": "2025-06-19T15:13:42.966Z"
+    },
+    {
+      "payrollId": "EQ-0523",
+      "firstName": "JIAYOU",
+      "lastName": "TU",
+      "workWeekDate": "2025-03-17",
+      "hours": 1.75,
+      "uploadDate": "2025-06-19T15:13:42.966Z"
+    },
+    {
+      "payrollId": "EQ-0523",
+      "firstName": "JIAYOU",
+      "lastName": "TU",
+      "workWeekDate": "2025-03-10",
+      "hours": 3,
+      "uploadDate": "2025-06-19T15:13:42.966Z"
+    },
+    {
+      "payrollId": "EQ-0523",
+      "firstName": "JIAYOU",
+      "lastName": "TU",
+      "workWeekDate": "2025-04-28",
+      "hours": 3,
+      "uploadDate": "2025-06-19T15:13:42.971Z"
+    },
+    {
+      "payrollId": "EQ-0523",
+      "firstName": "JIAYOU",
+      "lastName": "TU",
+      "workWeekDate": "2025-03-24",
+      "hours": 3.75,
+      "uploadDate": "2025-06-19T15:13:42.971Z"
+    },
+    {
+      "payrollId": "EQ-0523",
+      "firstName": "JIAYOU",
+      "lastName": "TU",
+      "workWeekDate": "2025-04-07",
+      "hours": 8.5,
+      "uploadDate": "2025-06-19T15:13:42.971Z"
+    },
+    {
+      "payrollId": "EQ-0523",
+      "firstName": "JIAYOU",
+      "lastName": "TU",
+      "workWeekDate": "2025-04-14",
+      "hours": 10.5,
+      "uploadDate": "2025-06-19T15:13:42.971Z"
+    },
+    {
+      "payrollId": "EQ-0523",
+      "firstName": "JIAYOU",
+      "lastName": "TU",
+      "workWeekDate": "2025-03-31",
+      "hours": 11.5,
+      "uploadDate": "2025-06-19T15:13:42.971Z"
+    },
+    {
+      "payrollId": "EQ-0523",
+      "firstName": "JIAYOU",
+      "lastName": "TU",
+      "workWeekDate": "2025-04-21",
+      "hours": 14.25,
+      "uploadDate": "2025-06-19T15:13:42.971Z"
+    },
+    {
+      "payrollId": "EQ-0663",
+      "firstName": "Yi Ting",
+      "lastName": "Hsieh",
+      "workWeekDate": "2025-05-19",
+      "hours": 5.5,
+      "uploadDate": "2025-06-19T15:13:42.971Z"
+    },
+    {
+      "payrollId": "EQ-0663",
+      "firstName": "Yi Ting",
+      "lastName": "Hsieh",
+      "workWeekDate": "2025-04-28",
+      "hours": 6.25,
+      "uploadDate": "2025-06-19T15:13:42.971Z"
+    },
+    {
+      "payrollId": "EQ-0663",
+      "firstName": "Yi Ting",
+      "lastName": "Hsieh",
+      "workWeekDate": "2025-04-14",
+      "hours": 7,
+      "uploadDate": "2025-06-19T15:13:42.971Z"
+    },
+    {
+      "payrollId": "EQ-0663",
+      "firstName": "Yi Ting",
+      "lastName": "Hsieh",
+      "workWeekDate": "2025-03-24",
+      "hours": 8,
+      "uploadDate": "2025-06-19T15:13:42.971Z"
+    },
+    {
+      "payrollId": "EQ-0663",
+      "firstName": "Yi Ting",
+      "lastName": "Hsieh",
+      "workWeekDate": "2025-03-31",
+      "hours": 9,
+      "uploadDate": "2025-06-19T15:13:42.975Z"
+    },
+    {
+      "payrollId": "EQ-0663",
+      "firstName": "Yi Ting",
+      "lastName": "Hsieh",
+      "workWeekDate": "2025-04-07",
+      "hours": 9.75,
+      "uploadDate": "2025-06-19T15:13:42.975Z"
+    },
+    {
+      "payrollId": "EQ-0663",
+      "firstName": "Yi Ting",
+      "lastName": "Hsieh",
+      "workWeekDate": "2025-05-26",
+      "hours": 10.75,
+      "uploadDate": "2025-06-19T15:13:42.975Z"
+    },
+    {
+      "payrollId": "EQ-0663",
+      "firstName": "Yi Ting",
+      "lastName": "Hsieh",
+      "workWeekDate": "2025-04-21",
+      "hours": 11.25,
+      "uploadDate": "2025-06-19T15:13:42.975Z"
+    },
+    {
+      "payrollId": "EQ-0663",
+      "firstName": "Yi Ting",
+      "lastName": "Hsieh",
+      "workWeekDate": "2025-03-17",
+      "hours": 13.25,
+      "uploadDate": "2025-06-19T15:13:42.975Z"
+    },
+    {
+      "payrollId": "EQ-0695",
+      "firstName": "Shoutsan",
+      "lastName": "Chen",
+      "workWeekDate": "2025-04-21",
+      "hours": 2,
+      "uploadDate": "2025-06-19T15:13:42.975Z"
+    },
+    {
+      "payrollId": "EQ-0695",
+      "firstName": "Shoutsan",
+      "lastName": "Chen",
+      "workWeekDate": "2025-03-24",
+      "hours": 3.75,
+      "uploadDate": "2025-06-19T15:13:42.975Z"
+    },
+    {
+      "payrollId": "EQ-0695",
+      "firstName": "Shoutsan",
+      "lastName": "Chen",
+      "workWeekDate": "2025-03-17",
+      "hours": 4.25,
+      "uploadDate": "2025-06-19T15:13:42.975Z"
+    },
+    {
+      "payrollId": "EQ-0695",
+      "firstName": "Shoutsan",
+      "lastName": "Chen",
+      "workWeekDate": "2025-04-14",
+      "hours": 6.5,
+      "uploadDate": "2025-06-19T15:13:42.975Z"
+    },
+    {
+      "payrollId": "EQ-0695",
+      "firstName": "Shoutsan",
+      "lastName": "Chen",
+      "workWeekDate": "2025-04-07",
+      "hours": 6.75,
+      "uploadDate": "2025-06-19T15:13:42.976Z"
+    },
+    {
+      "payrollId": "EQ-0695",
+      "firstName": "Shoutsan",
+      "lastName": "Chen",
+      "workWeekDate": "2025-03-31",
+      "hours": 8.75,
+      "uploadDate": "2025-06-19T15:13:42.980Z"
+    },
+    {
+      "payrollId": "EQ-0736",
+      "firstName": "YI-JU",
+      "lastName": "LI",
+      "workWeekDate": "2025-03-10",
+      "hours": 2.5,
+      "uploadDate": "2025-06-19T15:13:42.980Z"
+    },
+    {
+      "payrollId": "EQ-0736",
+      "firstName": "YI-JU",
+      "lastName": "LI",
+      "workWeekDate": "2025-06-09",
+      "hours": 3.25,
+      "uploadDate": "2025-06-19T15:13:42.980Z"
+    },
+    {
+      "payrollId": "EQ-0736",
+      "firstName": "YI-JU",
+      "lastName": "LI",
+      "workWeekDate": "2025-05-05",
+      "hours": 3.5,
+      "uploadDate": "2025-06-19T15:13:42.980Z"
+    },
+    {
+      "payrollId": "EQ-0736",
+      "firstName": "YI-JU",
+      "lastName": "LI",
+      "workWeekDate": "2025-03-24",
+      "hours": 4.75,
+      "uploadDate": "2025-06-19T15:13:42.980Z"
+    },
+    {
+      "payrollId": "EQ-0736",
+      "firstName": "YI-JU",
+      "lastName": "LI",
+      "workWeekDate": "2025-04-28",
+      "hours": 6.5,
+      "uploadDate": "2025-06-19T15:13:42.980Z"
+    },
+    {
+      "payrollId": "EQ-0736",
+      "firstName": "YI-JU",
+      "lastName": "LI",
+      "workWeekDate": "2025-05-26",
+      "hours": 7,
+      "uploadDate": "2025-06-19T15:13:42.980Z"
+    },
+    {
+      "payrollId": "EQ-0736",
+      "firstName": "YI-JU",
+      "lastName": "LI",
+      "workWeekDate": "2025-04-07",
+      "hours": 8,
+      "uploadDate": "2025-06-19T15:13:42.980Z"
+    },
+    {
+      "payrollId": "EQ-0736",
+      "firstName": "YI-JU",
+      "lastName": "LI",
+      "workWeekDate": "2025-03-31",
+      "hours": 9,
+      "uploadDate": "2025-06-19T15:13:42.980Z"
+    },
+    {
+      "payrollId": "EQ-0736",
+      "firstName": "YI-JU",
+      "lastName": "LI",
+      "workWeekDate": "2025-04-14",
+      "hours": 10.25,
+      "uploadDate": "2025-06-19T15:13:42.980Z"
+    },
+    {
+      "payrollId": "EQ-0736",
+      "firstName": "YI-JU",
+      "lastName": "LI",
+      "workWeekDate": "2025-04-21",
+      "hours": 10.75,
+      "uploadDate": "2025-06-19T15:13:42.985Z"
+    },
+    {
+      "payrollId": "EQ-0737",
+      "firstName": "Ying Chi",
+      "lastName": "Chou",
+      "workWeekDate": "2025-05-19",
+      "hours": 1,
+      "uploadDate": "2025-06-19T15:13:42.985Z"
+    },
+    {
+      "payrollId": "EQ-0737",
+      "firstName": "Ying Chi",
+      "lastName": "Chou",
+      "workWeekDate": "2025-04-21",
+      "hours": 2,
+      "uploadDate": "2025-06-19T15:13:42.985Z"
+    },
+    {
+      "payrollId": "EQ-0737",
+      "firstName": "Ying Chi",
+      "lastName": "Chou",
+      "workWeekDate": "2025-03-24",
+      "hours": 3.75,
+      "uploadDate": "2025-06-19T15:13:42.985Z"
+    },
+    {
+      "payrollId": "EQ-0737",
+      "firstName": "Ying Chi",
+      "lastName": "Chou",
+      "workWeekDate": "2025-03-17",
+      "hours": 4.25,
+      "uploadDate": "2025-06-19T15:13:42.985Z"
+    },
+    {
+      "payrollId": "EQ-0737",
+      "firstName": "Ying Chi",
+      "lastName": "Chou",
+      "workWeekDate": "2025-04-14",
+      "hours": 6.5,
+      "uploadDate": "2025-06-19T15:13:42.985Z"
+    },
+    {
+      "payrollId": "EQ-0737",
+      "firstName": "Ying Chi",
+      "lastName": "Chou",
+      "workWeekDate": "2025-04-07",
+      "hours": 6.75,
+      "uploadDate": "2025-06-19T15:13:42.985Z"
+    },
+    {
+      "payrollId": "EQ-0737",
+      "firstName": "Ying Chi",
+      "lastName": "Chou",
+      "workWeekDate": "2025-03-31",
+      "hours": 8.75,
+      "uploadDate": "2025-06-19T15:13:42.985Z"
+    },
+    {
+      "payrollId": "EQ-0738",
+      "firstName": "CHE WEI",
+      "lastName": "HSU",
+      "workWeekDate": "2025-05-19",
+      "hours": 1,
+      "uploadDate": "2025-06-19T15:13:42.985Z"
+    },
+    {
+      "payrollId": "EQ-0738",
+      "firstName": "CHE WEI",
+      "lastName": "HSU",
+      "workWeekDate": "2025-04-21",
+      "hours": 2,
+      "uploadDate": "2025-06-19T15:13:42.985Z"
+    },
+    {
+      "payrollId": "EQ-0738",
+      "firstName": "CHE WEI",
+      "lastName": "HSU",
+      "workWeekDate": "2025-03-24",
+      "hours": 3.75,
+      "uploadDate": "2025-06-19T15:13:42.989Z"
+    },
+    {
+      "payrollId": "EQ-0738",
+      "firstName": "CHE WEI",
+      "lastName": "HSU",
+      "workWeekDate": "2025-03-17",
+      "hours": 4.25,
+      "uploadDate": "2025-06-19T15:13:42.990Z"
+    },
+    {
+      "payrollId": "EQ-0738",
+      "firstName": "CHE WEI",
+      "lastName": "HSU",
+      "workWeekDate": "2025-04-14",
+      "hours": 6.5,
+      "uploadDate": "2025-06-19T15:13:42.990Z"
+    },
+    {
+      "payrollId": "EQ-0738",
+      "firstName": "CHE WEI",
+      "lastName": "HSU",
+      "workWeekDate": "2025-04-07",
+      "hours": 6.75,
+      "uploadDate": "2025-06-19T15:13:42.990Z"
+    },
+    {
+      "payrollId": "EQ-0738",
+      "firstName": "CHE WEI",
+      "lastName": "HSU",
+      "workWeekDate": "2025-03-31",
+      "hours": 8.75,
+      "uploadDate": "2025-06-19T15:13:42.990Z"
+    },
+    {
+      "payrollId": "EQ-0739",
+      "firstName": "Wen-Shuo",
+      "lastName": "Chang",
+      "workWeekDate": "2025-05-05",
+      "hours": 6.25,
+      "uploadDate": "2025-06-19T15:13:42.990Z"
+    },
+    {
+      "payrollId": "EQ-0739",
+      "firstName": "Wen Shuo",
+      "lastName": "Chang",
+      "workWeekDate": "2025-06-09",
+      "hours": 32,
+      "uploadDate": "2025-06-19T15:13:42.990Z"
+    },
+    {
+      "payrollId": "EQ-0739",
+      "firstName": "Wen Shuo",
+      "lastName": "Chang",
+      "workWeekDate": "2025-05-19",
+      "hours": 40.25,
+      "uploadDate": "2025-06-19T15:13:42.990Z"
+    },
+    {
+      "payrollId": "EQ-0739",
+      "firstName": "Wen Shuo",
+      "lastName": "Chang",
+      "workWeekDate": "2025-06-02",
+      "hours": 45,
+      "uploadDate": "2025-06-19T15:13:42.990Z"
+    },
+    {
+      "payrollId": "EQ-0739",
+      "firstName": "Wen Shuo",
+      "lastName": "Chang",
+      "workWeekDate": "2025-05-12",
+      "hours": 54,
+      "uploadDate": "2025-06-19T15:13:42.990Z"
+    },
+    {
+      "payrollId": "EQ-0739",
+      "firstName": "Wen Shuo",
+      "lastName": "Chang",
+      "workWeekDate": "2025-05-26",
+      "hours": 58.75,
+      "uploadDate": "2025-06-19T15:13:42.994Z"
+    },
+    {
+      "payrollId": "EQ-0753",
+      "firstName": "Yang han",
+      "lastName": "Lin",
+      "workWeekDate": "2025-06-02",
+      "hours": 3,
+      "uploadDate": "2025-06-19T15:13:42.994Z"
+    },
+    {
+      "payrollId": "EQ-0753",
+      "firstName": "Yang han",
+      "lastName": "Lin",
+      "workWeekDate": "2025-04-28",
+      "hours": 3.5,
+      "uploadDate": "2025-06-19T15:13:42.994Z"
+    },
+    {
+      "payrollId": "EQ-0753",
+      "firstName": "Yang han",
+      "lastName": "Lin",
+      "workWeekDate": "2025-05-05",
+      "hours": 8.75,
+      "uploadDate": "2025-06-19T15:13:42.994Z"
+    },
+    {
+      "payrollId": "EQ-0815",
+      "firstName": "KuanYi",
+      "lastName": "Yu",
+      "workWeekDate": "2025-05-12",
+      "hours": 3.25,
+      "uploadDate": "2025-06-19T15:13:42.994Z"
+    },
+    {
+      "payrollId": "EQ-0815",
+      "firstName": "KuanYi",
+      "lastName": "Yu",
+      "workWeekDate": "2025-05-26",
+      "hours": 4,
+      "uploadDate": "2025-06-19T15:13:42.994Z"
+    },
+    {
+      "payrollId": "EQ-0815",
+      "firstName": "KuanYi",
+      "lastName": "Yu",
+      "workWeekDate": "2025-04-28",
+      "hours": 6.25,
+      "uploadDate": "2025-06-19T15:13:42.994Z"
+    },
+    {
+      "payrollId": "EQ-0815",
+      "firstName": "KuanYi",
+      "lastName": "Yu",
+      "workWeekDate": "2025-05-05",
+      "hours": 6.25,
+      "uploadDate": "2025-06-19T15:13:42.994Z"
+    },
+    {
+      "payrollId": "EQ-0815",
+      "firstName": "KuanYi",
+      "lastName": "Yu",
+      "workWeekDate": "2025-06-02",
+      "hours": 12.5,
+      "uploadDate": "2025-06-19T15:13:42.994Z"
+    },
+    {
+      "payrollId": "EQ-0815",
+      "firstName": "KuanYi",
+      "lastName": "Yu",
+      "workWeekDate": "2025-04-21",
+      "hours": 17.75,
+      "uploadDate": "2025-06-19T15:13:42.994Z"
+    },
+    {
+      "payrollId": "EQ-0848",
+      "firstName": "YI TUNG",
+      "lastName": "LIU",
+      "workWeekDate": "2025-05-12",
+      "hours": 3.25,
+      "uploadDate": "2025-06-19T15:13:42.999Z"
+    },
+    {
+      "payrollId": "EQ-0848",
+      "firstName": "YI TUNG",
+      "lastName": "LIU",
+      "workWeekDate": "2025-05-26",
+      "hours": 4,
+      "uploadDate": "2025-06-19T15:13:42.999Z"
+    },
+    {
+      "payrollId": "EQ-0848",
+      "firstName": "YI TUNG",
+      "lastName": "LIU",
+      "workWeekDate": "2025-04-28",
+      "hours": 6.25,
+      "uploadDate": "2025-06-19T15:13:42.999Z"
+    },
+    {
+      "payrollId": "EQ-0848",
+      "firstName": "YI TUNG",
+      "lastName": "LIU",
+      "workWeekDate": "2025-05-05",
+      "hours": 6.25,
+      "uploadDate": "2025-06-19T15:13:42.999Z"
+    },
+    {
+      "payrollId": "EQ-0848",
+      "firstName": "YI TUNG",
+      "lastName": "LIU",
+      "workWeekDate": "2025-04-21",
+      "hours": 13.5,
+      "uploadDate": "2025-06-19T15:13:42.999Z"
+    },
+    {
+      "payrollId": "EQ-0868",
+      "firstName": "YU LING",
+      "lastName": "SUN",
+      "workWeekDate": "2025-03-10",
+      "hours": 20,
+      "uploadDate": "2025-06-19T15:13:42.999Z"
+    },
+    {
+      "payrollId": "EQ-0868",
+      "firstName": "YU LING",
+      "lastName": "SUN",
+      "workWeekDate": "2025-03-17",
+      "hours": 26,
+      "uploadDate": "2025-06-19T15:13:42.999Z"
+    },
+    {
+      "payrollId": "EQ-0869",
+      "firstName": "Yafan",
+      "lastName": "Chang",
+      "workWeekDate": "2025-03-17",
+      "hours": 6,
+      "uploadDate": "2025-06-19T15:13:42.999Z"
+    },
+    {
+      "payrollId": "EQ-0869",
+      "firstName": "Yafan",
+      "lastName": "Chang",
+      "workWeekDate": "2025-03-10",
+      "hours": 14.5,
+      "uploadDate": "2025-06-19T15:13:42.999Z"
+    },
+    {
+      "payrollId": "EQ-0872",
+      "firstName": "Chia-Chi",
+      "lastName": "Lin",
+      "workWeekDate": "2025-05-05",
+      "hours": 1.5,
+      "uploadDate": "2025-06-19T15:13:42.999Z"
+    },
+    {
+      "payrollId": "EQ-0872",
+      "firstName": "Chia-Chi",
+      "lastName": "Lin",
+      "workWeekDate": "2025-04-21",
+      "hours": 11.5,
+      "uploadDate": "2025-06-19T15:13:43.004Z"
+    },
+    {
+      "payrollId": "EQ-0874",
+      "firstName": "Bing Chun",
+      "lastName": "Lu",
+      "workWeekDate": "2025-05-19",
+      "hours": 1,
+      "uploadDate": "2025-06-19T15:13:43.004Z"
+    },
+    {
+      "payrollId": "EQ-0874",
+      "firstName": "Bing Chun",
+      "lastName": "Lu",
+      "workWeekDate": "2025-04-14",
+      "hours": 6,
+      "uploadDate": "2025-06-19T15:13:43.004Z"
+    },
+    {
+      "payrollId": "EQ-0874",
+      "firstName": "Bing Chun",
+      "lastName": "Lu",
+      "workWeekDate": "2025-04-21",
+      "hours": 6.25,
+      "uploadDate": "2025-06-19T15:13:43.004Z"
+    },
+    {
+      "payrollId": "EQ-0874",
+      "firstName": "Bing Chun",
+      "lastName": "Lu",
+      "workWeekDate": "2025-04-07",
+      "hours": 7,
+      "uploadDate": "2025-06-19T15:13:43.004Z"
+    },
+    {
+      "payrollId": "EQ-0874",
+      "firstName": "Bing Chun",
+      "lastName": "Lu",
+      "workWeekDate": "2025-03-31",
+      "hours": 11,
+      "uploadDate": "2025-06-19T15:13:43.004Z"
+    },
+    {
+      "payrollId": "EQ-0881",
+      "firstName": "YU-CHANG",
+      "lastName": "HSU",
+      "workWeekDate": "2025-04-28",
+      "hours": 3,
+      "uploadDate": "2025-06-19T15:13:43.004Z"
+    },
+    {
+      "payrollId": "EQ-0881",
+      "firstName": "YU-CHANG",
+      "lastName": "HSU",
+      "workWeekDate": "2025-06-09",
+      "hours": 3.25,
+      "uploadDate": "2025-06-19T15:13:43.004Z"
+    },
+    {
+      "payrollId": "EQ-0881",
+      "firstName": "YU-CHANG",
+      "lastName": "HSU",
+      "workWeekDate": "2025-05-05",
+      "hours": 3.5,
+      "uploadDate": "2025-06-19T15:13:43.004Z"
+    },
+    {
+      "payrollId": "EQ-0881",
+      "firstName": "YU-CHANG",
+      "lastName": "HSU",
+      "workWeekDate": "2025-03-24",
+      "hours": 4.75,
+      "uploadDate": "2025-06-19T15:13:43.004Z"
+    },
+    {
+      "payrollId": "EQ-0881",
+      "firstName": "YU-CHANG",
+      "lastName": "HSU",
+      "workWeekDate": "2025-04-07",
+      "hours": 8,
+      "uploadDate": "2025-06-19T15:13:43.009Z"
+    },
+    {
+      "payrollId": "EQ-0881",
+      "firstName": "YU-CHANG",
+      "lastName": "HSU",
+      "workWeekDate": "2025-04-14",
+      "hours": 10.25,
+      "uploadDate": "2025-06-19T15:13:43.009Z"
+    },
+    {
+      "payrollId": "EQ-0881",
+      "firstName": "YU-CHANG",
+      "lastName": "HSU",
+      "workWeekDate": "2025-04-21",
+      "hours": 10.75,
+      "uploadDate": "2025-06-19T15:13:43.009Z"
+    },
+    {
+      "payrollId": "EQ-0881",
+      "firstName": "YU-CHANG",
+      "lastName": "HSU",
+      "workWeekDate": "2025-03-31",
+      "hours": 11,
+      "uploadDate": "2025-06-19T15:13:43.009Z"
+    },
+    {
+      "payrollId": "EQ-0882",
+      "firstName": "Hsuan Jo",
+      "lastName": "Chang",
+      "workWeekDate": "2025-05-12",
+      "hours": 3.25,
+      "uploadDate": "2025-06-19T15:13:43.009Z"
+    },
+    {
+      "payrollId": "EQ-0882",
+      "firstName": "Hsuan Jo",
+      "lastName": "Chang",
+      "workWeekDate": "2025-04-14",
+      "hours": 6,
+      "uploadDate": "2025-06-19T15:13:43.009Z"
+    },
+    {
+      "payrollId": "EQ-0882",
+      "firstName": "Hsuan Jo",
+      "lastName": "Chang",
+      "workWeekDate": "2025-04-21",
+      "hours": 6.25,
+      "uploadDate": "2025-06-19T15:13:43.009Z"
+    },
+    {
+      "payrollId": "EQ-0882",
+      "firstName": "Hsuan Jo",
+      "lastName": "Chang",
+      "workWeekDate": "2025-04-07",
+      "hours": 7,
+      "uploadDate": "2025-06-19T15:13:43.009Z"
+    },
+    {
+      "payrollId": "EQ-0882",
+      "firstName": "Hsuan-Jo",
+      "lastName": "Chang",
+      "workWeekDate": "2025-03-31",
+      "hours": 11,
+      "uploadDate": "2025-06-19T15:13:43.009Z"
+    },
+    {
+      "payrollId": "EQ-0919",
+      "firstName": "Made Candra",
+      "lastName": "Andiyasa",
+      "workWeekDate": "2025-02-10",
+      "hours": 6,
+      "uploadDate": "2025-06-19T15:13:43.009Z"
+    },
+    {
+      "payrollId": "EQ-0919",
+      "firstName": "Made Candra",
+      "lastName": "Andiyasa",
+      "workWeekDate": "2025-03-03",
+      "hours": 18,
+      "uploadDate": "2025-06-19T15:13:43.013Z"
+    },
+    {
+      "payrollId": "EQ-0919",
+      "firstName": "Made Candra",
+      "lastName": "Andiyasa",
+      "workWeekDate": "2025-06-09",
+      "hours": 26.25,
+      "uploadDate": "2025-06-19T15:13:43.013Z"
+    },
+    {
+      "payrollId": "EQ-0919",
+      "firstName": "Made Candra",
+      "lastName": "Andiyasa",
+      "workWeekDate": "2025-04-21",
+      "hours": 26.75,
+      "uploadDate": "2025-06-19T15:13:43.013Z"
+    },
+    {
+      "payrollId": "EQ-0919",
+      "firstName": "Made Candra",
+      "lastName": "Andiyasa",
+      "workWeekDate": "2025-04-14",
+      "hours": 31,
+      "uploadDate": "2025-06-19T15:13:43.013Z"
+    },
+    {
+      "payrollId": "EQ-0919",
+      "firstName": "Made Candra",
+      "lastName": "Andiyasa",
+      "workWeekDate": "2025-04-07",
+      "hours": 34.5,
+      "uploadDate": "2025-06-19T15:13:43.013Z"
+    },
+    {
+      "payrollId": "EQ-0919",
+      "firstName": "Made Candra",
+      "lastName": "Andiyasa",
+      "workWeekDate": "2025-03-17",
+      "hours": 36.5,
+      "uploadDate": "2025-06-19T15:13:43.013Z"
+    },
+    {
+      "payrollId": "EQ-0919",
+      "firstName": "Made Candra",
+      "lastName": "Andiyasa",
+      "workWeekDate": "2025-03-31",
+      "hours": 37,
+      "uploadDate": "2025-06-19T15:13:43.014Z"
+    },
+    {
+      "payrollId": "EQ-0919",
+      "firstName": "Made Candra",
+      "lastName": "Andiyasa",
+      "workWeekDate": "2025-06-02",
+      "hours": 37,
+      "uploadDate": "2025-06-19T15:13:43.014Z"
+    },
+    {
+      "payrollId": "EQ-0919",
+      "firstName": "Made Candra",
+      "lastName": "Andiyasa",
+      "workWeekDate": "2025-02-17",
+      "hours": 39,
+      "uploadDate": "2025-06-19T15:13:43.014Z"
+    },
+    {
+      "payrollId": "EQ-0919",
+      "firstName": "Made Candra",
+      "lastName": "Andiyasa",
+      "workWeekDate": "2025-04-28",
+      "hours": 39.25,
+      "uploadDate": "2025-06-19T15:13:43.014Z"
+    },
+    {
+      "payrollId": "EQ-0919",
+      "firstName": "Made Candra",
+      "lastName": "Andiyasa",
+      "workWeekDate": "2025-03-10",
+      "hours": 44.25,
+      "uploadDate": "2025-06-19T15:13:43.018Z"
+    },
+    {
+      "payrollId": "EQ-0919",
+      "firstName": "Made Candra",
+      "lastName": "Andiyasa",
+      "workWeekDate": "2025-02-24",
+      "hours": 45.5,
+      "uploadDate": "2025-06-19T15:13:43.018Z"
+    },
+    {
+      "payrollId": "EQ-0919",
+      "firstName": "Made Candra",
+      "lastName": "Andiyasa",
+      "workWeekDate": "2025-03-24",
+      "hours": 51.25,
+      "uploadDate": "2025-06-19T15:13:43.018Z"
+    },
+    {
+      "payrollId": "EQ-0919",
+      "firstName": "Made Candra",
+      "lastName": "Andiyasa",
+      "workWeekDate": "2025-05-05",
+      "hours": 51.5,
+      "uploadDate": "2025-06-19T15:13:43.018Z"
+    },
+    {
+      "payrollId": "EQ-0919",
+      "firstName": "Made Candra",
+      "lastName": "Andiyasa",
+      "workWeekDate": "2025-05-19",
+      "hours": 58.5,
+      "uploadDate": "2025-06-19T15:13:43.018Z"
+    },
+    {
+      "payrollId": "EQ-0919",
+      "firstName": "Made Candra",
+      "lastName": "Andiyasa",
+      "workWeekDate": "2025-05-12",
+      "hours": 60.5,
+      "uploadDate": "2025-06-19T15:13:43.018Z"
+    },
+    {
+      "payrollId": "EQ-0919",
+      "firstName": "Made Candra",
+      "lastName": "Andiyasa",
+      "workWeekDate": "2025-05-26",
+      "hours": 62.5,
+      "uploadDate": "2025-06-19T15:13:43.018Z"
+    },
+    {
+      "payrollId": "EQ-0967",
+      "firstName": "Huan Sheng",
+      "lastName": "Hsu",
+      "workWeekDate": "2025-05-12",
+      "hours": 2,
+      "uploadDate": "2025-06-19T15:13:43.018Z"
+    },
+    {
+      "payrollId": "EQ-0973",
+      "firstName": "YI-WEN",
+      "lastName": "ZHOU",
+      "workWeekDate": "2025-04-28",
+      "hours": 3,
+      "uploadDate": "2025-06-19T15:13:43.018Z"
+    },
+    {
+      "payrollId": "EQ-0973",
+      "firstName": "YI-WEN",
+      "lastName": "ZHOU",
+      "workWeekDate": "2025-05-05",
+      "hours": 5.25,
+      "uploadDate": "2025-06-19T15:13:43.018Z"
+    },
+    {
+      "payrollId": "EQ-0973",
+      "firstName": "YI-WEN",
+      "lastName": "ZHOU",
+      "workWeekDate": "2025-04-14",
+      "hours": 7.25,
+      "uploadDate": "2025-06-19T15:13:43.023Z"
+    },
+    {
+      "payrollId": "EQ-0973",
+      "firstName": "YI-WEN",
+      "lastName": "ZHOU",
+      "workWeekDate": "2025-04-07",
+      "hours": 7.5,
+      "uploadDate": "2025-06-19T15:13:43.023Z"
+    },
+    {
+      "payrollId": "EQ-0973",
+      "firstName": "YI-WEN",
+      "lastName": "ZHOU",
+      "workWeekDate": "2025-03-24",
+      "hours": 8.25,
+      "uploadDate": "2025-06-19T15:13:43.023Z"
+    },
+    {
+      "payrollId": "EQ-0973",
+      "firstName": "YI-WEN",
+      "lastName": "ZHOU",
+      "workWeekDate": "2025-04-21",
+      "hours": 10.75,
+      "uploadDate": "2025-06-19T15:13:43.023Z"
+    },
+    {
+      "payrollId": "EQ-0973",
+      "firstName": "YI-WEN",
+      "lastName": "ZHOU",
+      "workWeekDate": "2025-03-31",
+      "hours": 11.25,
+      "uploadDate": "2025-06-19T15:13:43.023Z"
+    },
+    {
+      "payrollId": "EQ-0973",
+      "firstName": "YI-WEN",
+      "lastName": "ZHOU",
+      "workWeekDate": "2025-03-17",
+      "hours": 13.5,
+      "uploadDate": "2025-06-19T15:13:43.023Z"
+    },
+    {
+      "payrollId": "EQ-0974",
+      "firstName": "MENG-HSUAN",
+      "lastName": "CHIANG",
+      "workWeekDate": "2025-03-10",
+      "hours": 3.5,
+      "uploadDate": "2025-06-19T15:13:43.023Z"
+    },
+    {
+      "payrollId": "EQ-0974",
+      "firstName": "MENG-HSUAN",
+      "lastName": "CHIANG",
+      "workWeekDate": "2025-05-26",
+      "hours": 4,
+      "uploadDate": "2025-06-19T15:13:43.023Z"
+    },
+    {
+      "payrollId": "EQ-0974",
+      "firstName": "MENG HSUAN",
+      "lastName": "CHIANG",
+      "workWeekDate": "2025-06-02",
+      "hours": 10.25,
+      "uploadDate": "2025-06-19T15:13:43.023Z"
+    },
+    {
+      "payrollId": "EQ-0974",
+      "firstName": "MENG HSUAN",
+      "lastName": "CHIANG",
+      "workWeekDate": "2025-06-09",
+      "hours": 10.5,
+      "uploadDate": "2025-06-19T15:13:43.023Z"
+    },
+    {
+      "payrollId": "EQ-0974",
+      "firstName": "MENG-HSUAN",
+      "lastName": "CHIANG",
+      "workWeekDate": "2025-04-21",
+      "hours": 10.75,
+      "uploadDate": "2025-06-19T15:13:43.027Z"
+    },
+    {
+      "payrollId": "EQ-0974",
+      "firstName": "MENG-HSUAN",
+      "lastName": "CHIANG",
+      "workWeekDate": "2025-05-05",
+      "hours": 10.75,
+      "uploadDate": "2025-06-19T15:13:43.027Z"
+    },
+    {
+      "payrollId": "EQ-0974",
+      "firstName": "MENG-HSUAN",
+      "lastName": "CHIANG",
+      "workWeekDate": "2025-04-28",
+      "hours": 11,
+      "uploadDate": "2025-06-19T15:13:43.027Z"
+    },
+    {
+      "payrollId": "EQ-0974",
+      "firstName": "MENG-HSUAN",
+      "lastName": "CHIANG",
+      "workWeekDate": "2025-03-24",
+      "hours": 11.5,
+      "uploadDate": "2025-06-19T15:13:43.027Z"
+    },
+    {
+      "payrollId": "EQ-0974",
+      "firstName": "MENG-HSUAN",
+      "lastName": "CHIANG",
+      "workWeekDate": "2025-03-31",
+      "hours": 11.75,
+      "uploadDate": "2025-06-19T15:13:43.027Z"
+    },
+    {
+      "payrollId": "EQ-0974",
+      "firstName": "MENG-HSUAN",
+      "lastName": "CHIANG",
+      "workWeekDate": "2025-04-07",
+      "hours": 12,
+      "uploadDate": "2025-06-19T15:13:43.027Z"
+    },
+    {
+      "payrollId": "EQ-0974",
+      "firstName": "MENG-HSUAN",
+      "lastName": "CHIANG",
+      "workWeekDate": "2025-03-17",
+      "hours": 13.5,
+      "uploadDate": "2025-06-19T15:13:43.027Z"
+    },
+    {
+      "payrollId": "EQ-0974",
+      "firstName": "MENG-HSUAN",
+      "lastName": "CHIANG",
+      "workWeekDate": "2025-04-14",
+      "hours": 16.5,
+      "uploadDate": "2025-06-19T15:13:43.027Z"
+    },
+    {
+      "payrollId": "EQ-1049",
+      "firstName": "Laura Jesiska",
+      "lastName": "Sitorus",
+      "workWeekDate": "2025-06-02",
+      "hours": 29.75,
+      "uploadDate": "2025-06-19T15:13:43.027Z"
+    },
+    {
+      "payrollId": "EQ-1049",
+      "firstName": "Laura Jesiska",
+      "lastName": "Sitorus",
+      "workWeekDate": "2025-06-09",
+      "hours": 39.25,
+      "uploadDate": "2025-06-19T15:13:43.027Z"
+    },
+    {
+      "payrollId": "EQ-1049",
+      "firstName": "Laura Jesiska",
+      "lastName": "Sitorus",
+      "workWeekDate": "2025-05-26",
+      "hours": 45,
+      "uploadDate": "2025-06-19T15:13:43.032Z"
+    },
+    {
+      "payrollId": "EQ-1049",
+      "firstName": "Laura Jesiska",
+      "lastName": "Sitorus",
+      "workWeekDate": "2025-05-19",
+      "hours": 50,
+      "uploadDate": "2025-06-19T15:13:43.032Z"
+    },
+    {
+      "payrollId": "EQ-1061",
+      "firstName": "CHINKUN",
+      "lastName": "CHEN",
+      "workWeekDate": "2025-05-05",
+      "hours": 1.5,
+      "uploadDate": "2025-06-19T15:13:43.032Z"
+    },
+    {
+      "payrollId": "EQ-1063",
+      "firstName": "YU-XUAN",
+      "lastName": "CHIEN",
+      "workWeekDate": "2025-05-05",
+      "hours": 1.5,
+      "uploadDate": "2025-06-19T15:13:43.032Z"
+    },
+    {
+      "payrollId": "EQ-1070",
+      "firstName": "YA HSUAN",
+      "lastName": "Chen",
+      "workWeekDate": "2025-05-12",
+      "hours": 2,
+      "uploadDate": "2025-06-19T15:13:43.032Z"
+    },
+    {
+      "payrollId": "EQ-1070",
+      "firstName": "YA HSUAN",
+      "lastName": "Chen",
+      "workWeekDate": "2025-05-05",
+      "hours": 2.25,
+      "uploadDate": "2025-06-19T15:13:43.032Z"
+    },
+    {
+      "payrollId": "EQ-1070",
+      "firstName": "YA HSUAN",
+      "lastName": "Chen",
+      "workWeekDate": "2025-05-26",
+      "hours": 7,
+      "uploadDate": "2025-06-19T15:13:43.032Z"
+    },
+    {
+      "payrollId": "EQ-1070",
+      "firstName": "YA HSUAN",
+      "lastName": "Chen",
+      "workWeekDate": "2025-06-09",
+      "hours": 9,
+      "uploadDate": "2025-06-19T15:13:43.032Z"
+    },
+    {
+      "payrollId": "EQ-1070",
+      "firstName": "YA HSUAN",
+      "lastName": "Chen",
+      "workWeekDate": "2025-04-28",
+      "hours": 11,
+      "uploadDate": "2025-06-19T15:13:43.032Z"
+    },
+    {
+      "payrollId": "EQ-1070",
+      "firstName": "YA HSUAN",
+      "lastName": "Chen",
+      "workWeekDate": "2025-04-21",
+      "hours": 17.75,
+      "uploadDate": "2025-06-19T15:13:43.032Z"
+    },
+    {
+      "payrollId": "EQ-1071",
+      "firstName": "BORONG",
+      "lastName": "HUANG",
+      "workWeekDate": "2025-02-17",
+      "hours": 5.5,
+      "uploadDate": "2025-06-19T15:13:43.037Z"
+    },
+    {
+      "payrollId": "EQ-1071",
+      "firstName": "BORONG",
+      "lastName": "HUANG",
+      "workWeekDate": "2025-06-02",
+      "hours": 15.75,
+      "uploadDate": "2025-06-19T15:13:43.037Z"
+    },
+    {
+      "payrollId": "EQ-1071",
+      "firstName": "BORONG",
+      "lastName": "HUANG",
+      "workWeekDate": "2025-06-09",
+      "hours": 26.75,
+      "uploadDate": "2025-06-19T15:13:43.038Z"
+    },
+    {
+      "payrollId": "EQ-1071",
+      "firstName": "BORONG",
+      "lastName": "HUANG",
+      "workWeekDate": "2025-04-07",
+      "hours": 29.25,
+      "uploadDate": "2025-06-19T15:13:43.038Z"
+    },
+    {
+      "payrollId": "EQ-1071",
+      "firstName": "BORONG",
+      "lastName": "HUANG",
+      "workWeekDate": "2025-04-14",
+      "hours": 30,
+      "uploadDate": "2025-06-19T15:13:43.038Z"
+    },
+    {
+      "payrollId": "EQ-1071",
+      "firstName": "BORONG",
+      "lastName": "HUANG",
+      "workWeekDate": "2025-03-03",
+      "hours": 31,
+      "uploadDate": "2025-06-19T15:13:43.038Z"
+    },
+    {
+      "payrollId": "EQ-1071",
+      "firstName": "BORONG",
+      "lastName": "HUANG",
+      "workWeekDate": "2025-03-10",
+      "hours": 32.5,
+      "uploadDate": "2025-06-19T15:13:43.038Z"
+    },
+    {
+      "payrollId": "EQ-1071",
+      "firstName": "BORONG",
+      "lastName": "HUANG",
+      "workWeekDate": "2025-02-24",
+      "hours": 33.5,
+      "uploadDate": "2025-06-19T15:13:43.038Z"
+    },
+    {
+      "payrollId": "EQ-1071",
+      "firstName": "BORONG",
+      "lastName": "HUANG",
+      "workWeekDate": "2025-04-21",
+      "hours": 33.5,
+      "uploadDate": "2025-06-19T15:13:43.038Z"
+    },
+    {
+      "payrollId": "EQ-1071",
+      "firstName": "BORONG",
+      "lastName": "HUANG",
+      "workWeekDate": "2025-04-28",
+      "hours": 33.75,
+      "uploadDate": "2025-06-19T15:13:43.038Z"
+    },
+    {
+      "payrollId": "EQ-1071",
+      "firstName": "BORONG",
+      "lastName": "HUANG",
+      "workWeekDate": "2025-03-24",
+      "hours": 36.25,
+      "uploadDate": "2025-06-19T15:13:43.042Z"
+    },
+    {
+      "payrollId": "EQ-1071",
+      "firstName": "BORONG",
+      "lastName": "HUANG",
+      "workWeekDate": "2025-05-26",
+      "hours": 36.5,
+      "uploadDate": "2025-06-19T15:13:43.042Z"
+    },
+    {
+      "payrollId": "EQ-1071",
+      "firstName": "BORONG",
+      "lastName": "HUANG",
+      "workWeekDate": "2025-03-31",
+      "hours": 37,
+      "uploadDate": "2025-06-19T15:13:43.042Z"
+    },
+    {
+      "payrollId": "EQ-1071",
+      "firstName": "BORONG",
+      "lastName": "HUANG",
+      "workWeekDate": "2025-03-17",
+      "hours": 38.75,
+      "uploadDate": "2025-06-19T15:13:43.042Z"
+    },
+    {
+      "payrollId": "EQ-1071",
+      "firstName": "BORONG",
+      "lastName": "HUANG",
+      "workWeekDate": "2025-05-12",
+      "hours": 42.75,
+      "uploadDate": "2025-06-19T15:13:43.042Z"
+    },
+    {
+      "payrollId": "EQ-1071",
+      "firstName": "BORONG",
+      "lastName": "HUANG",
+      "workWeekDate": "2025-05-19",
+      "hours": 44,
+      "uploadDate": "2025-06-19T15:13:43.042Z"
+    },
+    {
+      "payrollId": "EQ-1071",
+      "firstName": "BORONG",
+      "lastName": "HUANG",
+      "workWeekDate": "2025-05-05",
+      "hours": 44.25,
+      "uploadDate": "2025-06-19T15:13:43.042Z"
+    },
+    {
+      "payrollId": "EQ-1079",
+      "firstName": "Zili",
+      "lastName": "Wang",
+      "workWeekDate": "2025-05-12",
+      "hours": 2,
+      "uploadDate": "2025-06-19T15:13:43.042Z"
+    },
+    {
+      "payrollId": "EQ-1079",
+      "firstName": "Zili",
+      "lastName": "Wang",
+      "workWeekDate": "2025-04-28",
+      "hours": 3.5,
+      "uploadDate": "2025-06-19T15:13:43.042Z"
+    },
+    {
+      "payrollId": "EQ-1079",
+      "firstName": "Zili",
+      "lastName": "Wang",
+      "workWeekDate": "2025-05-05",
+      "hours": 8.75,
+      "uploadDate": "2025-06-19T15:13:43.042Z"
+    },
+    {
+      "payrollId": "EQ-1081",
+      "firstName": "Peiyu",
+      "lastName": "Chou",
+      "workWeekDate": "2025-05-05",
+      "hours": 10.75,
+      "uploadDate": "2025-06-19T15:13:43.047Z"
+    },
+    {
+      "payrollId": "EQ-1081",
+      "firstName": "Peiyu",
+      "lastName": "Chou",
+      "workWeekDate": "2025-03-03",
+      "hours": 18.5,
+      "uploadDate": "2025-06-19T15:13:43.047Z"
+    },
+    {
+      "payrollId": "EQ-1081",
+      "firstName": "Peiyu",
+      "lastName": "Chou",
+      "workWeekDate": "2025-04-14",
+      "hours": 25.5,
+      "uploadDate": "2025-06-19T15:13:43.047Z"
+    },
+    {
+      "payrollId": "EQ-1081",
+      "firstName": "Peiyu",
+      "lastName": "Chou",
+      "workWeekDate": "2025-05-26",
+      "hours": 28.75,
+      "uploadDate": "2025-06-19T15:13:43.047Z"
+    },
+    {
+      "payrollId": "EQ-1081",
+      "firstName": "Peiyu",
+      "lastName": "Chou",
+      "workWeekDate": "2025-03-31",
+      "hours": 29.75,
+      "uploadDate": "2025-06-19T15:13:43.047Z"
+    },
+    {
+      "payrollId": "EQ-1081",
+      "firstName": "Peiyu",
+      "lastName": "Chou",
+      "workWeekDate": "2025-03-17",
+      "hours": 32,
+      "uploadDate": "2025-06-19T15:13:43.047Z"
+    },
+    {
+      "payrollId": "EQ-1081",
+      "firstName": "Peiyu",
+      "lastName": "Chou",
+      "workWeekDate": "2025-04-21",
+      "hours": 33.25,
+      "uploadDate": "2025-06-19T15:13:43.047Z"
+    },
+    {
+      "payrollId": "EQ-1081",
+      "firstName": "Peiyu",
+      "lastName": "Chou",
+      "workWeekDate": "2025-05-19",
+      "hours": 37,
+      "uploadDate": "2025-06-19T15:13:43.047Z"
+    },
+    {
+      "payrollId": "EQ-1081",
+      "firstName": "Peiyu",
+      "lastName": "Chou",
+      "workWeekDate": "2025-03-24",
+      "hours": 37.25,
+      "uploadDate": "2025-06-19T15:13:43.047Z"
+    },
+    {
+      "payrollId": "EQ-1081",
+      "firstName": "Peiyu",
+      "lastName": "Chou",
+      "workWeekDate": "2025-03-10",
+      "hours": 37.5,
+      "uploadDate": "2025-06-19T15:13:43.047Z"
+    },
+    {
+      "payrollId": "EQ-1081",
+      "firstName": "Peiyu",
+      "lastName": "Chou",
+      "workWeekDate": "2025-05-12",
+      "hours": 39,
+      "uploadDate": "2025-06-19T15:13:43.052Z"
+    },
+    {
+      "payrollId": "EQ-1081",
+      "firstName": "Peiyu",
+      "lastName": "Chou",
+      "workWeekDate": "2025-04-07",
+      "hours": 39.25,
+      "uploadDate": "2025-06-19T15:13:43.052Z"
+    },
+    {
+      "payrollId": "EQ-1095",
+      "firstName": "JHENJHEN",
+      "lastName": "PENG",
+      "workWeekDate": "2025-03-24",
+      "hours": 4,
+      "uploadDate": "2025-06-19T15:13:43.052Z"
+    },
+    {
+      "payrollId": "EQ-1095",
+      "firstName": "JHENJHEN",
+      "lastName": "PENG",
+      "workWeekDate": "2025-05-12",
+      "hours": 6.25,
+      "uploadDate": "2025-06-19T15:13:43.052Z"
+    },
+    {
+      "payrollId": "EQ-1095",
+      "firstName": "JHENJHEN",
+      "lastName": "PENG",
+      "workWeekDate": "2025-05-26",
+      "hours": 9.75,
+      "uploadDate": "2025-06-19T15:13:43.052Z"
+    },
+    {
+      "payrollId": "EQ-1095",
+      "firstName": "JHENJHEN",
+      "lastName": "PENG",
+      "workWeekDate": "2025-04-14",
+      "hours": 13,
+      "uploadDate": "2025-06-19T15:13:43.052Z"
+    },
+    {
+      "payrollId": "EQ-1095",
+      "firstName": "JHENJHEN",
+      "lastName": "PENG",
+      "workWeekDate": "2025-04-07",
+      "hours": 15.25,
+      "uploadDate": "2025-06-19T15:13:43.052Z"
+    },
+    {
+      "payrollId": "EQ-1095",
+      "firstName": "JHENJHEN",
+      "lastName": "PENG",
+      "workWeekDate": "2025-03-31",
+      "hours": 15.5,
+      "uploadDate": "2025-06-19T15:13:43.052Z"
+    },
+    {
+      "payrollId": "EQ-1095",
+      "firstName": "JHENJHEN",
+      "lastName": "PENG",
+      "workWeekDate": "2025-04-21",
+      "hours": 18.5,
+      "uploadDate": "2025-06-19T15:13:43.052Z"
+    },
+    {
+      "payrollId": "EQ-1109",
+      "firstName": "Benjarong",
+      "lastName": "Thaitiamsing",
+      "workWeekDate": "2025-03-17",
+      "hours": 1.75,
+      "uploadDate": "2025-06-19T15:13:43.052Z"
+    },
+    {
+      "payrollId": "EQ-1109",
+      "firstName": "Benjarong",
+      "lastName": "Thaitiamsing",
+      "workWeekDate": "2025-03-10",
+      "hours": 3,
+      "uploadDate": "2025-06-19T15:13:43.057Z"
+    },
+    {
+      "payrollId": "EQ-1109",
+      "firstName": "Benjarong",
+      "lastName": "Thaitiamsing",
+      "workWeekDate": "2025-03-24",
+      "hours": 9,
+      "uploadDate": "2025-06-19T15:13:43.057Z"
+    },
+    {
+      "payrollId": "EQ-1113",
+      "firstName": "Yun jie",
+      "lastName": "Lan",
+      "workWeekDate": "2025-05-12",
+      "hours": 6.75,
+      "uploadDate": "2025-06-19T15:13:43.057Z"
+    },
+    {
+      "payrollId": "EQ-1113",
+      "firstName": "Yun jie",
+      "lastName": "Lan",
+      "workWeekDate": "2025-05-19",
+      "hours": 11,
+      "uploadDate": "2025-06-19T15:13:43.057Z"
+    },
+    {
+      "payrollId": "EQ-1117",
+      "firstName": "Sho",
+      "lastName": "Shimomukai",
+      "workWeekDate": "2025-05-12",
+      "hours": 4.25,
+      "uploadDate": "2025-06-19T15:13:43.057Z"
+    },
+    {
+      "payrollId": "EQ-1117",
+      "firstName": "Sho",
+      "lastName": "Shimomukai",
+      "workWeekDate": "2025-05-05",
+      "hours": 4.5,
+      "uploadDate": "2025-06-19T15:13:43.057Z"
+    },
+    {
+      "payrollId": "EQ-1117",
+      "firstName": "Sho",
+      "lastName": "Shimomukai",
+      "workWeekDate": "2025-04-28",
+      "hours": 9.75,
+      "uploadDate": "2025-06-19T15:13:43.057Z"
+    },
+    {
+      "payrollId": "EQ-1117",
+      "firstName": "Sho",
+      "lastName": "Shimomukai",
+      "workWeekDate": "2025-04-21",
+      "hours": 20,
+      "uploadDate": "2025-06-19T15:13:43.057Z"
+    },
+    {
+      "payrollId": "EQ-1132",
+      "firstName": "Chieh",
+      "lastName": "Lo",
+      "workWeekDate": "2025-03-10",
+      "hours": 3,
+      "uploadDate": "2025-06-19T15:13:43.057Z"
+    },
+    {
+      "payrollId": "EQ-1132",
+      "firstName": "Chieh",
+      "lastName": "Lo",
+      "workWeekDate": "2025-04-28",
+      "hours": 3,
+      "uploadDate": "2025-06-19T15:13:43.057Z"
+    },
+    {
+      "payrollId": "EQ-1132",
+      "firstName": "Chieh",
+      "lastName": "Lo",
+      "workWeekDate": "2025-05-05",
+      "hours": 3.5,
+      "uploadDate": "2025-06-19T15:13:43.062Z"
+    },
+    {
+      "payrollId": "EQ-1132",
+      "firstName": "Chieh",
+      "lastName": "Lo",
+      "workWeekDate": "2025-04-14",
+      "hours": 4.25,
+      "uploadDate": "2025-06-19T15:13:43.062Z"
+    },
+    {
+      "payrollId": "EQ-1132",
+      "firstName": "Chieh",
+      "lastName": "Lo",
+      "workWeekDate": "2025-03-24",
+      "hours": 7.75,
+      "uploadDate": "2025-06-19T15:13:43.062Z"
+    },
+    {
+      "payrollId": "EQ-1132",
+      "firstName": "Chieh",
+      "lastName": "Lo",
+      "workWeekDate": "2025-04-21",
+      "hours": 9.25,
+      "uploadDate": "2025-06-19T15:13:43.062Z"
+    },
+    {
+      "payrollId": "EQ-1132",
+      "firstName": "Chieh",
+      "lastName": "Lo",
+      "workWeekDate": "2025-04-07",
+      "hours": 10.25,
+      "uploadDate": "2025-06-19T15:13:43.062Z"
+    },
+    {
+      "payrollId": "EQ-1132",
+      "firstName": "Chieh",
+      "lastName": "Lo",
+      "workWeekDate": "2025-03-31",
+      "hours": 11.5,
+      "uploadDate": "2025-06-19T15:13:43.062Z"
+    },
+    {
+      "payrollId": "EQ-1132",
+      "firstName": "Chieh",
+      "lastName": "Lo",
+      "workWeekDate": "2025-05-12",
+      "hours": 13.25,
+      "uploadDate": "2025-06-19T15:13:43.062Z"
+    },
+    {
+      "payrollId": "EQ-1132",
+      "firstName": "Chieh",
+      "lastName": "Lo",
+      "workWeekDate": "2025-03-17",
+      "hours": 14.25,
+      "uploadDate": "2025-06-19T15:13:43.062Z"
+    },
+    {
+      "payrollId": "EQ-1146",
+      "firstName": "CHENG XIAN",
+      "lastName": "JIANG",
+      "workWeekDate": "2025-05-26",
+      "hours": 7,
+      "uploadDate": "2025-06-19T15:13:43.062Z"
+    },
+    {
+      "payrollId": "EQ-1146",
+      "firstName": "CHENG XIAN",
+      "lastName": "JIANG",
+      "workWeekDate": "2025-04-14",
+      "hours": 35.75,
+      "uploadDate": "2025-06-19T15:13:43.062Z"
+    },
+    {
+      "payrollId": "EQ-1146",
+      "firstName": "CHENG XIAN",
+      "lastName": "JIANG",
+      "workWeekDate": "2025-04-28",
+      "hours": 36.75,
+      "uploadDate": "2025-06-19T15:13:43.066Z"
+    },
+    {
+      "payrollId": "EQ-1146",
+      "firstName": "CHENG XIAN",
+      "lastName": "JIANG",
+      "workWeekDate": "2025-05-05",
+      "hours": 38.25,
+      "uploadDate": "2025-06-19T15:13:43.066Z"
+    },
+    {
+      "payrollId": "EQ-1146",
+      "firstName": "CHENG XIAN",
+      "lastName": "JIANG",
+      "workWeekDate": "2025-04-07",
+      "hours": 41.5,
+      "uploadDate": "2025-06-19T15:13:43.066Z"
+    },
+    {
+      "payrollId": "EQ-1146",
+      "firstName": "CHENG XIAN",
+      "lastName": "JIANG",
+      "workWeekDate": "2025-04-21",
+      "hours": 42.75,
+      "uploadDate": "2025-06-19T15:13:43.067Z"
+    },
+    {
+      "payrollId": "EQ-1146",
+      "firstName": "CHENG XIAN",
+      "lastName": "JIANG",
+      "workWeekDate": "2025-03-31",
+      "hours": 46.25,
+      "uploadDate": "2025-06-19T15:13:43.067Z"
+    },
+    {
+      "payrollId": "EQ-1179",
+      "firstName": "Thunchanok",
+      "lastName": "Ketsamut",
+      "workWeekDate": "2025-03-10",
+      "hours": 6.5,
+      "uploadDate": "2025-06-19T15:13:43.067Z"
+    },
+    {
+      "payrollId": "EQ-1179",
+      "firstName": "Thunchanok",
+      "lastName": "Ketsamut",
+      "workWeekDate": "2025-03-17",
+      "hours": 11.25,
+      "uploadDate": "2025-06-19T15:13:43.067Z"
+    },
+    {
+      "payrollId": "EQ-1179",
+      "firstName": "Thunchanok",
+      "lastName": "Ketsamut",
+      "workWeekDate": "2025-03-24",
+      "hours": 16.75,
+      "uploadDate": "2025-06-19T15:13:43.067Z"
+    },
+    {
+      "payrollId": "EQ-1348",
+      "firstName": "Jasmine Azhira",
+      "lastName": "Ibrajie",
+      "workWeekDate": "2025-03-10",
+      "hours": 14.5,
+      "uploadDate": "2025-06-19T15:13:43.067Z"
+    },
+    {
+      "payrollId": "EQ-1348",
+      "firstName": "Jasmine Azhira",
+      "lastName": "Ibrajie",
+      "workWeekDate": "2025-04-21",
+      "hours": 24.75,
+      "uploadDate": "2025-06-19T15:13:43.067Z"
+    },
+    {
+      "payrollId": "EQ-1348",
+      "firstName": "Jasmine Azhira",
+      "lastName": "Ibrajie",
+      "workWeekDate": "2025-04-14",
+      "hours": 26.75,
+      "uploadDate": "2025-06-19T15:13:43.072Z"
+    },
+    {
+      "payrollId": "EQ-1348",
+      "firstName": "Jasmine Azhira",
+      "lastName": "Ibrajie",
+      "workWeekDate": "2025-03-31",
+      "hours": 33.25,
+      "uploadDate": "2025-06-19T15:13:43.072Z"
+    },
+    {
+      "payrollId": "EQ-1348",
+      "firstName": "Jasmine Azhira",
+      "lastName": "Ibrajie",
+      "workWeekDate": "2025-04-28",
+      "hours": 36.75,
+      "uploadDate": "2025-06-19T15:13:43.072Z"
+    },
+    {
+      "payrollId": "EQ-1348",
+      "firstName": "Jasmine Azhira",
+      "lastName": "Ibrajie",
+      "workWeekDate": "2025-03-17",
+      "hours": 38.5,
+      "uploadDate": "2025-06-19T15:13:43.072Z"
+    },
+    {
+      "payrollId": "EQ-1348",
+      "firstName": "Jasmine Azhira",
+      "lastName": "Ibrajie",
+      "workWeekDate": "2025-04-07",
+      "hours": 40.25,
+      "uploadDate": "2025-06-19T15:13:43.072Z"
+    },
+    {
+      "payrollId": "EQ-1348",
+      "firstName": "Jasmine Azhira",
+      "lastName": "Ibrajie",
+      "workWeekDate": "2025-03-24",
+      "hours": 47.25,
+      "uploadDate": "2025-06-19T15:13:43.072Z"
+    },
+    {
+      "payrollId": "EQ-1348",
+      "firstName": "Jasmine Azhira",
+      "lastName": "Ibrajie",
+      "workWeekDate": "2025-05-05",
+      "hours": 47.25,
+      "uploadDate": "2025-06-19T15:13:43.072Z"
+    },
+    {
+      "payrollId": "EQ-1348",
+      "firstName": "Jasmine Azhira",
+      "lastName": "Ibrajie",
+      "workWeekDate": "2025-05-12",
+      "hours": 53.5,
+      "uploadDate": "2025-06-19T15:13:43.072Z"
+    },
+    {
+      "payrollId": "EQ-1349",
+      "firstName": "Li Shan",
+      "lastName": "Fang",
+      "workWeekDate": "2025-06-02",
+      "hours": 6,
+      "uploadDate": "2025-06-19T15:13:43.072Z"
+    },
+    {
+      "payrollId": "EQ-1349",
+      "firstName": "Li Shan",
+      "lastName": "Fang",
+      "workWeekDate": "2025-03-10",
+      "hours": 7.25,
+      "uploadDate": "2025-06-19T15:13:43.072Z"
+    },
+    {
+      "payrollId": "EQ-1349",
+      "firstName": "Li Shan",
+      "lastName": "Fang",
+      "workWeekDate": "2025-06-09",
+      "hours": 10.5,
+      "uploadDate": "2025-06-19T15:13:43.077Z"
+    },
+    {
+      "payrollId": "EQ-1349",
+      "firstName": "Li Shan",
+      "lastName": "Fang",
+      "workWeekDate": "2025-04-07",
+      "hours": 14,
+      "uploadDate": "2025-06-19T15:13:43.077Z"
+    },
+    {
+      "payrollId": "EQ-1349",
+      "firstName": "Li Shan",
+      "lastName": "Fang",
+      "workWeekDate": "2025-03-31",
+      "hours": 14.75,
+      "uploadDate": "2025-06-19T15:13:43.077Z"
+    },
+    {
+      "payrollId": "EQ-1349",
+      "firstName": "Li Shan",
+      "lastName": "Fang",
+      "workWeekDate": "2025-03-24",
+      "hours": 17.5,
+      "uploadDate": "2025-06-19T15:13:43.077Z"
+    },
+    {
+      "payrollId": "EQ-1349",
+      "firstName": "Li Shan",
+      "lastName": "Fang",
+      "workWeekDate": "2025-04-14",
+      "hours": 20,
+      "uploadDate": "2025-06-19T15:13:43.077Z"
+    },
+    {
+      "payrollId": "EQ-1349",
+      "firstName": "Li Shan",
+      "lastName": "Fang",
+      "workWeekDate": "2025-03-17",
+      "hours": 23.5,
+      "uploadDate": "2025-06-19T15:13:43.077Z"
+    },
+    {
+      "payrollId": "EQ-1349",
+      "firstName": "Li Shan",
+      "lastName": "Fang",
+      "workWeekDate": "2025-04-21",
+      "hours": 24.5,
+      "uploadDate": "2025-06-19T15:13:43.077Z"
+    },
+    {
+      "payrollId": "EQ-1349",
+      "firstName": "Li Shan",
+      "lastName": "Fang",
+      "workWeekDate": "2025-04-28",
+      "hours": 25.25,
+      "uploadDate": "2025-06-19T15:13:43.077Z"
+    },
+    {
+      "payrollId": "EQ-1349",
+      "firstName": "Li Shan",
+      "lastName": "Fang",
+      "workWeekDate": "2025-05-12",
+      "hours": 26.25,
+      "uploadDate": "2025-06-19T15:13:43.077Z"
+    },
+    {
+      "payrollId": "EQ-1349",
+      "firstName": "Li Shan",
+      "lastName": "Fang",
+      "workWeekDate": "2025-05-26",
+      "hours": 26.25,
+      "uploadDate": "2025-06-19T15:13:43.077Z"
+    },
+    {
+      "payrollId": "EQ-1349",
+      "firstName": "Li Shan",
+      "lastName": "Fang",
+      "workWeekDate": "2025-05-19",
+      "hours": 26.75,
+      "uploadDate": "2025-06-19T15:13:43.081Z"
+    },
+    {
+      "payrollId": "EQ-1349",
+      "firstName": "Li Shan",
+      "lastName": "Fang",
+      "workWeekDate": "2025-05-05",
+      "hours": 33,
+      "uploadDate": "2025-06-19T15:13:43.081Z"
+    },
+    {
+      "payrollId": "EQ-1350",
+      "firstName": "JUN YOU",
+      "lastName": "LAI",
+      "workWeekDate": "2025-06-02",
+      "hours": 6,
+      "uploadDate": "2025-06-19T15:13:43.081Z"
+    },
+    {
+      "payrollId": "EQ-1350",
+      "firstName": "JUN YOU",
+      "lastName": "LAI",
+      "workWeekDate": "2025-03-10",
+      "hours": 7.25,
+      "uploadDate": "2025-06-19T15:13:43.081Z"
+    },
+    {
+      "payrollId": "EQ-1350",
+      "firstName": "JUN YOU",
+      "lastName": "LAI",
+      "workWeekDate": "2025-04-07",
+      "hours": 14,
+      "uploadDate": "2025-06-19T15:13:43.082Z"
+    },
+    {
+      "payrollId": "EQ-1350",
+      "firstName": "JUN YOU",
+      "lastName": "LAI",
+      "workWeekDate": "2025-03-31",
+      "hours": 14.75,
+      "uploadDate": "2025-06-19T15:13:43.082Z"
+    },
+    {
+      "payrollId": "EQ-1350",
+      "firstName": "JUN YOU",
+      "lastName": "LAI",
+      "workWeekDate": "2025-06-09",
+      "hours": 15.5,
+      "uploadDate": "2025-06-19T15:13:43.082Z"
+    },
+    {
+      "payrollId": "EQ-1350",
+      "firstName": "JUN YOU",
+      "lastName": "LAI",
+      "workWeekDate": "2025-03-24",
+      "hours": 17.5,
+      "uploadDate": "2025-06-19T15:13:43.082Z"
+    },
+    {
+      "payrollId": "EQ-1350",
+      "firstName": "JUN YOU",
+      "lastName": "LAI",
+      "workWeekDate": "2025-04-14",
+      "hours": 20,
+      "uploadDate": "2025-06-19T15:13:43.082Z"
+    },
+    {
+      "payrollId": "EQ-1350",
+      "firstName": "JUN YOU",
+      "lastName": "LAI",
+      "workWeekDate": "2025-05-26",
+      "hours": 20.5,
+      "uploadDate": "2025-06-19T15:13:43.082Z"
+    },
+    {
+      "payrollId": "EQ-1350",
+      "firstName": "JUN YOU",
+      "lastName": "LAI",
+      "workWeekDate": "2025-03-17",
+      "hours": 23.5,
+      "uploadDate": "2025-06-19T15:13:43.086Z"
+    },
+    {
+      "payrollId": "EQ-1350",
+      "firstName": "JUN YOU",
+      "lastName": "LAI",
+      "workWeekDate": "2025-04-21",
+      "hours": 24.75,
+      "uploadDate": "2025-06-19T15:13:43.086Z"
+    },
+    {
+      "payrollId": "EQ-1350",
+      "firstName": "JUN YOU",
+      "lastName": "LAI",
+      "workWeekDate": "2025-04-28",
+      "hours": 25.25,
+      "uploadDate": "2025-06-19T15:13:43.086Z"
+    },
+    {
+      "payrollId": "EQ-1350",
+      "firstName": "JUN YOU",
+      "lastName": "LAI",
+      "workWeekDate": "2025-05-12",
+      "hours": 26.25,
+      "uploadDate": "2025-06-19T15:13:43.086Z"
+    },
+    {
+      "payrollId": "EQ-1350",
+      "firstName": "JUN YOU",
+      "lastName": "LAI",
+      "workWeekDate": "2025-05-19",
+      "hours": 30.25,
+      "uploadDate": "2025-06-19T15:13:43.086Z"
+    },
+    {
+      "payrollId": "EQ-1350",
+      "firstName": "JUN YOU",
+      "lastName": "LAI",
+      "workWeekDate": "2025-05-05",
+      "hours": 32.75,
+      "uploadDate": "2025-06-19T15:13:43.086Z"
+    },
+    {
+      "payrollId": "EQ-1351",
+      "firstName": "Xinyi",
+      "lastName": "Lin",
+      "workWeekDate": "2025-05-05",
+      "hours": 1.5,
+      "uploadDate": "2025-06-19T15:13:43.087Z"
+    },
+    {
+      "payrollId": "EQ-1351",
+      "firstName": "Xinyi",
+      "lastName": "Lin",
+      "workWeekDate": "2025-03-31",
+      "hours": 6.5,
+      "uploadDate": "2025-06-19T15:13:43.087Z"
+    },
+    {
+      "payrollId": "EQ-1351",
+      "firstName": "Xinyi",
+      "lastName": "Lin",
+      "workWeekDate": "2025-04-14",
+      "hours": 7,
+      "uploadDate": "2025-06-19T15:13:43.087Z"
+    },
+    {
+      "payrollId": "EQ-1351",
+      "firstName": "Xinyi",
+      "lastName": "Lin",
+      "workWeekDate": "2025-03-24",
+      "hours": 8.25,
+      "uploadDate": "2025-06-19T15:13:43.087Z"
+    },
+    {
+      "payrollId": "EQ-1351",
+      "firstName": "Xinyi",
+      "lastName": "Lin",
+      "workWeekDate": "2025-04-07",
+      "hours": 8.5,
+      "uploadDate": "2025-06-19T15:13:43.091Z"
+    },
+    {
+      "payrollId": "EQ-1353",
+      "firstName": "Dian",
+      "lastName": "Atika",
+      "workWeekDate": "2025-06-02",
+      "hours": 32,
+      "uploadDate": "2025-06-19T15:13:43.091Z"
+    },
+    {
+      "payrollId": "EQ-1353",
+      "firstName": "Dian",
+      "lastName": "Atika",
+      "workWeekDate": "2025-06-09",
+      "hours": 33.25,
+      "uploadDate": "2025-06-19T15:13:43.091Z"
+    },
+    {
+      "payrollId": "EQ-1353",
+      "firstName": "Dian",
+      "lastName": "Atika",
+      "workWeekDate": "2025-04-07",
+      "hours": 33.75,
+      "uploadDate": "2025-06-19T15:13:43.091Z"
+    },
+    {
+      "payrollId": "EQ-1353",
+      "firstName": "Dian",
+      "lastName": "Atika",
+      "workWeekDate": "2025-04-14",
+      "hours": 36.25,
+      "uploadDate": "2025-06-19T15:13:43.091Z"
+    },
+    {
+      "payrollId": "EQ-1353",
+      "firstName": "Dian",
+      "lastName": "Atika",
+      "workWeekDate": "2025-04-21",
+      "hours": 36.25,
+      "uploadDate": "2025-06-19T15:13:43.091Z"
+    },
+    {
+      "payrollId": "EQ-1353",
+      "firstName": "Dian",
+      "lastName": "Atika",
+      "workWeekDate": "2025-04-28",
+      "hours": 37.75,
+      "uploadDate": "2025-06-19T15:13:43.091Z"
+    },
+    {
+      "payrollId": "EQ-1353",
+      "firstName": "Dian",
+      "lastName": "Atika",
+      "workWeekDate": "2025-05-19",
+      "hours": 42.25,
+      "uploadDate": "2025-06-19T15:13:43.091Z"
+    },
+    {
+      "payrollId": "EQ-1353",
+      "firstName": "Dian",
+      "lastName": "Atika",
+      "workWeekDate": "2025-03-31",
+      "hours": 43.25,
+      "uploadDate": "2025-06-19T15:13:43.091Z"
+    },
+    {
+      "payrollId": "EQ-1353",
+      "firstName": "Dian",
+      "lastName": "Atika",
+      "workWeekDate": "2025-05-26",
+      "hours": 44,
+      "uploadDate": "2025-06-19T15:13:43.091Z"
+    },
+    {
+      "payrollId": "EQ-1353",
+      "firstName": "Dian",
+      "lastName": "Atika",
+      "workWeekDate": "2025-05-05",
+      "hours": 47.75,
+      "uploadDate": "2025-06-19T15:13:43.096Z"
+    },
+    {
+      "payrollId": "EQ-1353",
+      "firstName": "Dian",
+      "lastName": "Atika",
+      "workWeekDate": "2025-03-24",
+      "hours": 48.75,
+      "uploadDate": "2025-06-19T15:13:43.096Z"
+    },
+    {
+      "payrollId": "EQ-1353",
+      "firstName": "Dian",
+      "lastName": "Atika",
+      "workWeekDate": "2025-05-12",
+      "hours": 55,
+      "uploadDate": "2025-06-19T15:13:43.096Z"
+    },
+    {
+      "payrollId": "EQ-1355",
+      "firstName": "Li-I",
+      "lastName": "Chen",
+      "workWeekDate": "2025-04-21",
+      "hours": 1,
+      "uploadDate": "2025-06-19T15:13:43.096Z"
+    },
+    {
+      "payrollId": "EQ-1355",
+      "firstName": "Li-I",
+      "lastName": "Chen",
+      "workWeekDate": "2025-04-28",
+      "hours": 9.5,
+      "uploadDate": "2025-06-19T15:13:43.096Z"
+    },
+    {
+      "payrollId": "EQ-1357",
+      "firstName": "YONG-LUNG",
+      "lastName": "KUO",
+      "workWeekDate": "2025-03-10",
+      "hours": 3,
+      "uploadDate": "2025-06-19T15:13:43.096Z"
+    },
+    {
+      "payrollId": "EQ-1358",
+      "firstName": "LING",
+      "lastName": "CHENG",
+      "workWeekDate": "2025-03-10",
+      "hours": 7.25,
+      "uploadDate": "2025-06-19T15:13:43.096Z"
+    },
+    {
+      "payrollId": "EQ-1358",
+      "firstName": "LING",
+      "lastName": "CHENG",
+      "workWeekDate": "2025-03-31",
+      "hours": 14.75,
+      "uploadDate": "2025-06-19T15:13:43.096Z"
+    },
+    {
+      "payrollId": "EQ-1358",
+      "firstName": "LING",
+      "lastName": "CHENG",
+      "workWeekDate": "2025-03-24",
+      "hours": 17.5,
+      "uploadDate": "2025-06-19T15:13:43.096Z"
+    },
+    {
+      "payrollId": "EQ-1358",
+      "firstName": "LING",
+      "lastName": "CHENG",
+      "workWeekDate": "2025-04-07",
+      "hours": 18.5,
+      "uploadDate": "2025-06-19T15:13:43.096Z"
+    },
+    {
+      "payrollId": "EQ-1358",
+      "firstName": "LING",
+      "lastName": "CHENG",
+      "workWeekDate": "2025-04-14",
+      "hours": 19.5,
+      "uploadDate": "2025-06-19T15:13:43.100Z"
+    },
+    {
+      "payrollId": "EQ-1358",
+      "firstName": "LING",
+      "lastName": "CHENG",
+      "workWeekDate": "2025-06-09",
+      "hours": 20.5,
+      "uploadDate": "2025-06-19T15:13:43.100Z"
+    },
+    {
+      "payrollId": "EQ-1358",
+      "firstName": "LING",
+      "lastName": "CHENG",
+      "workWeekDate": "2025-03-17",
+      "hours": 23.5,
+      "uploadDate": "2025-06-19T15:13:43.100Z"
+    },
+    {
+      "payrollId": "EQ-1358",
+      "firstName": "LING",
+      "lastName": "CHENG",
+      "workWeekDate": "2025-04-21",
+      "hours": 25,
+      "uploadDate": "2025-06-19T15:13:43.101Z"
+    },
+    {
+      "payrollId": "EQ-1358",
+      "firstName": "LING",
+      "lastName": "CHENG",
+      "workWeekDate": "2025-05-12",
+      "hours": 26,
+      "uploadDate": "2025-06-19T15:13:43.101Z"
+    },
+    {
+      "payrollId": "EQ-1358",
+      "firstName": "LING",
+      "lastName": "CHENG",
+      "workWeekDate": "2025-04-28",
+      "hours": 27.25,
+      "uploadDate": "2025-06-19T15:13:43.101Z"
+    },
+    {
+      "payrollId": "EQ-1358",
+      "firstName": "LING",
+      "lastName": "CHENG",
+      "workWeekDate": "2025-06-02",
+      "hours": 28.5,
+      "uploadDate": "2025-06-19T15:13:43.101Z"
+    },
+    {
+      "payrollId": "EQ-1358",
+      "firstName": "LING",
+      "lastName": "CHENG",
+      "workWeekDate": "2025-05-19",
+      "hours": 34,
+      "uploadDate": "2025-06-19T15:13:43.101Z"
+    },
+    {
+      "payrollId": "EQ-1358",
+      "firstName": "LING",
+      "lastName": "CHENG",
+      "workWeekDate": "2025-05-26",
+      "hours": 35,
+      "uploadDate": "2025-06-19T15:13:43.101Z"
+    },
+    {
+      "payrollId": "EQ-1358",
+      "firstName": "LING",
+      "lastName": "CHENG",
+      "workWeekDate": "2025-05-05",
+      "hours": 35.5,
+      "uploadDate": "2025-06-19T15:13:43.101Z"
+    },
+    {
+      "payrollId": "EQ-1360",
+      "firstName": "Cyong syuan",
+      "lastName": "Hunag",
+      "workWeekDate": "2025-05-26",
+      "hours": 4.75,
+      "uploadDate": "2025-06-19T15:13:43.106Z"
+    },
+    {
+      "payrollId": "EQ-1360",
+      "firstName": "Cyong syuan",
+      "lastName": "Hunag",
+      "workWeekDate": "2025-06-09",
+      "hours": 5,
+      "uploadDate": "2025-06-19T15:13:43.106Z"
+    },
+    {
+      "payrollId": "EQ-1360",
+      "firstName": "Cyong syuan",
+      "lastName": "Hunag",
+      "workWeekDate": "2025-05-19",
+      "hours": 5.25,
+      "uploadDate": "2025-06-19T15:13:43.106Z"
+    },
+    {
+      "payrollId": "EQ-1360",
+      "firstName": "Cyong syuan",
+      "lastName": "Hunag",
+      "workWeekDate": "2025-03-10",
+      "hours": 7.25,
+      "uploadDate": "2025-06-19T15:13:43.106Z"
+    },
+    {
+      "payrollId": "EQ-1360",
+      "firstName": "Cyong-syuan",
+      "lastName": "Hunag",
+      "workWeekDate": "2025-04-07",
+      "hours": 14,
+      "uploadDate": "2025-06-19T15:13:43.106Z"
+    },
+    {
+      "payrollId": "EQ-1360",
+      "firstName": "Cyong-syuan",
+      "lastName": "Hunag",
+      "workWeekDate": "2025-03-31",
+      "hours": 14.75,
+      "uploadDate": "2025-06-19T15:13:43.106Z"
+    },
+    {
+      "payrollId": "EQ-1360",
+      "firstName": "Cyong-syuan",
+      "lastName": "Hunag",
+      "workWeekDate": "2025-05-05",
+      "hours": 16.5,
+      "uploadDate": "2025-06-19T15:13:43.106Z"
+    },
+    {
+      "payrollId": "EQ-1360",
+      "firstName": "Cyong syuan",
+      "lastName": "Hunag",
+      "workWeekDate": "2025-06-02",
+      "hours": 16.75,
+      "uploadDate": "2025-06-19T15:13:43.106Z"
+    },
+    {
+      "payrollId": "EQ-1360",
+      "firstName": "Cyong-syuan",
+      "lastName": "Hunag",
+      "workWeekDate": "2025-03-24",
+      "hours": 17.5,
+      "uploadDate": "2025-06-19T15:13:43.106Z"
+    },
+    {
+      "payrollId": "EQ-1360",
+      "firstName": "Cyong-syuan",
+      "lastName": "Hunag",
+      "workWeekDate": "2025-04-14",
+      "hours": 19.5,
+      "uploadDate": "2025-06-19T15:13:43.106Z"
+    },
+    {
+      "payrollId": "EQ-1360",
+      "firstName": "Cyong syuan",
+      "lastName": "Hunag",
+      "workWeekDate": "2025-05-12",
+      "hours": 21.25,
+      "uploadDate": "2025-06-19T15:13:43.111Z"
+    },
+    {
+      "payrollId": "EQ-1360",
+      "firstName": "Cyong-syuan",
+      "lastName": "Hunag",
+      "workWeekDate": "2025-03-17",
+      "hours": 23.5,
+      "uploadDate": "2025-06-19T15:13:43.111Z"
+    },
+    {
+      "payrollId": "EQ-1360",
+      "firstName": "Cyong-syuan",
+      "lastName": "Hunag",
+      "workWeekDate": "2025-04-28",
+      "hours": 24.5,
+      "uploadDate": "2025-06-19T15:13:43.111Z"
+    },
+    {
+      "payrollId": "EQ-1360",
+      "firstName": "Cyong-syuan",
+      "lastName": "Hunag",
+      "workWeekDate": "2025-04-21",
+      "hours": 24.75,
+      "uploadDate": "2025-06-19T15:13:43.111Z"
+    },
+    {
+      "payrollId": "EQ-1367",
+      "firstName": "JING QI",
+      "lastName": "GAO",
+      "workWeekDate": "2025-04-07",
+      "hours": 14,
+      "uploadDate": "2025-06-19T15:13:43.111Z"
+    },
+    {
+      "payrollId": "EQ-1367",
+      "firstName": "JING QI",
+      "lastName": "GAO",
+      "workWeekDate": "2025-03-31",
+      "hours": 14.75,
+      "uploadDate": "2025-06-19T15:13:43.111Z"
+    },
+    {
+      "payrollId": "EQ-1367",
+      "firstName": "JING QI",
+      "lastName": "GAO",
+      "workWeekDate": "2025-04-21",
+      "hours": 15.25,
+      "uploadDate": "2025-06-19T15:13:43.111Z"
+    },
+    {
+      "payrollId": "EQ-1367",
+      "firstName": "JING QI",
+      "lastName": "GAO",
+      "workWeekDate": "2025-04-14",
+      "hours": 16.25,
+      "uploadDate": "2025-06-19T15:13:43.111Z"
+    },
+    {
+      "payrollId": "EQ-1367",
+      "firstName": "JING QI",
+      "lastName": "GAO",
+      "workWeekDate": "2025-03-24",
+      "hours": 16.75,
+      "uploadDate": "2025-06-19T15:13:43.111Z"
+    },
+    {
+      "payrollId": "EQ-1368",
+      "firstName": "CHIEH YU",
+      "lastName": "KAO",
+      "workWeekDate": "2025-04-07",
+      "hours": 14,
+      "uploadDate": "2025-06-19T15:13:43.111Z"
+    },
+    {
+      "payrollId": "EQ-1368",
+      "firstName": "CHIEH YU",
+      "lastName": "KAO",
+      "workWeekDate": "2025-03-31",
+      "hours": 14.75,
+      "uploadDate": "2025-06-19T15:13:43.115Z"
+    },
+    {
+      "payrollId": "EQ-1368",
+      "firstName": "CHIEH YU",
+      "lastName": "KAO",
+      "workWeekDate": "2025-04-21",
+      "hours": 15,
+      "uploadDate": "2025-06-19T15:13:43.115Z"
+    },
+    {
+      "payrollId": "EQ-1368",
+      "firstName": "CHIEH YU",
+      "lastName": "KAO",
+      "workWeekDate": "2025-03-24",
+      "hours": 16.75,
+      "uploadDate": "2025-06-19T15:13:43.116Z"
+    },
+    {
+      "payrollId": "EQ-1368",
+      "firstName": "CHIEH YU",
+      "lastName": "KAO",
+      "workWeekDate": "2025-04-14",
+      "hours": 19.25,
+      "uploadDate": "2025-06-19T15:13:43.116Z"
+    },
+    {
+      "payrollId": "EQ-1369",
+      "firstName": "Tsai Chiao",
+      "lastName": "Liu",
+      "workWeekDate": "2025-04-07",
+      "hours": 10.25,
+      "uploadDate": "2025-06-19T15:13:43.116Z"
+    },
+    {
+      "payrollId": "EQ-1369",
+      "firstName": "Tsai Chiao",
+      "lastName": "Liu",
+      "workWeekDate": "2025-04-14",
+      "hours": 12.25,
+      "uploadDate": "2025-06-19T15:13:43.116Z"
+    },
+    {
+      "payrollId": "EQ-1369",
+      "firstName": "Tsai Chiao",
+      "lastName": "Liu",
+      "workWeekDate": "2025-05-26",
+      "hours": 14.25,
+      "uploadDate": "2025-06-19T15:13:43.116Z"
+    },
+    {
+      "payrollId": "EQ-1369",
+      "firstName": "Tsai Chiao",
+      "lastName": "Liu",
+      "workWeekDate": "2025-03-31",
+      "hours": 15.5,
+      "uploadDate": "2025-06-19T15:13:43.116Z"
+    },
+    {
+      "payrollId": "EQ-1369",
+      "firstName": "Tsai Chiao",
+      "lastName": "Liu",
+      "workWeekDate": "2025-05-05",
+      "hours": 16.5,
+      "uploadDate": "2025-06-19T15:13:43.116Z"
+    },
+    {
+      "payrollId": "EQ-1369",
+      "firstName": "Tsai Chiao",
+      "lastName": "Liu",
+      "workWeekDate": "2025-05-19",
+      "hours": 19,
+      "uploadDate": "2025-06-19T15:13:43.116Z"
+    },
+    {
+      "payrollId": "EQ-1369",
+      "firstName": "Tsai Chiao",
+      "lastName": "Liu",
+      "workWeekDate": "2025-03-24",
+      "hours": 21,
+      "uploadDate": "2025-06-19T15:13:43.121Z"
+    },
+    {
+      "payrollId": "EQ-1369",
+      "firstName": "Tsai Chiao",
+      "lastName": "Liu",
+      "workWeekDate": "2025-04-21",
+      "hours": 22.25,
+      "uploadDate": "2025-06-19T15:13:43.121Z"
+    },
+    {
+      "payrollId": "EQ-1369",
+      "firstName": "Tsai Chiao",
+      "lastName": "Liu",
+      "workWeekDate": "2025-05-12",
+      "hours": 22.25,
+      "uploadDate": "2025-06-19T15:13:43.121Z"
+    },
+    {
+      "payrollId": "EQ-1369",
+      "firstName": "Tsai Chiao",
+      "lastName": "Liu",
+      "workWeekDate": "2025-04-28",
+      "hours": 25.25,
+      "uploadDate": "2025-06-19T15:13:43.121Z"
+    },
+    {
+      "payrollId": "EQ-1377",
+      "firstName": "YI YUN",
+      "lastName": "CHANG",
+      "workWeekDate": "2025-03-24",
+      "hours": 4,
+      "uploadDate": "2025-06-19T15:13:43.121Z"
+    },
+    {
+      "payrollId": "EQ-1377",
+      "firstName": "YI YUN",
+      "lastName": "CHANG",
+      "workWeekDate": "2025-06-09",
+      "hours": 10.25,
+      "uploadDate": "2025-06-19T15:13:43.121Z"
+    },
+    {
+      "payrollId": "EQ-1377",
+      "firstName": "YI YUN",
+      "lastName": "CHANG",
+      "workWeekDate": "2025-06-02",
+      "hours": 11,
+      "uploadDate": "2025-06-19T15:13:43.121Z"
+    },
+    {
+      "payrollId": "EQ-1377",
+      "firstName": "YI YUN",
+      "lastName": "CHANG",
+      "workWeekDate": "2025-04-07",
+      "hours": 14.5,
+      "uploadDate": "2025-06-19T15:13:43.121Z"
+    },
+    {
+      "payrollId": "EQ-1377",
+      "firstName": "YI YUN",
+      "lastName": "CHANG",
+      "workWeekDate": "2025-03-31",
+      "hours": 14.75,
+      "uploadDate": "2025-06-19T15:13:43.121Z"
+    },
+    {
+      "payrollId": "EQ-1377",
+      "firstName": "YI YUN",
+      "lastName": "CHANG",
+      "workWeekDate": "2025-04-14",
+      "hours": 19.25,
+      "uploadDate": "2025-06-19T15:13:43.121Z"
+    },
+    {
+      "payrollId": "EQ-1377",
+      "firstName": "YI YUN",
+      "lastName": "CHANG",
+      "workWeekDate": "2025-05-12",
+      "hours": 21.25,
+      "uploadDate": "2025-06-19T15:13:43.125Z"
+    },
+    {
+      "payrollId": "EQ-1377",
+      "firstName": "YI YUN",
+      "lastName": "CHANG",
+      "workWeekDate": "2025-04-21",
+      "hours": 24.5,
+      "uploadDate": "2025-06-19T15:13:43.125Z"
+    },
+    {
+      "payrollId": "EQ-1377",
+      "firstName": "YI YUN",
+      "lastName": "CHANG",
+      "workWeekDate": "2025-04-28",
+      "hours": 25.25,
+      "uploadDate": "2025-06-19T15:13:43.126Z"
+    },
+    {
+      "payrollId": "EQ-1377",
+      "firstName": "YI YUN",
+      "lastName": "CHANG",
+      "workWeekDate": "2025-05-26",
+      "hours": 26,
+      "uploadDate": "2025-06-19T15:13:43.126Z"
+    },
+    {
+      "payrollId": "EQ-1377",
+      "firstName": "YI YUN",
+      "lastName": "CHANG",
+      "workWeekDate": "2025-05-19",
+      "hours": 26.75,
+      "uploadDate": "2025-06-19T15:13:43.126Z"
+    },
+    {
+      "payrollId": "EQ-1377",
+      "firstName": "YI YUN",
+      "lastName": "CHANG",
+      "workWeekDate": "2025-05-05",
+      "hours": 32.75,
+      "uploadDate": "2025-06-19T15:13:43.126Z"
+    },
+    {
+      "payrollId": "EQ-1378",
+      "firstName": "HSI YING",
+      "lastName": "LIN",
+      "workWeekDate": "2025-06-09",
+      "hours": 10.25,
+      "uploadDate": "2025-06-19T15:13:43.126Z"
+    },
+    {
+      "payrollId": "EQ-1378",
+      "firstName": "HSI YING",
+      "lastName": "LIN",
+      "workWeekDate": "2025-06-02",
+      "hours": 11,
+      "uploadDate": "2025-06-19T15:13:43.126Z"
+    },
+    {
+      "payrollId": "EQ-1378",
+      "firstName": "HSI YING",
+      "lastName": "LIN",
+      "workWeekDate": "2025-04-07",
+      "hours": 14.5,
+      "uploadDate": "2025-06-19T15:13:43.126Z"
+    },
+    {
+      "payrollId": "EQ-1378",
+      "firstName": "HSI YING",
+      "lastName": "LIN",
+      "workWeekDate": "2025-03-31",
+      "hours": 14.75,
+      "uploadDate": "2025-06-19T15:13:43.126Z"
+    },
+    {
+      "payrollId": "EQ-1378",
+      "firstName": "HSI YING",
+      "lastName": "LIN",
+      "workWeekDate": "2025-04-14",
+      "hours": 19.25,
+      "uploadDate": "2025-06-19T15:13:43.130Z"
+    },
+    {
+      "payrollId": "EQ-1378",
+      "firstName": "HSI YING",
+      "lastName": "LIN",
+      "workWeekDate": "2025-05-12",
+      "hours": 20.75,
+      "uploadDate": "2025-06-19T15:13:43.130Z"
+    },
+    {
+      "payrollId": "EQ-1378",
+      "firstName": "HSI YING",
+      "lastName": "LIN",
+      "workWeekDate": "2025-04-21",
+      "hours": 24.75,
+      "uploadDate": "2025-06-19T15:13:43.130Z"
+    },
+    {
+      "payrollId": "EQ-1378",
+      "firstName": "HSI YING",
+      "lastName": "LIN",
+      "workWeekDate": "2025-04-28",
+      "hours": 25.25,
+      "uploadDate": "2025-06-19T15:13:43.130Z"
+    },
+    {
+      "payrollId": "EQ-1378",
+      "firstName": "HSI YING",
+      "lastName": "LIN",
+      "workWeekDate": "2025-05-26",
+      "hours": 26,
+      "uploadDate": "2025-06-19T15:13:43.130Z"
+    },
+    {
+      "payrollId": "EQ-1378",
+      "firstName": "HSI YING",
+      "lastName": "LIN",
+      "workWeekDate": "2025-05-19",
+      "hours": 26.75,
+      "uploadDate": "2025-06-19T15:13:43.130Z"
+    },
+    {
+      "payrollId": "EQ-1378",
+      "firstName": "HSI YING",
+      "lastName": "LIN",
+      "workWeekDate": "2025-05-05",
+      "hours": 32.75,
+      "uploadDate": "2025-06-19T15:13:43.130Z"
+    },
+    {
+      "payrollId": "EQ-1384",
+      "firstName": "Han Yi",
+      "lastName": "Huang",
+      "workWeekDate": "2025-06-09",
+      "hours": 0.83,
+      "uploadDate": "2025-06-19T15:13:43.130Z"
+    },
+    {
+      "payrollId": "EQ-1384",
+      "firstName": "Han Yi",
+      "lastName": "Huang",
+      "workWeekDate": "2025-05-12",
+      "hours": 4.5,
+      "uploadDate": "2025-06-19T15:13:43.131Z"
+    },
+    {
+      "payrollId": "EQ-1384",
+      "firstName": "Han Yi",
+      "lastName": "Huang",
+      "workWeekDate": "2025-05-05",
+      "hours": 20,
+      "uploadDate": "2025-06-19T15:13:43.131Z"
+    },
+    {
+      "payrollId": "EQ-1384",
+      "firstName": "Han Yi",
+      "lastName": "Huang",
+      "workWeekDate": "2025-05-19",
+      "hours": 23.08,
+      "uploadDate": "2025-06-19T15:13:43.136Z"
+    },
+    {
+      "payrollId": "EQ-1384",
+      "firstName": "Han Yi",
+      "lastName": "Huang",
+      "workWeekDate": "2025-05-26",
+      "hours": 26,
+      "uploadDate": "2025-06-19T15:13:43.136Z"
+    },
+    {
+      "payrollId": "EQ-1384",
+      "firstName": "Han Yi",
+      "lastName": "Huang",
+      "workWeekDate": "2025-04-21",
+      "hours": 32.25,
+      "uploadDate": "2025-06-19T15:13:43.136Z"
+    },
+    {
+      "payrollId": "EQ-1384",
+      "firstName": "Han Yi",
+      "lastName": "Huang",
+      "workWeekDate": "2025-04-28",
+      "hours": 33,
+      "uploadDate": "2025-06-19T15:13:43.136Z"
+    },
+    {
+      "payrollId": "EQ-1385",
+      "firstName": "Chu Wen",
+      "lastName": "Zhang",
+      "workWeekDate": "2025-04-21",
+      "hours": 26,
+      "uploadDate": "2025-06-19T15:13:43.136Z"
+    },
+    {
+      "payrollId": "EQ-1385",
+      "firstName": "Chu Wen",
+      "lastName": "Zhang",
+      "workWeekDate": "2025-04-28",
+      "hours": 31.75,
+      "uploadDate": "2025-06-19T15:13:43.136Z"
+    },
+    {
+      "payrollId": "EQ-1385",
+      "firstName": "Chu Wen",
+      "lastName": "Zhang",
+      "workWeekDate": "2025-06-09",
+      "hours": 33.75,
+      "uploadDate": "2025-06-19T15:13:43.136Z"
+    },
+    {
+      "payrollId": "EQ-1385",
+      "firstName": "Chu Wen",
+      "lastName": "Zhang",
+      "workWeekDate": "2025-06-02",
+      "hours": 36,
+      "uploadDate": "2025-06-19T15:13:43.136Z"
+    },
+    {
+      "payrollId": "EQ-1385",
+      "firstName": "Chu Wen",
+      "lastName": "Zhang",
+      "workWeekDate": "2025-05-19",
+      "hours": 44,
+      "uploadDate": "2025-06-19T15:13:43.136Z"
+    },
+    {
+      "payrollId": "EQ-1385",
+      "firstName": "Chu Wen",
+      "lastName": "Zhang",
+      "workWeekDate": "2025-05-12",
+      "hours": 45,
+      "uploadDate": "2025-06-19T15:13:43.136Z"
+    },
+    {
+      "payrollId": "EQ-1385",
+      "firstName": "Chu Wen",
+      "lastName": "Zhang",
+      "workWeekDate": "2025-05-26",
+      "hours": 45,
+      "uploadDate": "2025-06-19T15:13:43.141Z"
+    },
+    {
+      "payrollId": "EQ-1385",
+      "firstName": "Chu Wen",
+      "lastName": "Zhang",
+      "workWeekDate": "2025-05-05",
+      "hours": 46.25,
+      "uploadDate": "2025-06-19T15:13:43.141Z"
+    },
+    {
+      "payrollId": "EQ-1387",
+      "firstName": "YUNG YEN",
+      "lastName": "SUN",
+      "workWeekDate": "2025-05-19",
+      "hours": 5.5,
+      "uploadDate": "2025-06-19T15:13:43.141Z"
+    },
+    {
+      "payrollId": "EQ-1387",
+      "firstName": "YUNG YEN",
+      "lastName": "SUN",
+      "workWeekDate": "2025-05-12",
+      "hours": 6.25,
+      "uploadDate": "2025-06-19T15:13:43.141Z"
+    },
+    {
+      "payrollId": "EQ-1387",
+      "firstName": "YUNG YEN",
+      "lastName": "SUN",
+      "workWeekDate": "2025-05-26",
+      "hours": 7,
+      "uploadDate": "2025-06-19T15:13:43.141Z"
+    },
+    {
+      "payrollId": "EQ-1387",
+      "firstName": "YUNG YEN",
+      "lastName": "SUN",
+      "workWeekDate": "2025-05-05",
+      "hours": 18.25,
+      "uploadDate": "2025-06-19T15:13:43.141Z"
+    },
+    {
+      "payrollId": "EQ-1388",
+      "firstName": "Hsuan Chen",
+      "lastName": "Lin",
+      "workWeekDate": "2025-05-12",
+      "hours": 9,
+      "uploadDate": "2025-06-19T15:13:43.141Z"
+    },
+    {
+      "payrollId": "EQ-1388",
+      "firstName": "Hsuan Chen",
+      "lastName": "Lin",
+      "workWeekDate": "2025-04-28",
+      "hours": 26.25,
+      "uploadDate": "2025-06-19T15:13:43.141Z"
+    },
+    {
+      "payrollId": "EQ-1388",
+      "firstName": "Hsuan Chen",
+      "lastName": "Lin",
+      "workWeekDate": "2025-05-05",
+      "hours": 43.5,
+      "uploadDate": "2025-06-19T15:13:43.141Z"
+    },
+    {
+      "payrollId": "EQ-1390",
+      "firstName": "Pei chi",
+      "lastName": "Wu",
+      "workWeekDate": "2025-05-19",
+      "hours": 5.5,
+      "uploadDate": "2025-06-19T15:13:43.141Z"
+    },
+    {
+      "payrollId": "EQ-1390",
+      "firstName": "Pei chi",
+      "lastName": "Wu",
+      "workWeekDate": "2025-05-05",
+      "hours": 7.75,
+      "uploadDate": "2025-06-19T15:13:43.145Z"
+    },
+    {
+      "payrollId": "EQ-1390",
+      "firstName": "Pei chi",
+      "lastName": "Wu",
+      "workWeekDate": "2025-05-12",
+      "hours": 10.5,
+      "uploadDate": "2025-06-19T15:13:43.145Z"
+    },
+    {
+      "payrollId": "EQ-1390",
+      "firstName": "Pei chi",
+      "lastName": "Wu",
+      "workWeekDate": "2025-05-26",
+      "hours": 11.25,
+      "uploadDate": "2025-06-19T15:13:43.145Z"
+    },
+    {
+      "payrollId": "EQ-1390",
+      "firstName": "Pei chi",
+      "lastName": "Wu",
+      "workWeekDate": "2025-04-28",
+      "hours": 11.5,
+      "uploadDate": "2025-06-19T15:13:43.145Z"
+    },
+    {
+      "payrollId": "EQ-1390",
+      "firstName": "Pei chi",
+      "lastName": "Wu",
+      "workWeekDate": "2025-04-21",
+      "hours": 19.25,
+      "uploadDate": "2025-06-19T15:13:43.145Z"
+    },
+    {
+      "payrollId": "EQ-1390",
+      "firstName": "Pei chi",
+      "lastName": "Wu",
+      "workWeekDate": "2025-06-09",
+      "hours": 19.5,
+      "uploadDate": "2025-06-19T15:13:43.145Z"
+    },
+    {
+      "payrollId": "EQ-1390",
+      "firstName": "Pei chi",
+      "lastName": "Wu",
+      "workWeekDate": "2025-06-02",
+      "hours": 25.25,
+      "uploadDate": "2025-06-19T15:13:43.146Z"
+    },
+    {
+      "payrollId": "EQ-1391",
+      "firstName": "Yi Nian",
+      "lastName": "Wang",
+      "workWeekDate": "2025-06-02",
+      "hours": 16.75,
+      "uploadDate": "2025-06-19T15:13:43.146Z"
+    },
+    {
+      "payrollId": "EQ-1391",
+      "firstName": "Yi Nian",
+      "lastName": "Wang",
+      "workWeekDate": "2025-05-12",
+      "hours": 17.25,
+      "uploadDate": "2025-06-19T15:13:43.146Z"
+    },
+    {
+      "payrollId": "EQ-1391",
+      "firstName": "Yi Nian",
+      "lastName": "Wang",
+      "workWeekDate": "2025-05-26",
+      "hours": 17.5,
+      "uploadDate": "2025-06-19T15:13:43.146Z"
+    },
+    {
+      "payrollId": "EQ-1391",
+      "firstName": "Yi Nian",
+      "lastName": "Wang",
+      "workWeekDate": "2025-04-28",
+      "hours": 24.5,
+      "uploadDate": "2025-06-19T15:13:43.151Z"
+    },
+    {
+      "payrollId": "EQ-1391",
+      "firstName": "Yi Nian",
+      "lastName": "Wang",
+      "workWeekDate": "2025-05-05",
+      "hours": 26.25,
+      "uploadDate": "2025-06-19T15:13:43.151Z"
+    },
+    {
+      "payrollId": "EQ-1391",
+      "firstName": "Yi Nian",
+      "lastName": "Wang",
+      "workWeekDate": "2025-05-19",
+      "hours": 28,
+      "uploadDate": "2025-06-19T15:13:43.151Z"
+    },
+    {
+      "payrollId": "EQ-1392",
+      "firstName": "Ming yuan",
+      "lastName": "Jiang",
+      "workWeekDate": "2025-05-26",
+      "hours": 12.5,
+      "uploadDate": "2025-06-19T15:13:43.151Z"
+    },
+    {
+      "payrollId": "EQ-1392",
+      "firstName": "Ming yuan",
+      "lastName": "Jiang",
+      "workWeekDate": "2025-06-02",
+      "hours": 16.75,
+      "uploadDate": "2025-06-19T15:13:43.151Z"
+    },
+    {
+      "payrollId": "EQ-1392",
+      "firstName": "Ming yuan",
+      "lastName": "Jiang",
+      "workWeekDate": "2025-05-12",
+      "hours": 17.25,
+      "uploadDate": "2025-06-19T15:13:43.151Z"
+    },
+    {
+      "payrollId": "EQ-1392",
+      "firstName": "Ming yuan",
+      "lastName": "Jiang",
+      "workWeekDate": "2025-04-28",
+      "hours": 25.25,
+      "uploadDate": "2025-06-19T15:13:43.151Z"
+    },
+    {
+      "payrollId": "EQ-1392",
+      "firstName": "Ming yuan",
+      "lastName": "Jiang",
+      "workWeekDate": "2025-05-05",
+      "hours": 26,
+      "uploadDate": "2025-06-19T15:13:43.151Z"
+    },
+    {
+      "payrollId": "EQ-1392",
+      "firstName": "Ming yuan",
+      "lastName": "Jiang",
+      "workWeekDate": "2025-05-19",
+      "hours": 27,
+      "uploadDate": "2025-06-19T15:13:43.151Z"
+    },
+    {
+      "payrollId": "EQ-1397",
+      "firstName": "CHIH YI",
+      "lastName": "LI",
+      "workWeekDate": "2025-05-26",
+      "hours": 6.25,
+      "uploadDate": "2025-06-19T15:13:43.151Z"
+    },
+    {
+      "payrollId": "EQ-1397",
+      "firstName": "CHIH YI",
+      "lastName": "LI",
+      "workWeekDate": "2025-05-19",
+      "hours": 33.75,
+      "uploadDate": "2025-06-19T15:13:43.156Z"
+    },
+    {
+      "payrollId": "EQ-1397",
+      "firstName": "CHIH YI",
+      "lastName": "LI",
+      "workWeekDate": "2025-05-05",
+      "hours": 42,
+      "uploadDate": "2025-06-19T15:13:43.156Z"
+    },
+    {
+      "payrollId": "EQ-1397",
+      "firstName": "CHIH YI",
+      "lastName": "LI",
+      "workWeekDate": "2025-05-12",
+      "hours": 48,
+      "uploadDate": "2025-06-19T15:13:43.156Z"
+    },
+    {
+      "payrollId": "EQ-1398",
+      "firstName": "Jie",
+      "lastName": "Tang",
+      "workWeekDate": "2025-05-12",
+      "hours": 6.25,
+      "uploadDate": "2025-06-19T15:13:43.156Z"
+    },
+    {
+      "payrollId": "EQ-1398",
+      "firstName": "Jie",
+      "lastName": "Tang",
+      "workWeekDate": "2025-05-05",
+      "hours": 14.25,
+      "uploadDate": "2025-06-19T15:13:43.156Z"
+    },
+    {
+      "payrollId": "EQ-1404",
+      "firstName": "TZU HSUAN",
+      "lastName": "CHEN",
+      "workWeekDate": "2025-05-05",
+      "hours": 18.25,
+      "uploadDate": "2025-06-19T15:13:43.156Z"
+    },
+    {
+      "payrollId": "EQ-1405",
+      "firstName": "Runhan",
+      "lastName": "Shen",
+      "workWeekDate": "2025-05-05",
+      "hours": 9.5,
+      "uploadDate": "2025-06-19T15:13:43.156Z"
+    },
+    {
+      "payrollId": "EQ-1406",
+      "firstName": "YAO HSIEN",
+      "lastName": "FENG",
+      "workWeekDate": "2025-05-05",
+      "hours": 9.5,
+      "uploadDate": "2025-06-19T15:13:43.156Z"
+    },
+    {
+      "payrollId": "EQ-1407",
+      "firstName": "KUAN HAO",
+      "lastName": "CHEN",
+      "workWeekDate": "2025-05-12",
+      "hours": 9,
+      "uploadDate": "2025-06-19T15:13:43.156Z"
+    },
+    {
+      "payrollId": "EQ-1407",
+      "firstName": "KUAN HAO",
+      "lastName": "CHEN",
+      "workWeekDate": "2025-05-05",
+      "hours": 25.5,
+      "uploadDate": "2025-06-19T15:13:43.156Z"
+    },
+    {
+      "payrollId": "EQ-1408",
+      "firstName": "Diego",
+      "lastName": "Catalan Alarcon",
+      "workWeekDate": "2025-05-12",
+      "hours": 4,
+      "uploadDate": "2025-06-19T15:13:43.160Z"
+    },
+    {
+      "payrollId": "EQ-1408",
+      "firstName": "Diego",
+      "lastName": "Catalan Alarcon",
+      "workWeekDate": "2025-05-05",
+      "hours": 6.25,
+      "uploadDate": "2025-06-19T15:13:43.161Z"
+    },
+    {
+      "payrollId": "EQ-1409",
+      "firstName": "Kaito",
+      "lastName": "Kuragaichi",
+      "workWeekDate": "2025-06-02",
+      "hours": 3,
+      "uploadDate": "2025-06-19T15:13:43.161Z"
+    },
+    {
+      "payrollId": "EQ-1409",
+      "firstName": "Kaito",
+      "lastName": "Kuragaichi",
+      "workWeekDate": "2025-05-19",
+      "hours": 5.5,
+      "uploadDate": "2025-06-19T15:13:43.161Z"
+    },
+    {
+      "payrollId": "EQ-1409",
+      "firstName": "Kaito",
+      "lastName": "Kuragaichi",
+      "workWeekDate": "2025-05-05",
+      "hours": 6.25,
+      "uploadDate": "2025-06-19T15:13:43.161Z"
+    },
+    {
+      "payrollId": "EQ-1409",
+      "firstName": "Kaito",
+      "lastName": "Kuragaichi",
+      "workWeekDate": "2025-05-12",
+      "hours": 7.5,
+      "uploadDate": "2025-06-19T15:13:43.161Z"
+    },
+    {
+      "payrollId": "EQ-1410",
+      "firstName": "Yuka",
+      "lastName": "Tanaka",
+      "workWeekDate": "2025-06-02",
+      "hours": 3,
+      "uploadDate": "2025-06-19T15:13:43.161Z"
+    },
+    {
+      "payrollId": "EQ-1410",
+      "firstName": "Yuka",
+      "lastName": "Tanaka",
+      "workWeekDate": "2025-05-19",
+      "hours": 5.5,
+      "uploadDate": "2025-06-19T15:13:43.161Z"
+    },
+    {
+      "payrollId": "EQ-1410",
+      "firstName": "Yuka",
+      "lastName": "Tanaka",
+      "workWeekDate": "2025-05-05",
+      "hours": 6.25,
+      "uploadDate": "2025-06-19T15:13:43.161Z"
+    },
+    {
+      "payrollId": "EQ-1410",
+      "firstName": "Yuka",
+      "lastName": "Tanaka",
+      "workWeekDate": "2025-05-12",
+      "hours": 7.5,
+      "uploadDate": "2025-06-19T15:13:43.161Z"
+    },
+    {
+      "payrollId": "EQ-1411",
+      "firstName": "Yu Chiao",
+      "lastName": "Lin",
+      "workWeekDate": "2025-05-12",
+      "hours": 6.75,
+      "uploadDate": "2025-06-19T15:13:43.165Z"
+    },
+    {
+      "payrollId": "EQ-1411",
+      "firstName": "Yu Chiao",
+      "lastName": "Lin",
+      "workWeekDate": "2025-05-19",
+      "hours": 31.25,
+      "uploadDate": "2025-06-19T15:13:43.165Z"
+    },
+    {
+      "payrollId": "EQ-1411",
+      "firstName": "Yu Chiao",
+      "lastName": "Lin",
+      "workWeekDate": "2025-05-26",
+      "hours": 45.5,
+      "uploadDate": "2025-06-19T15:13:43.165Z"
+    },
+    {
+      "payrollId": "EQ-1412",
+      "firstName": "Putu Ardi",
+      "lastName": "Rastiawan",
+      "workWeekDate": "2025-06-09",
+      "hours": 32.5,
+      "uploadDate": "2025-06-19T15:13:43.165Z"
+    },
+    {
+      "payrollId": "EQ-1412",
+      "firstName": "Putu Ardi",
+      "lastName": "Rastiawan",
+      "workWeekDate": "2025-06-02",
+      "hours": 33.25,
+      "uploadDate": "2025-06-19T15:13:43.166Z"
+    },
+    {
+      "payrollId": "EQ-1412",
+      "firstName": "Putu Ardi",
+      "lastName": "Rastiawan",
+      "workWeekDate": "2025-05-12",
+      "hours": 36.5,
+      "uploadDate": "2025-06-19T15:13:43.166Z"
+    },
+    {
+      "payrollId": "EQ-1412",
+      "firstName": "Putu Ardi",
+      "lastName": "Rastiawan",
+      "workWeekDate": "2025-05-26",
+      "hours": 44,
+      "uploadDate": "2025-06-19T15:13:43.166Z"
+    },
+    {
+      "payrollId": "EQ-1412",
+      "firstName": "Putu Ardi",
+      "lastName": "Rastiawan",
+      "workWeekDate": "2025-05-19",
+      "hours": 45.25,
+      "uploadDate": "2025-06-19T15:13:43.166Z"
+    },
+    {
+      "payrollId": "EQ-1413",
+      "firstName": "daichi",
+      "lastName": "aratani",
+      "workWeekDate": "2025-06-02",
+      "hours": 3,
+      "uploadDate": "2025-06-19T15:13:43.166Z"
+    },
+    {
+      "payrollId": "EQ-1413",
+      "firstName": "daichi",
+      "lastName": "aratani",
+      "workWeekDate": "2025-05-19",
+      "hours": 5.5,
+      "uploadDate": "2025-06-19T15:13:43.166Z"
+    },
+    {
+      "payrollId": "EQ-1413",
+      "firstName": "daichi",
+      "lastName": "aratani",
+      "workWeekDate": "2025-05-05",
+      "hours": 6.25,
+      "uploadDate": "2025-06-19T15:13:43.171Z"
+    },
+    {
+      "payrollId": "EQ-1413",
+      "firstName": "daichi",
+      "lastName": "aratani",
+      "workWeekDate": "2025-05-12",
+      "hours": 7.5,
+      "uploadDate": "2025-06-19T15:13:43.171Z"
+    },
+    {
+      "payrollId": "EQ-1414",
+      "firstName": "CHIHSHENG",
+      "lastName": "HU",
+      "workWeekDate": "2025-05-12",
+      "hours": 6.75,
+      "uploadDate": "2025-06-19T15:13:43.171Z"
+    },
+    {
+      "payrollId": "EQ-1414",
+      "firstName": "CHIHSHENG",
+      "lastName": "HU",
+      "workWeekDate": "2025-05-19",
+      "hours": 11,
+      "uploadDate": "2025-06-19T15:13:43.171Z"
+    },
+    {
+      "payrollId": "EQ-1426",
+      "firstName": "Yu-Ting",
+      "lastName": "Chen",
+      "workWeekDate": "2025-06-09",
+      "hours": 4,
+      "uploadDate": "2025-06-19T15:13:43.171Z"
+    },
+    {
+      "payrollId": "EQ-1427",
+      "firstName": "WEN-HUI",
+      "lastName": "CHEN",
+      "workWeekDate": "2025-05-26",
+      "hours": 6.5,
+      "uploadDate": "2025-06-19T15:13:43.171Z"
+    },
+    {
+      "payrollId": "EQ-1429",
+      "firstName": "Shan-Yuan",
+      "lastName": "LUO",
+      "workWeekDate": "2025-05-26",
+      "hours": 6.5,
+      "uploadDate": "2025-06-19T15:13:43.171Z"
+    }
+  ],
+  "lastUpdated": "2025-06-19T15:13:43.181Z",
+  "version": "1.7",
+  "systemName": "GitHub 版工時管理系統"
+}
