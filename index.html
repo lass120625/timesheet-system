@@ -356,7 +356,7 @@
         .employee-table tr:nth-child(even) {
             background: #f9f9f9;
         }
-        .employee-table tr:hover {
+        .employee-table tr.main-row:hover {
             background: #f0f2ff; /* Hover effect for table rows */
         }
         
@@ -1459,7 +1459,7 @@
                     employees: employees,
                     timesheetData: timesheetData,
                     lastUpdated: new Date().toISOString(),
-                    version: '1.5', // Updated version
+                    version: '1.6', // Updated version
                     systemName: 'GitHub 版工時管理系統'
                 };
                 
@@ -1574,30 +1574,34 @@
         }
         
         /**
-         * Calculates employee cycle information based on start date and current date.
+         * Calculates employee cycle information based on start date and a reference date.
+         * The reference date is now adjusted to the end of the previous week.
          */
-        function calculateEmployeeCycle(employee, referenceDate = new Date()) {
+        function calculateEmployeeCycle(employee, referenceDateInput = new Date()) {
+            // Adjust the reference date to the end of the previous week (last Sunday)
+            const today = new Date(referenceDateInput);
+            const dayOfWeek = today.getDay(); // Sunday: 0, Monday: 1, ...
+            // If today is Sunday, go back 7 days. Otherwise, go back `dayOfWeek` days to get to the previous Sunday.
+            const daysToSubtract = dayOfWeek === 0 ? 7 : dayOfWeek;
+            const adjustedReferenceDate = new Date(today);
+            adjustedReferenceDate.setDate(today.getDate() - daysToSubtract);
+
             const parsedStartDate = parseDate(employee.startDate);
             if (!parsedStartDate || isNaN(parsedStartDate.getTime())) {
-                const defaultCycleStartDate = getMonday(new Date(referenceDate.getFullYear(), referenceDate.getMonth(), referenceDate.getDate()));
+                const defaultCycleStartDate = getMonday(new Date(adjustedReferenceDate.getFullYear(), adjustedReferenceDate.getMonth(), adjustedReferenceDate.getDate()));
                 const defaultCycleEndDate = new Date(defaultCycleStartDate);
                 defaultCycleEndDate.setDate(defaultCycleEndDate.getDate() + (WEEKS_PER_CYCLE * 7) - 1);
                 return {
-                    currentCycle: 0, 
-                    weekInCycle: 0, 
-                    cycleStartDate: defaultCycleStartDate,
-                    cycleEndDate: defaultCycleEndDate,
-                    daysInCycle: 0,
-                    totalWeeksFromStart: 0,
-                    status: 'pending', 
-                    progressPercentage: 0,
-                    cycleHours: 0
+                    currentCycle: 0, weekInCycle: 0, cycleStartDate: defaultCycleStartDate,
+                    cycleEndDate: defaultCycleEndDate, daysInCycle: 0, totalWeeksFromStart: 0,
+                    status: 'pending', progressPercentage: 0, cycleHours: 0
                 };
             }
             
             try {
                 const startDate = parsedStartDate;
-                const currentDate = new Date(referenceDate);
+                // Use the adjusted date for all calculations moving forward
+                const currentDate = new Date(adjustedReferenceDate);
                 currentDate.setHours(0, 0, 0, 0);
                 
                 const startMonday = getMonday(startDate);
@@ -1628,40 +1632,28 @@
                 }
 
                 let status = 'active'; // Internal status
-                if (currentDate < cycleStartDate) { 
+                if (new Date() < cycleStartDate) { 
                     status = 'pending';
                 } else if (cycleHours > REGULAR_HOURS_THRESHOLD) {
                     status = 'overtime';
-                } else if (currentDate > cycleEndDate) { 
+                } else if (new Date() > cycleEndDate) { 
                     status = 'complete';
                 }
                 
                 return {
-                    currentCycle,
-                    weekInCycle,
-                    cycleStartDate,
-                    cycleEndDate,
+                    currentCycle, weekInCycle, cycleStartDate, cycleEndDate,
                     daysInCycle: Math.min(Math.max(daysInCycle, 0), totalDaysInCyclePeriod),
-                    totalWeeksFromStart,
-                    status, // Internal status
-                    progressPercentage,
-                    cycleHours 
+                    totalWeeksFromStart, status, progressPercentage, cycleHours 
                 };
             } catch (error) {
                 console.error("Error calculating employee cycle for:", employee, error);
-                const defaultCycleStartDate = getMonday(new Date(referenceDate.getFullYear(), referenceDate.getMonth(), referenceDate.getDate()));
+                 const defaultCycleStartDate = getMonday(new Date(adjustedReferenceDate.getFullYear(), adjustedReferenceDate.getMonth(), adjustedReferenceDate.getDate()));
                 const defaultCycleEndDate = new Date(defaultCycleStartDate);
                 defaultCycleEndDate.setDate(defaultCycleEndDate.getDate() + (WEEKS_PER_CYCLE * 7) - 1);
                 return {
-                    currentCycle: 0, 
-                    weekInCycle: 0, 
-                    cycleStartDate: defaultCycleStartDate,
-                    cycleEndDate: defaultCycleEndDate,
-                    daysInCycle: 0,
-                    totalWeeksFromStart: 0,
-                    status: 'pending',
-                    progressPercentage: 0,
-                    cycleHours: 0
+                    currentCycle: 0, weekInCycle: 0, cycleStartDate: defaultCycleStartDate,
+                    cycleEndDate: defaultCycleEndDate, daysInCycle: 0, totalWeeksFromStart: 0,
+                    status: 'pending', progressPercentage: 0, cycleHours: 0
                 };
             }
         }
