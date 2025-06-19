@@ -1459,7 +1459,7 @@
                     employees: employees,
                     timesheetData: timesheetData,
                     lastUpdated: new Date().toISOString(),
-                    version: '1.6', // Updated version
+                    version: '1.7', // Updated version
                     systemName: 'GitHub 版工時管理系統'
                 };
                 
@@ -1701,13 +1701,15 @@
             
             // Try YYYY-MM-DD
             let date = new Date(dateString);
-            if (!isNaN(date.getTime()) && date.toISOString().slice(0,10) === dateString) {
-                return date;
+            if (!isNaN(date.getTime()) && dateString.includes('-')) {
+                 // Simple check to avoid `new Date('31')` from being valid
+                 // This handles YYYY-MM-DD which is timezone-safe for parsing
+                 return new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
             }
 
             // Try DD/MM/YYYY (Australian format)
             const partsSlash = dateString.split('/');
-            if (partsSlash.length === 3) {
+            if (partsSlash.length === 3 && partsSlash[0].length <= 2) {
                 // new Date(year, monthIndex, day)
                 date = new Date(parseInt(partsSlash[2]), parseInt(partsSlash[1]) - 1, parseInt(partsSlash[0]));
                 if (!isNaN(date.getTime())) return date;
@@ -1910,7 +1912,14 @@
                 const workWeekDateStr = row['Work Week']?.trim();
                 
                 if (payrollId && workWeekDateStr) {
-                    const workWeekDate = parseDate(workWeekDateStr)?.toISOString().slice(0, 10) || workWeekDateStr;
+                    const parsed = parseDate(workWeekDateStr);
+                    if (!parsed) return;
+                    
+                    const year = parsed.getFullYear();
+                    const month = (parsed.getMonth() + 1).toString().padStart(2, '0');
+                    const day = parsed.getDate().toString().padStart(2, '0');
+                    const workWeekDate = `${year}-${month}-${day}`;
+                    
                     const key = `${payrollId}-${workWeekDate}`;
                     const existingHours = parseFloat(existingDataMap.get(key));
                     const newHours = parseFloat(row['Hours']) || 0;
@@ -2013,42 +2022,47 @@
                     continue; 
                 }
                 
-                const workWeekDate = parsedWorkWeek.toISOString().slice(0, 10);
+                // **FIX**: Manually format date to YYYY-MM-DD to avoid timezone shifts from toISOString()
+                const year = parsedWorkWeek.getFullYear();
+                const month = (parsedWorkWeek.getMonth() + 1).toString().padStart(2, '0');
+                const day = parsedWorkWeek.getDate().toString().padStart(2, '0');
+                const workWeekDate = `${year}-${month}-${day}`;
                 
                 uploadSummary.employees.add(payrollId);
                 uploadSummary.weeks.add(workWeekDate); 
                 
-                let employeeStartDate = '2024-01-01'; // Default value if not provided or invalid
+                let employeeStartDate = '2024-01-01';
                 if (startDateStr) {
                     const parsedStartDate = parseDate(startDateStr);
-                    if (parsedStartDate && !isNaN(parsedStartDate.getTime())) {
-                        employeeStartDate = parsedStartDate.toISOString().slice(0, 10);
+                    if (parsedStartDate) {
+                        const sYear = parsedStartDate.getFullYear();
+                        const sMonth = (parsedStartDate.getMonth() + 1).toString().padStart(2, '0');
+                        const sDay = parsedStartDate.getDate().toString().padStart(2, '0');
+                        employeeStartDate = `${sYear}-${sMonth}-${sDay}`;
                     }
                 }
 
                 if (!employees[payrollId]) {
                     employees[payrollId] = {
-                        payrollId,
-                        firstName,
-                        lastName,
+                        payrollId, firstName, lastName,
                         startDate: employeeStartDate, 
-                        level: level || '',
-                        farm: farm || '',
-                        hourlyRate: rate,
-                        workWeeks: {}, // Stores workWeekDate -> hours (all historical)
-                        totalHours: 0, // Sum of all historical hours
+                        level: level || '', farm: farm || '', hourlyRate: rate,
+                        workWeeks: {}, totalHours: 0,
                         payrollData: { regularHours: 0, overtimeHours: 0, regularPay: 0, overtimePay: 0, cycleHours: 0 },
-                        accumulatedOvertimePay: 0 // New property to accumulate overtime pay
+                        accumulatedOvertimePay: 0
                     };
                 } else {
                     employees[payrollId].firstName = firstName;
                     employees[payrollId].lastName = lastName;
                     if (startDateStr) { 
                          const newParsedStartDate = parseDate(startDateStr);
-                         if(newParsedStartDate && !isNaN(newParsedStartDate.getTime())) {
+                         if(newParsedStartDate) {
                             const currentStartDate = parseDate(employees[payrollId].startDate);
                             if (!currentStartDate || newParsedStartDate.getTime() < currentStartDate.getTime() || employees[payrollId].startDate === '2024-01-01') {
-                                employees[payrollId].startDate = newParsedStartDate.toISOString().slice(0, 10);
+                                const sYear = newParsedStartDate.getFullYear();
+                                const sMonth = (newParsedStartDate.getMonth() + 1).toString().padStart(2, '0');
+                                const sDay = newParsedStartDate.getDate().toString().padStart(2, '0');
+                                employees[payrollId].startDate = `${sYear}-${sMonth}-${sDay}`;
                             }
                          }
                     }
@@ -2069,11 +2083,7 @@
                     }
                 } else {
                     timesheetData.push({
-                        payrollId,
-                        firstName,
-                        lastName,
-                        workWeekDate,
-                        hours,
+                        payrollId, firstName, lastName, workWeekDate, hours,
                         uploadDate: new Date().toISOString()
                     });
                     uploadSummary.newRecords++;
@@ -2082,7 +2092,7 @@
                 const progress = 30 + ((i + 1) / data.length) * 50; 
                 updateProgress(progress, `處理中... ${i + 1}/${data.length}`);
                 
-                if (i % 5 === 0) {
+                if (i % 10 === 0) { // Slightly less frequent yielding
                     await new Promise(resolve => setTimeout(resolve, 1));
                 }
             }
@@ -2098,29 +2108,6 @@
                                         }, {});
                 employee.totalHours = Object.values(employee.workWeeks).reduce((sum, hours) => sum + hours, 0);
                 calculatePayroll(employee); 
-                employee.accumulatedOvertimePay = 0;
-                const employeeStartMonday = parseDate(employee.startDate) ? getMonday(parseDate(employee.startDate)) : null;
-                if (employeeStartMonday) {
-                    const currentReferenceMonday = getMonday(new Date()); 
-                    const totalWeeksSinceStart = Math.floor((currentReferenceMonday.getTime() - employeeStartMonday.getTime()) / (7 * 24 * 60 * 60 * 1000)) + 1;
-                    const totalCyclesToConsider = Math.max(1, Math.ceil(totalWeeksSinceStart / WEEKS_PER_CYCLE)); 
-                    for (let c = 0; c < totalCyclesToConsider; c++) { 
-                        const cycleStartDate = new Date(employeeStartMonday);
-                        cycleStartDate.setDate(cycleStartDate.getDate() + (c * WEEKS_PER_CYCLE * 7));
-                        const cycleEndDate = new Date(cycleStartDate);
-                        cycleEndDate.setDate(cycleEndDate.getDate() + (WEEKS_PER_CYCLE * 7) - 1);
-                        let thisCycleHours = 0;
-                        for (const wwDateStr in employee.workWeeks) {
-                            const wwDate = parseDate(wwDateStr);
-                            if (wwDate && wwDate >= cycleStartDate && wwDate <= cycleEndDate) {
-                                thisCycleHours += employee.workWeeks[wwDateStr];
-                            }
-                        }
-                        if (thisCycleHours > REGULAR_HOURS_THRESHOLD) {
-                            employee.accumulatedOvertimePay += (thisCycleHours - REGULAR_HOURS_THRESHOLD) * employee.hourlyRate;
-                        }
-                    }
-                }
             });
             
             updateProgress(90, '同步資料...');
@@ -2153,7 +2140,7 @@
          */
         function calculatePayroll(employee) {
             const hourlyRate = Number(employee.hourlyRate) || 0; 
-            const cycleInfo = calculateEmployeeCycle(employee, new Date());
+            const cycleInfo = calculateEmployeeCycle(employee);
             employee.payrollData.cycleHours = Number(cycleInfo.cycleHours) || 0;
             const currentCycleHours = employee.payrollData.cycleHours;
             if (currentCycleHours > REGULAR_HOURS_THRESHOLD) {
@@ -2166,6 +2153,31 @@
                 employee.payrollData.overtimeHours = 0;
                 employee.payrollData.regularPay = currentCycleHours * hourlyRate;
                 employee.payrollData.overtimePay = 0;
+            }
+
+            // Recalculate accumulated overtime pay across ALL cycles
+            employee.accumulatedOvertimePay = 0;
+            const employeeStartMonday = parseDate(employee.startDate) ? getMonday(parseDate(employee.startDate)) : null;
+            if (employeeStartMonday) {
+                const today = new Date();
+                const totalWeeksSinceStart = Math.floor((today.getTime() - employeeStartMonday.getTime()) / (7 * 24 * 60 * 60 * 1000)) + 1;
+                const totalCyclesToConsider = Math.max(1, Math.ceil(totalWeeksSinceStart / WEEKS_PER_CYCLE)); 
+                for (let c = 0; c < totalCyclesToConsider; c++) { 
+                    const cycleStartDate = new Date(employeeStartMonday);
+                    cycleStartDate.setDate(cycleStartDate.getDate() + (c * WEEKS_PER_CYCLE * 7));
+                    const cycleEndDate = new Date(cycleStartDate);
+                    cycleEndDate.setDate(cycleEndDate.getDate() + (WEEKS_PER_CYCLE * 7) - 1);
+                    let thisCycleHours = 0;
+                    for (const wwDateStr in employee.workWeeks) {
+                        const wwDate = parseDate(wwDateStr);
+                        if (wwDate && wwDate >= cycleStartDate && wwDate <= cycleEndDate) {
+                            thisCycleHours += employee.workWeeks[wwDateStr];
+                        }
+                    }
+                    if (thisCycleHours > REGULAR_HOURS_THRESHOLD) {
+                        employee.accumulatedOvertimePay += (thisCycleHours - REGULAR_HOURS_THRESHOLD) * employee.hourlyRate;
+                    }
+                }
             }
         }
         
@@ -2308,7 +2320,7 @@
                 .sort((a, b) => a.payrollId.localeCompare(b.payrollId))
                 .forEach(employee => {
                     const fullName = `${employee.firstName} ${employee.lastName}`.trim();
-                    const cycleInfo = calculateEmployeeCycle(employee, new Date());
+                    const cycleInfo = calculateEmployeeCycle(employee);
                     
                     if (cycleInfo.status === 'overtime') {
                         overtimeCycles++;
@@ -2354,9 +2366,9 @@
                             <td>${(parseDate(employee.startDate) || new Date()).toLocaleDateString('en-AU')}</td>
                             <td>${displayCurrentCycle}</td>   
                             <td>${displayWeekInCycle}</td>    
-                            <td><strong>${currentTotalHours}</strong></td> 
-                            <td><strong>${currentCycleHours}</strong></td>  
-                            <td class="${otThresholdDifference < 0 ? 'status-overtime' : ''}">${otThresholdDifference}</td>
+                            <td><strong>${currentTotalHours.toFixed(2)}</strong></td> 
+                            <td><strong>${currentCycleHours.toFixed(2)}</strong></td>  
+                            <td class="${otThresholdDifference < 0 ? 'status-overtime' : ''}">${otThresholdDifference.toFixed(2)}</td>
                         </tr>
                         <tr class="details-row" id="details-${employee.payrollId}">
                             <td colspan="11">${detailsTableHTML}</td>
@@ -2369,8 +2381,8 @@
                 <tfoot>
                     <tr style="background: #f0f0f0; font-weight: bold; text-align: center;">
                         <td colspan="8" style="text-align: right;">總計</td>
-                        <td>${totalHistoricalHours}</td>
-                        <td>${totalCycleHours}</td>
+                        <td>${totalHistoricalHours.toFixed(2)}</td>
+                        <td>${totalCycleHours.toFixed(2)}</td>
                         <td>-</td>
                     </tr>
                 </tfoot>
@@ -2411,7 +2423,7 @@
                 
                 filteredEmployees.forEach(employee => {
                     const fullName = `${employee.firstName} ${employee.lastName}`.trim();
-                    const cycleInfo = calculateEmployeeCycle(employee, new Date());
+                    const cycleInfo = calculateEmployeeCycle(employee);
                     
                     const otThresholdDifference = REGULAR_HOURS_THRESHOLD - (Number(cycleInfo.cycleHours) || 0); 
                     
