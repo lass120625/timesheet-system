@@ -1129,7 +1129,7 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
             }
         }
 
-        // 驗證工時表資料（增強調試版）
+        // 驗證工時表資料（修復欄位名稱匹配問題）
         function validateTimesheetData(data) {
             const result = {
                 success: [],
@@ -1143,18 +1143,27 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
             }
             
             console.log('🔍 開始驗證資料，總行數:', data.length);
-            console.log('📋 標題欄位:', Object.keys(data[0] || {}));
             
-            const requiredFields = ['Payroll ID', 'First Name', 'Last Name', 'Monday of the Work Week', 'Hours'];
             const headers = Object.keys(data[0] || {});
+            console.log('📋 實際標題欄位:', headers);
             
-            for (const field of requiredFields) {
-                if (!headers.includes(field)) {
-                    result.errors.push(`缺少必要欄位: ${field}。請檢查 CSV 標題行。`);
+            // 檢查必要欄位（考慮可能的空格問題）
+            const requiredFields = ['Payroll ID', 'First Name', 'Last Name', 'Monday of the Work Week', 'Hours'];
+            const missingFields = [];
+            
+            requiredFields.forEach(field => {
+                const found = headers.some(header => 
+                    header.trim().toLowerCase() === field.toLowerCase() ||
+                    header.trim() === field
+                );
+                if (!found) {
+                    missingFields.push(field);
                 }
-            }
+            });
             
-            if (result.errors.length > 0) {
+            if (missingFields.length > 0) {
+                result.errors.push(`缺少必要欄位: ${missingFields.join(', ')}。請檢查 CSV 標題行。`);
+                result.errors.push(`實際找到的欄位: ${headers.join(', ')}`);
                 return result;
             }
             
@@ -1164,11 +1173,23 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
             let invalidPayrollIds = 0;
             
             data.forEach((row, index) => {
-                const payrollId = row['Payroll ID']?.trim();
-                const firstName = row['First Name']?.trim();
-                const lastName = row['Last Name']?.trim();
-                const workWeek = row['Monday of the Work Week']?.trim();
-                const hours = parseFloat(row['Hours']);
+                // 嘗試多種可能的欄位名稱（考慮空格問題）
+                const payrollId = (row['Payroll ID'] || row['Payroll ID '] || '').trim();
+                const firstName = (row['First Name'] || '').trim();
+                const lastName = (row['Last Name'] || '').trim();
+                const workWeek = (row['Monday of the Work Week'] || '').trim();
+                const hours = parseFloat(row['Hours'] || 0);
+                
+                // 調試前5行
+                if (index < 5) {
+                    console.log(`🔍 第${index + 1}行數據:`, {
+                        payrollId: `"${payrollId}"`,
+                        firstName: `"${firstName}"`,
+                        workWeek: `"${workWeek}"`,
+                        hours: hours
+                    });
+                    console.log(`   Payroll ID 驗證: ${validatePayrollID(payrollId)}`);
+                }
                 
                 // 跳過完全空白的行
                 if (!payrollId && !firstName && !lastName && !workWeek && (isNaN(hours) || hours === 0)) {
@@ -1178,15 +1199,11 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
                 
                 validRecords++;
                 
-                // 調試：顯示前幾個Payroll ID
-                if (index < 5) {
-                    console.log(`🔍 第${index + 1}行 Payroll ID: "${payrollId}" (長度: ${payrollId?.length})`);
-                    console.log(`   驗證結果: ${validatePayrollID(payrollId)}`);
-                }
-                
                 if (!validatePayrollID(payrollId)) {
                     invalidPayrollIds++;
-                    result.errors.push(`第${index + 2}行: Payroll ID 格式錯誤 (${payrollId || '空'})，應為 EQ-XXXX 格式。`);
+                    if (invalidPayrollIds <= 5) { // 只顯示前5個錯誤
+                        result.errors.push(`第${index + 2}行: Payroll ID 格式錯誤 ("${payrollId}")，應為 EQ-XXXX 格式。`);
+                    }
                 } else {
                     employeeSet.add(payrollId);
                 }
@@ -1226,6 +1243,8 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
                 if (invalidPayrollIds > 0) {
                     result.warnings.push(`⚠️ 發現 ${invalidPayrollIds} 個無效的 Payroll ID。`);
                 }
+            } else if (invalidPayrollIds > 5) {
+                result.errors.push(`...還有 ${invalidPayrollIds - 5} 個 Payroll ID 格式錯誤`);
             }
             
             return result;
