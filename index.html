@@ -1917,6 +1917,19 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
             }
         }
 
+        // =======================================================
+        // ==               MODIFICATION START                  ==
+        // =======================================================
+
+        // 用於格式化財報數字，將 0 或 null 轉為 '-'
+        function formatFinancialNumber(num) {
+            const value = Number(num);
+            if (isNaN(value) || Math.abs(value) < 0.005) { // 檢查數字是否四捨五入後為 0.00
+                return '-';
+            }
+            return value.toFixed(2);
+        }
+
         // 更新員工總覽表格
         function updateOverviewTable() {
             const container = document.getElementById('overview-table-container');
@@ -2005,15 +2018,35 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
                         activeCycles++;
                     }
                     
-                    const otThresholdDifference = REGULAR_HOURS_THRESHOLD - (Number(cycleInfo.cycleHours) || 0);
                     const currentTotalHours = Number(employee.totalHours) || 0;
                     const currentCycleHours = Number(cycleInfo.cycleHours) || 0;
                     const cycleOvertimePay = employee.payrollData?.overtimePay || 0;
+                    const accumulatedOvertimePay = employee.accumulatedOvertimePay || 0;
                     const unpaidOvertimePay = employee.unpaidOvertimePay || 0;
+                    const otThresholdDifference = REGULAR_HOURS_THRESHOLD - currentCycleHours;
                     
                     totalHistoricalHours += currentTotalHours;
                     totalCycleHours += currentCycleHours;
                     totalUnpaidOvertimePay += unpaidOvertimePay;
+
+                    // --- Build Payment Status Cell ---
+                    let paymentStatusCell = '';
+                    const hasHistory = paymentHistory[employee.payrollId] && Object.keys(paymentHistory[employee.payrollId]).length > 0;
+                    const needsPayment = unpaidOvertimePay > 0;
+
+                    if (hasHistory) {
+                        paymentStatusCell += `<button class="btn-edit" onclick="showPaymentHistory('${employee.payrollId}')" style="font-size: 10px; padding: 2px 6px; margin-right: 5px;">歷史</button>`;
+                    }
+
+                    if (needsPayment) {
+                        paymentStatusCell += `<button class="btn-payment" onclick="showPaymentDialog('${employee.payrollId}')" style="font-size: 10px; padding: 2px 6px;">支付</button>`;
+                    }
+
+                    if (paymentStatusCell === '') {
+                        paymentStatusCell = '-';
+                    }
+                    // --- End Build Payment Status Cell ---
+
 
                     let detailsTableHTML = '<div style="text-align:center;">無工時記錄</div>';
                     const workWeeks = Object.entries(employee.workWeeks || {})
@@ -2082,23 +2115,13 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
                             <td>${fullName}</td>
                             <td>${employee.farm || '-'}</td>
                             <td>${employee.level || '-'}</td>
-                            <td class="money">${(employee.hourlyRate || 0).toFixed(2)}</td>
-                            <td><strong>${currentTotalHours.toFixed(2)}</strong></td>
-                            <td><strong>${currentCycleHours.toFixed(2)}</strong></td>
-                            <td class="money ${cycleOvertimePay > 0 ? 'status-overtime' : ''}">${cycleOvertimePay.toFixed(2)}</td>
-                            <td class="money ${employee.accumulatedOvertimePay > 0 ? 'status-overtime' : ''}">
-                                ${employee.accumulatedOvertimePay.toFixed(2)}
-                                ${paymentHistory[employee.payrollId] ? 
-                                    `<button class="btn-edit" onclick="showPaymentHistory('${employee.payrollId}')" style="font-size: 10px; padding: 2px 6px; margin-left: 5px;">歷史</button>` 
-                                    : ''}
-                            </td>
-                            <td class="money ${unpaidOvertimePay > 0 ? 'status-overtime' : ''}">
-                                ${unpaidOvertimePay.toFixed(2)}
-                                ${unpaidOvertimePay > 0 ? 
-                                    `<button class="btn-payment" onclick="showPaymentDialog('${employee.payrollId}')" style="font-size: 10px; padding: 2px 6px; margin-left: 5px;">支付</button>` 
-                                    : ''}
-                            </td>
-                            <td class="${otThresholdDifference < 0 ? 'status-overtime status-paid' : ''}">${otThresholdDifference.toFixed(2)}</td>
+                            <td class="money">${formatFinancialNumber(employee.hourlyRate)}</td>
+                            <td><strong>${formatFinancialNumber(currentTotalHours)}</strong></td>
+                            <td><strong>${formatFinancialNumber(currentCycleHours)}</strong></td>
+                            <td class="money ${cycleOvertimePay > 0 ? 'status-overtime' : ''}">${formatFinancialNumber(cycleOvertimePay)}</td>
+                            <td class="money ${accumulatedOvertimePay > 0 ? 'status-overtime' : ''}">${formatFinancialNumber(accumulatedOvertimePay)}</td>
+                            <td>${paymentStatusCell}</td>
+                            <td class="${otThresholdDifference < 0 ? 'status-overtime' : ''}">${formatFinancialNumber(otThresholdDifference)}</td>
                         </tr>
                         <tr class="details-row" id="details-${employee.payrollId}">
                             <td colspan="12">${detailsTableHTML}</td>
@@ -2144,6 +2167,10 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
             `;
             document.getElementById('overview-summary-cards').innerHTML = summaryHTML;
         }
+
+        // =======================================================
+        // ==                MODIFICATION END                   ==
+        // =======================================================
 
         // 更新所有表格
         function updateAllTables() {
