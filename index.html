@@ -304,6 +304,84 @@
             font-size: 12px;
         }
 
+        .details-table input {
+            width: 60px;
+            padding: 4px;
+            text-align: center;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            font-size: 13px;
+        }
+
+        .details-table input:focus {
+            border-color: #667eea;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.25);
+        }
+
+        .edit-actions {
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .btn-save, .btn-cancel-edit {
+            padding: 6px 12px;
+            margin: 0 5px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .btn-save {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-save:hover {
+            background: #218838;
+        }
+
+        .btn-cancel-edit {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-cancel-edit:hover {
+            background: #5a6268;
+        }
+
+        .btn-edit {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 11px;
+            margin-left: 10px;
+        }
+
+        .btn-edit:hover {
+            background: #0056b3;
+        }
+
+        .btn-delete {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 11px;
+            margin-left: 5px;
+        }
+
+        .btn-delete:hover {
+            background: #c82333;
+        }
+
         .weekly-overtime {
             color: #fd7e14;
             font-weight: bold;
@@ -1652,17 +1730,33 @@ EQ-0002, Jane, Smith, 2024-02-01, 2024-02-05, 42, Junior, 20.00, Farm B</div>
 
                     if (workWeeks.length > 0) {
                         detailsTableHTML = `
-                            <table class="details-table">
-                                <thead><tr><th>工作週 (週一)</th><th>工時</th></tr></thead>
+                            <table class="details-table" id="details-table-${employee.payrollId}">
+                                <thead><tr><th>工作週 (週一)</th><th>工時</th><th>操作</th></tr></thead>
                                 <tbody>
                                     ${workWeeks.map(([date, hours]) => {
                                         const d = parseDate(date);
                                         const displayDate = d ? d.toLocaleDateString('zh-TW') : '無效日期';
                                         const otClass = hours > WEEKLY_HOURS_THRESHOLD ? 'class="weekly-overtime"' : '';
-                                        return `<tr><td>${displayDate}</td><td ${otClass}>${hours}</td></tr>`;
+                                        return `
+                                            <tr data-payroll-id="${employee.payrollId}" data-work-week="${date}">
+                                                <td>${displayDate}</td>
+                                                <td ${otClass}>
+                                                    <span class="hours-display">${hours}</span>
+                                                    <input type="number" class="hours-input" value="${hours}" step="0.5" min="0" max="168" style="display: none;">
+                                                </td>
+                                                <td>
+                                                    <button class="btn-edit" onclick="editHours('${employee.payrollId}', '${date}')">編輯</button>
+                                                    <button class="btn-delete" onclick="deleteWorkWeek('${employee.payrollId}', '${date}')">刪除</button>
+                                                </td>
+                                            </tr>
+                                        `;
                                     }).join('')}
                                 </tbody>
                             </table>
+                            <div class="edit-actions" style="display: none;" id="edit-actions-${employee.payrollId}">
+                                <button class="btn-save" onclick="saveAllEdits('${employee.payrollId}')">💾 儲存所有修改</button>
+                                <button class="btn-cancel-edit" onclick="cancelAllEdits('${employee.payrollId}')">❌ 取消修改</button>
+                            </div>
                         `;
                     }
                     
@@ -2045,6 +2139,215 @@ EQ-0002, Jane, Smith, 2024-02-01, 2024-02-05, 42, Junior, 20.00, Farm B</div>
                     const hours = parseFloat(row['Hours']);
                     return payrollId || firstName || lastName || workWeek || !isNaN(hours);
                 });
+        }
+
+        // 編輯工時功能
+        function editHours(payrollId, workWeekDate) {
+            const row = document.querySelector(`tr[data-payroll-id="${payrollId}"][data-work-week="${workWeekDate}"]`);
+            if (!row) return;
+
+            const hoursDisplay = row.querySelector('.hours-display');
+            const hoursInput = row.querySelector('.hours-input');
+            const editBtn = row.querySelector('.btn-edit');
+
+            // 切換到編輯模式
+            hoursDisplay.style.display = 'none';
+            hoursInput.style.display = 'inline-block';
+            hoursInput.focus();
+            hoursInput.select();
+            editBtn.textContent = '取消';
+            editBtn.onclick = () => cancelEdit(payrollId, workWeekDate);
+
+            // 顯示編輯操作按鈕
+            const editActions = document.getElementById(`edit-actions-${payrollId}`);
+            if (editActions) {
+                editActions.style.display = 'block';
+            }
+        }
+
+        // 取消單個編輯
+        function cancelEdit(payrollId, workWeekDate) {
+            const row = document.querySelector(`tr[data-payroll-id="${payrollId}"][data-work-week="${workWeekDate}"]`);
+            if (!row) return;
+
+            const hoursDisplay = row.querySelector('.hours-display');
+            const hoursInput = row.querySelector('.hours-input');
+            const editBtn = row.querySelector('.btn-edit');
+
+            // 恢復原值
+            hoursInput.value = hoursDisplay.textContent;
+
+            // 切換回顯示模式
+            hoursDisplay.style.display = 'inline';
+            hoursInput.style.display = 'none';
+            editBtn.textContent = '編輯';
+            editBtn.onclick = () => editHours(payrollId, workWeekDate);
+
+            // 檢查是否還有其他編輯中的項目
+            const table = document.getElementById(`details-table-${payrollId}`);
+            const editingInputs = table.querySelectorAll('.hours-input[style*="inline-block"]');
+            if (editingInputs.length === 0) {
+                const editActions = document.getElementById(`edit-actions-${payrollId}`);
+                if (editActions) {
+                    editActions.style.display = 'none';
+                }
+            }
+        }
+
+        // 取消所有編輯
+        function cancelAllEdits(payrollId) {
+            const table = document.getElementById(`details-table-${payrollId}`);
+            if (!table) return;
+
+            const rows = table.querySelectorAll('tbody tr');
+            rows.forEach(row => {
+                const hoursDisplay = row.querySelector('.hours-display');
+                const hoursInput = row.querySelector('.hours-input');
+                const editBtn = row.querySelector('.btn-edit');
+                const workWeekDate = row.dataset.workWeek;
+
+                if (hoursInput.style.display === 'inline-block') {
+                    // 恢復原值
+                    hoursInput.value = hoursDisplay.textContent;
+                    
+                    // 切換回顯示模式
+                    hoursDisplay.style.display = 'inline';
+                    hoursInput.style.display = 'none';
+                    editBtn.textContent = '編輯';
+                    editBtn.onclick = () => editHours(payrollId, workWeekDate);
+                }
+            });
+
+            // 隱藏編輯操作按鈕
+            const editActions = document.getElementById(`edit-actions-${payrollId}`);
+            if (editActions) {
+                editActions.style.display = 'none';
+            }
+        }
+
+        // 儲存所有編輯
+        function saveAllEdits(payrollId) {
+            const table = document.getElementById(`details-table-${payrollId}`);
+            if (!table) return;
+
+            const employee = employees[payrollId];
+            if (!employee) return;
+
+            let hasChanges = false;
+            const changes = [];
+
+            const rows = table.querySelectorAll('tbody tr');
+            rows.forEach(row => {
+                const hoursDisplay = row.querySelector('.hours-display');
+                const hoursInput = row.querySelector('.hours-input');
+                const editBtn = row.querySelector('.btn-edit');
+                const workWeekDate = row.dataset.workWeek;
+
+                if (hoursInput.style.display === 'inline-block') {
+                    const oldHours = parseFloat(hoursDisplay.textContent);
+                    const newHours = parseFloat(hoursInput.value);
+
+                    if (oldHours !== newHours && !isNaN(newHours) && newHours >= 0) {
+                        hasChanges = true;
+                        changes.push({
+                            workWeekDate: workWeekDate,
+                            oldHours: oldHours,
+                            newHours: newHours
+                        });
+
+                        // 更新顯示
+                        hoursDisplay.textContent = newHours;
+                        
+                        // 更新資料
+                        employee.workWeeks[workWeekDate] = newHours;
+                        
+                        // 更新 timesheetData
+                        const recordIndex = timesheetData.findIndex(item => 
+                            item.payrollId === payrollId && item.workWeekDate === workWeekDate
+                        );
+                        if (recordIndex !== -1) {
+                            timesheetData[recordIndex].hours = newHours;
+                            timesheetData[recordIndex].uploadDate = new Date().toISOString();
+                        }
+
+                        // 更新樣式（加班提醒）
+                        const hoursCell = hoursDisplay.parentElement;
+                        if (newHours > WEEKLY_HOURS_THRESHOLD) {
+                            hoursCell.className = 'weekly-overtime';
+                        } else {
+                            hoursCell.className = '';
+                        }
+                    }
+
+                    // 切換回顯示模式
+                    hoursDisplay.style.display = 'inline';
+                    hoursInput.style.display = 'none';
+                    editBtn.textContent = '編輯';
+                    editBtn.onclick = () => editHours(payrollId, workWeekDate);
+                }
+            });
+
+            if (hasChanges) {
+                // 重新計算該員工的總工時和薪資
+                employee.totalHours = Object.values(employee.workWeeks).reduce((sum, hours) => sum + hours, 0);
+                calculatePayroll(employee);
+                
+                // 儲存到本地
+                localStorage.setItem('last_update', new Date().toLocaleString('zh-TW'));
+                saveLocalData();
+                
+                // 更新所有表格
+                updateAllTables();
+                
+                // 顯示成功訊息
+                const changeCount = changes.length;
+                showMessage(`✅ 已成功修改 ${changeCount} 筆工時記錄！`, 'success');
+                
+                console.log('工時修改記錄:', changes);
+            } else {
+                showMessage('ℹ️ 沒有發現任何變更', 'warning', 3000);
+            }
+
+            // 隱藏編輯操作按鈕
+            const editActions = document.getElementById(`edit-actions-${payrollId}`);
+            if (editActions) {
+                editActions.style.display = 'none';
+            }
+        }
+
+        // 刪除工作週記錄
+        function deleteWorkWeek(payrollId, workWeekDate) {
+            const employee = employees[payrollId];
+            if (!employee) return;
+
+            const hours = employee.workWeeks[workWeekDate] || 0;
+            const displayDate = parseDate(workWeekDate)?.toLocaleDateString('zh-TW') || workWeekDate;
+            
+            if (confirm(`⚠️ 確定要刪除以下工時記錄嗎？\n\n員工：${employee.firstName} ${employee.lastName} (${payrollId})\n工作週：${displayDate}\n工時：${hours} 小時\n\n此操作無法復原！`)) {
+                // 從員工工時記錄中移除
+                delete employee.workWeeks[workWeekDate];
+                
+                // 從 timesheetData 中移除
+                const recordIndex = timesheetData.findIndex(item => 
+                    item.payrollId === payrollId && item.workWeekDate === workWeekDate
+                );
+                if (recordIndex !== -1) {
+                    timesheetData.splice(recordIndex, 1);
+                }
+                
+                // 重新計算該員工的總工時和薪資
+                employee.totalHours = Object.values(employee.workWeeks).reduce((sum, hours) => sum + hours, 0);
+                calculatePayroll(employee);
+                
+                // 儲存到本地
+                localStorage.setItem('last_update', new Date().toLocaleString('zh-TW'));
+                saveLocalData();
+                
+                // 更新所有表格
+                updateAllTables();
+                
+                showMessage(`🗑️ 已刪除 ${employee.firstName} ${employee.lastName} 在 ${displayDate} 的工時記錄`, 'warning');
+            }
         }
 
         // 解析 CSV 行
