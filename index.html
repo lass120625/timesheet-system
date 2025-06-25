@@ -1024,9 +1024,10 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
             return result;
         }
 
-        // 解析時薪
+        // 解析時薪（增強版，支援貨幣符號）
         function parseRate(rateString) {
             if (!rateString) return 0;
+            // 移除所有非數字和小數點的字符（包括$、空格等）
             const cleanedString = rateString.toString().replace(/[^0-9.]/g, '');
             return parseFloat(cleanedString) || 0;
         }
@@ -1128,7 +1129,7 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
             }
         }
 
-        // 驗證工時表資料
+        // 驗證工時表資料（增強調試版）
         function validateTimesheetData(data) {
             const result = {
                 success: [],
@@ -1140,6 +1141,9 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
                 result.errors.push('文件為空或格式不正確，請確保 CSV 包含數據行。');
                 return result;
             }
+            
+            console.log('🔍 開始驗證資料，總行數:', data.length);
+            console.log('📋 標題欄位:', Object.keys(data[0] || {}));
             
             const requiredFields = ['Payroll ID', 'First Name', 'Last Name', 'Monday of the Work Week', 'Hours'];
             const headers = Object.keys(data[0] || {});
@@ -1154,9 +1158,10 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
                 return result;
             }
             
-            const employeeSet = new Set(); // 用於統計不重複的員工
+            const employeeSet = new Set();
             let validRecords = 0;
             let skippedEmptyRecords = 0;
+            let invalidPayrollIds = 0;
             
             data.forEach((row, index) => {
                 const payrollId = row['Payroll ID']?.trim();
@@ -1173,10 +1178,16 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
                 
                 validRecords++;
                 
+                // 調試：顯示前幾個Payroll ID
+                if (index < 5) {
+                    console.log(`🔍 第${index + 1}行 Payroll ID: "${payrollId}" (長度: ${payrollId?.length})`);
+                    console.log(`   驗證結果: ${validatePayrollID(payrollId)}`);
+                }
+                
                 if (!validatePayrollID(payrollId)) {
+                    invalidPayrollIds++;
                     result.errors.push(`第${index + 2}行: Payroll ID 格式錯誤 (${payrollId || '空'})，應為 EQ-XXXX 格式。`);
                 } else {
-                    // 只有當 Payroll ID 有效時才統計員工
                     employeeSet.add(payrollId);
                 }
                 
@@ -1186,8 +1197,11 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
                 
                 if (!workWeek) {
                     result.errors.push(`第${index + 2}行: Monday of the Work Week 為空。`);
-                } else if (isNaN(parseDate(workWeek)?.getTime())) {
-                    result.errors.push(`第${index + 2}行: Monday of the Work Week 日期格式錯誤 (${workWeek})。`);
+                } else {
+                    const parsedDate = parseDate(workWeek);
+                    if (!parsedDate || isNaN(parsedDate.getTime())) {
+                        result.errors.push(`第${index + 2}行: Monday of the Work Week 日期格式錯誤 (${workWeek})。`);
+                    }
                 }
                 
                 if (isNaN(hours) || hours < 0) {
@@ -1199,12 +1213,18 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
                 }
             });
             
+            console.log(`📊 驗證統計: 總行數=${data.length}, 有效記錄=${validRecords}, 無效ID=${invalidPayrollIds}, 有效員工=${employeeSet.size}`);
+            
             if (result.errors.length === 0) {
                 result.success.push(`✅ 成功驗證 ${validRecords} 筆工時記錄`);
                 result.success.push(`👥 涉及 ${employeeSet.size} 位員工`);
                 
                 if (skippedEmptyRecords > 0) {
                     result.warnings.push(`⚠️ 已自動跳過 ${skippedEmptyRecords} 行空白記錄。`);
+                }
+                
+                if (invalidPayrollIds > 0) {
+                    result.warnings.push(`⚠️ 發現 ${invalidPayrollIds} 個無效的 Payroll ID。`);
                 }
             }
             
