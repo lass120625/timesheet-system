@@ -1,4 +1,857 @@
-// 全域變數
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>工時管理系統</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 32px;
+            font-weight: 600;
+        }
+
+        /* Message Styles */
+        .success-message {
+            background: #e6ffe6;
+            color: #006600;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            border-left: 5px solid #006600;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+
+        .error-message {
+            background: #ffe6e6;
+            color: #cc0000;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            border-left: 5px solid #cc0000;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+
+        .warning-message {
+            background: #fff3cd;
+            color: #856404;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            border-left: 5px solid #ffc107;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+        
+        .message-fadeout {
+            opacity: 0;
+        }
+
+        /* Upload Section */
+        .upload-section {
+            border: 2px dashed #667eea;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 30px;
+            background: #f8f9ff;
+            transition: all 0.3s ease;
+        }
+
+        .upload-section:hover {
+            border-color: #764ba2;
+            background: #f0f2ff;
+        }
+
+        .upload-section.dragover {
+            border-color: #28a745;
+            background: #e8f5e8;
+            transform: scale(1.02);
+            box-shadow: 0 8px 25px rgba(40, 167, 69, 0.2);
+        }
+
+        .upload-section.dragover h3 {
+            color: #28a745;
+        }
+
+        .upload-section.dragover p {
+            color: #155724;
+            font-weight: bold;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .upload-btn, .action-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+            transition: transform 0.2s, background 0.3s, box-shadow 0.2s;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .upload-btn:hover, .action-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+
+        .upload-btn:active, .action-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .upload-btn:disabled, .action-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .file-info {
+            margin-top: 15px;
+            padding: 10px;
+            background: #e8f5e8;
+            border-radius: 5px;
+        }
+
+        /* Data Management */
+        .data-section {
+            background: #f6f8fa;
+            border: 2px solid #28a745;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .data-section h3 {
+            color: #28a745;
+            margin: 0 0 15px 0;
+            font-size: 22px;
+        }
+
+        .data-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .btn-export {
+            background: linear-gradient(45deg, #28a745, #20c997);
+        }
+
+        .btn-import {
+            background: linear-gradient(45deg, #007bff, #6610f2);
+        }
+
+        .btn-clear {
+            background: linear-gradient(45deg, #dc3545, #fd7e14);
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #eee;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .tab {
+            padding: 15px 20px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            min-width: 120px;
+            text-align: center;
+            font-weight: 500;
+            color: #555;
+        }
+
+        .tab.active {
+            border-bottom-color: #667eea;
+            color: #667eea;
+            font-weight: bold;
+            background: #f0f2ff;
+        }
+
+        .tab:hover:not(.active) {
+            background: #f8faff;
+            color: #667eea;
+        }
+
+        .tab-content {
+            display: none;
+            padding-top: 10px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Tables */
+        .employee-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .employee-table th,
+        .employee-table td {
+            border: 1px solid #ddd;
+            padding: 10px 8px;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .employee-table th {
+            background: #667eea;
+            color: white;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .employee-table tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+
+        .employee-table tr.main-row:hover {
+            background: #f0f2ff;
+        }
+
+        .toggle-details-btn {
+            cursor: pointer;
+            background: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            font-weight: bold;
+            font-size: 16px;
+            line-height: 24px;
+            text-align: center;
+        }
+
+        .details-row {
+            display: none;
+        }
+
+        .details-row.is-open {
+            display: table-row;
+        }
+
+        .details-row td {
+            background-color: #f8f9fa !important;
+            padding: 15px !important;
+            text-align: left !important;
+        }
+
+        .details-table {
+            width: 100%;
+            margin: 0 auto;
+            border-collapse: collapse;
+        }
+
+        .details-table th, .details-table td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: center;
+            background: white;
+        }
+
+        .details-table th {
+            background: #6c757d;
+            color: white;
+            font-size: 12px;
+        }
+
+        .details-table input {
+            width: 60px;
+            padding: 4px;
+            text-align: center;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            font-size: 13px;
+        }
+
+        .details-table input:focus {
+            border-color: #667eea;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.25);
+        }
+
+        .edit-actions {
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .btn-save, .btn-cancel-edit {
+            padding: 6px 12px;
+            margin: 0 5px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .btn-save {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-save:hover {
+            background: #218838;
+        }
+
+        .btn-cancel-edit {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-cancel-edit:hover {
+            background: #5a6268;
+        }
+
+        .btn-edit {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 11px;
+            margin-left: 10px;
+        }
+
+        .btn-edit:hover {
+            background: #0056b3;
+        }
+
+        .btn-delete {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 11px;
+            margin-left: 5px;
+        }
+
+        .btn-delete:hover {
+            background: #c82333;
+        }
+
+        .btn-payment {
+            background: #ffc107;
+            color: #212529;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 11px;
+            margin-left: 5px;
+            font-weight: bold;
+        }
+
+        .btn-payment:hover {
+            background: #e0a800;
+        }
+
+        .btn-payment.paid {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-payment.paid:hover {
+            background: #218838;
+        }
+
+        .weekly-overtime {
+            color: #fd7e14;
+            font-weight: bold;
+        }
+
+        .status-normal {
+            color: #228B22;
+            font-weight: bold;
+        }
+
+        .status-overtime {
+            color: #ff4444;
+            font-weight: bold;
+        }
+
+        .status-paid {
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 20px 0;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            width: 0%;
+            transition: width 0.3s ease-out;
+        }
+        
+        #progress-text {
+            text-align: center;
+            font-weight: 500;
+            color: #555;
+            margin-top: 5px;
+        }
+
+        /* Summary Cards */
+        .summary-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .summary-card {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .summary-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        .summary-card h3 {
+            margin: 0 0 10px 0;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .summary-card p {
+            margin: 0;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .money {
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .format-info {
+            background: #e7f3ff;
+            border: 1px solid #b3d9ff;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            font-size: 14px;
+        }
+
+        .format-info h4 {
+            margin: 0 0 10px 0;
+            color: #0066cc;
+            font-size: 18px;
+        }
+
+        .format-example {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            margin: 5px 0;
+            white-space: pre-wrap;
+            word-break: break-all;
+            line-height: 1.5;
+        }
+
+        .format-info ul {
+            padding-left: 20px;
+            margin-top: 10px;
+        }
+
+        .format-info li {
+            margin-bottom: 5px;
+        }
+
+        /* Validation Results */
+        .validation-results {
+            margin: 20px 0;
+        }
+
+        .validation-item {
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 5px;
+            border-left: 5px solid;
+            font-size: 15px;
+        }
+
+        .validation-success {
+            background: #d4edda;
+            border-left-color: #28a745;
+            color: #155724;
+        }
+
+        .validation-warning {
+            background: #fff3cd;
+            border-left-color: #ffc107;
+            color: #856404;
+        }
+
+        .validation-error {
+            background: #f8d7da;
+            border-left-color: #dc3545;
+            color: #721c24;
+        }
+
+        /* Upload Summary */
+        .upload-summary {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .upload-summary h3 {
+            margin: 0 0 10px 0;
+            color: #495057;
+            font-size: 20px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+            font-size: 15px;
+        }
+
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+
+        .highlight {
+            background: #fff3cd;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+
+        /* Confirm Dialog */
+        .confirm-dialog {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .confirm-dialog.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .confirm-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 600px;
+            max-height: 90%;
+            overflow-y: auto;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .confirm-dialog.active .confirm-content {
+            transform: scale(1);
+        }
+
+        .confirm-content h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            text-align: center;
+            color: #333;
+        }
+
+        .confirm-content p {
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .confirm-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .btn-confirm, .btn-cancel {
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        .btn-confirm {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-confirm:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+
+        .btn-cancel {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-cancel:hover {
+            background: #c82333;
+            transform: translateY(-2px);
+        }
+
+        /* Loading spinner */
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid #fff;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            animation: spin 1s linear infinite;
+            display: none;
+            vertical-align: middle;
+            margin-right: 5px;
+        }
+
+        .spinner-dark {
+            border: 3px solid rgba(0, 0, 0, 0.2);
+            border-top: 3px solid #333;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Payment tracking styles */
+        .payment-status {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 11px;
+            font-weight: bold;
+            margin-left: 5px;
+        }
+
+        .payment-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .payment-paid {
+            background: #d4edda;
+            color: #155724;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 工時管理系統</h1>
+        <div style="text-align: center; margin-bottom: 20px;">
+            <small>🔄 本地儲存 | 📊 即時計算 | 💾 檔案管理</small>
+        </div>
+        
+        <div class="data-section">
+            <h3>💾 資料管理</h3>
+            <p>所有資料儲存在瀏覽器本地，關閉瀏覽器後資料仍會保留。</p>
+            <div class="data-buttons">
+                <button class="action-btn btn-export" onclick="exportAllData()">
+                    📤 匯出完整資料
+                </button>
+                <button class="action-btn btn-import" onclick="document.getElementById('data-import').click()">
+                    📥 匯入資料檔
+                </button>
+                <button class="action-btn btn-clear" onclick="clearAllData()">
+                    🗑️ 清除所有資料
+                </button>
+            </div>
+            <input type="file" id="data-import" class="file-input" accept=".json" onchange="importData(event)">
+            <div id="data-status" style="margin-top: 15px; padding: 10px; background: #e8f5e8; border-radius: 5px; font-size: 14px; display: none;">
+                <strong>資料狀態：</strong><span id="data-status-text">載入中...</span>
+            </div>
+        </div>
+        
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab('upload')">📁 資料上傳</div>
+            <div class="tab" onclick="switchTab('overview')">👥 員工總覽與薪資</div>
+        </div>
+        
+        <div id="upload-tab" class="tab-content active">
+            <div class="format-info">
+                <h4>📊 工時表格式說明</h4>
+                <div class="format-example">Payroll ID, First Name, Last Name, Monday of the Work Week, Hours, Level, Rate, Farm
+EQ-0001, John, Doe, 2025-02-10, 45, Senior, 25.50, Farm A
+EQ-0001, John, Doe, 2025-02-17, 38, Senior, 25.50, Farm A
+EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
+                <p><strong>重要格式說明：</strong></p>
+                <ul>
+                    <li>📅 <strong>Monday of the Work Week</strong>：工作週的週一日期，格式為 yyyy-MM-dd 或 dd/MM/yyyy</li>
+                    <li>🔢 <strong>週期計算</strong>：系統會自動根據統一起始日期（2025/2/10）計算週期</li>
+                    <li>🏭 <strong>Farm/Level/Rate 更新</strong>：如果員工轉換農場或調整薪資，新資料會覆蓋舊資料</li>
+                    <li>👤 <strong>員工資訊</strong>：系統會自動建立員工檔案，無需額外的開始日期</li>
+                </ul>
+                <p><strong>上傳後自動處理：</strong></p>
+                <ul>
+                    <li>✅ 驗證 EQ-0001 格式的員工編號</li>
+                    <li>✅ 自動計算正確的工作週數</li>
+                    <li>✅ 支援農場和職級異動</li>
+                    <li>✅ 整合新舊資料，檢測重複工作週</li>
+                    <li>✅ 自動儲存到瀏覽器本地</li>
+                </ul>
+            </div>
+            
+            <div class="upload-section" id="timesheet-upload" ondrop="handleDrop(event)" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)">
+                <h3>📋 上傳工時表 (CSV)</h3>
+                <p>🖱️ 點擊選擇檔案 或 📁 直接拖拽 CSV 檔案到此區域</p>
+                <button id="upload-file-btn" class="upload-btn" onclick="document.getElementById('timesheet-file').click()">
+                    <span class="spinner"></span>
+                    選擇工時表文件
+                </button>
+                <input type="file" id="timesheet-file" class="file-input" accept=".csv" onchange="handleTimesheetFile(event)">
+                <div id="timesheet-file-info" class="file-info" style="display: none;"></div>
+            </div>
+            
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            <p id="progress-text">等待上傳文件...</p>
+            
+            <div id="validation-results" class="validation-results"></div>
+        </div>
+        
+        <div id="overview-tab" class="tab-content"> 
+            <h2>👥 員工總覽與薪資管理</h2>
+            
+            <div class="format-info">
+                <h4>🔍 篩選選項</h4>
+                <div style="display: flex; gap: 20px; align-items: center; flex-wrap: wrap;">
+                    <div>
+                        <label for="farm-filter"><strong>農場：</strong></label>
+                        <select id="farm-filter" onchange="updateAllTables()" style="padding: 8px 12px; margin-left: 8px; border-radius: 5px; border: 1px solid #ccc;">
+                            <option value="">所有農場</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="level-filter"><strong>職級：</strong></label>
+                        <select id="level-filter" onchange="updateAllTables()" style="padding: 8px 12px; margin-left: 8px; border-radius: 5px; border: 1px solid #ccc;">
+                            <option value="">所有職級</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="employee-filter"><strong>員工：</strong></label>
+                        <select id="employee-filter" onchange="updateAllTables()" style="padding: 8px 12px; margin-left: 8px; border-radius: 5px; border: 1px solid #ccc;">
+                            <option value="">所有員工</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="cycle-filter"><strong>週期：</strong></label>
+                        <select id="cycle-filter" onchange="updateAllTables()" style="padding: 8px 12px; margin-left: 8px; border-radius: 5px; border: 1px solid #ccc;">
+                            <option value="">所有週期</option>
+                        </select>
+                    </div>
+                    <button class="action-btn" onclick="clearFilters()" style="padding: 8px 18px; background: #6c757d; color: white; border: none; border-radius: 3px; box-shadow: none;">清除篩選</button>
+                </div>
+            </div>
+            
+            <div id="cycle-summary-card" class="format-info" style="display: none; border-left: 5px solid #667eea;">
+                </div>
+            
+            <div class="summary-cards" id="overview-summary-cards"></div>
+            <div id="overview-table-container"></div>
+            
+            <button id="exportOverview" class="upload-btn action-btn" onclick="exportOverview()" style="margin-top: 20px;">
+                <span class="spinner" style="display: none;"></span>
+                📥 匯出完整報告 (CSV)
+            </button>
+        </div>
+        
+        <div id="messages"></div>
+    </div>
+
+    <script>
+        // 全域變數
         let employees = {};
         let timesheetData = [];
         let pendingData = null;
@@ -517,7 +1370,7 @@
             }
         }
 
-        // 格式化日期為 YYYY-MM-DD
+        // 格式化日期為 yyyy-MM-dd
         function toLocalDateString(date) {
             if (!date || isNaN(date.getTime())) return '';
             return new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().split('T')[0];
@@ -1074,3 +1927,6 @@
             document.body.removeChild(link);
             showMessage('✅ 總覽報告已匯出');
         }
+    </script>
+</body>
+</html>
