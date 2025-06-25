@@ -755,8 +755,7 @@
         
         <div class="tabs">
             <div class="tab active" onclick="switchTab('upload')">📁 資料上傳</div>
-            <div class="tab" onclick="switchTab('overview')">👥 員工總覽</div>
-            <div class="tab" onclick="switchTab('payroll')">💰 薪資計算</div>
+            <div class="tab" onclick="switchTab('overview')">👥 員工總覽與薪資</div>
         </div>
         
         <div id="upload-tab" class="tab-content active">
@@ -803,7 +802,7 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
         </div>
         
         <div id="overview-tab" class="tab-content"> 
-            <h2>👥 員工總覽與週期分析</h2>
+            <h2>👥 員工總覽與薪資管理</h2>
             
             <div class="format-info">
                 <h4>🔍 篩選選項</h4>
@@ -844,17 +843,7 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
             
             <button id="exportOverview" class="upload-btn action-btn" onclick="exportOverview()" style="margin-top: 20px;">
                 <span class="spinner" style="display: none;"></span>
-                📥 匯出員工總覽報告 (CSV)
-            </button>
-        </div>
-        
-        <div id="payroll-tab" class="tab-content"> 
-            <h2>💰 薪資計算結果</h2>
-            <div class="summary-cards" id="payroll-summary-cards"></div>
-            <div id="payroll-table-container"></div>
-            <button id="exportPayroll" class="upload-btn action-btn" onclick="exportPayroll()" style="margin-top: 20px;">
-                <span class="spinner" style="display: none;"></span>
-                📥 匯出薪資報表 (CSV)
+                📥 匯出完整報告 (CSV)
             </button>
         </div>
         
