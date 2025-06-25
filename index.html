@@ -1799,9 +1799,27 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
                 if (levelFilter && employee.level !== levelFilter) return false;
                 if (employeeFilter && employee.payrollId !== employeeFilter) return false;
                 
+                // 修復週期篩選邏輯
                 if (cycleFilter) {
-                    const cycleInfo = calculateEmployeeCycle(employee);
-                    if (cycleInfo.currentCycle.toString() !== cycleFilter) return false;
+                    const selectedCycle = parseInt(cycleFilter);
+                    
+                    // 檢查該員工在選定週期中是否有工時記錄
+                    const systemStartMonday = getMonday(SYSTEM_START_DATE);
+                    const cycleStartDate = new Date(systemStartMonday);
+                    cycleStartDate.setDate(cycleStartDate.getDate() + ((selectedCycle - 1) * WEEKS_PER_CYCLE * 7));
+                    const cycleEndDate = new Date(cycleStartDate);
+                    cycleEndDate.setDate(cycleEndDate.getDate() + (WEEKS_PER_CYCLE * 7) - 1);
+                    
+                    let hasWorkInCycle = false;
+                    for (const workWeekDateStr in employee.workWeeks) {
+                        const workWeekDate = parseDate(workWeekDateStr);
+                        if (workWeekDate && workWeekDate >= cycleStartDate && workWeekDate <= cycleEndDate) {
+                            hasWorkInCycle = true;
+                            break;
+                        }
+                    }
+                    
+                    if (!hasWorkInCycle) return false;
                 }
                 
                 return true;
@@ -1962,7 +1980,7 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
                             <th>週期工時</th>
                             <th>週期加班費</th>
                             <th>累積加班費</th>
-                            <th>未支付加班費</th>
+                            <th>支付狀態</th>
                             <th>距OT門檻</th>
                         </tr>
                     </thead>
@@ -2097,7 +2115,7 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
                         <td>${totalCycleHours.toFixed(2)}</td>
                         <td class="money">-</td>
                         <td class="money">-</td>
-                        <td class="money">${totalUnpaidOvertimePay.toFixed(2)}</td>
+                        <td>-</td>
                         <td>-</td>
                     </tr>
                 </tfoot>
@@ -2143,7 +2161,7 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
             
             try {
                 const filteredEmployees = getFilteredEmployees();
-                let csvContent = '員工編號,姓名,農場,職級,時薪,開始日期,季節總工時,週期工時,週期加班費,累積加班費,未支付加班費,距OT門檻\n';
+                let csvContent = '員工編號,姓名,農場,職級,時薪,開始日期,季節總工時,週期工時,週期加班費,累積加班費,待支付加班費,距OT門檻\n';
                 
                 filteredEmployees.forEach(employee => {
                     const fullName = `${employee.firstName} ${employee.lastName}`.trim();
