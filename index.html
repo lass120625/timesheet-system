@@ -323,7 +323,7 @@
         /* --- Dialog-specific Form --- */
         .dialog-form { display: flex; flex-direction: column; gap: 1rem; }
         .dialog-form label { font-weight: 500; margin-bottom: -0.5rem; }
-        .dialog-form input, .dialog-form textarea {
+        .dialog-form input, .dialog-form select, .dialog-form textarea {
             width: 100%;
             padding: 0.75rem;
             border: 1px solid var(--border-color);
@@ -331,7 +331,7 @@
             font-size: 1rem;
             box-sizing: border-box;
         }
-        .dialog-form input:focus, .dialog-form textarea:focus {
+        .dialog-form input:focus, .dialog-form select:focus, .dialog-form textarea:focus {
              border-color: var(--primary-color);
              outline: none;
              box-shadow: 0 0 0 3px rgba(93, 95, 239, 0.15);
@@ -383,7 +383,7 @@
 EQ-0001, John, Doe, 2025-02-10, 45, Senior, 25.50, Farm A
 EQ-0002, Jane, Smith, 2025-02-17, 38, Junior, 20.00, Farm B</div>
                 <ul>
-                    <li>📅 <strong>日期格式</strong>：接受 YYYY-MM-DD 或 DD/MM/YYYY。</li>
+                    <li>📅 <strong>日期格式</strong>：接受 Vishal-MM-DD 或 DD/MM/YYYY。</li>
                     <li>🔢 <strong>週期計算</strong>：系統以 2025/02/10 為基準，自動計算8週為一週期。</li>
                     <li>👤 <strong>資訊更新</strong>：若員工的農場、職級或薪資變動，上傳新資料即可覆蓋。</li>
                 </ul>
@@ -430,6 +430,7 @@ EQ-0002, Jane, Smith, 2025-02-17, 38, Junior, 20.00, Farm B</div>
                         <label for="cycle-filter"><strong>週期：</strong></label>
                         <select id="cycle-filter" onchange="updateAllTables()"><option value="">所有週期</option></select>
                     </div>
+                    <button class="action-btn" onclick="showAddHoursDialog()" style="background:var(--success-color); padding: 8px 18px; box-shadow: none;">手動增加時數</button>
                     <button class="action-btn" onclick="clearFilters()" style="padding: 8px 18px; background: var(--secondary-color); color: white; border: none; box-shadow: none; border-radius: var(--border-radius);">清除篩選</button>
                 </div>
             </div>
@@ -454,6 +455,30 @@ EQ-0002, Jane, Smith, 2025-02-17, 38, Junior, 20.00, Farm B</div>
 
     <!-- Dialogs -->
     <div id="messages"></div>
+    
+    <div id="add-hours-dialog" class="confirm-dialog">
+        <div class="confirm-content">
+            <h3>手動增加工時</h3>
+            <div class="dialog-form">
+                <div>
+                    <label for="manual-employee-select">選擇員工</label>
+                    <select id="manual-employee-select"></select>
+                </div>
+                <div>
+                    <label for="manual-date-input">工作週的週一</label>
+                    <input type="date" id="manual-date-input">
+                </div>
+                <div>
+                    <label for="manual-hours-input">工時</label>
+                    <input type="number" step="0.01" id="manual-hours-input" placeholder="例如: 40.5">
+                </div>
+            </div>
+            <div class="confirm-buttons">
+                <button class="btn-cancel" onclick="document.getElementById('add-hours-dialog').classList.remove('active')">取消</button>
+                <button class="btn-confirm" onclick="saveManualHours()">儲存</button>
+            </div>
+        </div>
+    </div>
     
     <div id="payment-dialog" class="confirm-dialog">
         <div class="confirm-content">
@@ -581,7 +606,7 @@ EQ-0002, Jane, Smith, 2025-02-17, 38, Junior, 20.00, Farm B</div>
             if (Object.keys(employees).length === 0 && timesheetData.length === 0) {
                 return showMessage('沒有資料可以匯出', 'warning');
             }
-            const data = { employees, timesheetData, paymentHistory, exportDate: new Date().toISOString(), version: '2.4' };
+            const data = { employees, timesheetData, paymentHistory, exportDate: new Date().toISOString(), version: '2.5' };
             const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
@@ -1171,7 +1196,7 @@ EQ-0002, Jane, Smith, 2025-02-17, 38, Junior, 20.00, Farm B</div>
             });
         }
         
-        // --- Edit/Delete/Payment Functions ---
+        // --- Edit/Delete/Payment/Add Functions ---
 
         function editHours(btn, payrollId, workWeekDate) {
             const row = btn.closest('tr');
@@ -1217,6 +1242,58 @@ EQ-0002, Jane, Smith, 2025-02-17, 38, Junior, 20.00, Farm B</div>
                 updateAllTables();
                 showMessage('工時記錄已刪除', 'warning');
             });
+        }
+
+        function showAddHoursDialog() {
+            const dialog = document.getElementById('add-hours-dialog');
+            const select = document.getElementById('manual-employee-select');
+            
+            select.innerHTML = '<option value="">-- 請選擇員工 --</option>';
+            Object.values(employees)
+                .sort((a,b) => a.firstName.localeCompare(b.firstName))
+                .forEach(emp => {
+                    select.innerHTML += `<option value="${emp.payrollId}">${emp.firstName} ${emp.lastName} (${emp.payrollId})</option>`;
+                });
+            
+            document.getElementById('manual-date-input').value = '';
+            document.getElementById('manual-hours-input').value = '';
+
+            dialog.classList.add('active');
+        }
+
+        function saveManualHours() {
+            const payrollId = document.getElementById('manual-employee-select').value;
+            const dateValue = document.getElementById('manual-date-input').value;
+            const hours = parseFloat(document.getElementById('manual-hours-input').value);
+
+            if (!payrollId) { return showMessage('請選擇一位員工', 'error'); }
+            if (!dateValue) { return showMessage('請選擇日期', 'error'); }
+            if (isNaN(hours) || hours <= 0) { return showMessage('請輸入有效的工時', 'error'); }
+
+            const workWeekDate = toLocalDateString(getMonday(new Date(dateValue)));
+            const existingIndex = timesheetData.findIndex(d => d.payrollId === payrollId && d.workWeekDate === workWeekDate);
+
+            const performSave = () => {
+                if (existingIndex > -1) {
+                    timesheetData[existingIndex].hours = hours;
+                } else {
+                    timesheetData.push({ payrollId, workWeekDate, hours });
+                }
+                saveLocalData();
+                updateAllTables();
+                document.getElementById('add-hours-dialog').classList.remove('active');
+                showMessage('工時已成功儲存！', 'success');
+            };
+
+            if (existingIndex > -1) {
+                showCustomConfirm(
+                    '覆蓋現有工時',
+                    `員工 ${payrollId} 在 ${workWeekDate} 已有 ${timesheetData[existingIndex].hours} 小時的記錄。要將其覆蓋為 ${hours} 小時嗎？`,
+                    performSave
+                );
+            } else {
+                performSave();
+            }
         }
 
         function exportOverview() {
@@ -1280,7 +1357,7 @@ EQ-0002, Jane, Smith, 2025-02-17, 38, Junior, 20.00, Farm B</div>
                 console.error("匯出失敗:", error);
                 showMessage('匯出報告時發生錯誤', 'error');
             } finally {
-                setButtonLoading('exportOverview', false, '📥 匯出當前報告 (CSV)');
+                setButtonLoading('exportOverview', false);
             }
         }
 
