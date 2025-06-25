@@ -776,7 +776,20 @@ EQ-0002, Jane, Smith, 2024-02-01, 2024-02-05, 42, Junior, 20.00, Farm B</div>
                             <option value="">所有員工</option>
                         </select>
                     </div>
+                    <div>
+                        <label for="cycle-filter"><strong>週期：</strong></label>
+                        <select id="cycle-filter" onchange="updateAllTables()" style="padding: 8px 12px; margin-left: 8px; border-radius: 5px; border: 1px solid #ccc;">
+                            <option value="">所有週期</option>
+                        </select>
+                    </div>
                     <button class="action-btn" onclick="clearFilters()" style="padding: 8px 18px; background: #6c757d; color: white; border: none; border-radius: 3px; box-shadow: none;">清除篩選</button>
+                </div>
+                <div style="margin-top: 15px; padding: 15px; background: #e7f3ff; border: 1px solid #b3d9ff; border-radius: 5px; font-size: 14px;">
+                    <h4 style="margin: 0 0 10px 0; color: #0066cc;">📅 週期說明</h4>
+                    <p style="margin: 0;">所有員工統一從 <strong>2025年2月10日</strong> 開始計算週期，每8週為一個週期。</p>
+                    <p style="margin: 5px 0 0 0;"><strong>週期1 (W1-W8)：</strong> 2025/02/10 - 2025/04/06</p>
+                    <p style="margin: 5px 0 0 0;"><strong>週期2 (W9-W16)：</strong> 2025/04/07 - 2025/06/02</p>
+                    <p style="margin: 5px 0 0 0;">超過304小時的員工需要支付加班費。</p>
                 </div>
             </div>
             
@@ -812,6 +825,7 @@ EQ-0002, Jane, Smith, 2024-02-01, 2024-02-05, 42, Junior, 20.00, Farm B</div>
         const REGULAR_HOURS_THRESHOLD = 304; // 8週週期內正常工時上限
         const WEEKS_PER_CYCLE = 8; // 每個週期的週數
         const WEEKLY_HOURS_THRESHOLD = 38; // 每週工時標準
+        const SYSTEM_START_DATE = new Date(2025, 1, 10); // 2025年2月10日（統一週期起始日）
 
         // 初始化函數
         document.addEventListener('DOMContentLoaded', function() {
@@ -890,7 +904,7 @@ EQ-0002, Jane, Smith, 2024-02-01, 2024-02-05, 42, Junior, 20.00, Farm B</div>
             const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
-            link.download = `工時系統完整資料_${new Date().toLocaleDateString('zh-TW').replace(/\//g, '-')}.json`;
+            link.download = `工時系統完整資料_${new Date().toLocaleDateString('en-AU').replace(/\//g, '-')}.json`;
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
@@ -1442,41 +1456,30 @@ EQ-0002, Jane, Smith, 2024-02-01, 2024-02-05, 42, Junior, 20.00, Farm B</div>
             `);
         }
 
-        // 計算員工週期資訊
+        // 計算員工週期資訊（使用統一起始日期）
         function calculateEmployeeCycle(employee, referenceDateInput = new Date()) {
+            // 使用統一的系統起始日期
+            const systemStartMonday = getMonday(SYSTEM_START_DATE);
             const today = new Date(referenceDateInput);
             const dayOfWeek = today.getDay();
             const daysToSubtract = dayOfWeek === 0 ? 7 : dayOfWeek;
             const adjustedReferenceDate = new Date(today);
             adjustedReferenceDate.setDate(today.getDate() - daysToSubtract);
-
-            const parsedStartDate = parseDate(employee.startDate);
-            if (!parsedStartDate || isNaN(parsedStartDate.getTime())) {
-                const defaultCycleStartDate = getMonday(new Date(adjustedReferenceDate.getFullYear(), adjustedReferenceDate.getMonth(), adjustedReferenceDate.getDate()));
-                const defaultCycleEndDate = new Date(defaultCycleStartDate);
-                defaultCycleEndDate.setDate(defaultCycleEndDate.getDate() + (WEEKS_PER_CYCLE * 7) - 1);
-                return {
-                    currentCycle: 0, weekInCycle: 0, cycleStartDate: defaultCycleStartDate,
-                    cycleEndDate: defaultCycleEndDate, daysInCycle: 0, totalWeeksFromStart: 0,
-                    status: 'pending', progressPercentage: 0, cycleHours: 0
-                };
-            }
             
             try {
-                const startDate = parsedStartDate;
                 const currentDate = new Date(adjustedReferenceDate);
                 currentDate.setHours(0, 0, 0, 0);
                 
-                const startMonday = getMonday(startDate);
                 const currentMonday = getMonday(currentDate);
                 
-                const totalWeeksFromStart = Math.floor((currentMonday - startMonday) / (7 * 24 * 60 * 60 * 1000)) + 1;
+                // 計算從系統起始日期開始的總週數
+                const totalWeeksFromSystemStart = Math.floor((currentMonday - systemStartMonday) / (7 * 24 * 60 * 60 * 1000)) + 1;
                 
-                const currentCycle = Math.max(1, Math.floor((totalWeeksFromStart - 1) / WEEKS_PER_CYCLE) + 1);
-                const weekInCycle = Math.max(1, ((totalWeeksFromStart - 1) % WEEKS_PER_CYCLE) + 1);
+                const currentCycle = Math.max(1, Math.floor((totalWeeksFromSystemStart - 1) / WEEKS_PER_CYCLE) + 1);
+                const weekInCycle = Math.max(1, ((totalWeeksFromSystemStart - 1) % WEEKS_PER_CYCLE) + 1);
                 
                 const cycleStartWeekIndex = (currentCycle - 1) * WEEKS_PER_CYCLE;
-                const cycleStartDate = new Date(startMonday);
+                const cycleStartDate = new Date(systemStartMonday);
                 cycleStartDate.setDate(cycleStartDate.getDate() + (cycleStartWeekIndex * 7));
                 
                 const cycleEndDate = new Date(cycleStartDate);
@@ -1506,22 +1509,22 @@ EQ-0002, Jane, Smith, 2024-02-01, 2024-02-05, 42, Junior, 20.00, Farm B</div>
                 return {
                     currentCycle, weekInCycle, cycleStartDate, cycleEndDate,
                     daysInCycle: Math.min(Math.max(daysInCycle, 0), totalDaysInCyclePeriod),
-                    totalWeeksFromStart, status, progressPercentage, cycleHours
+                    totalWeeksFromStart: totalWeeksFromSystemStart, status, progressPercentage, cycleHours
                 };
             } catch (error) {
                 console.error("Error calculating employee cycle:", error);
-                const defaultCycleStartDate = getMonday(new Date(adjustedReferenceDate.getFullYear(), adjustedReferenceDate.getMonth(), adjustedReferenceDate.getDate()));
+                const defaultCycleStartDate = new Date(systemStartMonday);
                 const defaultCycleEndDate = new Date(defaultCycleStartDate);
                 defaultCycleEndDate.setDate(defaultCycleEndDate.getDate() + (WEEKS_PER_CYCLE * 7) - 1);
                 return {
-                    currentCycle: 0, weekInCycle: 0, cycleStartDate: defaultCycleStartDate,
-                    cycleEndDate: defaultCycleEndDate, daysInCycle: 0, totalWeeksFromStart: 0,
+                    currentCycle: 1, weekInCycle: 1, cycleStartDate: defaultCycleStartDate,
+                    cycleEndDate: defaultCycleEndDate, daysInCycle: 0, totalWeeksFromStart: 1,
                     status: 'pending', progressPercentage: 0, cycleHours: 0
                 };
             }
         }
 
-        // 計算薪資
+        // 計算薪資（使用統一週期系統）
         function calculatePayroll(employee) {
             const hourlyRate = Number(employee.hourlyRate) || 0;
             const cycleInfo = calculateEmployeeCycle(employee);
@@ -1540,31 +1543,29 @@ EQ-0002, Jane, Smith, 2024-02-01, 2024-02-05, 42, Junior, 20.00, Farm B</div>
                 employee.payrollData.overtimePay = 0;
             }
 
-            // 計算累積加班費
+            // 計算累積加班費（基於統一週期系統）
             employee.accumulatedOvertimePay = 0;
-            const employeeStartMonday = parseDate(employee.startDate) ? getMonday(parseDate(employee.startDate)) : null;
-            if (employeeStartMonday) {
-                const today = new Date();
-                const totalWeeksSinceStart = Math.floor((today.getTime() - employeeStartMonday.getTime()) / (7 * 24 * 60 * 60 * 1000)) + 1;
-                const totalCyclesToConsider = Math.max(1, Math.ceil(totalWeeksSinceStart / WEEKS_PER_CYCLE));
+            const systemStartMonday = getMonday(SYSTEM_START_DATE);
+            const today = new Date();
+            const totalWeeksSinceSystemStart = Math.floor((today.getTime() - systemStartMonday.getTime()) / (7 * 24 * 60 * 60 * 1000)) + 1;
+            const totalCyclesToConsider = Math.max(1, Math.ceil(totalWeeksSinceSystemStart / WEEKS_PER_CYCLE));
+            
+            for (let c = 0; c < totalCyclesToConsider; c++) {
+                const cycleStartDate = new Date(systemStartMonday);
+                cycleStartDate.setDate(cycleStartDate.getDate() + (c * WEEKS_PER_CYCLE * 7));
+                const cycleEndDate = new Date(cycleStartDate);
+                cycleEndDate.setDate(cycleEndDate.getDate() + (WEEKS_PER_CYCLE * 7) - 1);
                 
-                for (let c = 0; c < totalCyclesToConsider; c++) {
-                    const cycleStartDate = new Date(employeeStartMonday);
-                    cycleStartDate.setDate(cycleStartDate.getDate() + (c * WEEKS_PER_CYCLE * 7));
-                    const cycleEndDate = new Date(cycleStartDate);
-                    cycleEndDate.setDate(cycleEndDate.getDate() + (WEEKS_PER_CYCLE * 7) - 1);
-                    
-                    let thisCycleHours = 0;
-                    for (const wwDateStr in employee.workWeeks) {
-                        const wwDate = parseDate(wwDateStr);
-                        if (wwDate && wwDate >= cycleStartDate && wwDate <= cycleEndDate) {
-                            thisCycleHours += employee.workWeeks[wwDateStr];
-                        }
+                let thisCycleHours = 0;
+                for (const wwDateStr in employee.workWeeks) {
+                    const wwDate = parseDate(wwDateStr);
+                    if (wwDate && wwDate >= cycleStartDate && wwDate <= cycleEndDate) {
+                        thisCycleHours += employee.workWeeks[wwDateStr];
                     }
-                    
-                    if (thisCycleHours > REGULAR_HOURS_THRESHOLD) {
-                        employee.accumulatedOvertimePay += (thisCycleHours - REGULAR_HOURS_THRESHOLD) * employee.hourlyRate;
-                    }
+                }
+                
+                if (thisCycleHours > REGULAR_HOURS_THRESHOLD) {
+                    employee.accumulatedOvertimePay += (thisCycleHours - REGULAR_HOURS_THRESHOLD) * employee.hourlyRate;
                 }
             }
         }
@@ -1574,11 +1575,18 @@ EQ-0002, Jane, Smith, 2024-02-01, 2024-02-05, 42, Junior, 20.00, Farm B</div>
             const farmFilter = document.getElementById('farm-filter')?.value || '';
             const levelFilter = document.getElementById('level-filter')?.value || '';
             const employeeFilter = document.getElementById('employee-filter')?.value || '';
+            const cycleFilter = document.getElementById('cycle-filter')?.value || '';
             
             return Object.values(employees).filter(employee => {
                 if (farmFilter && employee.farm !== farmFilter) return false;
                 if (levelFilter && employee.level !== levelFilter) return false;
                 if (employeeFilter && employee.payrollId !== employeeFilter) return false;
+                
+                if (cycleFilter) {
+                    const cycleInfo = calculateEmployeeCycle(employee);
+                    if (cycleInfo.currentCycle.toString() !== cycleFilter) return false;
+                }
+                
                 return true;
             });
         }
@@ -1588,16 +1596,22 @@ EQ-0002, Jane, Smith, 2024-02-01, 2024-02-05, 42, Junior, 20.00, Farm B</div>
             const farmFilter = document.getElementById('farm-filter');
             const levelFilter = document.getElementById('level-filter');
             const employeeFilter = document.getElementById('employee-filter');
+            const cycleFilter = document.getElementById('cycle-filter');
             
-            if (!farmFilter || !levelFilter || !employeeFilter) return;
+            if (!farmFilter || !levelFilter || !employeeFilter || !cycleFilter) return;
             
             const farms = new Set();
             const levels = new Set();
+            const cycles = new Set();
             const employeeList = [];
             
             Object.values(employees).forEach(employee => {
                 if (employee.farm) farms.add(employee.farm);
                 if (employee.level) levels.add(employee.level);
+                
+                const cycleInfo = calculateEmployeeCycle(employee);
+                cycles.add(cycleInfo.currentCycle);
+                
                 employeeList.push({
                     name: `${employee.firstName} ${employee.lastName} (${employee.payrollId})`,
                     id: employee.payrollId
@@ -1606,6 +1620,7 @@ EQ-0002, Jane, Smith, 2024-02-01, 2024-02-05, 42, Junior, 20.00, Farm B</div>
 
             employeeList.sort((a, b) => a.name.localeCompare(b.name));
             
+            // 更新農場篩選
             const currentFarm = farmFilter.value;
             farmFilter.innerHTML = '<option value="">所有農場</option>';
             [...farms].sort().forEach(farm => {
@@ -1616,6 +1631,7 @@ EQ-0002, Jane, Smith, 2024-02-01, 2024-02-05, 42, Junior, 20.00, Farm B</div>
                 farmFilter.appendChild(option);
             });
             
+            // 更新職級篩選
             const currentLevel = levelFilter.value;
             levelFilter.innerHTML = '<option value="">所有職級</option>';
             [...levels].sort().forEach(level => {
@@ -1626,6 +1642,7 @@ EQ-0002, Jane, Smith, 2024-02-01, 2024-02-05, 42, Junior, 20.00, Farm B</div>
                 levelFilter.appendChild(option);
             });
 
+            // 更新員工篩選
             const currentEmployee = employeeFilter.value;
             employeeFilter.innerHTML = '<option value="">所有員工</option>';
             employeeList.forEach(emp => {
@@ -1635,6 +1652,28 @@ EQ-0002, Jane, Smith, 2024-02-01, 2024-02-05, 42, Junior, 20.00, Farm B</div>
                 if (emp.id === currentEmployee) option.selected = true;
                 employeeFilter.appendChild(option);
             });
+
+            // 更新週期篩選
+            const currentCycle = cycleFilter.value;
+            cycleFilter.innerHTML = '<option value="">所有週期</option>';
+            [...cycles].sort((a, b) => a - b).forEach(cycle => {
+                const option = document.createElement('option');
+                option.value = cycle.toString();
+                
+                // 計算週期日期範圍
+                const systemStartMonday = getMonday(SYSTEM_START_DATE);
+                const cycleStartDate = new Date(systemStartMonday);
+                cycleStartDate.setDate(cycleStartDate.getDate() + ((cycle - 1) * WEEKS_PER_CYCLE * 7));
+                const cycleEndDate = new Date(cycleStartDate);
+                cycleEndDate.setDate(cycleEndDate.getDate() + (WEEKS_PER_CYCLE * 7) - 1);
+                
+                const startWeek = ((cycle - 1) * WEEKS_PER_CYCLE) + 1;
+                const endWeek = cycle * WEEKS_PER_CYCLE;
+                
+                option.textContent = `週期${cycle} (W${startWeek}-W${endWeek}): ${cycleStartDate.toLocaleDateString('en-AU')} - ${cycleEndDate.toLocaleDateString('en-AU')}`;
+                if (cycle.toString() === currentCycle) option.selected = true;
+                cycleFilter.appendChild(option);
+            });
         }
 
         // 清除篩選條件
@@ -1642,6 +1681,7 @@ EQ-0002, Jane, Smith, 2024-02-01, 2024-02-05, 42, Junior, 20.00, Farm B</div>
             document.getElementById('farm-filter').value = '';
             document.getElementById('level-filter').value = '';
             document.getElementById('employee-filter').value = '';
+            document.getElementById('cycle-filter').value = '';
             updateAllTables();
         }
 
@@ -1689,7 +1729,7 @@ EQ-0002, Jane, Smith, 2024-02-01, 2024-02-05, 42, Junior, 20.00, Farm B</div>
                             <th>職級</th>
                             <th>開始日期</th>
                             <th>當前週期</th>
-                            <th>週期內週數</th>
+                            <th>週期進度</th>
                             <th>歷史總工時</th>
                             <th>週期工時</th>
                             <th>距OT門檻</th>
@@ -1735,7 +1775,7 @@ EQ-0002, Jane, Smith, 2024-02-01, 2024-02-05, 42, Junior, 20.00, Farm B</div>
                                 <tbody>
                                     ${workWeeks.map(([date, hours]) => {
                                         const d = parseDate(date);
-                                        const displayDate = d ? d.toLocaleDateString('zh-TW') : '無效日期';
+                                        const displayDate = d ? d.toLocaleDateString('en-AU') : '無效日期';
                                         const otClass = hours > WEEKLY_HOURS_THRESHOLD ? 'class="weekly-overtime"' : '';
                                         return `
                                             <tr data-payroll-id="${employee.payrollId}" data-work-week="${date}">
@@ -1767,9 +1807,17 @@ EQ-0002, Jane, Smith, 2024-02-01, 2024-02-05, 42, Junior, 20.00, Farm B</div>
                             <td>${fullName}</td>
                             <td>${employee.farm || '-'}</td>
                             <td>${employee.level || '-'}</td>
-                            <td>${(parseDate(employee.startDate) || new Date()).toLocaleDateString('zh-TW')}</td>
-                            <td>${displayCurrentCycle}</td>
-                            <td>${displayWeekInCycle}</td>
+                            <td>${(parseDate(employee.startDate) || SYSTEM_START_DATE).toLocaleDateString('en-AU')}</td>
+                            <td>
+                                週期${displayCurrentCycle} (W${((displayCurrentCycle - 1) * WEEKS_PER_CYCLE) + 1}-W${displayCurrentCycle * WEEKS_PER_CYCLE})
+                                <br><small style="color: #666;">${cycleInfo.cycleStartDate.toLocaleDateString('en-AU')} - ${cycleInfo.cycleEndDate.toLocaleDateString('en-AU')}</small>
+                            </td>
+                            <td>
+                                第${displayWeekInCycle}週 (${cycleInfo.progressPercentage.toFixed(1)}%)
+                                <br><div style="width: 100%; height: 4px; background: #eee; border-radius: 2px; margin-top: 2px;">
+                                    <div style="width: ${cycleInfo.progressPercentage}%; height: 100%; background: ${cycleInfo.status === 'overtime' ? '#dc3545' : '#28a745'}; border-radius: 2px;"></div>
+                                </div>
+                            </td>
                             <td><strong>${currentTotalHours.toFixed(2)}</strong></td>
                             <td><strong>${currentCycleHours.toFixed(2)}</strong></td>
                             <td class="${otThresholdDifference < 0 ? 'status-overtime' : ''}">${otThresholdDifference.toFixed(2)}</td>
@@ -1801,12 +1849,12 @@ EQ-0002, Jane, Smith, 2024-02-01, 2024-02-05, 42, Junior, 20.00, Farm B</div>
                     <p>篩選後員工數</p>
                 </div>
                 <div class="summary-card">
-                    <h3>${activeCycles}</h3>
-                    <p>進行中週期</p>
+                    <h3>${overtimeCycles}</h3>
+                    <p>超過304小時</p>
                 </div>
                 <div class="summary-card">
-                    <h3>${overtimeCycles}</h3>
-                    <p>需加班費週期</p>
+                    <h3>${totalCycleHours.toFixed(0)}</h3>
+                    <p>當前週期總工時</p>
                 </div>
             `;
             document.getElementById('overview-summary-cards').innerHTML = summaryHTML;
@@ -1950,10 +1998,10 @@ EQ-0002, Jane, Smith, 2024-02-01, 2024-02-05, 42, Junior, 20.00, Farm B</div>
                     
                     const otThresholdDifference = REGULAR_HOURS_THRESHOLD - (Number(cycleInfo.cycleHours) || 0);
                     
-                    csvContent += `${employee.payrollId},"${fullName}",${employee.farm || ''},${employee.level || ''},${(parseDate(employee.startDate) || new Date()).toLocaleDateString('zh-TW')},${Number(cycleInfo.currentCycle) || 0},${Number(cycleInfo.weekInCycle) || 0},${Number(employee.totalHours) || 0},${Number(cycleInfo.cycleHours) || 0},${otThresholdDifference}\n`;
+                    csvContent += `${employee.payrollId},"${fullName}",${employee.farm || ''},${employee.level || ''},${(parseDate(employee.startDate) || SYSTEM_START_DATE).toLocaleDateString('en-AU')},${Number(cycleInfo.currentCycle) || 0},${Number(cycleInfo.weekInCycle) || 0},${Number(employee.totalHours) || 0},${Number(cycleInfo.cycleHours) || 0},${otThresholdDifference}\n`;
                 });
                 
-                downloadCSV(csvContent, `員工總覽報告_${new Date().toLocaleDateString('zh-TW').replace(/\//g, '-')}.csv`);
+                downloadCSV(csvContent, `員工總覽報告_${new Date().toLocaleDateString('en-AU').replace(/\//g, '-')}.csv`);
                 showMessage('✅ 員工總覽報告已匯出');
             } catch (error) {
                 showMessage(`❌ 匯出失敗: ${error.message}`, 'error');
@@ -1984,7 +2032,7 @@ EQ-0002, Jane, Smith, 2024-02-01, 2024-02-05, 42, Junior, 20.00, Farm B</div>
                     csvContent += `${employee.payrollId},"${fullName}",${employee.farm || ''},${employee.level || ''},${employee.hourlyRate.toFixed(2)},${payroll.cycleHours.toFixed(2)},${payroll.regularHours.toFixed(2)},${payroll.overtimeHours.toFixed(2)},${payroll.regularPay.toFixed(2)},${payroll.overtimePay.toFixed(2)},${cycleTotalPay.toFixed(2)},${employee.accumulatedOvertimePay.toFixed(2)}\n`;
                 });
                 
-                downloadCSV(csvContent, `薪資報表_${new Date().toLocaleDateString('zh-TW').replace(/\//g, '-')}.csv`);
+                downloadCSV(csvContent, `薪資報表_${new Date().toLocaleDateString('en-AU').replace(/\//g, '-')}.csv`);
                 showMessage('✅ 薪資報表已匯出');
             } catch (error) {
                 showMessage(`❌ 匯出失敗: ${error.message}`, 'error');
@@ -2066,7 +2114,7 @@ EQ-0002, Jane, Smith, 2024-02-01, 2024-02-05, 42, Junior, 20.00, Farm B</div>
                 </div>
                 <div class="summary-item">
                     <span>上傳時間：</span>
-                    <span>${new Date().toLocaleDateString('zh-TW') + ' ' + new Date().toLocaleTimeString('zh-TW')}</span>
+                    <span>${new Date().toLocaleDateString('en-AU') + ' ' + new Date().toLocaleTimeString('en-AU')}</span>
                 </div>
                 <div class="summary-item">
                     <span>儲存狀態：</span>
@@ -2293,7 +2341,7 @@ EQ-0002, Jane, Smith, 2024-02-01, 2024-02-05, 42, Junior, 20.00, Farm B</div>
                 calculatePayroll(employee);
                 
                 // 儲存到本地
-                localStorage.setItem('last_update', new Date().toLocaleString('zh-TW'));
+                localStorage.setItem('last_update', new Date().toLocaleString('en-AU'));
                 saveLocalData();
                 
                 // 更新所有表格
@@ -2321,7 +2369,7 @@ EQ-0002, Jane, Smith, 2024-02-01, 2024-02-05, 42, Junior, 20.00, Farm B</div>
             if (!employee) return;
 
             const hours = employee.workWeeks[workWeekDate] || 0;
-            const displayDate = parseDate(workWeekDate)?.toLocaleDateString('zh-TW') || workWeekDate;
+                            const displayDate = parseDate(workWeekDate)?.toLocaleDateString('en-AU') || workWeekDate;
             
             if (confirm(`⚠️ 確定要刪除以下工時記錄嗎？\n\n員工：${employee.firstName} ${employee.lastName} (${payrollId})\n工作週：${displayDate}\n工時：${hours} 小時\n\n此操作無法復原！`)) {
                 // 從員工工時記錄中移除
@@ -2340,7 +2388,7 @@ EQ-0002, Jane, Smith, 2024-02-01, 2024-02-05, 42, Junior, 20.00, Farm B</div>
                 calculatePayroll(employee);
                 
                 // 儲存到本地
-                localStorage.setItem('last_update', new Date().toLocaleString('zh-TW'));
+                localStorage.setItem('last_update', new Date().toLocaleString('en-AU'));
                 saveLocalData();
                 
                 // 更新所有表格
