@@ -86,9 +86,19 @@
         }
 
         .upload-section.dragover {
-            border-color: #764ba2;
-            background: #e8ebff;
-            transform: scale(1.01);
+            border-color: #28a745;
+            background: #e8f5e8;
+            transform: scale(1.02);
+            box-shadow: 0 8px 25px rgba(40, 167, 69, 0.2);
+        }
+
+        .upload-section.dragover h3 {
+            color: #28a745;
+        }
+
+        .upload-section.dragover p {
+            color: #155724;
+            font-weight: bold;
         }
 
         .file-input {
@@ -645,9 +655,9 @@ EQ-0002, Jane, Smith, 2024-02-01, 2024-02-05, 42, Junior, 20.00, Farm B</div>
                 </ul>
             </div>
             
-            <div class="upload-section" id="timesheet-upload">
+            <div class="upload-section" id="timesheet-upload" ondrop="handleDrop(event)" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)">
                 <h3>📋 上傳工時表 (CSV)</h3>
-                <p>上傳後將自動整合並儲存到本地</p>
+                <p>🖱️ 點擊選擇檔案 或 📁 直接拖拽 CSV 檔案到此區域</p>
                 <button id="upload-file-btn" class="upload-btn" onclick="document.getElementById('timesheet-file').click()">
                     <span class="spinner" style="display: none;"></span>
                     選擇工時表文件
@@ -927,6 +937,52 @@ EQ-0002, Jane, Smith, 2024-02-01, 2024-02-05, 42, Junior, 20.00, Farm B</div>
             if (!rateString) return 0;
             const cleanedString = rateString.toString().replace(/[^0-9.]/g, '');
             return parseFloat(cleanedString) || 0;
+        }
+
+        // 處理拖拽事件
+        function handleDragOver(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            const uploadSection = document.getElementById('timesheet-upload');
+            uploadSection.classList.add('dragover');
+        }
+
+        function handleDragLeave(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            const uploadSection = document.getElementById('timesheet-upload');
+            uploadSection.classList.remove('dragover');
+        }
+
+        function handleDrop(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            
+            const uploadSection = document.getElementById('timesheet-upload');
+            uploadSection.classList.remove('dragover');
+            
+            const files = event.dataTransfer.files;
+            if (files.length > 0) {
+                const file = files[0];
+                
+                // 檢查檔案類型
+                if (!file.name.toLowerCase().endsWith('.csv')) {
+                    showMessage('❌ 請選擇 CSV 檔案', 'error');
+                    return;
+                }
+                
+                // 模擬檔案選擇事件
+                const fileInput = document.getElementById('timesheet-file');
+                const dt = new DataTransfer();
+                dt.items.add(file);
+                fileInput.files = dt.files;
+                
+                // 觸發檔案處理
+                const changeEvent = new Event('change', { bubbles: true });
+                fileInput.dispatchEvent(changeEvent);
+                
+                showMessage(`📁 已接收檔案: ${file.name}`, 'success', 3000);
+            }
         }
 
         // 處理工時表上傳
