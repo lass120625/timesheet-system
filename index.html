@@ -1154,7 +1154,7 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
                 return result;
             }
             
-            const employeeConsistency = {};
+            const employeeSet = new Set(); // 用於統計不重複的員工
             let validRecords = 0;
             let skippedEmptyRecords = 0;
             
@@ -1175,6 +1175,9 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
                 
                 if (!validatePayrollID(payrollId)) {
                     result.errors.push(`第${index + 2}行: Payroll ID 格式錯誤 (${payrollId || '空'})，應為 EQ-XXXX 格式。`);
+                } else {
+                    // 只有當 Payroll ID 有效時才統計員工
+                    employeeSet.add(payrollId);
                 }
                 
                 if (!firstName || !lastName) {
@@ -1198,6 +1201,7 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
             
             if (result.errors.length === 0) {
                 result.success.push(`✅ 成功驗證 ${validRecords} 筆工時記錄`);
+                result.success.push(`👥 涉及 ${employeeSet.size} 位員工`);
                 
                 if (skippedEmptyRecords > 0) {
                     result.warnings.push(`⚠️ 已自動跳過 ${skippedEmptyRecords} 行空白記錄。`);
