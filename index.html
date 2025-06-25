@@ -784,14 +784,10 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
                     </div>
                     <button class="action-btn" onclick="clearFilters()" style="padding: 8px 18px; background: #6c757d; color: white; border: none; border-radius: 3px; box-shadow: none;">清除篩選</button>
                 </div>
-                <div style="margin-top: 15px; padding: 15px; background: #e7f3ff; border: 1px solid #b3d9ff; border-radius: 5px; font-size: 14px;">
-                    <h4 style="margin: 0 0 10px 0; color: #0066cc;">📅 週期說明</h4>
-                    <p style="margin: 0;">所有員工統一從 <strong>2025年2月10日</strong> 開始計算週期，每8週為一個週期。</p>
-                    <p style="margin: 5px 0 0 0;"><strong>週期1 (W1-W8)：</strong> 2025/02/10 - 2025/04/06</p>
-                    <p style="margin: 5px 0 0 0;"><strong>週期2 (W9-W16)：</strong> 2025/04/07 - 2025/06/02</p>
-                    <p style="margin: 5px 0 0 0;">超過304小時的員工需要支付加班費。</p>
-                </div>
             </div>
+            
+            <div id="cycle-summary-card" class="format-info" style="display: none; border-left: 5px solid #667eea;">
+                </div>
             
             <div class="summary-cards" id="overview-summary-cards"></div>
             <div id="overview-table-container"></div>
@@ -1129,7 +1125,7 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
             }
         }
 
-        // 驗證工時表資料（修復欄位名稱匹配問題）
+        // 驗證工時表資料（增強調試版）
         function validateTimesheetData(data) {
             const result = {
                 success: [],
@@ -1143,27 +1139,18 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
             }
             
             console.log('🔍 開始驗證資料，總行數:', data.length);
+            console.log('📋 標題欄位:', Object.keys(data[0] || {}));
             
-            const headers = Object.keys(data[0] || {});
-            console.log('📋 實際標題欄位:', headers);
-            
-            // 檢查必要欄位（考慮可能的空格問題）
             const requiredFields = ['Payroll ID', 'First Name', 'Last Name', 'Monday of the Work Week', 'Hours'];
-            const missingFields = [];
+            const headers = Object.keys(data[0] || {});
             
-            requiredFields.forEach(field => {
-                const found = headers.some(header => 
-                    header.trim().toLowerCase() === field.toLowerCase() ||
-                    header.trim() === field
-                );
-                if (!found) {
-                    missingFields.push(field);
+            for (const field of requiredFields) {
+                if (!headers.includes(field)) {
+                    result.errors.push(`缺少必要欄位: ${field}。請檢查 CSV 標題行。`);
                 }
-            });
+            }
             
-            if (missingFields.length > 0) {
-                result.errors.push(`缺少必要欄位: ${missingFields.join(', ')}。請檢查 CSV 標題行。`);
-                result.errors.push(`實際找到的欄位: ${headers.join(', ')}`);
+            if (result.errors.length > 0) {
                 return result;
             }
             
@@ -1173,23 +1160,11 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
             let invalidPayrollIds = 0;
             
             data.forEach((row, index) => {
-                // 嘗試多種可能的欄位名稱（考慮空格問題）
-                const payrollId = (row['Payroll ID'] || row['Payroll ID '] || '').trim();
-                const firstName = (row['First Name'] || '').trim();
-                const lastName = (row['Last Name'] || '').trim();
-                const workWeek = (row['Monday of the Work Week'] || '').trim();
-                const hours = parseFloat(row['Hours'] || 0);
-                
-                // 調試前5行
-                if (index < 5) {
-                    console.log(`🔍 第${index + 1}行數據:`, {
-                        payrollId: `"${payrollId}"`,
-                        firstName: `"${firstName}"`,
-                        workWeek: `"${workWeek}"`,
-                        hours: hours
-                    });
-                    console.log(`   Payroll ID 驗證: ${validatePayrollID(payrollId)}`);
-                }
+                const payrollId = row['Payroll ID']?.trim();
+                const firstName = row['First Name']?.trim();
+                const lastName = row['Last Name']?.trim();
+                const workWeek = row['Monday of the Work Week']?.trim();
+                const hours = parseFloat(row['Hours']);
                 
                 // 跳過完全空白的行
                 if (!payrollId && !firstName && !lastName && !workWeek && (isNaN(hours) || hours === 0)) {
@@ -1201,9 +1176,7 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
                 
                 if (!validatePayrollID(payrollId)) {
                     invalidPayrollIds++;
-                    if (invalidPayrollIds <= 5) { // 只顯示前5個錯誤
-                        result.errors.push(`第${index + 2}行: Payroll ID 格式錯誤 ("${payrollId}")，應為 EQ-XXXX 格式。`);
-                    }
+                    result.errors.push(`第${index + 2}行: Payroll ID 格式錯誤 (${payrollId || '空'})，應為 EQ-XXXX 格式。`);
                 } else {
                     employeeSet.add(payrollId);
                 }
@@ -1239,12 +1212,6 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
                 if (skippedEmptyRecords > 0) {
                     result.warnings.push(`⚠️ 已自動跳過 ${skippedEmptyRecords} 行空白記錄。`);
                 }
-                
-                if (invalidPayrollIds > 0) {
-                    result.warnings.push(`⚠️ 發現 ${invalidPayrollIds} 個無效的 Payroll ID。`);
-                }
-            } else if (invalidPayrollIds > 5) {
-                result.errors.push(`...還有 ${invalidPayrollIds - 5} 個 Payroll ID 格式錯誤`);
             }
             
             return result;
@@ -1377,7 +1344,6 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
                 
                 const firstName = row['First Name']?.trim();
                 const lastName = row['Last Name']?.trim();
-                const startDateStr = row['Start Date']?.trim();
                 const workWeekStr = row['Monday of the Work Week']?.trim();
                 const hours = parseFloat(row['Hours']) || 0;
                 const level = row['Level']?.trim();
@@ -1394,20 +1360,15 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
                 
                 // 建立或更新員工資料
                 if (!employees[payrollId]) {
-                    let employeeStartDate = toLocalDateString(parseDate(startDateStr));
-
-                    if (!employeeStartDate) {
-                        const allWeeksForNewEmployee = data
-                            .filter(d => d['Payroll ID']?.trim() === payrollId)
-                            .map(d => parseDate(d['Work Week']?.trim()))
-                            .filter(d => d);
-                        
-                        if (allWeeksForNewEmployee.length > 0) {
-                            const oldestWeek = new Date(Math.min(...allWeeksForNewEmployee));
-                            employeeStartDate = toLocalDateString(getMonday(oldestWeek));
-                        } else {
-                            employeeStartDate = '2024-01-01';
-                        }
+                    const allWeeksForNewEmployee = data
+                        .filter(d => d['Payroll ID']?.trim() === payrollId)
+                        .map(d => parseDate(d['Monday of the Work Week']?.trim()))
+                        .filter(d => d);
+                    
+                    let employeeStartDate = '2025-02-10'; // Default start date
+                    if (allWeeksForNewEmployee.length > 0) {
+                        const oldestWeek = new Date(Math.min(...allWeeksForNewEmployee));
+                        employeeStartDate = toLocalDateString(getMonday(oldestWeek));
                     }
                     
                     employees[payrollId] = {
@@ -1421,15 +1382,6 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
                 } else {
                     employees[payrollId].firstName = firstName;
                     employees[payrollId].lastName = lastName;
-                    if (startDateStr) {
-                        const newParsedStartDate = parseDate(startDateStr);
-                        if (newParsedStartDate) {
-                            const currentStartDate = parseDate(employees[payrollId].startDate);
-                            if (!currentStartDate || newParsedStartDate.getTime() < currentStartDate.getTime()) {
-                                employees[payrollId].startDate = toLocalDateString(newParsedStartDate);
-                            }
-                        }
-                    }
                     if (farm) employees[payrollId].farm = farm;
                     if (level) employees[payrollId].level = level;
                     if (rate) employees[payrollId].hourlyRate = rate;
@@ -1472,7 +1424,7 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
                         acc[item.workWeekDate] = item.hours;
                         return acc;
                     }, {});
-                employee.totalHours = Object.values(employee.workWeeks).reduce((sum, hours) => sum + hours, 0);
+                employee.totalHours = Object.values(employee.workWeeks).reduce((sum, hours) => sum + (parseFloat(hours) || 0), 0);
                 calculatePayroll(employee);
             });
             
@@ -1497,7 +1449,6 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
 
         // 計算員工週期資訊（使用統一起始日期）
         function calculateEmployeeCycle(employee, referenceDateInput = new Date()) {
-            // 使用統一的系統起始日期
             const systemStartMonday = getMonday(SYSTEM_START_DATE);
             const today = new Date(referenceDateInput);
             const dayOfWeek = today.getDay();
@@ -1511,7 +1462,6 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
                 
                 const currentMonday = getMonday(currentDate);
                 
-                // 計算從系統起始日期開始的總週數
                 const totalWeeksFromSystemStart = Math.floor((currentMonday - systemStartMonday) / (7 * 24 * 60 * 60 * 1000)) + 1;
                 
                 const currentCycle = Math.max(1, Math.floor((totalWeeksFromSystemStart - 1) / WEEKS_PER_CYCLE) + 1);
@@ -1532,7 +1482,7 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
                 for (const workWeekDateStr in employee.workWeeks) {
                     const workWeekDate = parseDate(workWeekDateStr);
                     if (workWeekDate && workWeekDate >= cycleStartDate && workWeekDate <= cycleEndDate) {
-                        cycleHours += employee.workWeeks[workWeekDateStr];
+                        cycleHours += (parseFloat(employee.workWeeks[workWeekDateStr]) || 0);
                     }
                 }
 
@@ -1599,7 +1549,7 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
                 for (const wwDateStr in employee.workWeeks) {
                     const wwDate = parseDate(wwDateStr);
                     if (wwDate && wwDate >= cycleStartDate && wwDate <= cycleEndDate) {
-                        thisCycleHours += employee.workWeeks[wwDateStr];
+                        thisCycleHours += (parseFloat(employee.workWeeks[wwDateStr]) || 0);
                     }
                 }
                 
@@ -1659,7 +1609,6 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
 
             employeeList.sort((a, b) => a.name.localeCompare(b.name));
             
-            // 更新農場篩選
             const currentFarm = farmFilter.value;
             farmFilter.innerHTML = '<option value="">所有農場</option>';
             [...farms].sort().forEach(farm => {
@@ -1670,7 +1619,6 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
                 farmFilter.appendChild(option);
             });
             
-            // 更新職級篩選
             const currentLevel = levelFilter.value;
             levelFilter.innerHTML = '<option value="">所有職級</option>';
             [...levels].sort().forEach(level => {
@@ -1681,7 +1629,6 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
                 levelFilter.appendChild(option);
             });
 
-            // 更新員工篩選
             const currentEmployee = employeeFilter.value;
             employeeFilter.innerHTML = '<option value="">所有員工</option>';
             employeeList.forEach(emp => {
@@ -1692,14 +1639,12 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
                 employeeFilter.appendChild(option);
             });
 
-            // 更新週期篩選
             const currentCycle = cycleFilter.value;
             cycleFilter.innerHTML = '<option value="">所有週期</option>';
             [...cycles].sort((a, b) => a - b).forEach(cycle => {
                 const option = document.createElement('option');
                 option.value = cycle.toString();
                 
-                // 計算週期日期範圍
                 const systemStartMonday = getMonday(SYSTEM_START_DATE);
                 const cycleStartDate = new Date(systemStartMonday);
                 cycleStartDate.setDate(cycleStartDate.getDate() + ((cycle - 1) * WEEKS_PER_CYCLE * 7));
@@ -1745,12 +1690,40 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
             if (Object.keys(employees).length === 0) {
                 container.innerHTML = '<p style="text-align: center; color: #777; margin-top: 30px;">尚未載入員工資料，請先上傳工時表。</p>';
                 document.getElementById('overview-summary-cards').innerHTML = '';
+                document.getElementById('cycle-summary-card').style.display = 'none';
                 return;
             }
             
             updateFilterOptions();
             const filteredEmployees = getFilteredEmployees();
             
+            const cycleSummaryCard = document.getElementById('cycle-summary-card');
+            if (filteredEmployees.length > 0) {
+                const cycleInfo = calculateEmployeeCycle(filteredEmployees[0]);
+                const displayCurrentCycle = Number(cycleInfo.currentCycle) || 0;
+                const startWeek = ((displayCurrentCycle - 1) * WEEKS_PER_CYCLE) + 1;
+                const endWeek = displayCurrentCycle * WEEKS_PER_CYCLE;
+                const cycleProgressHTML = `
+                    <h4 style="margin: 0 0 10px 0; color: #667eea;">📅 當前季節週期資訊</h4>
+                    <div style="display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap;">
+                        <div>
+                            <p style="margin: 0; font-size: 16px;"><strong>週期 ${displayCurrentCycle} (W${startWeek}-W${endWeek})</strong></p>
+                            <p style="margin: 5px 0 0 0; color: #555;">${cycleInfo.cycleStartDate.toLocaleDateString('en-AU')} - ${cycleInfo.cycleEndDate.toLocaleDateString('en-AU')}</p>
+                        </div>
+                        <div style="flex-grow: 1; min-width: 200px;">
+                            <p style="margin: 0 0 5px 0; text-align: center;">第 ${cycleInfo.weekInCycle} 週 (${cycleInfo.progressPercentage.toFixed(1)}%)</p>
+                            <div style="width: 100%; height: 8px; background: #eee; border-radius: 4px;">
+                                <div style="width: ${cycleInfo.progressPercentage}%; height: 100%; background: #28a745; border-radius: 4px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                cycleSummaryCard.innerHTML = cycleProgressHTML;
+                cycleSummaryCard.style.display = 'block';
+            } else {
+                cycleSummaryCard.style.display = 'none';
+            }
+
             if (filteredEmployees.length === 0) {
                 container.innerHTML = '<p style="text-align: center; color: #777; margin-top: 30px;">沒有符合篩選條件的員工資料。</p>';
                 document.getElementById('overview-summary-cards').innerHTML = '';
@@ -1767,9 +1740,7 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
                             <th>農場</th>
                             <th>職級</th>
                             <th>開始日期</th>
-                            <th>當前週期</th>
-                            <th>週期進度</th>
-                            <th>歷史總工時</th>
+                            <th>季節總工時</th>
                             <th>週期工時</th>
                             <th>距OT門檻</th>
                         </tr>
@@ -1794,8 +1765,6 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
                         activeCycles++;
                     }
                     
-                    const displayCurrentCycle = Number(cycleInfo.currentCycle) || 0;
-                    const displayWeekInCycle = Number(cycleInfo.weekInCycle) || 0;
                     const otThresholdDifference = REGULAR_HOURS_THRESHOLD - (Number(cycleInfo.cycleHours) || 0);
                     const currentTotalHours = Number(employee.totalHours) || 0;
                     const currentCycleHours = Number(cycleInfo.cycleHours) || 0;
@@ -1815,11 +1784,11 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
                                     ${workWeeks.map(([date, hours]) => {
                                         const d = parseDate(date);
                                         const displayDate = d ? d.toLocaleDateString('en-AU') : '無效日期';
-                                        const otClass = hours > WEEKLY_HOURS_THRESHOLD ? 'class="weekly-overtime"' : '';
+                                        const otClass = hours > WEEKLY_HOURS_THRESHOLD ? 'weekly-overtime' : '';
                                         return `
                                             <tr data-payroll-id="${employee.payrollId}" data-work-week="${date}">
                                                 <td>${displayDate}</td>
-                                                <td ${otClass}>
+                                                <td class="${otClass}">
                                                     <span class="hours-display">${hours}</span>
                                                     <input type="number" class="hours-input" value="${hours}" step="0.5" min="0" max="168" style="display: none;">
                                                 </td>
@@ -1847,22 +1816,12 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
                             <td>${employee.farm || '-'}</td>
                             <td>${employee.level || '-'}</td>
                             <td>${(parseDate(employee.startDate) || SYSTEM_START_DATE).toLocaleDateString('en-AU')}</td>
-                            <td>
-                                週期${displayCurrentCycle} (W${((displayCurrentCycle - 1) * WEEKS_PER_CYCLE) + 1}-W${displayCurrentCycle * WEEKS_PER_CYCLE})
-                                <br><small style="color: #666;">${cycleInfo.cycleStartDate.toLocaleDateString('en-AU')} - ${cycleInfo.cycleEndDate.toLocaleDateString('en-AU')}</small>
-                            </td>
-                            <td>
-                                第${displayWeekInCycle}週 (${cycleInfo.progressPercentage.toFixed(1)}%)
-                                <br><div style="width: 100%; height: 4px; background: #eee; border-radius: 2px; margin-top: 2px;">
-                                    <div style="width: ${cycleInfo.progressPercentage}%; height: 100%; background: ${cycleInfo.status === 'overtime' ? '#dc3545' : '#28a745'}; border-radius: 2px;"></div>
-                                </div>
-                            </td>
                             <td><strong>${currentTotalHours.toFixed(2)}</strong></td>
                             <td><strong>${currentCycleHours.toFixed(2)}</strong></td>
                             <td class="${otThresholdDifference < 0 ? 'status-overtime' : ''}">${otThresholdDifference.toFixed(2)}</td>
                         </tr>
                         <tr class="details-row" id="details-${employee.payrollId}">
-                            <td colspan="11">${detailsTableHTML}</td>
+                            <td colspan="9">${detailsTableHTML}</td>
                         </tr>
                     `;
                 });
@@ -1871,7 +1830,7 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
                 </tbody>
                 <tfoot>
                     <tr style="background: #f0f0f0; font-weight: bold; text-align: center;">
-                        <td colspan="8" style="text-align: right;">總計</td>
+                        <td colspan="6" style="text-align: right;">總計</td>
                         <td>${totalHistoricalHours.toFixed(2)}</td>
                         <td>${totalCycleHours.toFixed(2)}</td>
                         <td>-</td>
@@ -1898,6 +1857,7 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
             `;
             document.getElementById('overview-summary-cards').innerHTML = summaryHTML;
         }
+
 
         // 更新薪資計算表格
         function updatePayrollTable() {
@@ -2029,7 +1989,7 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
             
             try {
                 const filteredEmployees = getFilteredEmployees();
-                let csvContent = '員工編號,姓名,農場,職級,開始日期,當前週期,週期進度,歷史總工時,週期工時,距OT門檻\n';
+                let csvContent = '員工編號,姓名,農場,職級,開始日期,季節總工時,週期工時,距OT門檻\n';
                 
                 filteredEmployees.forEach(employee => {
                     const fullName = `${employee.firstName} ${employee.lastName}`.trim();
@@ -2037,7 +1997,7 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
                     
                     const otThresholdDifference = REGULAR_HOURS_THRESHOLD - (Number(cycleInfo.cycleHours) || 0);
                     
-                    csvContent += `${employee.payrollId},"${fullName}",${employee.farm || ''},${employee.level || ''},${(parseDate(employee.startDate) || SYSTEM_START_DATE).toLocaleDateString('en-AU')},${Number(cycleInfo.currentCycle) || 0},${cycleInfo.progressPercentage.toFixed(1)}%,${Number(employee.totalHours) || 0},${Number(cycleInfo.cycleHours) || 0},${otThresholdDifference}\n`;
+                    csvContent += `${employee.payrollId},"${fullName}",${employee.farm || ''},${employee.level || ''},${(parseDate(employee.startDate) || SYSTEM_START_DATE).toLocaleDateString('en-AU')},${Number(employee.totalHours).toFixed(2)},${Number(cycleInfo.cycleHours).toFixed(2)},${otThresholdDifference.toFixed(2)}\n`;
                 });
                 
                 downloadCSV(csvContent, `員工總覽報告_${new Date().toLocaleDateString('en-AU').replace(/\//g, '-')}.csv`);
@@ -2224,8 +2184,14 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
                     const lastName = row['Last Name']?.trim();
                     const workWeek = row['Monday of the Work Week']?.trim();
                     const hours = parseFloat(row['Hours']);
-                    return payrollId || firstName || lastName || MondayoftheWorkWeek || !isNaN(hours);
+                    return payrollId || firstName || lastName || workWeek || !isNaN(hours);
                 });
+        }
+
+        // 解析 CSV 行
+        function parseCSVLine(line, delimiter) {
+            const values = line.split(delimiter);
+            return values.map(val => val.trim());
         }
 
         // 編輯工時功能
@@ -2237,7 +2203,6 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
             const hoursInput = row.querySelector('.hours-input');
             const editBtn = row.querySelector('.btn-edit');
 
-            // 切換到編輯模式
             hoursDisplay.style.display = 'none';
             hoursInput.style.display = 'inline-block';
             hoursInput.focus();
@@ -2245,7 +2210,6 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
             editBtn.textContent = '取消';
             editBtn.onclick = () => cancelEdit(payrollId, workWeekDate);
 
-            // 顯示編輯操作按鈕
             const editActions = document.getElementById(`edit-actions-${payrollId}`);
             if (editActions) {
                 editActions.style.display = 'block';
@@ -2261,16 +2225,12 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
             const hoursInput = row.querySelector('.hours-input');
             const editBtn = row.querySelector('.btn-edit');
 
-            // 恢復原值
             hoursInput.value = hoursDisplay.textContent;
-
-            // 切換回顯示模式
             hoursDisplay.style.display = 'inline';
             hoursInput.style.display = 'none';
             editBtn.textContent = '編輯';
             editBtn.onclick = () => editHours(payrollId, workWeekDate);
 
-            // 檢查是否還有其他編輯中的項目
             const table = document.getElementById(`details-table-${payrollId}`);
             const editingInputs = table.querySelectorAll('.hours-input[style*="inline-block"]');
             if (editingInputs.length === 0) {
@@ -2294,10 +2254,7 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
                 const workWeekDate = row.dataset.workWeek;
 
                 if (hoursInput.style.display === 'inline-block') {
-                    // 恢復原值
                     hoursInput.value = hoursDisplay.textContent;
-                    
-                    // 切換回顯示模式
                     hoursDisplay.style.display = 'inline';
                     hoursInput.style.display = 'none';
                     editBtn.textContent = '編輯';
@@ -2305,7 +2262,6 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
                 }
             });
 
-            // 隱藏編輯操作按鈕
             const editActions = document.getElementById(`edit-actions-${payrollId}`);
             if (editActions) {
                 editActions.style.display = 'none';
@@ -2334,7 +2290,7 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
                     const oldHours = parseFloat(hoursDisplay.textContent);
                     const newHours = parseFloat(hoursInput.value);
 
-                    if (oldHours !== newHours && !isNaN(newHours) && newHours >= 0) {
+                    if (!isNaN(newHours) && newHours >= 0 && oldHours !== newHours) {
                         hasChanges = true;
                         changes.push({
                             workWeekDate: workWeekDate,
@@ -2342,13 +2298,9 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
                             newHours: newHours
                         });
 
-                        // 更新顯示
                         hoursDisplay.textContent = newHours;
-                        
-                        // 更新資料
                         employee.workWeeks[workWeekDate] = newHours;
                         
-                        // 更新 timesheetData
                         const recordIndex = timesheetData.findIndex(item => 
                             item.payrollId === payrollId && item.workWeekDate === workWeekDate
                         );
@@ -2357,16 +2309,14 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
                             timesheetData[recordIndex].uploadDate = new Date().toISOString();
                         }
 
-                        // 更新樣式（加班提醒）
                         const hoursCell = hoursDisplay.parentElement;
                         if (newHours > WEEKLY_HOURS_THRESHOLD) {
-                            hoursCell.className = 'weekly-overtime';
+                            hoursCell.classList.add('weekly-overtime');
                         } else {
-                            hoursCell.className = '';
+                            hoursCell.classList.remove('weekly-overtime');
                         }
                     }
 
-                    // 切換回顯示模式
                     hoursDisplay.style.display = 'inline';
                     hoursInput.style.display = 'none';
                     editBtn.textContent = '編輯';
@@ -2375,27 +2325,19 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
             });
 
             if (hasChanges) {
-                // 重新計算該員工的總工時和薪資
-                employee.totalHours = Object.values(employee.workWeeks).reduce((sum, hours) => sum + hours, 0);
+                employee.totalHours = Object.values(employee.workWeeks).reduce((sum, hours) => sum + (parseFloat(hours) || 0), 0);
                 calculatePayroll(employee);
                 
-                // 儲存到本地
-                localStorage.setItem('last_update', new Date().toLocaleString('en-AU'));
+                localStorage.setItem('last_update', new Date().toLocaleString('zh-TW'));
                 saveLocalData();
-                
-                // 更新所有表格
                 updateAllTables();
                 
-                // 顯示成功訊息
-                const changeCount = changes.length;
-                showMessage(`✅ 已成功修改 ${changeCount} 筆工時記錄！`, 'success');
-                
+                showMessage(`✅ 已成功修改 ${changes.length} 筆工時記錄！`, 'success');
                 console.log('工時修改記錄:', changes);
             } else {
                 showMessage('ℹ️ 沒有發現任何變更', 'warning', 3000);
             }
 
-            // 隱藏編輯操作按鈕
             const editActions = document.getElementById(`edit-actions-${payrollId}`);
             if (editActions) {
                 editActions.style.display = 'none';
@@ -2408,13 +2350,11 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
             if (!employee) return;
 
             const hours = employee.workWeeks[workWeekDate] || 0;
-                            const displayDate = parseDate(workWeekDate)?.toLocaleDateString('en-AU') || workWeekDate;
+            const displayDate = parseDate(workWeekDate)?.toLocaleDateString('en-AU') || workWeekDate;
             
             if (confirm(`⚠️ 確定要刪除以下工時記錄嗎？\n\n員工：${employee.firstName} ${employee.lastName} (${payrollId})\n工作週：${displayDate}\n工時：${hours} 小時\n\n此操作無法復原！`)) {
-                // 從員工工時記錄中移除
                 delete employee.workWeeks[workWeekDate];
                 
-                // 從 timesheetData 中移除
                 const recordIndex = timesheetData.findIndex(item => 
                     item.payrollId === payrollId && item.workWeekDate === workWeekDate
                 );
@@ -2422,25 +2362,15 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
                     timesheetData.splice(recordIndex, 1);
                 }
                 
-                // 重新計算該員工的總工時和薪資
-                employee.totalHours = Object.values(employee.workWeeks).reduce((sum, hours) => sum + hours, 0);
+                employee.totalHours = Object.values(employee.workWeeks).reduce((sum, hours) => sum + (parseFloat(hours) || 0), 0);
                 calculatePayroll(employee);
                 
-                // 儲存到本地
-                localStorage.setItem('last_update', new Date().toLocaleString('en-AU'));
+                localStorage.setItem('last_update', new Date().toLocaleString('zh-TW'));
                 saveLocalData();
-                
-                // 更新所有表格
                 updateAllTables();
                 
                 showMessage(`🗑️ 已刪除 ${employee.firstName} ${employee.lastName} 在 ${displayDate} 的工時記錄`, 'warning');
             }
-        }
-
-        // 解析 CSV 行
-        function parseCSVLine(line, delimiter) {
-            const values = line.split(delimiter);
-            return values.map(val => val.trim());
         }
     </script>
 </body>
