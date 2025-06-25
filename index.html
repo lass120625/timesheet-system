@@ -49,19 +49,28 @@
             font-weight: 700;
         }
 
-        /* --- 訊息提示匡優化 --- */
+        /* --- 訊息提示匡優化 (Toast Notifications) --- */
+        #messages {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 2000;
+            width: 350px;
+        }
         .success-message, .error-message, .warning-message {
             padding: 1rem;
             border-radius: var(--border-radius);
-            margin: 1rem 0;
+            margin: 0 0 1rem 0;
             border-left: 5px solid;
             opacity: 1;
-            transition: opacity 0.5s ease;
+            transition: all 0.5s ease;
+            box-shadow: var(--box-shadow-lg);
+            background-color: #fff;
         }
-        .success-message { background: #d1e7dd; color: #0a3622; border-left-color: var(--success-color); }
-        .error-message { background: #f8d7da; color: #58151c; border-left-color: var(--danger-color); }
-        .warning-message { background: #fff3cd; color: #664d03; border-left-color: var(--warning-color); }
-        .message-fadeout { opacity: 0; }
+        .success-message { color: #0a3622; border-left-color: var(--success-color); }
+        .error-message { color: #58151c; border-left-color: var(--danger-color); }
+        .warning-message { color: #664d03; border-left-color: var(--warning-color); }
+        .message-fadeout { opacity: 0; transform: translateX(20px); }
 
         /* --- 上傳區塊優化 --- */
         .upload-section {
@@ -185,6 +194,7 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
+        .employee-table tr:last-child td { border-bottom: none; }
         .employee-table tr:nth-child(even) { background: #fdfdff; }
         .employee-table tr.main-row:hover { background: #f1f3ff; }
         .employee-table tfoot tr { background: #f1f3f9 !important; }
@@ -409,9 +419,11 @@ EQ-0002, Jane, Smith, 2025-02-17, 38, Junior, 20.00, Farm B</div>
             <div id="cycle-summary-card" class="format-info" style="display: none; border-left: 5px solid var(--primary-color);"></div>
             
             <div class="summary-cards" id="overview-summary-cards">
-                 </div>
+                 <!-- Summary cards will be populated by JS -->
+            </div>
             <div id="overview-table-container">
-                 </div>
+                 <!-- Overview table will be populated by JS -->
+            </div>
             
             <div style="text-align:center; margin-top:2.5rem;">
                 <button id="exportOverview" class="upload-btn action-btn" onclick="exportOverview()">
@@ -421,7 +433,7 @@ EQ-0002, Jane, Smith, 2025-02-17, 38, Junior, 20.00, Farm B</div>
             </div>
         </div>
         
-        <div id="messages" style="position: fixed; top: 20px; right: 20px; z-index: 2000; width: 350px;"></div>
+        <div id="messages"></div>
     </div>
 
     <script>
@@ -907,7 +919,9 @@ EQ-0002, Jane, Smith, 2025-02-17, 38, Junior, 20.00, Farm B</div>
             btn.style.transform = isOpen ? 'rotate(180deg)' : 'rotate(0deg)';
         };
         
-        // --- MODIFICATION START ---
+        // =======================================================
+        // ==                 MODIFICATION START                  ==
+        // =======================================================
         // 用於格式化財報數字，將 0 或 null 轉為 '-'
         function formatFinancialNumber(num) {
             const value = Number(num);
@@ -1049,7 +1063,9 @@ EQ-0002, Jane, Smith, 2025-02-17, 38, Junior, 20.00, Farm B</div>
                 <div class="summary-card"><h3>${filteredEmployees.filter(e => calculateEmployeeCycle(e, refDateForCalc).cycleHours > REGULAR_HOURS_THRESHOLD).length}</h3><p>名週期超時員工</p></div>
                 <div class="summary-card"><h3>${formatFinancialNumber(totals.cycleHours)}</h3><p>小時 (週期總工時)</p></div>`;
         }
-        // --- MODIFICATION END ---
+        // =======================================================
+        // ==                  MODIFICATION END                   ==
+        // =======================================================
         
         // 更新所有表格
         function updateAllTables() {
@@ -1126,8 +1142,23 @@ EQ-0002, Jane, Smith, 2025-02-17, 38, Junior, 20.00, Farm B</div>
             }
         }
 
-        // Export, Payment dialogs etc. would follow here. They are not modified functionally.
-        // The rest of the JS functions are omitted for brevity as their logic is unchanged.
+        function exportOverview() {
+            // This function would generate and download a CSV from the current view.
+            // Placeholder implementation:
+            showMessage('報告匯出功能待實現。', 'warning');
+        }
+
+        function showPaymentDialog(payrollId) {
+            // This function would show a dialog to make a payment.
+            // Placeholder implementation:
+            showMessage(`支付功能 (${payrollId}) 待實現。`, 'warning');
+        }
+
+        function showPaymentHistory(payrollId) {
+             // This function would show payment history for an employee.
+            // Placeholder implementation:
+            showMessage(`支付歷史 (${payrollId}) 待實現。`, 'warning');
+        }
     </script>
 </body>
 </html>
