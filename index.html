@@ -307,6 +307,7 @@
         .confirm-dialog.active { opacity: 1; visibility: visible; }
         .confirm-content {
             background: white; padding: 2.5rem; border-radius: var(--border-radius-lg);
+            width: 90%;
             max-width: 600px; max-height: 90%; overflow-y: auto;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
             transform: scale(0.95); transition: transform 0.3s ease;
@@ -318,6 +319,23 @@
         .btn-confirm, .btn-cancel { border: none; padding: 0.75rem 1.5rem; border-radius: var(--border-radius); cursor: pointer; font-weight: bold; transition: all 0.2s; }
         .btn-confirm { background: var(--success-color); color: white; } .btn-confirm:hover { background: #146c43; transform: translateY(-2px); }
         .btn-cancel { background: var(--danger-color); color: white; } .btn-cancel:hover { background: #bb2d3b; transform: translateY(-2px); }
+
+        /* --- Dialog-specific Form --- */
+        .dialog-form { display: flex; flex-direction: column; gap: 1rem; }
+        .dialog-form label { font-weight: 500; margin-bottom: -0.5rem; }
+        .dialog-form input, .dialog-form textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+        .dialog-form input:focus, .dialog-form textarea:focus {
+             border-color: var(--primary-color);
+             outline: none;
+             box-shadow: 0 0 0 3px rgba(93, 95, 239, 0.15);
+        }
 
         /* --- 其他輔助樣式 --- */
         .spinner {
@@ -365,7 +383,7 @@
 EQ-0001, John, Doe, 2025-02-10, 45, Senior, 25.50, Farm A
 EQ-0002, Jane, Smith, 2025-02-17, 38, Junior, 20.00, Farm B</div>
                 <ul>
-                    <li>📅 <strong>日期格式</strong>：接受 YYYY-MM-DD 或 DD/MM/YYYY。</li>
+                    <li>📅 <strong>日期格式</strong>：接受 Vishal-MM-DD 或 DD/MM/YYYY。</li>
                     <li>🔢 <strong>週期計算</strong>：系統以 2025/02/10 為基準，自動計算8週為一週期。</li>
                     <li>👤 <strong>資訊更新</strong>：若員工的農場、職級或薪資變動，上傳新資料即可覆蓋。</li>
                 </ul>
@@ -432,9 +450,43 @@ EQ-0002, Jane, Smith, 2025-02-17, 38, Junior, 20.00, Farm B</div>
                 </button>
             </div>
         </div>
-        
-        <div id="messages"></div>
     </div>
+
+    <!-- Dialogs -->
+    <div id="messages"></div>
+    
+    <div id="payment-dialog" class="confirm-dialog">
+        <div class="confirm-content">
+            <h3 id="payment-dialog-title">記錄加班費支付</h3>
+            <div id="payment-dialog-content" class="dialog-form"></div>
+            <div class="confirm-buttons">
+                <button class="btn-cancel" onclick="document.getElementById('payment-dialog').classList.remove('active')">取消</button>
+                <button class="btn-confirm" id="save-payment-btn">儲存支付紀錄</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="payment-history-dialog" class="confirm-dialog">
+        <div class="confirm-content">
+            <h3 id="payment-history-title">支付歷史紀錄</h3>
+            <div id="payment-history-content"></div>
+            <div class="confirm-buttons">
+                <button class="btn-confirm" onclick="document.getElementById('payment-history-dialog').classList.remove('active')">關閉</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="custom-confirm-dialog" class="confirm-dialog">
+        <div class="confirm-content">
+            <h3 id="confirm-title"></h3>
+            <p id="confirm-message"></p>
+            <div class="confirm-buttons">
+                <button id="confirm-btn-cancel" class="btn-cancel">取消</button>
+                <button id="confirm-btn-ok" class="btn-confirm">確定</button>
+            </div>
+        </div>
+    </div>
+
 
     <script>
         // 全域變數
@@ -442,6 +494,7 @@ EQ-0002, Jane, Smith, 2025-02-17, 38, Junior, 20.00, Farm B</div>
         let timesheetData = [];
         let pendingData = null;
         let paymentHistory = {};
+        let confirmCallback = null;
         
         // 常數定義
         const REGULAR_HOURS_THRESHOLD = 304;
@@ -454,7 +507,26 @@ EQ-0002, Jane, Smith, 2025-02-17, 38, Junior, 20.00, Farm B</div>
             loadLocalData();
             updateProgress(0, '系統已就緒，請上傳工時表');
             updateDataStatus();
+            
+            // Dialog event listeners
+            document.getElementById('confirm-btn-ok').addEventListener('click', () => {
+                if (confirmCallback) confirmCallback();
+                closeCustomConfirm();
+            });
+            document.getElementById('confirm-btn-cancel').addEventListener('click', closeCustomConfirm);
         });
+
+        // --- Custom Confirm Dialog ---
+        function showCustomConfirm(title, message, callback) {
+            document.getElementById('confirm-title').textContent = title;
+            document.getElementById('confirm-message').innerHTML = message;
+            document.getElementById('custom-confirm-dialog').classList.add('active');
+            confirmCallback = callback;
+        }
+        function closeCustomConfirm() {
+            document.getElementById('custom-confirm-dialog').classList.remove('active');
+            confirmCallback = null;
+        }
 
         // 載入本地資料
         function loadLocalData() {
@@ -509,7 +581,7 @@ EQ-0002, Jane, Smith, 2025-02-17, 38, Junior, 20.00, Farm B</div>
             if (Object.keys(employees).length === 0 && timesheetData.length === 0) {
                 return showMessage('沒有資料可以匯出', 'warning');
             }
-            const data = { employees, timesheetData, paymentHistory, exportDate: new Date().toISOString(), version: '2.3' };
+            const data = { employees, timesheetData, paymentHistory, exportDate: new Date().toISOString(), version: '2.4' };
             const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
@@ -529,14 +601,14 @@ EQ-0002, Jane, Smith, 2025-02-17, 38, Junior, 20.00, Farm B</div>
                 try {
                     const data = JSON.parse(e.target.result);
                     if (data.employees && data.timesheetData) {
-                        if (confirm('確定要匯入資料嗎？這會覆蓋現有的所有資料！')) {
+                        showCustomConfirm('匯入資料', '確定要匯入資料嗎？<br>這將會覆蓋所有現有的資料！', () => {
                             employees = data.employees;
                             timesheetData = data.timesheetData;
                             paymentHistory = data.paymentHistory || {};
                             saveLocalData();
                             updateAllTables();
                             showMessage('✅ 資料匯入成功！');
-                        }
+                        });
                     } else {
                         showMessage('檔案格式不正確', 'error');
                     }
@@ -550,15 +622,15 @@ EQ-0002, Jane, Smith, 2025-02-17, 38, Junior, 20.00, Farm B</div>
 
         // 清除所有資料
         function clearAllData() {
-            if (confirm('⚠️ 確定要清除所有資料嗎？此操作無法復原！')) {
+             showCustomConfirm('🗑️ 清除所有資料', '您確定要清除所有資料嗎？<br>此操作無法復原！', () => {
                 employees = {};
                 timesheetData = [];
                 paymentHistory = {};
                 localStorage.clear();
                 updateAllTables();
                 updateDataStatus();
-                showMessage('🗑️ 所有資料已清除！', 'warning');
-            }
+                showMessage('所有資料已清除！', 'warning');
+            });
         }
 
         // 切換分頁
@@ -601,7 +673,7 @@ EQ-0002, Jane, Smith, 2025-02-17, 38, Junior, 20.00, Farm B</div>
              } else {
                  button.disabled = false;
                  spinner.style.display = 'none';
-                 textSpan.textContent = button.dataset.originalText;
+                 if(button.dataset.originalText) textSpan.textContent = button.dataset.originalText;
              }
          }
 
@@ -686,8 +758,12 @@ EQ-0002, Jane, Smith, 2025-02-17, 38, Junior, 20.00, Farm B</div>
                 if (validationResult.errors.length > 0) throw new Error(validationResult.errors.join('<br>'));
                 
                 const conflicts = checkForConflicts(parsed);
-                if (conflicts.length > 0) showConflictDialog(parsed, conflicts);
-                else await processTimesheetData(parsed);
+                if (conflicts.length > 0) {
+                    showConflictDialog(parsed, conflicts);
+                }
+                else {
+                    await processTimesheetData(parsed);
+                }
 
             } catch (error) {
                 showMessage(`❌ 上傳失敗: ${error.message}`, 'error');
@@ -728,8 +804,6 @@ EQ-0002, Jane, Smith, 2025-02-17, 38, Junior, 20.00, Farm B</div>
         // 顯示衝突對話框
         function showConflictDialog(newData, conflicts) {
             pendingData = newData;
-            const dialog = document.createElement('div');
-            dialog.className = 'confirm-dialog active';
             
             let conflictHTML = conflicts.slice(0, 5).map(c => 
                 `<p style="text-align:left; background: #f8f9fa; padding: 8px; border-radius: 4px; margin-bottom: 8px;">
@@ -739,23 +813,17 @@ EQ-0002, Jane, Smith, 2025-02-17, 38, Junior, 20.00, Farm B</div>
                 </p>`
             ).join('');
             if (conflicts.length > 5) conflictHTML += `<p>...等共 ${conflicts.length} 筆衝突。</p>`;
-
-            dialog.innerHTML = `<div class="confirm-content">
-                                    <h3>資料衝突警告</h3>
-                                    <p>系統檢測到您上傳的檔案與現有資料存在 ${conflicts.length} 筆工時衝突。是否要用新檔案的資料覆蓋舊資料？</p>
-                                    <div style="max-height: 150px; overflow-y: auto; padding: 10px; border: 1px solid #dee2e6; border-radius: 8px;">${conflictHTML}</div>
-                                    <div class="confirm-buttons">
-                                        <button class="btn-cancel" onclick="confirmOverwrite(false)">取消上傳</button>
-                                        <button class="btn-confirm" onclick="confirmOverwrite(true)">確認覆蓋</button>
-                                    </div>
-                               </div>`;
-            document.body.appendChild(dialog);
+            
+            const message = `系統檢測到您上傳的檔案與現有資料存在 ${conflicts.length} 筆工時衝突。是否要用新檔案的資料覆蓋舊資料？<br><br><div style="max-height: 150px; overflow-y: auto; padding: 10px; border: 1px solid #dee2e6; border-radius: 8px;">${conflictHTML}</div>`;
+            
+            showCustomConfirm('資料衝突警告', message, () => {
+                 confirmOverwrite(true);
+            });
         }
-
 
         // 確認覆蓋
         async function confirmOverwrite(confirmed) {
-            closeDialog();
+            closeCustomConfirm();
             if (confirmed) {
                  await processTimesheetData(pendingData, true)
                  showMessage('✅ 資料已成功覆蓋並更新！');
@@ -765,7 +833,7 @@ EQ-0002, Jane, Smith, 2025-02-17, 38, Junior, 20.00, Farm B</div>
         }
 
         // 關閉對話框
-        const closeDialog = () => document.querySelector('.confirm-dialog')?.remove();
+        const closeDialog = () => document.querySelector('.confirm-dialog.active')?.classList.remove('active');
 
         // 格式化日期
         const toLocalDateString = (d) => d ? new Date(d.getTime() - (d.getTimezoneOffset() * 60000)).toISOString().split("T")[0] : '';
@@ -850,6 +918,8 @@ EQ-0002, Jane, Smith, 2025-02-17, 38, Junior, 20.00, Farm B</div>
             const systemStartMonday = getMonday(new Date(SYSTEM_START_DATE));
             const refMonday = getMonday(new Date(refDate));
             const totalWeeks = Math.floor((refMonday - systemStartMonday) / (7 * 24 * 60 * 60 * 1000));
+            if(totalWeeks < 0) return { currentCycle: 1, cycleStartDate: systemStartMonday, cycleEndDate: new Date(systemStartMonday.getTime() + (WEEKS_PER_CYCLE * 7 - 1) * 24 * 60 * 60 * 1000), cycleHours: 0 };
+
             const currentCycle = Math.floor(totalWeeks / WEEKS_PER_CYCLE) + 1;
             
             const cycleStartDate = new Date(systemStartMonday.getTime() + (currentCycle - 1) * WEEKS_PER_CYCLE * 7 * 24 * 60 * 60 * 1000);
@@ -866,8 +936,12 @@ EQ-0002, Jane, Smith, 2025-02-17, 38, Junior, 20.00, Farm B</div>
         function getAllAvailableCycles() {
             const systemStartMonday = getMonday(new Date(SYSTEM_START_DATE));
             const latestDate = timesheetData.length > 0 ? new Date(Math.max(...timesheetData.map(d => new Date(d.workWeekDate)))) : new Date();
-            const totalWeeks = Math.floor((getMonday(latestDate) - systemStartMonday) / (7 * 24 * 60 * 60 * 1000));
+            const today = new Date();
+            const finalDate = latestDate > today ? latestDate : today;
+
+            const totalWeeks = Math.floor((getMonday(finalDate) - systemStartMonday) / (7 * 24 * 60 * 60 * 1000));
             const totalCycles = Math.floor(totalWeeks / WEEKS_PER_CYCLE) + 1;
+            if (totalCycles <= 0) return [];
             
             return Array.from({ length: totalCycles }, (_, i) => {
                 const cycle = i + 1;
@@ -919,9 +993,6 @@ EQ-0002, Jane, Smith, 2025-02-17, 38, Junior, 20.00, Farm B</div>
             btn.style.transform = isOpen ? 'rotate(180deg)' : 'rotate(0deg)';
         };
         
-        // =======================================================
-        // ==                 MODIFICATION START                  ==
-        // =======================================================
         // 用於格式化財報數字，將 0 或 null 轉為 '-'
         function formatFinancialNumber(num) {
             const value = Number(num);
@@ -940,9 +1011,11 @@ EQ-0002, Jane, Smith, 2025-02-17, 38, Junior, 20.00, Farm B</div>
             
             updateFilterOptions();
             const filteredEmployees = getFilteredEmployees();
-
+            
             const systemStartMonday = getMonday(new Date(SYSTEM_START_DATE));
-            const actualWeeksFromStart = Math.floor((new Date() - systemStartMonday) / (7 * 24 * 60 * 60 * 1000)) + 1;
+            const actualCurrentCycleInfo = calculateEmployeeCycle({workWeeks:{}}, new Date());
+            const actualCurrentCycle = actualCurrentCycleInfo.currentCycle;
+            const actualWeeksFromStart = Math.floor((getMonday(new Date()) - systemStartMonday) / (7 * 24 * 60 * 60 * 1000)) + 1;
             const actualWeekInCycle = ((actualWeeksFromStart - 1) % WEEKS_PER_CYCLE) + 1;
             const actualProgressPercent = (actualWeekInCycle / WEEKS_PER_CYCLE) * 100;
 
@@ -950,10 +1023,19 @@ EQ-0002, Jane, Smith, 2025-02-17, 38, Junior, 20.00, Farm B</div>
             const allCycles = getAllAvailableCycles();
             let displayCycleData = cycleFilterValue 
                 ? allCycles.find(c => c.cycle.toString() === cycleFilterValue)
-                : allCycles.find(c => new Date() >= c.startDate && new Date() <= c.endDate) || (allCycles.length > 0 ? allCycles[0] : null);
+                : allCycles.find(c => c.cycle === actualCurrentCycle) || (allCycles.length > 0 ? allCycles[0] : null);
             
             const cycleSummaryCard = document.getElementById('cycle-summary-card');
             if (displayCycleData) {
+                const showProgressBar = !cycleFilterValue || (displayCycleData && displayCycleData.cycle === actualCurrentCycle);
+                const progressBarHTML = showProgressBar ? `
+                    <div style="flex-grow:1; min-width:200px;">
+                        <p style="margin:0 0 5px 0; text-align:center; font-size:13px; color:var(--text-muted-color);">真實週期進度: 第 ${actualWeekInCycle} 週 / ${WEEKS_PER_CYCLE} 週</p>
+                        <div style="height:12px; background:#e9ecef; border-radius:6px; overflow:hidden;">
+                            <div style="width:${actualProgressPercent}%; height:100%; background:linear-gradient(90deg, #198754, #20c997); transition: width 0.3s ease;"></div>
+                        </div>
+                    </div>` : '';
+
                 cycleSummaryCard.innerHTML = `
                     <h4 style="margin:0 0 10px 0; color:var(--primary-color);">📅 ${cycleFilterValue ? '篩選' : '當前'}季節週期資訊</h4>
                     <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:15px;">
@@ -961,12 +1043,7 @@ EQ-0002, Jane, Smith, 2025-02-17, 38, Junior, 20.00, Farm B</div>
                             <p style="margin:0; font-size:16px;"><strong>週期 ${displayCycleData.cycle} (W${displayCycleData.startWeek}-W${displayCycleData.endWeek})</strong></p>
                             <p style="margin:5px 0 0 0; color:#555;">${toLocalDateString(displayCycleData.startDate)} 至 ${toLocalDateString(displayCycleData.endDate)}</p>
                         </div>
-                        <div style="flex-grow:1; min-width:200px;">
-                            <p style="margin:0 0 5px 0; text-align:center; font-size:13px; color:var(--text-muted-color);">真實週期進度: 第 ${actualWeekInCycle} 週 / ${WEEKS_PER_CYCLE} 週</p>
-                            <div style="height:12px; background:#e9ecef; border-radius:6px; overflow:hidden;">
-                                <div style="width:${actualProgressPercent}%; height:100%; background:linear-gradient(90deg, #198754, #20c997); transition: width 0.3s ease;"></div>
-                            </div>
-                        </div>
+                        ${progressBarHTML}
                     </div>`;
                 cycleSummaryCard.style.display = 'block';
             } else {
@@ -991,7 +1068,9 @@ EQ-0002, Jane, Smith, 2025-02-17, 38, Junior, 20.00, Farm B</div>
             const refDateForCalc = displayCycleData ? displayCycleData.startDate : new Date();
 
             filteredEmployees.sort((a, b) => a.payrollId.localeCompare(b.payrollId)).forEach(employee => {
-                const cycleInfo = calculateEmployeeCycle(employee, refDateForCalc);
+                const cycleInfo = displayCycleData ? calculateEmployeeCycle(employee, refDateForCalc) : { cycleHours: 0 };
+                employee.payrollData.overtimePay = cycleInfo.cycleHours > REGULAR_HOURS_THRESHOLD ? (cycleInfo.cycleHours - REGULAR_HOURS_THRESHOLD) * employee.hourlyRate : 0;
+                
                 const otThresholdDiff = REGULAR_HOURS_THRESHOLD - cycleInfo.cycleHours;
                 
                 totals.histHours += employee.totalHours || 0;
@@ -1001,8 +1080,12 @@ EQ-0002, Jane, Smith, 2025-02-17, 38, Junior, 20.00, Farm B</div>
                 totals.accOT += employee.accumulatedOvertimePay || 0;
 
                 let paymentCell = '';
-                if (paymentHistory[employee.payrollId]) paymentCell += `<button class="btn-edit" onclick="showPaymentHistory('${employee.payrollId}')" style="font-size:11px; padding:3px 8px; margin-right:5px;">歷史</button>`;
-                if ((employee.unpaidOvertimePay || 0) > 0) paymentCell += `<button class="btn-payment" onclick="showPaymentDialog('${employee.payrollId}')" style="font-size:11px; padding:3px 8px;">支付</button>`;
+                if (paymentHistory[employee.payrollId] && paymentHistory[employee.payrollId].length > 0) {
+                     paymentCell += `<button class="btn-edit" onclick="showPaymentHistory('${employee.payrollId}')" style="font-size:11px; padding:3px 8px; margin-right:5px;">歷史</button>`;
+                }
+                if ((employee.unpaidOvertimePay || 0) > 0) {
+                    paymentCell += `<button class="btn-payment" onclick="showPaymentDialog('${employee.payrollId}')" style="font-size:11px; padding:3px 8px;">支付</button>`;
+                }
                 
                 let workWeeks = Object.entries(employee.workWeeks || {}).sort((a, b) => new Date(a[0]) - new Date(b[0]));
                 if (cycleFilterValue && displayCycleData) {
@@ -1025,7 +1108,7 @@ EQ-0002, Jane, Smith, 2025-02-17, 38, Junior, 20.00, Farm B</div>
                                           </div>
                                           <div class="view-actions">
                                             <button class="btn-edit" onclick="editHours(this, '${employee.payrollId}', '${date}')">編輯</button>
-                                            <button class="btn-delete" onclick="deleteWorkWeek('${employee.payrollId}', '${date}')">刪除</button>
+                                            <button class="btn-delete" onclick="deleteWorkWeekWrapper('${employee.payrollId}', '${date}')">刪除</button>
                                           </div>
                                         </td>
                                     </tr>`;
@@ -1041,7 +1124,7 @@ EQ-0002, Jane, Smith, 2025-02-17, 38, Junior, 20.00, Farm B</div>
                         <td><strong>${formatFinancialNumber(employee.totalHours)}</strong></td>
                         <td><strong>${formatFinancialNumber(cycleInfo.cycleHours)}</strong></td>
                         <td class="money ${cycleInfo.cycleHours > REGULAR_HOURS_THRESHOLD ? 'status-overtime' : ''}">${formatFinancialNumber(employee.payrollData.overtimePay)}</td>
-                        <td class="money ${employee.accumulatedOvertimePay > 0 ? 'status-overtime' : ''}">${formatFinancialNumber(employee.accumulatedOvertimePay)}</td>
+                        <td class="money ${employee.unpaidOvertimePay > 0 ? 'status-overtime' : ''}">${formatFinancialNumber(employee.unpaidOvertimePay)}</td>
                         <td>${paymentCell || '–'}</td>
                         <td class="${otThresholdDiff < 0 ? 'status-overtime' : 'status-normal'}">${formatFinancialNumber(otThresholdDiff)}</td>
                     </tr>
@@ -1059,13 +1142,13 @@ EQ-0002, Jane, Smith, 2025-02-17, 38, Junior, 20.00, Farm B</div>
             
             document.getElementById('overview-summary-cards').innerHTML = `
                 <div class="summary-card"><h3>${filteredEmployees.length}</h3><p>名員工 (篩選後)</p></div>
-                <div class="summary-card"><h3>$${formatFinancialNumber(totals.unpaidOT)}</h3><p>未支付加班費總額</p></div>
-                <div class="summary-card"><h3>${filteredEmployees.filter(e => calculateEmployeeCycle(e, refDateForCalc).cycleHours > REGULAR_HOURS_THRESHOLD).length}</h3><p>名週期超時員工</p></div>
-                <div class="summary-card"><h3>${formatFinancialNumber(totals.cycleHours)}</h3><p>小時 (週期總工時)</p></div>`;
+                <div class="summary-card"><h3>${filteredEmployees.filter(e => {
+                    const cycleData = displayCycleData ? calculateEmployeeCycle(e, refDateForCalc) : {cycleHours: 0};
+                    return cycleData.cycleHours > REGULAR_HOURS_THRESHOLD;
+                }).length}</h3><p>名週期超時員工</p></div>
+                <div class="summary-card"><h3>${formatFinancialNumber(totals.cycleHours)}</h3><p>小時 (週期總工時)</p></div>
+                <div class="summary-card"><h3>$${formatFinancialNumber(totals.unpaidOT)}</h3><p>未支付加班費總額</p></div>`;
         }
-        // =======================================================
-        // ==                  MODIFICATION END                   ==
-        // =======================================================
         
         // 更新所有表格
         function updateAllTables() {
@@ -1087,14 +1170,14 @@ EQ-0002, Jane, Smith, 2025-02-17, 38, Junior, 20.00, Farm B</div>
                     const cycleData = getAllAvailableCycles().find(c => c.cycle.toString() === cycleVal);
                     if (cycleData) {
                         const cycleInfo = calculateEmployeeCycle(emp, cycleData.startDate);
-                        if (cycleInfo.cycleHours <= 0) return false;
+                        // Do not filter out employees with 0 hours in the selected cycle
                     }
                 }
                 return true;
             });
         }
         
-        // --- Edit/Delete/Payment Functions (Unchanged Logic) ---
+        // --- Edit/Delete/Payment Functions ---
 
         function editHours(btn, payrollId, workWeekDate) {
             const row = btn.closest('tr');
@@ -1133,31 +1216,110 @@ EQ-0002, Jane, Smith, 2025-02-17, 38, Junior, 20.00, Farm B</div>
             }
         }
 
-        function deleteWorkWeek(payrollId, workWeekDate) {
-            if (confirm(`確定要刪除員工 ${payrollId} 於 ${workWeekDate} 的工時記錄嗎？`)) {
+        function deleteWorkWeekWrapper(payrollId, workWeekDate) {
+            showCustomConfirm('刪除工時記錄', `確定要刪除員工 ${payrollId} 於 ${workWeekDate} 的工時記錄嗎？`, () => {
                 timesheetData = timesheetData.filter(d => !(d.payrollId === payrollId && d.workWeekDate === workWeekDate));
                 saveLocalData();
                 updateAllTables();
                 showMessage('工時記錄已刪除', 'warning');
-            }
+            });
         }
 
         function exportOverview() {
-            // This function would generate and download a CSV from the current view.
-            // Placeholder implementation:
             showMessage('報告匯出功能待實現。', 'warning');
         }
 
         function showPaymentDialog(payrollId) {
-            // This function would show a dialog to make a payment.
-            // Placeholder implementation:
-            showMessage(`支付功能 (${payrollId}) 待實現。`, 'warning');
+            const employee = employees[payrollId];
+            if (!employee) return;
+            const dialog = document.getElementById('payment-dialog');
+            const content = document.getElementById('payment-dialog-content');
+            
+            document.getElementById('payment-dialog-title').textContent = `支付給 ${employee.firstName} ${employee.lastName}`;
+            
+            content.innerHTML = `
+                <p>未支付加班費總額: <strong class="status-overtime">$${employee.unpaidOvertimePay.toFixed(2)}</strong></p>
+                <div>
+                    <label for="payment-amount">支付金額</label>
+                    <input type="number" id="payment-amount" placeholder="輸入支付金額" value="${employee.unpaidOvertimePay.toFixed(2)}">
+                </div>
+                <div>
+                    <label for="payment-date">支付日期</label>
+                    <input type="date" id="payment-date" value="${new Date().toISOString().split('T')[0]}">
+                </div>
+                <div>
+                    <label for="payment-note">備註 (選填)</label>
+                    <textarea id="payment-note" rows="3" placeholder="例如：銀行轉帳"></textarea>
+                </div>
+            `;
+            
+            const saveBtn = document.getElementById('save-payment-btn');
+            saveBtn.onclick = () => recordPayment(payrollId); // Pass payrollId to the handler
+            
+            dialog.classList.add('active');
+        }
+
+        function recordPayment(payrollId) {
+            const amount = parseFloat(document.getElementById('payment-amount').value);
+            const date = document.getElementById('payment-date').value;
+            const note = document.getElementById('payment-note').value.trim();
+
+            if (isNaN(amount) || amount <= 0) {
+                return showMessage('請輸入有效的支付金額', 'error');
+            }
+            if (!date) {
+                return showMessage('請選擇支付日期', 'error');
+            }
+
+            if (!paymentHistory[payrollId]) {
+                paymentHistory[payrollId] = [];
+            }
+            paymentHistory[payrollId].push({
+                amount,
+                date,
+                note,
+                timestamp: new Date().toISOString()
+            });
+
+            saveLocalData();
+            updateAllTables();
+            document.getElementById('payment-dialog').classList.remove('active');
+            showMessage(`$${amount.toFixed(2)} 的支付紀錄已儲存`, 'success');
         }
 
         function showPaymentHistory(payrollId) {
-             // This function would show payment history for an employee.
-            // Placeholder implementation:
-            showMessage(`支付歷史 (${payrollId}) 待實現。`, 'warning');
+            const employee = employees[payrollId];
+            const history = paymentHistory[payrollId] || [];
+            if (!employee) return;
+
+            const dialog = document.getElementById('payment-history-dialog');
+            const content = document.getElementById('payment-history-content');
+            document.getElementById('payment-history-title').textContent = `${employee.firstName} ${employee.lastName} 的支付歷史`;
+
+            if (history.length === 0) {
+                content.innerHTML = '<p>沒有支付紀錄。</p>';
+            } else {
+                let historyHTML = `<table class="details-table" style="text-align:left;">
+                    <thead><tr><th>支付日期</th><th>金額</th><th>備註</th></tr></thead><tbody>`;
+                
+                [...history].reverse().forEach(p => {
+                    historyHTML += `<tr>
+                        <td>${p.date}</td>
+                        <td class="money">$${p.amount.toFixed(2)}</td>
+                        <td>${p.note || '–'}</td>
+                    </tr>`;
+                });
+
+                const totalPaid = history.reduce((sum, p) => sum + p.amount, 0);
+                historyHTML += `</tbody><tfoot><tr style="font-weight:bold;">
+                    <td>總計</td>
+                    <td class="money">$${totalPaid.toFixed(2)}</td>
+                    <td></td>
+                </tr></tfoot></table>`;
+                content.innerHTML = historyHTML;
+            }
+
+            dialog.classList.add('active');
         }
     </script>
 </body>
