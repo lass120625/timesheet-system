@@ -836,7 +836,7 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
             </div>
             
             <div id="cycle-summary-card" class="format-info" style="display: none; border-left: 5px solid #667eea;">
-                </div>
+            </div>
             
             <div class="summary-cards" id="overview-summary-cards"></div>
             <div id="overview-table-container"></div>
@@ -855,13 +855,13 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
         let employees = {};
         let timesheetData = [];
         let pendingData = null;
-        let paymentHistory = {}; // 新增：支付歷史記錄
+        let paymentHistory = {};
         
         // 常數定義
-        const REGULAR_HOURS_THRESHOLD = 304; // 8週週期內正常工時上限
-        const WEEKS_PER_CYCLE = 8; // 每個週期的週數
-        const WEEKLY_HOURS_THRESHOLD = 38; // 每週工時標準
-        const SYSTEM_START_DATE = new Date(2025, 1, 10); // 2025年2月10日（統一週期起始日）
+        const REGULAR_HOURS_THRESHOLD = 304;
+        const WEEKS_PER_CYCLE = 8;
+        const WEEKLY_HOURS_THRESHOLD = 38;
+        const SYSTEM_START_DATE = new Date(2025, 1, 10);
 
         // 初始化函數
         document.addEventListener('DOMContentLoaded', function() {
@@ -985,7 +985,6 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
             };
             reader.readAsText(file);
             
-            // 清除檔案選擇
             event.target.value = '';
         }
 
@@ -1046,13 +1045,11 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
         function parseDate(dateString) {
             if (!dateString) return null;
             
-            // 嘗試 YYYY-MM-DD 格式
             let date = new Date(dateString);
             if (!isNaN(date.getTime()) && dateString.includes('-')) {
                 return new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
             }
 
-            // 嘗試 DD/MM/YYYY 格式
             const partsSlash = dateString.split('/');
             if (partsSlash.length === 3 && partsSlash[0].length <= 2) {
                 date = new Date(parseInt(partsSlash[2]), parseInt(partsSlash[1]) - 1, parseInt(partsSlash[0]));
@@ -1072,10 +1069,9 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
             return result;
         }
 
-        // 解析時薪（增強版，支援貨幣符號）
+        // 解析時薪
         function parseRate(rateString) {
             if (!rateString) return 0;
-            // 移除所有非數字和小數點的字符（包括$、空格等）
             const cleanedString = rateString.toString().replace(/[^0-9.]/g, '');
             return parseFloat(cleanedString) || 0;
         }
@@ -1106,19 +1102,16 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
             if (files.length > 0) {
                 const file = files[0];
                 
-                // 檢查檔案類型
                 if (!file.name.toLowerCase().endsWith('.csv')) {
                     showMessage('❌ 請選擇 CSV 檔案', 'error');
                     return;
                 }
                 
-                // 模擬檔案選擇事件
                 const fileInput = document.getElementById('timesheet-file');
                 const dt = new DataTransfer();
                 dt.items.add(file);
                 fileInput.files = dt.files;
                 
-                // 觸發檔案處理
                 const changeEvent = new Event('change', { bubbles: true });
                 fileInput.dispatchEvent(changeEvent);
                 
@@ -1177,7 +1170,7 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
             }
         }
 
-        // 驗證工時表資料（增強調試版）
+        // 驗證工時表資料
         function validateTimesheetData(data) {
             const result = {
                 success: [],
@@ -1189,9 +1182,6 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
                 result.errors.push('文件為空或格式不正確，請確保 CSV 包含數據行。');
                 return result;
             }
-            
-            console.log('🔍 開始驗證資料，總行數:', data.length);
-            console.log('📋 標題欄位:', Object.keys(data[0] || {}));
             
             const requiredFields = ['Payroll ID', 'First Name', 'Last Name', 'Monday of the Work Week', 'Hours'];
             const headers = Object.keys(data[0] || {});
@@ -1218,7 +1208,6 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
                 const workWeek = row['Monday of the Work Week']?.trim();
                 const hours = parseFloat(row['Hours']);
                 
-                // 跳過完全空白的行
                 if (!payrollId && !firstName && !lastName && !workWeek && (isNaN(hours) || hours === 0)) {
                     skippedEmptyRecords++;
                     return;
@@ -1254,8 +1243,6 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
                     result.warnings.push(`第${index + 2}行: 員工 ${payrollId || ''} 工時超過168小時 (${hours})。`);
                 }
             });
-            
-            console.log(`📊 驗證統計: 總行數=${data.length}, 有效記錄=${validRecords}, 無效ID=${invalidPayrollIds}, 有效員工=${employeeSet.size}`);
             
             if (result.errors.length === 0) {
                 result.success.push(`✅ 成功驗證 ${validRecords} 筆工時記錄`);
@@ -1410,26 +1397,15 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
                 uploadSummary.employees.add(payrollId);
                 uploadSummary.weeks.add(workWeekDate);
                 
-                // 建立或更新員工資料
                 if (!employees[payrollId]) {
-                    const allWeeksForNewEmployee = data
-                        .filter(d => d['Payroll ID']?.trim() === payrollId)
-                        .map(d => parseDate(d['Monday of the Work Week']?.trim()))
-                        .filter(d => d);
-                    
-                    let employeeStartDate = '2025-02-10'; // Default start date
-                    if (allWeeksForNewEmployee.length > 0) {
-                        const oldestWeek = new Date(Math.min(...allWeeksForNewEmployee));
-                        employeeStartDate = toLocalDateString(getMonday(oldestWeek));
-                    }
-                    
                     employees[payrollId] = {
                         payrollId, firstName, lastName,
-                        startDate: employeeStartDate,
-                        level: level || '', farm: farm || '', hourlyRate: rate,
+                        startDate: '2025-02-10',
+                        level: level || '', farm: farm || '', hourlyRate: rate || 0,
                         workWeeks: {}, totalHours: 0,
                         payrollData: { regularHours: 0, overtimeHours: 0, regularPay: 0, overtimePay: 0, cycleHours: 0 },
-                        accumulatedOvertimePay: 0
+                        accumulatedOvertimePay: 0,
+                        unpaidOvertimePay: 0
                     };
                 } else {
                     employees[payrollId].firstName = firstName;
@@ -1439,7 +1415,6 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
                     if (rate) employees[payrollId].hourlyRate = rate;
                 }
                 
-                // 更新工時記錄
                 const currentRecordIndex = timesheetData.findIndex(item => 
                     item.payrollId === payrollId && item.workWeekDate === workWeekDate
                 );
@@ -1468,7 +1443,6 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
             
             updateProgress(85, '計算工時與薪資...');
             
-            // 重新計算所有員工的工時和薪資
             Object.values(employees).forEach(employee => {
                 employee.workWeeks = timesheetData
                     .filter(item => item.payrollId === employee.payrollId)
@@ -1482,7 +1456,6 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
             
             updateProgress(95, '儲存資料...');
             
-            // 儲存到本地
             localStorage.setItem('last_update', new Date().toLocaleString('zh-TW'));
             saveLocalData();
             
@@ -1499,7 +1472,7 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
             `);
         }
 
-        // 計算員工週期資訊（使用統一起始日期）
+        // 計算員工週期資訊
         function calculateEmployeeCycle(employee, referenceDateInput = new Date()) {
             const systemStartMonday = getMonday(SYSTEM_START_DATE);
             const today = new Date(referenceDateInput);
@@ -1565,7 +1538,7 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
             }
         }
 
-        // 計算薪資（使用統一週期系統）
+        // 計算薪資
         function calculatePayroll(employee) {
             const hourlyRate = Number(employee.hourlyRate) || 0;
             const cycleInfo = calculateEmployeeCycle(employee);
@@ -1584,14 +1557,13 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
                 employee.payrollData.overtimePay = 0;
             }
 
-            // 計算累積加班費（基於統一週期系統）
+            // 計算累積加班費
             employee.accumulatedOvertimePay = 0;
             const systemStartMonday = getMonday(SYSTEM_START_DATE);
             const today = new Date();
             const totalWeeksSinceSystemStart = Math.floor((today.getTime() - systemStartMonday.getTime()) / (7 * 24 * 60 * 60 * 1000)) + 1;
             const totalCyclesToConsider = Math.max(1, Math.ceil(totalWeeksSinceSystemStart / WEEKS_PER_CYCLE));
             
-            // 計算已支付的加班費總額
             let totalPaidOvertimePay = 0;
             if (paymentHistory[employee.payrollId]) {
                 totalPaidOvertimePay = Object.values(paymentHistory[employee.payrollId])
@@ -1617,11 +1589,10 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
                 }
             }
             
-            // 計算未支付的加班費
             employee.unpaidOvertimePay = Math.max(0, employee.accumulatedOvertimePay - totalPaidOvertimePay);
         }
 
-        // 新增：記錄加班費支付
+        // 記錄加班費支付
         function recordOvertimePayment(payrollId, amount, paymentDate = new Date().toISOString(), notes = '') {
             if (!paymentHistory[payrollId]) {
                 paymentHistory[payrollId] = {};
@@ -1636,7 +1607,6 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
                 recordedAt: new Date().toISOString()
             };
             
-            // 重新計算薪資
             const employee = employees[payrollId];
             if (employee) {
                 calculatePayroll(employee);
@@ -1646,7 +1616,7 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
             updateAllTables();
         }
 
-        // 新增：顯示支付對話框
+        // 顯示支付對話框
         function showPaymentDialog(payrollId) {
             const employee = employees[payrollId];
             if (!employee) return;
@@ -1692,7 +1662,7 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
             document.body.appendChild(dialog);
         }
 
-        // 新增：確認支付
+        // 確認支付
         function confirmPayment(payrollId) {
             const amount = parseFloat(document.getElementById('payment-amount').value);
             const paymentDate = document.getElementById('payment-date').value;
@@ -1715,7 +1685,7 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
             showMessage(`✅ 已記錄 ${employee.firstName} ${employee.lastName} 的加班費支付：${amount.toFixed(2)}`);
         }
 
-        // 新增：顯示支付歷史
+        // 顯示支付歷史
         function showPaymentHistory(payrollId) {
             const employee = employees[payrollId];
             if (!employee || !paymentHistory[payrollId]) {
@@ -1759,6 +1729,33 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
             `;
             
             document.body.appendChild(dialog);
+        }
+
+        // 標記週加班費已支付
+        function markWeeklyOvertimePaid(payrollId, workWeekDate, amount) {
+            if (confirm(`確定標記該週的加班費 ${amount} 為已支付嗎？`)) {
+                const weekKey = `week_${workWeekDate}`;
+                const displayDate = parseDate(workWeekDate)?.toLocaleDateString('en-AU') || workWeekDate;
+                
+                recordOvertimePayment(payrollId, amount, new Date().toISOString(), `週加班費支付 - ${displayDate}`);
+                
+                if (!paymentHistory[payrollId]) {
+                    paymentHistory[payrollId] = {};
+                }
+                paymentHistory[payrollId][weekKey] = {
+                    amount: parseFloat(amount),
+                    paymentDate: new Date().toISOString(),
+                    notes: `週加班費支付 - ${displayDate}`,
+                    recordedBy: 'weekly_overtime',
+                    recordedAt: new Date().toISOString()
+                };
+                
+                saveLocalData();
+                updateAllTables();
+                
+                const employee = employees[payrollId];
+                showMessage(`✅ 已標記 ${employee.firstName} ${employee.lastName} 於 ${displayDate} 的加班費為已支付`);
+            }
         }
 
         // 取得所有可用的週期選項
@@ -1866,7 +1863,6 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
                 employeeFilter.appendChild(option);
             });
 
-            // 更新週期選項 - 顯示所有可用週期
             const currentCycle = cycleFilter.value;
             cycleFilter.innerHTML = '<option value="">所有週期</option>';
             const availableCycles = getAllAvailableCycles();
@@ -1903,7 +1899,7 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
             }
         }
 
-        // 更新員工總覽表格（整合薪資資訊）
+        // 更新員工總覽表格
         function updateOverviewTable() {
             const container = document.getElementById('overview-table-container');
             
@@ -1917,12 +1913,14 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
             updateFilterOptions();
             const filteredEmployees = getFilteredEmployees();
             
+            // 顯示週期進度條
             const cycleSummaryCard = document.getElementById('cycle-summary-card');
             if (filteredEmployees.length > 0) {
                 const cycleInfo = calculateEmployeeCycle(filteredEmployees[0]);
                 const displayCurrentCycle = Number(cycleInfo.currentCycle) || 0;
                 const startWeek = ((displayCurrentCycle - 1) * WEEKS_PER_CYCLE) + 1;
                 const endWeek = displayCurrentCycle * WEEKS_PER_CYCLE;
+                
                 const cycleProgressHTML = `
                     <h4 style="margin: 0 0 10px 0; color: #667eea;">📅 當前季節週期資訊</h4>
                     <div style="display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap;">
@@ -1932,8 +1930,8 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
                         </div>
                         <div style="flex-grow: 1; min-width: 200px;">
                             <p style="margin: 0 0 5px 0; text-align: center;">第 ${cycleInfo.weekInCycle} 週 (${cycleInfo.progressPercentage.toFixed(1)}%)</p>
-                            <div style="width: 100%; height: 8px; background: #eee; border-radius: 4px;">
-                                <div style="width: ${cycleInfo.progressPercentage}%; height: 100%; background: #28a745; border-radius: 4px;"></div>
+                            <div style="width: 100%; height: 12px; background: #eee; border-radius: 6px; overflow: hidden;">
+                                <div style="width: ${cycleInfo.progressPercentage}%; height: 100%; background: linear-gradient(45deg, #28a745, #20c997); border-radius: 6px; transition: width 0.3s ease;"></div>
                             </div>
                         </div>
                     </div>
@@ -2021,9 +2019,8 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
                                         const isOvertime = hours > WEEKLY_HOURS_THRESHOLD;
                                         const otClass = isOvertime ? 'weekly-overtime' : '';
                                         const overtimeHours = isOvertime ? (hours - WEEKLY_HOURS_THRESHOLD) : 0;
-                                        const overtimePay = overtimeHours * employee.hourlyRate;
+                                        const overtimePay = overtimeHours * (employee.hourlyRate || 0);
                                         
-                                        // 檢查該週是否已支付
                                         const weekKey = `week_${date}`;
                                         const isPaid = paymentHistory[employee.payrollId] && 
                                                       paymentHistory[employee.payrollId][weekKey];
@@ -2067,7 +2064,7 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
                             <td>${fullName}</td>
                             <td>${employee.farm || '-'}</td>
                             <td>${employee.level || '-'}</td>
-                            <td class="money">${employee.hourlyRate.toFixed(2)}</td>
+                            <td class="money">${(employee.hourlyRate || 0).toFixed(2)}</td>
                             <td><strong>${currentTotalHours.toFixed(2)}</strong></td>
                             <td><strong>${currentCycleHours.toFixed(2)}</strong></td>
                             <td class="money ${cycleOvertimePay > 0 ? 'status-overtime' : ''}">${cycleOvertimePay.toFixed(2)}</td>
@@ -2095,41 +2092,6 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
                 </tbody>
                 <tfoot>
                     <tr style="background: #f0f0f0; font-weight: bold; text-align: center;">
-                        <td colspan="8" style="text-align: right;">總計</td>
-                        <td class="money">${totalRegularPay.toFixed(2)}</td>
-                        <td class="money">${totalOvertimePay.toFixed(2)}</td>
-                        <td class="money">${totalPay.toFixed(2)}</td>
-                        <td class="money">${totalAccumulatedOvertimePay.toFixed(2)}</td>
-                        <td class="money">${totalUnpaidOvertimePay.toFixed(2)}</td>
-                    </tr>
-                </tfoot>
-                </table>
-            `;
-            container.innerHTML = tableHTML;
-            
-            const totalFiltered = filteredEmployees.length;
-            const overtimeEmployees = filteredEmployees.filter(emp => emp.payrollData.overtimeHours > 0).length;
-            
-            const summaryHTML = `
-                <div class="summary-card">
-                    <h3>${totalFiltered}</h3>
-                    <p>員工總數</p>
-                </div>
-                <div class="summary-card">
-                    <h3>${overtimeEmployees}</h3>
-                    <p>有加班員工</p>
-                </div>
-                <div class="summary-card">
-                    <h3>${totalPay.toFixed(0)}</h3>
-                    <p>週期總薪資</p>
-                </div>
-                <div class="summary-card">
-                    <h3>${totalUnpaidOvertimePay.toFixed(0)}</h3>
-                    <p>未支付加班費</p>
-                </div>
-            `;
-            document.getElementById('payroll-summary-cards').innerHTML = summaryHTML;
-        }
                         <td colspan="6" style="text-align: right;">總計</td>
                         <td>${totalHistoricalHours.toFixed(2)}</td>
                         <td>${totalCycleHours.toFixed(2)}</td>
@@ -2165,30 +2127,376 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
             document.getElementById('overview-summary-cards').innerHTML = summaryHTML;
         }
 
-        // 新增：標記週加班費已支付
-        function markWeeklyOvertimePaid(payrollId, workWeekDate, amount) {
-            if (confirm(`確定標記該週的加班費 ${amount} 為已支付嗎？`)) {
-                const weekKey = `week_${workWeekDate}`;
-                const displayDate = parseDate(workWeekDate)?.toLocaleDateString('en-AU') || workWeekDate;
+        // 更新所有表格
+        function updateAllTables() {
+            updateOverviewTable();
+        }
+
+        // 匯出員工總覽報告
+        async function exportOverview() {
+            if (Object.keys(employees).length === 0) {
+                showMessage('沒有資料可以匯出', 'error');
+                return;
+            }
+            
+            setButtonLoading('exportOverview', true, '匯出中...');
+            
+            try {
+                const filteredEmployees = getFilteredEmployees();
+                let csvContent = '員工編號,姓名,農場,職級,時薪,開始日期,季節總工時,週期工時,週期加班費,累積加班費,未支付加班費,距OT門檻\n';
                 
-                recordOvertimePayment(payrollId, amount, new Date().toISOString(), `週加班費支付 - ${displayDate}`);
+                filteredEmployees.forEach(employee => {
+                    const fullName = `${employee.firstName} ${employee.lastName}`.trim();
+                    const cycleInfo = calculateEmployeeCycle(employee);
+                    
+                    const otThresholdDifference = REGULAR_HOURS_THRESHOLD - (Number(cycleInfo.cycleHours) || 0);
+                    const cycleOvertimePay = employee.payrollData?.overtimePay || 0;
+                    const unpaidOvertimePay = employee.unpaidOvertimePay || 0;
+                    
+                    csvContent += `${employee.payrollId},"${fullName}",${employee.farm || ''},${employee.level || ''},${(employee.hourlyRate || 0).toFixed(2)},${(parseDate(employee.startDate) || SYSTEM_START_DATE).toLocaleDateString('en-AU')},${Number(employee.totalHours).toFixed(2)},${Number(cycleInfo.cycleHours).toFixed(2)},${cycleOvertimePay.toFixed(2)},${employee.accumulatedOvertimePay.toFixed(2)},${unpaidOvertimePay.toFixed(2)},${otThresholdDifference.toFixed(2)}\n`;
+                });
                 
-                // 添加週標記到支付歷史
-                if (!paymentHistory[payrollId]) {
-                    paymentHistory[payrollId] = {};
+                downloadCSV(csvContent, `完整員工報告_${new Date().toLocaleDateString('en-AU').replace(/\//g, '-')}.csv`);
+                showMessage('✅ 完整員工報告已匯出');
+            } catch (error) {
+                showMessage(`❌ 匯出失敗: ${error.message}`, 'error');
+                console.error("Export Overview failed:", error);
+            } finally {
+                setButtonLoading('exportOverview', false, '📥 匯出完整報告 (CSV)');
+            }
+        }
+
+        // 下載 CSV 檔案
+        function downloadCSV(content, filename) {
+            const blob = new Blob(['\ufeff' + content], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // 設定按鈕載入狀態
+        function setButtonLoading(buttonId, isLoading, loadingText = '處理中...') {
+            const button = document.getElementById(buttonId);
+            if (!button) return;
+            
+            const spinner = button.querySelector('.spinner');
+            const originalText = button.dataset.originalText || button.textContent.trim();
+
+            if (isLoading) {
+                button.dataset.originalText = originalText;
+                button.disabled = true;
+                button.innerHTML = '';
+                if (spinner) {
+                    button.appendChild(spinner);
+                    spinner.style.display = 'inline-block';
+                } else {
+                    const newSpinner = document.createElement('span');
+                    newSpinner.className = 'spinner';
+                    button.prepend(newSpinner);
                 }
-                paymentHistory[payrollId][weekKey] = {
-                    amount: parseFloat(amount),
-                    paymentDate: new Date().toISOString(),
-                    notes: `週加班費支付 - ${displayDate}`,
-                    recordedBy: 'weekly_overtime',
-                    recordedAt: new Date().toISOString()
-                };
+                button.append(loadingText);
+            } else {
+                button.disabled = false;
+                button.innerHTML = originalText;
+                if (spinner) spinner.style.display = 'none';
+            }
+        }
+
+        // 顯示上傳摘要
+        function showUploadSummary(summary) {
+            const container = document.getElementById('timesheet-file-info');
+            container.style.display = 'block';
+            container.className = 'upload-summary';
+            
+            const sortedWeeks = Array.from(summary.weeks).sort();
+            const weeksDisplay = sortedWeeks.length > 0 ? sortedWeeks.join(', ') : '無';
+
+            container.innerHTML = `
+                <h3>📊 上傳摘要</h3>
+                <div class="summary-item">
+                    <span>總記錄數：</span>
+                    <span class="highlight">${summary.totalRecords}</span>
+                </div>
+                <div class="summary-item">
+                    <span>員工數量：</span>
+                    <span class="highlight">${summary.employees.size}</span>
+                </div>
+                <div class="summary-item">
+                    <span>涵蓋週數：</span>
+                    <span>${weeksDisplay}</span>
+                </div>
+                <div class="summary-item">
+                    <span>新增記錄：</span>
+                    <span class="highlight">${summary.newRecords}</span>
+                </div>
+                <div class="summary-item">
+                    <span>更新記錄：</span>
+                    <span class="highlight">${summary.updatedRecords}</span>
+                </div>
+                <div class="summary-item">
+                    <span>上傳時間：</span>
+                    <span>${new Date().toLocaleDateString('en-AU') + ' ' + new Date().toLocaleTimeString('en-AU')}</span>
+                </div>
+                <div class="summary-item">
+                    <span>儲存狀態：</span>
+                    <span class="highlight">已儲存到本地</span>
+                </div>
+            `;
+        }
+
+        // 顯示驗證結果
+        function showValidationResults(result) {
+            const container = document.getElementById('validation-results');
+            
+            let html = '';
+            
+            result.success.forEach(msg => {
+                html += `<div class="validation-item validation-success">✅ ${msg}</div>`;
+            });
+            
+            result.warnings.forEach(msg => {
+                html += `<div class="validation-item validation-warning">⚠️ ${msg}</div>`;
+            });
+            
+            result.errors.forEach(msg => {
+                html += `<div class="validation-item validation-error">❌ ${msg}</div>`;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        // 讀取檔案內容
+        async function readFile(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = function(e) { resolve(e.target.result); };
+                reader.onerror = function() { reject(new Error('文件讀取失敗')); };
+                reader.readAsText(file, 'UTF-8');
+            });
+        }
+
+        // 解析 CSV 文件
+        function parseCSV(csvText) {
+            const lines = csvText.trim().split(/\r?\n/);
+            if (lines.length === 0) return [];
+
+            const headerLine = lines[0];
+            const commaCount = (headerLine.match(/,/g) || []).length;
+            const tabCount = (headerLine.match(/\t/g) || []).length;
+            let delimiter = ',';
+            if (tabCount > commaCount && tabCount > 0) {
+                delimiter = '\t';
+            }
+
+            const headers = parseCSVLine(headerLine, delimiter);
+            
+            return lines.slice(1)
+                .map(line => parseCSVLine(line, delimiter))
+                .filter(values => values.some(val => val.trim() !== ''))
+                .map(values => {
+                    const row = {};
+                    headers.forEach((header, index) => {
+                        row[header] = values[index] !== undefined ? values[index] : '';
+                    });
+                    return row;
+                })
+                .filter(row => {
+                    const payrollId = row['Payroll ID']?.trim();
+                    const firstName = row['First Name']?.trim();
+                    const lastName = row['Last Name']?.trim();
+                    const workWeek = row['Monday of the Work Week']?.trim();
+                    const hours = parseFloat(row['Hours']);
+                    return payrollId || firstName || lastName || workWeek || !isNaN(hours);
+                });
+        }
+
+        // 解析 CSV 行
+        function parseCSVLine(line, delimiter) {
+            const values = line.split(delimiter);
+            return values.map(val => val.trim());
+        }
+
+        // 編輯工時功能
+        function editHours(payrollId, workWeekDate) {
+            const row = document.querySelector(`tr[data-payroll-id="${payrollId}"][data-work-week="${workWeekDate}"]`);
+            if (!row) return;
+
+            const hoursDisplay = row.querySelector('.hours-display');
+            const hoursInput = row.querySelector('.hours-input');
+            const editBtn = row.querySelector('.btn-edit');
+
+            hoursDisplay.style.display = 'none';
+            hoursInput.style.display = 'inline-block';
+            hoursInput.focus();
+            hoursInput.select();
+            editBtn.textContent = '取消';
+            editBtn.onclick = () => cancelEdit(payrollId, workWeekDate);
+
+            const editActions = document.getElementById(`edit-actions-${payrollId}`);
+            if (editActions) {
+                editActions.style.display = 'block';
+            }
+        }
+
+        // 取消單個編輯
+        function cancelEdit(payrollId, workWeekDate) {
+            const row = document.querySelector(`tr[data-payroll-id="${payrollId}"][data-work-week="${workWeekDate}"]`);
+            if (!row) return;
+
+            const hoursDisplay = row.querySelector('.hours-display');
+            const hoursInput = row.querySelector('.hours-input');
+            const editBtn = row.querySelector('.btn-edit');
+
+            hoursInput.value = hoursDisplay.textContent;
+            hoursDisplay.style.display = 'inline';
+            hoursInput.style.display = 'none';
+            editBtn.textContent = '編輯';
+            editBtn.onclick = () => editHours(payrollId, workWeekDate);
+
+            const table = document.getElementById(`details-table-${payrollId}`);
+            const editingInputs = table.querySelectorAll('.hours-input[style*="inline-block"]');
+            if (editingInputs.length === 0) {
+                const editActions = document.getElementById(`edit-actions-${payrollId}`);
+                if (editActions) {
+                    editActions.style.display = 'none';
+                }
+            }
+        }
+
+        // 取消所有編輯
+        function cancelAllEdits(payrollId) {
+            const table = document.getElementById(`details-table-${payrollId}`);
+            if (!table) return;
+
+            const rows = table.querySelectorAll('tbody tr');
+            rows.forEach(row => {
+                const hoursDisplay = row.querySelector('.hours-display');
+                const hoursInput = row.querySelector('.hours-input');
+                const editBtn = row.querySelector('.btn-edit');
+                const workWeekDate = row.dataset.workWeek;
+
+                if (hoursInput.style.display === 'inline-block') {
+                    hoursInput.value = hoursDisplay.textContent;
+                    hoursDisplay.style.display = 'inline';
+                    hoursInput.style.display = 'none';
+                    editBtn.textContent = '編輯';
+                    editBtn.onclick = () => editHours(payrollId, workWeekDate);
+                }
+            });
+
+            const editActions = document.getElementById(`edit-actions-${payrollId}`);
+            if (editActions) {
+                editActions.style.display = 'none';
+            }
+        }
+
+        // 儲存所有編輯
+        function saveAllEdits(payrollId) {
+            const table = document.getElementById(`details-table-${payrollId}`);
+            if (!table) return;
+
+            const employee = employees[payrollId];
+            if (!employee) return;
+
+            let hasChanges = false;
+            const changes = [];
+
+            const rows = table.querySelectorAll('tbody tr');
+            rows.forEach(row => {
+                const hoursDisplay = row.querySelector('.hours-display');
+                const hoursInput = row.querySelector('.hours-input');
+                const editBtn = row.querySelector('.btn-edit');
+                const workWeekDate = row.dataset.workWeek;
+
+                if (hoursInput.style.display === 'inline-block') {
+                    const oldHours = parseFloat(hoursDisplay.textContent);
+                    const newHours = parseFloat(hoursInput.value);
+
+                    if (!isNaN(newHours) && newHours >= 0 && oldHours !== newHours) {
+                        hasChanges = true;
+                        changes.push({
+                            workWeekDate: workWeekDate,
+                            oldHours: oldHours,
+                            newHours: newHours
+                        });
+
+                        hoursDisplay.textContent = newHours;
+                        employee.workWeeks[workWeekDate] = newHours;
+                        
+                        const recordIndex = timesheetData.findIndex(item => 
+                            item.payrollId === payrollId && item.workWeekDate === workWeekDate
+                        );
+                        if (recordIndex !== -1) {
+                            timesheetData[recordIndex].hours = newHours;
+                            timesheetData[recordIndex].uploadDate = new Date().toISOString();
+                        }
+
+                        const hoursCell = hoursDisplay.parentElement;
+                        if (newHours > WEEKLY_HOURS_THRESHOLD) {
+                            hoursCell.classList.add('weekly-overtime');
+                        } else {
+                            hoursCell.classList.remove('weekly-overtime');
+                        }
+                    }
+
+                    hoursDisplay.style.display = 'inline';
+                    hoursInput.style.display = 'none';
+                    editBtn.textContent = '編輯';
+                    editBtn.onclick = () => editHours(payrollId, workWeekDate);
+                }
+            });
+
+            if (hasChanges) {
+                employee.totalHours = Object.values(employee.workWeeks).reduce((sum, hours) => sum + (parseFloat(hours) || 0), 0);
+                calculatePayroll(employee);
                 
+                localStorage.setItem('last_update', new Date().toLocaleString('zh-TW'));
                 saveLocalData();
                 updateAllTables();
                 
-                const employee = employees[payrollId];
-                showMessage(`✅ 已標記 ${employee.firstName} ${employee.lastName} 於 ${displayDate} 的加班費為已支付`);
+                showMessage(`✅ 已成功修改 ${changes.length} 筆工時記錄！`, 'success');
+                console.log('工時修改記錄:', changes);
+            } else {
+                showMessage('ℹ️ 沒有發現任何變更', 'warning', 3000);
+            }
+
+            const editActions = document.getElementById(`edit-actions-${payrollId}`);
+            if (editActions) {
+                editActions.style.display = 'none';
             }
         }
+
+        // 刪除工作週記錄
+        function deleteWorkWeek(payrollId, workWeekDate) {
+            const employee = employees[payrollId];
+            if (!employee) return;
+
+            const hours = employee.workWeeks[workWeekDate] || 0;
+            const displayDate = parseDate(workWeekDate)?.toLocaleDateString('en-AU') || workWeekDate;
+            
+            if (confirm(`⚠️ 確定要刪除以下工時記錄嗎？\n\n員工：${employee.firstName} ${employee.lastName} (${payrollId})\n工作週：${displayDate}\n工時：${hours} 小時\n\n此操作無法復原！`)) {
+                delete employee.workWeeks[workWeekDate];
+                
+                const recordIndex = timesheetData.findIndex(item => 
+                    item.payrollId === payrollId && item.workWeekDate === workWeekDate
+                );
+                if (recordIndex !== -1) {
+                    timesheetData.splice(recordIndex, 1);
+                }
+                
+                employee.totalHours = Object.values(employee.workWeeks).reduce((sum, hours) => sum + (parseFloat(hours) || 0), 0);
+                calculatePayroll(employee);
+                
+                localStorage.setItem('last_update', new Date().toLocaleString('zh-TW'));
+                saveLocalData();
+                updateAllTables();
+                
+                showMessage(`🗑️ 已刪除 ${employee.firstName} ${employee.lastName} 在 ${displayDate} 的工時記錄`, 'warning');
+            }
+        }
+    </script>
+</body>
+</html>
