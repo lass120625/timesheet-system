@@ -383,7 +383,7 @@
 EQ-0001, John, Doe, 2025-02-10, 45, Senior, 25.50, Farm A
 EQ-0002, Jane, Smith, 2025-02-17, 38, Junior, 20.00, Farm B</div>
                 <ul>
-                    <li>📅 <strong>日期格式</strong>：接受 Vishal-MM-DD 或 DD/MM/YYYY。</li>
+                    <li>📅 <strong>日期格式</strong>：接受 YYYY-MM-DD 或 DD/MM/YYYY。</li>
                     <li>🔢 <strong>週期計算</strong>：系統以 2025/02/10 為基準，自動計算8週為一週期。</li>
                     <li>👤 <strong>資訊更新</strong>：若員工的農場、職級或薪資變動，上傳新資料即可覆蓋。</li>
                 </ul>
@@ -986,15 +986,16 @@ EQ-0002, Jane, Smith, 2025-02-17, 38, Junior, 20.00, Farm B</div>
         function updateFilterOptions() {
             const farms = [...new Set(Object.values(employees).map(e => e.farm).filter(Boolean))].sort();
             const levels = [...new Set(Object.values(employees).map(e => e.level).filter(Boolean))].sort();
-            const empList = Object.values(employees).map(e => ({ id: e.payrollId, name: `${e.firstName} ${e.lastName}` })).sort((a, b) => a.name.localeCompare(b.name));
+            const empList = Object.values(employees).map(e => ({ id: e.payrollId, name: `${e.firstName} ${e.lastName}` })).sort((a, b) => a.id.localeCompare(b.id));
 
             const populateSelect = (id, data, currentVal, placeholder, nameKey = 'name', idKey = 'id') => {
                 const select = document.getElementById(id);
+                const currentSelectedValue = select.value; // Preserve current selection
                 select.innerHTML = `<option value="">${placeholder}</option>`;
                 data.forEach(item => {
                     const value = typeof item === 'object' ? item[idKey] : item;
                     const text = typeof item === 'object' ? `${item[nameKey]} (${item[idKey]})` : item;
-                    select.innerHTML += `<option value="${value}" ${value == currentVal ? 'selected' : ''}>${text}</option>`;
+                    select.innerHTML += `<option value="${value}" ${value == currentSelectedValue ? 'selected' : ''}>${text}</option>`;
                 });
             };
             populateSelect('farm-filter', farms, document.getElementById('farm-filter').value, '所有農場');
@@ -1191,7 +1192,17 @@ EQ-0002, Jane, Smith, 2025-02-17, 38, Junior, 20.00, Farm B</div>
                 if (farm && emp.farm !== farm) return false;
                 if (level && emp.level !== level) return false;
                 if (employeeId && emp.payrollId !== employeeId) return false;
-                // No need to filter by cycle hours here, table display logic handles it
+                
+                if (cycleVal) {
+                    const allCycles = getAllAvailableCycles();
+                    const cycleData = allCycles.find(c => c.cycle.toString() === cycleVal);
+                    if (cycleData) {
+                        const cycleInfo = calculateEmployeeCycle(emp, cycleData.startDate);
+                        if (cycleInfo.cycleHours <= 0) {
+                            return false;
+                        }
+                    }
+                }
                 return true;
             });
         }
@@ -1250,7 +1261,7 @@ EQ-0002, Jane, Smith, 2025-02-17, 38, Junior, 20.00, Farm B</div>
             
             select.innerHTML = '<option value="">-- 請選擇員工 --</option>';
             Object.values(employees)
-                .sort((a,b) => a.firstName.localeCompare(b.firstName))
+                .sort((a,b) => a.payrollId.localeCompare(b.payrollId))
                 .forEach(emp => {
                     select.innerHTML += `<option value="${emp.payrollId}">${emp.firstName} ${emp.lastName} (${emp.payrollId})</option>`;
                 });
@@ -1268,7 +1279,7 @@ EQ-0002, Jane, Smith, 2025-02-17, 38, Junior, 20.00, Farm B</div>
 
             if (!payrollId) { return showMessage('請選擇一位員工', 'error'); }
             if (!dateValue) { return showMessage('請選擇日期', 'error'); }
-            if (isNaN(hours) || hours <= 0) { return showMessage('請輸入有效的工時', 'error'); }
+            if (isNaN(hours) || hours < 0) { return showMessage('請輸入有效的工時 (不可為負數)', 'error'); }
 
             const workWeekDate = toLocalDateString(getMonday(new Date(dateValue)));
             const existingIndex = timesheetData.findIndex(d => d.payrollId === payrollId && d.workWeekDate === workWeekDate);
