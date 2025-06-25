@@ -712,16 +712,16 @@
         <div id="upload-tab" class="tab-content active">
             <div class="format-info">
                 <h4>📊 工時表格式說明</h4>
-                <div class="format-example">Payroll ID, First Name, Last Name, Start Date, Work Week, Hours, Level, Rate, Farm
-EQ-0001, John, Doe, 2024-01-15, 2024-01-15, 45, Senior, 25.50, Farm A
-EQ-0001, John, Doe, 2024-01-15, 2024-01-22, 38, Senior, 25.50, Farm A
-EQ-0002, Jane, Smith, 2024-02-01, 2024-02-05, 42, Junior, 20.00, Farm B</div>
+                <div class="format-example">Payroll ID, First Name, Last Name, Monday of the Work Week, Hours, Level, Rate, Farm
+EQ-0001, John, Doe, 2025-02-10, 45, Senior, 25.50, Farm A
+EQ-0001, John, Doe, 2025-02-17, 38, Senior, 25.50, Farm A
+EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
                 <p><strong>重要格式說明：</strong></p>
                 <ul>
-                    <li>📅 <strong>Start Date</strong>：員工在該農場工作的第一天，格式為 YYYY-MM-DD 或 DD/MM/YYYY</li>
-                    <li>📅 <strong>Work Week</strong>：工作週的週一日期，格式為 YYYY-MM-DD 或 DD/MM/YYYY</li>
-                    <li>🔢 <strong>週數計算</strong>：系統會自動根據 Start Date 和 Work Week 計算正確的週數</li>
+                    <li>📅 <strong>Monday of the Work Week</strong>：工作週的週一日期，格式為 YYYY-MM-DD 或 DD/MM/YYYY</li>
+                    <li>🔢 <strong>週期計算</strong>：系統會自動根據統一起始日期（2025/2/10）計算週期</li>
                     <li>🏭 <strong>Farm/Level/Rate 更新</strong>：如果員工轉換農場或調整薪資，新資料會覆蓋舊資料</li>
+                    <li>👤 <strong>員工資訊</strong>：系統會自動建立員工檔案，無需額外的開始日期</li>
                 </ul>
                 <p><strong>上傳後自動處理：</strong></p>
                 <ul>
@@ -1141,7 +1141,7 @@ EQ-0002, Jane, Smith, 2024-02-01, 2024-02-05, 42, Junior, 20.00, Farm B</div>
                 return result;
             }
             
-            const requiredFields = ['Payroll ID', 'First Name', 'Last Name', 'Work Week', 'Hours'];
+            const requiredFields = ['Payroll ID', 'First Name', 'Last Name', 'Monday of the Work Week', 'Hours'];
             const headers = Object.keys(data[0] || {});
             
             for (const field of requiredFields) {
@@ -1162,7 +1162,7 @@ EQ-0002, Jane, Smith, 2024-02-01, 2024-02-05, 42, Junior, 20.00, Farm B</div>
                 const payrollId = row['Payroll ID']?.trim();
                 const firstName = row['First Name']?.trim();
                 const lastName = row['Last Name']?.trim();
-                const workWeek = row['Work Week']?.trim();
+                const workWeek = row['Monday of the Work Week']?.trim();
                 const hours = parseFloat(row['Hours']);
                 
                 // 跳過完全空白的行
@@ -1182,13 +1182,9 @@ EQ-0002, Jane, Smith, 2024-02-01, 2024-02-05, 42, Junior, 20.00, Farm B</div>
                 }
                 
                 if (!workWeek) {
-                    result.errors.push(`第${index + 2}行: Work Week 為空。`);
+                    result.errors.push(`第${index + 2}行: Monday of the Work Week 為空。`);
                 } else if (isNaN(parseDate(workWeek)?.getTime())) {
-                    result.errors.push(`第${index + 2}行: Work Week 日期格式錯誤 (${workWeek})。`);
-                }
-
-                if (row['Start Date'] && isNaN(parseDate(row['Start Date'])?.getTime())) {
-                    result.warnings.push(`第${index + 2}行: Start Date 日期格式錯誤 (${row['Start Date'] || '空'})。`);
+                    result.errors.push(`第${index + 2}行: Monday of the Work Week 日期格式錯誤 (${workWeek})。`);
                 }
                 
                 if (isNaN(hours) || hours < 0) {
@@ -1222,7 +1218,7 @@ EQ-0002, Jane, Smith, 2024-02-01, 2024-02-05, 42, Junior, 20.00, Farm B</div>
             
             newData.forEach(row => {
                 const payrollId = row['Payroll ID']?.trim();
-                const workWeekDateStr = row['Work Week']?.trim();
+                const workWeekDateStr = row['Monday of the Work Week']?.trim();
                 
                 if (payrollId && workWeekDateStr) {
                     const parsed = parseDate(workWeekDateStr);
@@ -1990,7 +1986,7 @@ EQ-0002, Jane, Smith, 2024-02-01, 2024-02-05, 42, Junior, 20.00, Farm B</div>
             
             try {
                 const filteredEmployees = getFilteredEmployees();
-                let csvContent = '員工編號,姓名,農場,職級,開始日期,當前週期,週期內週數,歷史總工時,週期工時,距OT門檻\n';
+                let csvContent = '員工編號,姓名,農場,職級,開始日期,當前週期,週期進度,歷史總工時,週期工時,距OT門檻\n';
                 
                 filteredEmployees.forEach(employee => {
                     const fullName = `${employee.firstName} ${employee.lastName}`.trim();
@@ -1998,7 +1994,7 @@ EQ-0002, Jane, Smith, 2024-02-01, 2024-02-05, 42, Junior, 20.00, Farm B</div>
                     
                     const otThresholdDifference = REGULAR_HOURS_THRESHOLD - (Number(cycleInfo.cycleHours) || 0);
                     
-                    csvContent += `${employee.payrollId},"${fullName}",${employee.farm || ''},${employee.level || ''},${(parseDate(employee.startDate) || SYSTEM_START_DATE).toLocaleDateString('en-AU')},${Number(cycleInfo.currentCycle) || 0},${Number(cycleInfo.weekInCycle) || 0},${Number(employee.totalHours) || 0},${Number(cycleInfo.cycleHours) || 0},${otThresholdDifference}\n`;
+                    csvContent += `${employee.payrollId},"${fullName}",${employee.farm || ''},${employee.level || ''},${(parseDate(employee.startDate) || SYSTEM_START_DATE).toLocaleDateString('en-AU')},${Number(cycleInfo.currentCycle) || 0},${cycleInfo.progressPercentage.toFixed(1)}%,${Number(employee.totalHours) || 0},${Number(cycleInfo.cycleHours) || 0},${otThresholdDifference}\n`;
                 });
                 
                 downloadCSV(csvContent, `員工總覽報告_${new Date().toLocaleDateString('en-AU').replace(/\//g, '-')}.csv`);
