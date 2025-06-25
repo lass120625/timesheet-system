@@ -304,8 +304,8 @@
             font-size: 12px;
         }
 
-        .details-table input {
-            width: 60px;
+                                .details-table input {
+            width: 80px;
             padding: 4px;
             text-align: center;
             border: 1px solid #ddd;
@@ -2048,7 +2048,7 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
                                                 <td>${displayDate}</td>
                                                 <td class="${otClass}">
                                                     <span class="hours-display">${hours}</span>
-                                                    <input type="number" class="hours-input" value="${hours}" step="0.5" min="0" max="168" style="display: none;">
+                                                    <input type="number" class="hours-input" value="${hours}" step="0.1" min="0" max="168" style="display: none;">
                                                 </td>
                                                 <td>
                                                     ${isOvertime ? 
@@ -2346,16 +2346,18 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
             const hoursInput = row.querySelector('.hours-input');
             const editBtn = row.querySelector('.btn-edit');
 
-            hoursDisplay.style.display = 'none';
-            hoursInput.style.display = 'inline-block';
-            hoursInput.focus();
-            hoursInput.select();
-            editBtn.textContent = '取消';
-            editBtn.onclick = () => cancelEdit(payrollId, workWeekDate);
+            if (hoursDisplay && hoursInput && editBtn) {
+                hoursDisplay.style.display = 'none';
+                hoursInput.style.display = 'inline-block';
+                hoursInput.focus();
+                hoursInput.select();
+                editBtn.textContent = '取消';
+                editBtn.onclick = () => cancelEdit(payrollId, workWeekDate);
 
-            const editActions = document.getElementById(`edit-actions-${payrollId}`);
-            if (editActions) {
-                editActions.style.display = 'block';
+                const editActions = document.getElementById(`edit-actions-${payrollId}`);
+                if (editActions) {
+                    editActions.style.display = 'block';
+                }
             }
         }
 
@@ -2368,18 +2370,22 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
             const hoursInput = row.querySelector('.hours-input');
             const editBtn = row.querySelector('.btn-edit');
 
-            hoursInput.value = hoursDisplay.textContent;
-            hoursDisplay.style.display = 'inline';
-            hoursInput.style.display = 'none';
-            editBtn.textContent = '編輯';
-            editBtn.onclick = () => editHours(payrollId, workWeekDate);
+            if (hoursInput && hoursDisplay && editBtn) {
+                hoursInput.value = hoursDisplay.textContent;
+                hoursDisplay.style.display = 'inline';
+                hoursInput.style.display = 'none';
+                editBtn.textContent = '編輯';
+                editBtn.onclick = () => editHours(payrollId, workWeekDate);
 
-            const table = document.getElementById(`details-table-${payrollId}`);
-            const editingInputs = table.querySelectorAll('.hours-input[style*="inline-block"]');
-            if (editingInputs.length === 0) {
-                const editActions = document.getElementById(`edit-actions-${payrollId}`);
-                if (editActions) {
-                    editActions.style.display = 'none';
+                const table = document.getElementById(`details-table-${payrollId}`);
+                if (table) {
+                    const editingInputs = table.querySelectorAll('.hours-input[style*="inline-block"]');
+                    if (editingInputs.length === 0) {
+                        const editActions = document.getElementById(`edit-actions-${payrollId}`);
+                        if (editActions) {
+                            editActions.style.display = 'none';
+                        }
+                    }
                 }
             }
         }
@@ -2396,12 +2402,14 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
                 const editBtn = row.querySelector('.btn-edit');
                 const workWeekDate = row.dataset.workWeek;
 
-                if (hoursInput.style.display === 'inline-block') {
+                if (hoursInput && hoursInput.style.display === 'inline-block') {
                     hoursInput.value = hoursDisplay.textContent;
                     hoursDisplay.style.display = 'inline';
                     hoursInput.style.display = 'none';
-                    editBtn.textContent = '編輯';
-                    editBtn.onclick = () => editHours(payrollId, workWeekDate);
+                    if (editBtn) {
+                        editBtn.textContent = '編輯';
+                        editBtn.onclick = () => editHours(payrollId, workWeekDate);
+                    }
                 }
             });
 
@@ -2429,7 +2437,7 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
                 const editBtn = row.querySelector('.btn-edit');
                 const workWeekDate = row.dataset.workWeek;
 
-                if (hoursInput.style.display === 'inline-block') {
+                if (hoursInput && hoursInput.style.display === 'inline-block') {
                     const oldHours = parseFloat(hoursDisplay.textContent);
                     const newHours = parseFloat(hoursInput.value);
 
@@ -2462,8 +2470,10 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
 
                     hoursDisplay.style.display = 'inline';
                     hoursInput.style.display = 'none';
-                    editBtn.textContent = '編輯';
-                    editBtn.onclick = () => editHours(payrollId, workWeekDate);
+                    if (editBtn) {
+                        editBtn.textContent = '編輯';
+                        editBtn.onclick = () => editHours(payrollId, workWeekDate);
+                    }
                 }
             });
 
@@ -2489,30 +2499,50 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
 
         // 刪除工作週記錄
         function deleteWorkWeek(payrollId, workWeekDate) {
+            console.log('刪除函數被調用:', payrollId, workWeekDate);
+            
+            if (!payrollId || !workWeekDate) {
+                console.error('參數缺失:', {payrollId, workWeekDate});
+                showMessage('刪除失敗：參數錯誤', 'error');
+                return;
+            }
+            
             const employee = employees[payrollId];
-            if (!employee) return;
+            if (!employee) {
+                console.log('找不到員工:', payrollId);
+                showMessage('找不到指定員工', 'error');
+                return;
+            }
 
             const hours = employee.workWeeks[workWeekDate] || 0;
             const displayDate = parseDate(workWeekDate)?.toLocaleDateString('en-AU') || workWeekDate;
             
             if (confirm(`⚠️ 確定要刪除以下工時記錄嗎？\n\n員工：${employee.firstName} ${employee.lastName} (${payrollId})\n工作週：${displayDate}\n工時：${hours} 小時\n\n此操作無法復原！`)) {
+                // 從員工工時記錄中刪除
                 delete employee.workWeeks[workWeekDate];
                 
+                // 從主數據中刪除
                 const recordIndex = timesheetData.findIndex(item => 
                     item.payrollId === payrollId && item.workWeekDate === workWeekDate
                 );
                 if (recordIndex !== -1) {
                     timesheetData.splice(recordIndex, 1);
+                    console.log('已從主數據中刪除記錄，索引:', recordIndex);
+                } else {
+                    console.warn('在主數據中找不到對應記錄');
                 }
                 
+                // 重新計算員工數據
                 employee.totalHours = Object.values(employee.workWeeks).reduce((sum, hours) => sum + (parseFloat(hours) || 0), 0);
                 calculatePayroll(employee);
                 
+                // 儲存並更新
                 localStorage.setItem('last_update', new Date().toLocaleString('zh-TW'));
                 saveLocalData();
                 updateAllTables();
                 
                 showMessage(`🗑️ 已刪除 ${employee.firstName} ${employee.lastName} 在 ${displayDate} 的工時記錄`, 'warning');
+                console.log('刪除操作完成');
             }
         }
     </script>
