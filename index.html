@@ -1378,7 +1378,7 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
                 const firstName = row['First Name']?.trim();
                 const lastName = row['Last Name']?.trim();
                 const startDateStr = row['Start Date']?.trim();
-                const workWeekStr = row['Work Week']?.trim();
+                const workWeekStr = row['Monday of the Work Week']?.trim();
                 const hours = parseFloat(row['Hours']) || 0;
                 const level = row['Level']?.trim();
                 const rate = parseRate(row['Rate']);
@@ -2222,9 +2222,9 @@ EQ-0002, Jane, Smith, 2025-02-10, 42, Junior, 20.00, Farm B</div>
                     const payrollId = row['Payroll ID']?.trim();
                     const firstName = row['First Name']?.trim();
                     const lastName = row['Last Name']?.trim();
-                    const workWeek = row['Work Week']?.trim();
+                    const workWeek = row['Monday of the Work Week']?.trim();
                     const hours = parseFloat(row['Hours']);
-                    return payrollId || firstName || lastName || workWeek || !isNaN(hours);
+                    return payrollId || firstName || lastName || MondayoftheWorkWeek || !isNaN(hours);
                 });
         }
 
